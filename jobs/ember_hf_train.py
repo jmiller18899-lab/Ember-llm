@@ -23,8 +23,8 @@ import zipfile
 from huggingface_hub import HfApi, snapshot_download
 
 
-PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/ember-v0.0.6-hf-ready.zip"
-PACKAGE_SHA256 = "1705c2baaac0a51d4bed9cd9b1d7afe0a149aae4138ba351257aaec9d476635f"
+PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/ember-v0.0.7-hf-ready.zip"
+PACKAGE_SHA256 = "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a289"
 
 
 def main() -> None:
@@ -33,10 +33,10 @@ def main() -> None:
         raise RuntimeError("HF_TOKEN was not injected as a Job secret")
     api = HfApi(token=token)
     owner = api.whoami()["name"]
-    corpus_repo = f"{owner}/ember-corpus-v0.0.6"
-    model_repo = f"{owner}/ember-v0.0.6-t4"
+    corpus_repo = f"{owner}/ember-corpus-v0.0.7"
+    model_repo = f"{owner}/ember-v0.0.7-t4"
     trackio_space = f"{owner}/ember-trackio"
-    run_name = "ember-v0.0.6-t4-500-step-validation"
+    run_name = "ember-v0.0.7-t4-500-step-validation"
 
     with tempfile.TemporaryDirectory(prefix="ember-train-") as temporary:
         work = Path(temporary)
@@ -69,7 +69,7 @@ def main() -> None:
             name=run_name,
             embed=False,
             config={
-                "version": "0.0.6",
+                "version": "0.0.7",
                 "hardware": "t4-small",
                 "max_steps": 500,
                 "block_size": 512,

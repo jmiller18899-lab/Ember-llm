@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - "ember-v0.0.6-hf-ready.zip"
+      - "ember-v0.0.7-hf-ready.zip"
       - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
       - ".github/workflows/ember-hf.yml"
@@ -13,7 +13,7 @@ on:
     branches:
       - main
     paths:
-      - "ember-v0.0.6-hf-ready.zip"
+      - "ember-v0.0.7-hf-ready.zip"
       - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
       - ".github/workflows/ember-hf.yml"
@@ -36,24 +36,24 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Extract Ember v0.0.6
+      - name: Extract Ember v0.0.7
         run: |
           rm -rf /tmp/ember-src
           mkdir -p /tmp/ember-src
-          unzip -q ember-v0.0.6-hf-ready.zip -d /tmp/ember-src
+          unzip -q ember-v0.0.7-hf-ready.zip -d /tmp/ember-src
           cat /tmp/ember-src/ember/VERSION
 
       - name: Verify authoritative Ember files
         run: |
           test -f /tmp/ember-src/ember/requirements-corpus.txt
-          test -f /tmp/ember-src/ember/config/corpus_v0.0.6.json
+          test -f /tmp/ember-src/ember/config/corpus_v0.0.7.json
           test -f /tmp/ember-src/ember/config/ember_agent_t4_validation.json
           test -f /tmp/ember-src/ember/scripts/preflight.py
           test -f /tmp/ember-src/ember/scripts/hf_train.py
           test -f /tmp/ember-src/ember/src/model.py
           test -f /tmp/ember-src/ember/src/tokenizer.py
-          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.6"
-          echo "Authoritative Ember v0.0.6 files verified."
+          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.7"
+          echo "Authoritative Ember v0.0.7 files verified."
 
       - name: Verify Hugging Face Jobs launchers
         run: python -m py_compile jobs/*.py
@@ -72,6 +72,5 @@ jobs:
       - name: Validation complete
         run: |
           echo "EMBER CPU VALIDATION PASSED"
-          echo "Version: 0.0.6"
+          echo "Version: 0.0.7"
           echo "GPU training was NOT launched."
-

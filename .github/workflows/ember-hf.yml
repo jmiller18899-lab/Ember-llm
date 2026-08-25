@@ -65,7 +65,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           hf jobs uv run --detach \
-            --name ember-v0-0-6-corpus \
+            --name ember-v0-0-7-corpus \
             --flavor cpu-upgrade \
             --timeout 6h \
             --secrets HF_TOKEN \
@@ -77,7 +77,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           hf jobs uv run --detach \
-            --name ember-v0-0-6-t4-validation \
+            --name ember-v0-0-7-t4-validation \
             --flavor t4-small \
             --timeout 4h \
             --secrets HF_TOKEN \

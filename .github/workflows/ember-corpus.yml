@@ -1,4 +1,4 @@
-name: Ember v0.0.6 Corpus Pipeline
+name: Ember v0.0.7 Corpus Pipeline
 
 on:
   workflow_dispatch:
@@ -38,13 +38,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Extract authoritative Ember v0.0.6
+      - name: Extract authoritative Ember v0.0.7
         run: |
-          test -f ember-v0.0.6-hf-ready.zip
+          test -f ember-v0.0.7-hf-ready.zip
           rm -rf /tmp/ember-src
           mkdir -p /tmp/ember-src
-          unzip -q ember-v0.0.6-hf-ready.zip -d /tmp/ember-src
-          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.6"
+          unzip -q ember-v0.0.7-hf-ready.zip -d /tmp/ember-src
+          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.7"
           echo "EMBER_ROOT=/tmp/ember-src/ember" >> "$GITHUB_ENV"
 
       - name: Require authenticated Hugging Face access for full corpus
@@ -119,7 +119,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           python scripts/build_training_corpus.py \
-            --config config/corpus_v0.0.6.json
+            --config config/corpus_v0.0.7.json
 
       - name: Print corpus gate summary
         if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
@@ -148,7 +148,7 @@ jobs:
         if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
         uses: actions/upload-artifact@v4
         with:
-          name: ember-v0.0.6-corpus
+          name: ember-v0.0.7-corpus
           path: |
             /tmp/ember-src/ember/data/processed/train.txt
             /tmp/ember-src/ember/data/processed/val.txt
@@ -160,7 +160,7 @@ jobs:
 
       - name: Confirm no GPU training launched
         run: |
-          echo "Ember v0.0.6 corpus stage finished."
+          echo "Ember v0.0.7 corpus stage finished."
           echo "Mode: ${{ inputs.mode || 'full-corpus' }}"
           echo "GPU training was NOT launched."
 
@@ -182,12 +182,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Extract authoritative Ember v0.0.6
+      - name: Extract authoritative Ember v0.0.7
         run: |
           rm -rf /tmp/ember-src
           mkdir -p /tmp/ember-src
-          unzip -q ember-v0.0.6-hf-ready.zip -d /tmp/ember-src
-          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.6"
+          unzip -q ember-v0.0.7-hf-ready.zip -d /tmp/ember-src
+          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.7"
 
       - name: Install CPU model dependencies
         working-directory: /tmp/ember-src/ember
@@ -199,7 +199,7 @@ jobs:
       - name: Download verified corpus artifact
         uses: actions/download-artifact@v4
         with:
-          name: ember-v0.0.6-corpus
+          name: ember-v0.0.7-corpus
           path: /tmp/ember-src/ember/data/processed
 
       - name: Run complete Ember unit suite
@@ -216,5 +216,6 @@ jobs:
 
       - name: Confirm no GPU training launched
         run: |
-          echo "EMBER v0.0.6 CPU PREFLIGHT PASSED"
+          echo "EMBER v0.0.7 CPU PREFLIGHT PASSED"
           echo "GPU training was NOT launched."
+
