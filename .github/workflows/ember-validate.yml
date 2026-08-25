@@ -7,6 +7,8 @@ on:
       - "ember-v0.0.6-hf-ready.zip"
       - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
+      - ".github/workflows/ember-hf.yml"
+      - "jobs/**"
   push:
     branches:
       - main
@@ -14,6 +16,8 @@ on:
       - "ember-v0.0.6-hf-ready.zip"
       - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
+      - ".github/workflows/ember-hf.yml"
+      - "jobs/**"
 
 permissions:
   contents: read
@@ -50,6 +54,9 @@ jobs:
           test -f /tmp/ember-src/ember/src/tokenizer.py
           test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.6"
           echo "Authoritative Ember v0.0.6 files verified."
+
+      - name: Verify Hugging Face Jobs launchers
+        run: python -m py_compile jobs/*.py
 
       - name: Install CPU-only Ember dependencies
         working-directory: /tmp/ember-src/ember
