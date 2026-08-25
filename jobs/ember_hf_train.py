@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -62,6 +63,19 @@ def main() -> None:
         stats = json.loads((corpus / "data" / "corpus_stats.json").read_text(encoding="utf-8"))
         if stats.get("status") != "PASS" or not 10_000_000 <= int(stats.get("actual_ember_tokens", 0)) <= 20_000_000:
             raise RuntimeError("refusing GPU training: verified corpus gate is not PASS")
+
+        # The packaged Ember config resolves this path relative to the source root.
+        # Materialize the tokenizer downloaded with the verified private corpus
+        # before CUDA preflight so training cannot silently use another tokenizer.
+        tokenizer_source = corpus / "data" / "ember_tokenizer.model"
+        tokenizer_target = root / "data" / "processed" / "ember_tokenizer.model"
+        if not tokenizer_source.is_file() or tokenizer_source.stat().st_size == 0:
+            raise RuntimeError("verified corpus tokenizer is missing or empty")
+        tokenizer_target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(tokenizer_source, tokenizer_target)
+        if tokenizer_target.stat().st_size != tokenizer_source.stat().st_size:
+            raise RuntimeError("failed to materialize the verified corpus tokenizer")
+        print(f"EMBER_TOKENIZER_PATH={tokenizer_target}", flush=True)
 
         api.create_repo(model_repo, repo_type="model", private=True, exist_ok=True)
         trackio.init(
