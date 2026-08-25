@@ -14,8 +14,8 @@ def main() -> None:
 
     api = HfApi(token=token)
     owner = api.whoami()["name"]
-    corpus_repo = f"{owner}/ember-corpus-v0.0.6"
-    model_repo = f"{owner}/ember-v0.0.6-t4"
+    corpus_repo = f"{owner}/ember-corpus-v0.0.7"
+    model_repo = f"{owner}/ember-v0.0.7-t4"
     trackio_space = f"{owner}/ember-trackio"
 
     api.create_repo(corpus_repo, repo_type="dataset", private=True, exist_ok=True)

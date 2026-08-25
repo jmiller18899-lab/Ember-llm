@@ -24,8 +24,8 @@ import zipfile
 from huggingface_hub import HfApi
 
 
-PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/ember-v0.0.6-hf-ready.zip"
-PACKAGE_SHA256 = "1705c2baaac0a51d4bed9cd9b1d7afe0a149aae4138ba351257aaec9d476635f"
+PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/ember-v0.0.7-hf-ready.zip"
+PACKAGE_SHA256 = "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a289"
 
 
 def run(command: list[str], cwd: Path) -> None:
@@ -39,7 +39,7 @@ def main() -> None:
         raise RuntimeError("HF_TOKEN was not injected as a Job secret")
     api = HfApi(token=token)
     owner = api.whoami()["name"]
-    repo_id = f"{owner}/ember-corpus-v0.0.6"
+    repo_id = f"{owner}/ember-corpus-v0.0.7"
     api.create_repo(repo_id, repo_type="dataset", private=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="ember-corpus-") as temporary:
@@ -52,7 +52,7 @@ def main() -> None:
         with zipfile.ZipFile(archive) as package:
             package.extractall(work / "src")
         root = work / "src" / "ember"
-        if (root / "VERSION").read_text(encoding="utf-8").strip() != "0.0.6":
+        if (root / "VERSION").read_text(encoding="utf-8").strip() != "0.0.7":
             raise RuntimeError("unexpected Ember package version")
 
         run([
@@ -62,7 +62,7 @@ def main() -> None:
         ], root)
         run([
             sys.executable, "scripts/build_training_corpus.py",
-            "--config", "config/corpus_v0.0.6.json",
+            "--config", "config/corpus_v0.0.7.json",
         ], root)
 
         processed = root / "data" / "processed"
@@ -77,9 +77,9 @@ def main() -> None:
 
         card = work / "README.md"
         card.write_text(
-            "---\npretty_name: Ember v0.0.6 verified training corpus\n"
+            "---\npretty_name: Ember v0.0.7 verified training corpus\n"
             "license: other\nprivate: true\n---\n\n"
-            "Private staging corpus for Ember v0.0.6. Source revisions, licenses, "
+            "Private staging corpus for Ember v0.0.7. Source revisions, licenses, "
             "document hashes, and attribution metadata are recorded in `data/provenance.json`.\n",
             encoding="utf-8",
         )
