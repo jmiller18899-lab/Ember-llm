@@ -2,56 +2,69 @@ name: Ember CPU Validation
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "ember-v0.0.5-hf-ready.zip"
+      - ".github/workflows/ember-corpus.yml"
+      - ".github/workflows/ember-validate.yml"
   push:
     branches:
       - main
     paths:
-      - "ember-v0.0.3-hf-ready.zip"
+      - "ember-v0.0.5-hf-ready.zip"
+      - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
+
+permissions:
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
       - name: Checkout Ember
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
-      - name: Extract Ember v0.0.3
+      - name: Extract Ember v0.0.5
         run: |
           rm -rf /tmp/ember-src
           mkdir -p /tmp/ember-src
-          unzip -q ember-v0.0.3-hf-ready.zip -d /tmp/ember-src
+          unzip -q ember-v0.0.5-hf-ready.zip -d /tmp/ember-src
           cat /tmp/ember-src/ember/VERSION
 
       - name: Verify authoritative Ember files
         run: |
+          test -f /tmp/ember-src/ember/requirements-corpus.txt
+          test -f /tmp/ember-src/ember/config/corpus_v0.0.5.json
           test -f /tmp/ember-src/ember/config/ember_agent_t4_validation.json
           test -f /tmp/ember-src/ember/scripts/preflight.py
           test -f /tmp/ember-src/ember/scripts/hf_train.py
           test -f /tmp/ember-src/ember/src/model.py
           test -f /tmp/ember-src/ember/src/tokenizer.py
-          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.3"
-          echo "Authoritative Ember v0.0.3 files verified."
+          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.5"
+          echo "Authoritative Ember v0.0.5 files verified."
 
-      - name: Install Ember dependencies
+      - name: Install CPU-only Ember dependencies
         working-directory: /tmp/ember-src/ember
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch>=2.4"
+          python -m pip install -r requirements-corpus.txt
 
       - name: Run Ember tests
         working-directory: /tmp/ember-src/ember
-        run: |
-          python -m pytest -q
+        run: python -m pytest -q
 
       - name: Validation complete
         run: |
           echo "EMBER CPU VALIDATION PASSED"
-          echo "Version: 0.0.3"
+          echo "Version: 0.0.5"
           echo "GPU training was NOT launched."
+
