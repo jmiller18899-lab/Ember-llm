@@ -11,13 +11,18 @@ on:
         options:
           - source-smoke
           - full-corpus
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/ember-full-corpus.trigger"
 
 permissions:
   contents: read
 
 jobs:
   corpus:
-    name: ${{ inputs.mode }}
+    name: ${{ inputs.mode || 'full-corpus' }}
     runs-on: ubuntu-latest
     timeout-minutes: 350
     env:
@@ -43,7 +48,7 @@ jobs:
           echo "EMBER_ROOT=/tmp/ember-src/ember" >> "$GITHUB_ENV"
 
       - name: Require authenticated Hugging Face access for full corpus
-        if: ${{ inputs.mode == 'full-corpus' }}
+        if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
         working-directory: /tmp/ember-src/ember
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
@@ -102,13 +107,13 @@ jobs:
           exit "$rc"
 
       - name: Print runner capacity before corpus build
-        if: ${{ inputs.mode == 'full-corpus' }}
+        if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
         run: |
           free -h
           df -h /
 
       - name: Build 15M-token Ember corpus
-        if: ${{ inputs.mode == 'full-corpus' }}
+        if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
         working-directory: /tmp/ember-src/ember
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
@@ -117,7 +122,7 @@ jobs:
             --config config/corpus_v0.0.5.json
 
       - name: Print corpus gate summary
-        if: ${{ inputs.mode == 'full-corpus' }}
+        if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
         working-directory: /tmp/ember-src/ember
         run: |
           python - <<'PY'
@@ -140,7 +145,7 @@ jobs:
           PY
 
       - name: Upload verified corpus artifact
-        if: ${{ inputs.mode == 'full-corpus' }}
+        if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
         uses: actions/upload-artifact@v4
         with:
           name: ember-v0.0.5-corpus
@@ -156,12 +161,12 @@ jobs:
       - name: Confirm no GPU training launched
         run: |
           echo "Ember v0.0.5 corpus stage finished."
-          echo "Mode: ${{ inputs.mode }}"
+          echo "Mode: ${{ inputs.mode || 'full-corpus' }}"
           echo "GPU training was NOT launched."
 
   preflight:
     name: CPU model preflight
-    if: ${{ inputs.mode == 'full-corpus' }}
+    if: ${{ github.event_name == 'push' || inputs.mode == 'full-corpus' }}
     needs: corpus
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -213,4 +218,3 @@ jobs:
         run: |
           echo "EMBER v0.0.5 CPU PREFLIGHT PASSED"
           echo "GPU training was NOT launched."
-
