@@ -21,7 +21,6 @@ import urllib.request
 import zipfile
 
 from huggingface_hub import HfApi, snapshot_download
-import trackio
 
 
 PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/ember-v0.0.6-hf-ready.zip"
@@ -36,7 +35,7 @@ def main() -> None:
     owner = api.whoami()["name"]
     corpus_repo = f"{owner}/ember-corpus-v0.0.6"
     model_repo = f"{owner}/ember-v0.0.6-t4"
-    trackio_space = f"{owner}/trackio"
+    trackio_space = f"{owner}/ember-trackio"
     run_name = "ember-v0.0.6-t4-500-step-validation"
 
     with tempfile.TemporaryDirectory(prefix="ember-train-") as temporary:
@@ -49,6 +48,9 @@ def main() -> None:
         with zipfile.ZipFile(archive) as package:
             package.extractall(work / "src")
         root = work / "src" / "ember"
+        trackio_dir = work / "trackio"
+        os.environ["TRACKIO_DIR"] = str(trackio_dir)
+        import trackio
 
         corpus = work / "corpus"
         snapshot_download(
@@ -65,7 +67,7 @@ def main() -> None:
         trackio.init(
             project="ember",
             name=run_name,
-            space_id=trackio_space,
+            embed=False,
             config={
                 "version": "0.0.6",
                 "hardware": "t4-small",
@@ -121,6 +123,21 @@ def main() -> None:
         finally:
             trackio.finish()
 
+        if trackio_dir.exists():
+            api.upload_folder(
+                folder_path=str(trackio_dir),
+                path_in_repo="trackio",
+                repo_id=model_repo,
+                repo_type="model",
+                commit_message="Persist Ember Trackio metrics",
+            )
+        trackio.sync(
+            project="ember",
+            space_id=trackio_space,
+            force=True,
+            sdk="static",
+        )
+
         files = api.list_repo_files(model_repo, repo_type="model")
         if not any(path.endswith("best.pt") for path in files):
             raise RuntimeError("training finished but best.pt was not persisted")
@@ -129,6 +146,7 @@ def main() -> None:
         print("EMBER_HF_T4_VALIDATION=PASS")
         print(f"MODEL_REPO={model_repo}")
         print(f"TRACKIO_SPACE={trackio_space}")
+        print(f"TRACKIO_ARTIFACT={model_repo}/tree/main/trackio")
 
 
 if __name__ == "__main__":
