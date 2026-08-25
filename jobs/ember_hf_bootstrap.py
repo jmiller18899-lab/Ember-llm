@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Ember's GitHub-held HF token and create private persistence repos."""
+"""Verify Ember's GitHub-held HF token and create durable Hub repos."""
 from __future__ import annotations
 
 import os
@@ -16,15 +16,15 @@ def main() -> None:
     owner = api.whoami()["name"]
     corpus_repo = f"{owner}/ember-corpus-v0.0.6"
     model_repo = f"{owner}/ember-v0.0.6-t4"
-    trackio_space = f"{owner}/trackio"
+    trackio_space = f"{owner}/ember-trackio"
 
     api.create_repo(corpus_repo, repo_type="dataset", private=True, exist_ok=True)
     api.create_repo(model_repo, repo_type="model", private=True, exist_ok=True)
     api.create_repo(
         trackio_space,
         repo_type="space",
-        private=True,
-        space_sdk="gradio",
+        private=False,
+        space_sdk="static",
         exist_ok=True,
     )
 
@@ -33,6 +33,7 @@ def main() -> None:
     print(f"CORPUS_REPO={corpus_repo}")
     print(f"MODEL_REPO={model_repo}")
     print(f"TRACKIO_SPACE={trackio_space}")
+    print("TRACKIO_MODE=static-snapshot-after-training")
 
 
 if __name__ == "__main__":
