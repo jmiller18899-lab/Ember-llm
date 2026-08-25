@@ -56,10 +56,37 @@ jobs:
         working-directory: /tmp/ember-src/ember
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        # Run via the wrapper: the smoke test streams from Hugging Face, and the
-        # leftover native threads can abort the process (exit 134) during interpreter
-        # shutdown after the checks have already passed.
-        run: python "$GITHUB_WORKSPACE/.github/scripts/run_ember_script.py" scripts/source_smoke.py
+        # Narrow CI workaround: datasets/PyArrow streaming can abort the interpreter
+        # during finalization (SIGABRT, exit 134) *after* source_smoke.py has already
+        # printed its PASS result. Accept exit 134 only when the log proves that exact
+        # situation; every other non-zero exit stays a hard failure.
+        run: |
+          set +e
+          python scripts/source_smoke.py 2>&1 | tee /tmp/ember-source-smoke.log
+          rc=${PIPESTATUS[0]}
+          set -e
+
+          python - <<'PY'
+          import datasets
+          import pyarrow
+          print("datasets:", datasets.__version__)
+          print("pyarrow:", pyarrow.__version__)
+          PY
+
+          if [ "$rc" -eq 0 ]; then
+            exit 0
+          fi
+
+          if [ "$rc" -eq 134 ] \
+            && grep -q '"source_smoke": "PASS"' /tmp/ember-source-smoke.log \
+            && grep -q 'PyGILState_Release' /tmp/ember-source-smoke.log \
+            && grep -q 'Python runtime state: finalizing' /tmp/ember-source-smoke.log; then
+            echo "KNOWN PYARROW TEARDOWN ABORT AFTER SUCCESSFUL EMBER SOURCE SMOKE — accepting PASS"
+            exit 0
+          fi
+
+          echo "Source smoke genuinely failed with exit code $rc"
+          exit "$rc"
 
       - name: Build 15M-token Ember corpus
         if: ${{ inputs.mode == 'full-corpus' }}
@@ -67,8 +94,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python "$GITHUB_WORKSPACE/.github/scripts/run_ember_script.py" \
-            scripts/build_training_corpus.py \
+          python scripts/build_training_corpus.py \
             --config config/corpus_v0.0.4.json
 
       - name: CPU corpus + model preflight
