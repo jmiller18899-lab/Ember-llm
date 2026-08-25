@@ -1,0 +1,120 @@
+name: Ember v0.0.4 Corpus Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run source smoke first; choose full-corpus only after smoke passes"
+        required: true
+        default: source-smoke
+        type: choice
+        options:
+          - source-smoke
+          - full-corpus
+
+permissions:
+  contents: read
+
+jobs:
+  corpus:
+    name: ${{ inputs.mode }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      PYTHONUNBUFFERED: "1"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+
+    steps:
+      - name: Checkout ember-llm
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract authoritative Ember v0.0.4
+        run: |
+          test -f ember-v0.0.4-hf-ready.zip
+          rm -rf /tmp/ember-src
+          mkdir -p /tmp/ember-src
+          unzip -q ember-v0.0.4-hf-ready.zip -d /tmp/ember-src
+          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.4"
+          echo "EMBER_ROOT=/tmp/ember-src/ember" >> "$GITHUB_ENV"
+
+      - name: Install Ember dependencies
+        working-directory: /tmp/ember-src/ember
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run Ember unit tests
+        working-directory: /tmp/ember-src/ember
+        run: python -m pytest -q
+
+      - name: Source/network/schema smoke test
+        working-directory: /tmp/ember-src/ember
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/source_smoke.py
+
+      - name: Build 15M-token Ember corpus
+        if: ${{ inputs.mode == 'full-corpus' }}
+        working-directory: /tmp/ember-src/ember
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python scripts/build_training_corpus.py \
+            --config config/corpus_v0.0.4.json
+
+      - name: CPU corpus + model preflight
+        if: ${{ inputs.mode == 'full-corpus' }}
+        working-directory: /tmp/ember-src/ember
+        run: |
+          python scripts/preflight.py \
+            --config config/ember_agent_t4_validation.json \
+            --data data/processed/train.txt \
+            --val-data data/processed/val.txt
+
+      - name: Print corpus gate summary
+        if: ${{ inputs.mode == 'full-corpus' }}
+        working-directory: /tmp/ember-src/ember
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s = json.loads(Path("data/processed/corpus_stats.json").read_text())
+          assert s["status"] == "PASS"
+          assert 10_000_000 <= s["actual_ember_tokens"] <= 20_000_000
+          assert s["vocab_size"] == 16_384
+          print(json.dumps({
+              "status": s["status"],
+              "actual_ember_tokens": s["actual_ember_tokens"],
+              "train_tokens": s["train_tokens"],
+              "val_tokens": s["val_tokens"],
+              "vocab_size": s["vocab_size"],
+              "category_selected_tokens": s["category_selected_tokens"],
+              "documents": s["documents"],
+              "dedup": s["dedup"],
+          }, indent=2))
+          PY
+
+      - name: Upload verified corpus artifact
+        if: ${{ inputs.mode == 'full-corpus' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v0.0.4-corpus
+          path: |
+            /tmp/ember-src/ember/data/processed/train.txt
+            /tmp/ember-src/ember/data/processed/val.txt
+            /tmp/ember-src/ember/data/processed/ember_tokenizer.model
+            /tmp/ember-src/ember/data/processed/corpus_stats.json
+            /tmp/ember-src/ember/data/processed/provenance.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Confirm no GPU training launched
+        run: |
+          echo "Ember v0.0.4 corpus pipeline finished."
+          echo "Mode: ${{ inputs.mode }}"
+          echo "GPU training was NOT launched."
