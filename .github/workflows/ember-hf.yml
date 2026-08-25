@@ -1,0 +1,91 @@
+name: Ember Hugging Face Jobs
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Verify persistence, build corpus, or launch gated T4 validation"
+        required: true
+        default: bootstrap
+        type: choice
+        options:
+          - bootstrap
+          - corpus
+          - train
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/ember-hf.trigger"
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Ember
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Resolve requested mode
+        id: request
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            mode="${{ inputs.mode }}"
+          else
+            mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-hf.trigger)"
+          fi
+          case "$mode" in
+            bootstrap|corpus|train) ;;
+            *) echo "::error::Unsupported Ember HF mode: $mode"; exit 1 ;;
+          esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Resolved Ember HF mode: $mode"
+
+      - name: Install Hugging Face Jobs client
+        run: python -m pip install --upgrade "huggingface-hub>=1.4"
+
+      - name: Verify write access and private persistence
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python jobs/ember_hf_bootstrap.py
+
+      - name: Submit full corpus job to Hugging Face CPU Upgrade
+        if: ${{ steps.request.outputs.mode == 'corpus' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-6-corpus \
+            --flavor cpu-upgrade \
+            --timeout 6h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_corpus.py
+
+      - name: Submit gated T4 validation job
+        if: ${{ steps.request.outputs.mode == 'train' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-6-t4-validation \
+            --flavor t4-small \
+            --timeout 4h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_train.py
+
+      - name: Confirm launcher safety gate
+        run: |
+          echo "Ember HF launcher completed in ${{ steps.request.outputs.mode }} mode."
+          if [ "${{ steps.request.outputs.mode }}" != "train" ]; then
+            echo "GPU training was NOT launched."
+          fi
