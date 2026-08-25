@@ -56,7 +56,10 @@ jobs:
         working-directory: /tmp/ember-src/ember
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python scripts/source_smoke.py
+        # Run via the wrapper: the smoke test streams from Hugging Face, and the
+        # leftover native threads can abort the process (exit 134) during interpreter
+        # shutdown after the checks have already passed.
+        run: python "$GITHUB_WORKSPACE/.github/scripts/run_ember_script.py" scripts/source_smoke.py
 
       - name: Build 15M-token Ember corpus
         if: ${{ inputs.mode == 'full-corpus' }}
@@ -64,7 +67,8 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python scripts/build_training_corpus.py \
+          python "$GITHUB_WORKSPACE/.github/scripts/run_ember_script.py" \
+            scripts/build_training_corpus.py \
             --config config/corpus_v0.0.4.json
 
       - name: CPU corpus + model preflight
