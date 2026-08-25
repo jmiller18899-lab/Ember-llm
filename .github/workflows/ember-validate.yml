@@ -1,0 +1,57 @@
+name: Ember CPU Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "ember-v0.0.3-hf-ready.zip"
+      - ".github/workflows/ember-validate.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ember
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract Ember v0.0.3
+        run: |
+          rm -rf /tmp/ember-src
+          mkdir -p /tmp/ember-src
+          unzip -q ember-v0.0.3-hf-ready.zip -d /tmp/ember-src
+          cat /tmp/ember-src/ember/VERSION
+
+      - name: Verify authoritative Ember files
+        run: |
+          test -f /tmp/ember-src/ember/config/ember_agent_t4_validation.json
+          test -f /tmp/ember-src/ember/scripts/preflight.py
+          test -f /tmp/ember-src/ember/scripts/hf_train.py
+          test -f /tmp/ember-src/ember/src/model.py
+          test -f /tmp/ember-src/ember/src/tokenizer.py
+          test "$(cat /tmp/ember-src/ember/VERSION)" = "0.0.3"
+          echo "Authoritative Ember v0.0.3 files verified."
+
+      - name: Install Ember dependencies
+        working-directory: /tmp/ember-src/ember
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Ember tests
+        working-directory: /tmp/ember-src/ember
+        run: |
+          python -m pytest -q
+
+      - name: Validation complete
+        run: |
+          echo "EMBER CPU VALIDATION PASSED"
+          echo "Version: 0.0.3"
+          echo "GPU training was NOT launched."
