@@ -1,0 +1,4 @@
+{
+  "name": "Ember LLM (CPU)",
+  "install": "bash ./.cursor/install.sh"
+}

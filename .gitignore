@@ -1,0 +1,5 @@
+# Cloud Agent / local development artifacts
+.venv/
+ember-src/
+__pycache__/
+*.pyc
