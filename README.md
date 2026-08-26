@@ -45,7 +45,20 @@ The corpus workflow never launches GPU training.
 
 ## Next milestone
 
-With the T4 validation gate green, the recommended next milestone is a longer
-supervised training run on the full verified v0.0.7 corpus (beyond the 500-step
-smoke) to begin producing a usable ClawAgent tool-use checkpoint, tracked on the
-same Trackio dashboard.
+The v0.0.8 long-run milestone is prepared but not launched. It keeps the
+validated v0.0.7 architecture and tokenizer, starts a coherent fresh 3,000-step
+schedule, persists a resumable checkpoint every 500 steps, and gates promotion
+with a deterministic 12-case tool-use evaluation plus INT4 inference.
+
+The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
+
+- `eval-v007` records the CPU baseline;
+- `train-v008` launches the cost-gated `t4-small` run only after explicit
+  approval; and
+- `eval-v008` evaluates the candidate on CPU and records the promotion result.
+
+Merging these changes does not launch a job. Follow
+[`docs/ember-v0.0.8-runbook.md`](docs/ember-v0.0.8-runbook.md) for the execution
+order, recovery rules, private artifact locations, and promotion gates. Keep
+v0.0.7 authoritative until the candidate reports `promotion_eligible: true`;
+ClawAgent integration is deliberately deferred until then.

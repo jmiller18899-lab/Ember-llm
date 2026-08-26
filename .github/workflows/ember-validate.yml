@@ -8,7 +8,10 @@ on:
       - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
       - ".github/workflows/ember-hf.yml"
+      - ".cursor/**"
+      - "config/**"
       - "jobs/**"
+      - "tests/**"
   push:
     branches:
       - main
@@ -17,7 +20,10 @@ on:
       - ".github/workflows/ember-corpus.yml"
       - ".github/workflows/ember-validate.yml"
       - ".github/workflows/ember-hf.yml"
+      - ".cursor/**"
+      - "config/**"
       - "jobs/**"
+      - "tests/**"
 
 permissions:
   contents: read
@@ -56,7 +62,12 @@ jobs:
           echo "Authoritative Ember v0.0.7 files verified."
 
       - name: Verify Hugging Face Jobs launchers
-        run: python -m py_compile jobs/*.py
+        run: |
+          python -m py_compile jobs/*.py
+          python -m json.tool config/ember_agent_t4_long_v0.0.8.json >/dev/null
+          python -m json.tool config/ember_v0.0.8_eval.json >/dev/null
+          python -m json.tool .cursor/environment.json >/dev/null
+          bash -n .cursor/install.sh
 
       - name: Install CPU-only Ember dependencies
         working-directory: /tmp/ember-src/ember
@@ -68,6 +79,9 @@ jobs:
       - name: Run Ember tests
         working-directory: /tmp/ember-src/ember
         run: python -m pytest -q
+
+      - name: Run v0.0.8 orchestration tests
+        run: python -m pytest -q tests
 
       - name: Validation complete
         run: |

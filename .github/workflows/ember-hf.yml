@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "Verify persistence, build corpus, or launch gated T4 validation"
+        description: "Bootstrap, corpus, evaluation, or explicitly approved training mode"
         required: true
         default: bootstrap
         type: choice
@@ -12,6 +12,9 @@ on:
           - bootstrap
           - corpus
           - train
+          - eval-v007
+          - train-v008
+          - eval-v008
   push:
     branches:
       - main
@@ -45,7 +48,7 @@ jobs:
             mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-hf.trigger)"
           fi
           case "$mode" in
-            bootstrap|corpus|train) ;;
+            bootstrap|corpus|train|eval-v007|train-v008|eval-v008) ;;
             *) echo "::error::Unsupported Ember HF mode: $mode"; exit 1 ;;
           esac
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
@@ -83,9 +86,50 @@ jobs:
             --secrets HF_TOKEN \
             jobs/ember_hf_train.py
 
+      - name: Submit v0.0.7 CPU baseline evaluation
+        if: ${{ steps.request.outputs.mode == 'eval-v007' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-7-baseline-eval \
+            --flavor cpu-upgrade \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_eval.py -- \
+            --model-name ember-v0.0.7-t4 \
+            --label baseline-v0.0.7
+
+      - name: Submit explicitly approved v0.0.8 long T4 run
+        if: ${{ steps.request.outputs.mode == 'train-v008' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-8-t4-long \
+            --flavor t4-small \
+            --timeout 3h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_train_v008.py
+
+      - name: Submit v0.0.8 CPU candidate evaluation
+        if: ${{ steps.request.outputs.mode == 'eval-v008' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-8-candidate-eval \
+            --flavor cpu-upgrade \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_eval.py -- \
+            --model-name ember-v0.0.8-t4 \
+            --label candidate-v0.0.8
+
       - name: Confirm launcher safety gate
         run: |
           echo "Ember HF launcher completed in ${{ steps.request.outputs.mode }} mode."
-          if [ "${{ steps.request.outputs.mode }}" != "train" ]; then
-            echo "GPU training was NOT launched."
-          fi
+          case "${{ steps.request.outputs.mode }}" in
+            train|train-v008) echo "An explicitly selected paid GPU mode was launched." ;;
+            *) echo "GPU training was NOT launched." ;;
+          esac
