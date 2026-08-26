@@ -4,7 +4,7 @@
 #   "huggingface-hub>=1.4",
 #   "sentencepiece>=0.2",
 #   "torch>=2.4",
-#   "trackio",
+#   "trackio[spaces]",
 # ]
 # ///
 """Run Ember's gated T4 validation training with Trackio and Hub persistence."""
@@ -145,21 +145,29 @@ def main() -> None:
                 repo_type="model",
                 commit_message="Persist Ember Trackio metrics",
             )
-        trackio.sync(
-            project="ember",
-            space_id=trackio_space,
-            force=True,
-            sdk="static",
-        )
-
+        # Verify the persisted training artifacts before publishing the Trackio
+        # dashboard. Metrics are already durable in the model repo under trackio/;
+        # the static-Space sync is a visualization convenience and must never mask
+        # an otherwise successful run whose checkpoints are persisted.
         files = api.list_repo_files(model_repo, repo_type="model")
         if not any(path.endswith("best.pt") for path in files):
             raise RuntimeError("training finished but best.pt was not persisted")
         if not any(path.endswith("best.int4.pt") for path in files):
             raise RuntimeError("training finished but INT4 export was not persisted")
+
+        try:
+            trackio.sync(
+                project="ember",
+                space_id=trackio_space,
+                force=True,
+                sdk="static",
+            )
+            print(f"TRACKIO_SPACE={trackio_space}")
+        except Exception as exc:  # dashboard sync is non-critical to the gate
+            print(f"TRACKIO_SPACE_SYNC_SKIPPED={type(exc).__name__}: {exc}")
+
         print("EMBER_HF_T4_VALIDATION=PASS")
         print(f"MODEL_REPO={model_repo}")
-        print(f"TRACKIO_SPACE={trackio_space}")
         print(f"TRACKIO_ARTIFACT={model_repo}/tree/main/trackio")
 
 
