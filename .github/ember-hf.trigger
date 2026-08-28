@@ -1,3 +1,3 @@
-mode: eval-v008
-requested_utc: 2026-08-28T13:48:41Z
-purpose: evaluate the completed Ember v0.0.8 checkpoint against the CPU promotion gate
+mode: preflight-v009
+requested_utc: 2026-08-28T14:17:29Z
+purpose: validate held-out-safe SFT data, tokenizer boundaries, source checkpoint, and completion-only loss before paid T4 training
