@@ -65,6 +65,7 @@ jobs:
         run: |
           python -m py_compile jobs/*.py
           python -m json.tool config/ember_agent_t4_long_v0.0.8.json >/dev/null
+          python -m json.tool config/ember_agent_tool_sft_v0.0.9.json >/dev/null
           python -m json.tool config/ember_v0.0.8_eval.json >/dev/null
           python -m json.tool .cursor/environment.json >/dev/null
           bash -n .cursor/install.sh

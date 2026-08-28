@@ -183,15 +183,15 @@ def test_promotion_compares_the_same_fixed_validation_measurement():
     assert promotion["promotion_eligible"] is True
 
 
-def test_paid_long_run_is_manual_only_and_marker_was_not_changed():
+def test_paid_long_run_is_manual_only_and_current_marker_is_cpu_safe():
     workflow = (ROOT / ".github" / "workflows" / "ember-hf.yml").read_text(encoding="utf-8")
     marker = (ROOT / ".github" / "ember-hf.trigger").read_text(encoding="utf-8")
     assert "workflow_dispatch:" in workflow
     assert "steps.request.outputs.mode == 'train-v008'" in workflow
     assert "--flavor t4-small" in workflow
     assert "--timeout 3h" in workflow
-    assert marker.startswith("mode: train\n")
-    assert "train-v008" not in marker
+    mode = marker.splitlines()[0].split(":", 1)[1].strip()
+    assert mode not in {"train", "train-v008", "sft-v009"}
 
 
 def test_paid_run_state_lock_rejects_live_and_completed_runs():

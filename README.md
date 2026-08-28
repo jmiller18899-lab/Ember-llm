@@ -43,12 +43,22 @@ The 500-step T4 validation gate is **complete**.
 
 The corpus workflow never launches GPU training.
 
+## Current milestone result
+
+The v0.0.8 3,000-step run and its CPU evaluation are complete. Training and
+technical checks passed, fixed validation loss improved by 29%, and INT4 loaded
+successfully. Promotion remains blocked because the held-out evaluation scored
+0/4 correct tool names and 1/4 direct responses without an unnecessary tool
+call. v0.0.7 therefore remains authoritative.
+
 ## Next milestone
 
-The v0.0.8 long-run milestone is prepared but not launched. It keeps the
-validated v0.0.7 architecture and tokenizer, starts a coherent fresh 3,000-step
-schedule, persists a resumable checkpoint every 500 steps, and gates promotion
-with a deterministic 12-case tool-use evaluation plus INT4 inference.
+Ember v0.0.9 is a focused completion-only supervised fine-tune initialized
+from the evaluated v0.0.8 checkpoint. Its deterministic 1,152-example training
+set and 144-example validation set are balanced across tool calls, direct
+responses, and tool-result explanations. The official 12 promotion prompts are
+excluded. The run uses 600 T4 steps, durable resume checkpoints, Trackio, and
+full plus INT4 exports before a separate CPU evaluation.
 
 The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
 
@@ -56,9 +66,14 @@ The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
 - `train-v008` launches the cost-gated `t4-small` run only after explicit
   approval; and
 - `eval-v008` evaluates the candidate on CPU and records the promotion result.
+- `preflight-v009` validates the SFT data, tokenizer boundaries, checkpoint, and
+  masked loss on CPU;
+- `sft-v009` launches the explicitly approved tool-routing SFT; and
+- `eval-v009` evaluates that new candidate with the unchanged held-out gate.
 
 Merging these changes does not launch a job. Follow
 [`docs/ember-v0.0.8-runbook.md`](docs/ember-v0.0.8-runbook.md) for the execution
 order, recovery rules, private artifact locations, and promotion gates. Keep
 v0.0.7 authoritative until the candidate reports `promotion_eligible: true`;
-ClawAgent integration is deliberately deferred until then.
+ClawAgent integration is deliberately deferred until a candidate reports
+`promotion_eligible: true`.
