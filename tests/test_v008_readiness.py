@@ -112,6 +112,26 @@ def test_eval_spec_has_balanced_held_out_contract_groups():
     assert spec["validation_loss"] == {"batch_size": 8, "batches": 16}
 
 
+def test_token_contract_accepts_sentencepiece_shared_dummy_prefix():
+    module = load_eval_module()
+
+    class DummyPrefixTokenizer:
+        def encode(self, token_text):
+            return [14286, module.SPECIAL_TOKENS.index(token_text)]
+
+    contract = module.special_token_contract(DummyPrefixTokenizer())
+    assert contract["atomic"] is True
+    assert contract["unique"] is True
+    assert contract["shared_prefix_id"] == 14286
+    assert contract["signatures"]["<|tool|>"] == [3]
+
+    class CollidingTokenizer:
+        def encode(self, token_text):
+            return [14286, 4]
+
+    assert module.special_token_contract(CollidingTokenizer())["unique"] is False
+
+
 def test_tool_contract_scoring_requires_marker_json_name_and_arguments():
     module = load_eval_module()
     case = {"kind": "tool_call", "expected_tool": "weather"}

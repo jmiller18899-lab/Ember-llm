@@ -227,6 +227,29 @@ def fixed_validation_loss(model, tokenizer, torch, val_text: str, settings: dict
     return sum(losses) / len(losses)
 
 
+def special_token_contract(tokenizer) -> dict:
+    """Validate dedicated marker IDs while allowing SentencePiece's shared dummy prefix."""
+    token_ids = {token_text: tokenizer.encode(token_text) for token_text in SPECIAL_TOKENS}
+    has_shared_dummy_prefix = (
+        all(len(ids) == 2 for ids in token_ids.values())
+        and len({ids[0] for ids in token_ids.values()}) == 1
+    )
+    shared_prefix_id = next(iter(token_ids.values()))[0] if has_shared_dummy_prefix else None
+    signatures = {
+        token_text: ids[1:] if has_shared_dummy_prefix else ids
+        for token_text, ids in token_ids.items()
+    }
+    atomic = all(len(signature) == 1 for signature in signatures.values())
+    unique = len({tuple(signature) for signature in signatures.values()}) == len(SPECIAL_TOKENS)
+    return {
+        "atomic": atomic,
+        "unique": unique,
+        "shared_prefix_id": shared_prefix_id,
+        "ids": token_ids,
+        "signatures": signatures,
+    }
+
+
 def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> dict:
     baseline_loss = float(baseline["metrics"]["fixed_validation_loss"])
     candidate_loss = float(candidate["metrics"]["fixed_validation_loss"])
@@ -340,9 +363,9 @@ def main() -> None:
             spec["validation_loss"],
         )
 
-        special_token_ids = {token_text: tokenizer.encode(token_text) for token_text in SPECIAL_TOKENS}
-        special_tokens_atomic = all(len(ids) == 1 for ids in special_token_ids.values())
-        special_tokens_unique = len({ids[0] for ids in special_token_ids.values() if ids}) == len(SPECIAL_TOKENS)
+        token_contract = special_token_contract(tokenizer)
+        special_tokens_atomic = bool(token_contract["atomic"])
+        special_tokens_unique = bool(token_contract["unique"])
 
         case_results = []
         for case in spec["cases"]:
@@ -394,11 +417,7 @@ def main() -> None:
                 "best_validation_loss": float(checkpoint["best_val_loss"]),
                 "run_id": checkpoint["run_id"],
             },
-            "token_contract": {
-                "atomic": special_tokens_atomic,
-                "unique": special_tokens_unique,
-                "ids": special_token_ids,
-            },
+            "token_contract": token_contract,
             "metrics": metrics,
             "int4_smoke": {"passed": int4_smoke_pass, "completion": int4_completion},
             "technical_pass": technical_pass,
