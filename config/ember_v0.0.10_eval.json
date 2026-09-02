@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "baseline_model_name": "ember-v0.0.9-t4",
+  "candidate_model_name": "ember-v0.0.10-t4",
+  "generation": {
+    "max_new_tokens": 96,
+    "temperature": 1.0,
+    "top_k": 1,
+    "seed": 1337
+  },
+  "validation_loss": {
+    "batch_size": 8,
+    "batches": 16
+  },
+  "scoring": {
+    "require_clean_stop": true,
+    "require_endoftext": true
+  },
+  "promotion": {
+    "minimum_relative_validation_loss_improvement": 0.02,
+    "minimum_valid_tool_call_rate": 0.25,
+    "minimum_direct_response_rate": 0.75,
+    "minimum_tool_result_response_rate": 0.75,
+    "minimum_clean_stop_rate": 0.5,
+    "require_int4_smoke": true,
+    "require_no_structural_regression_from_baseline": true,
+    "rescore_baseline_cases": true
+  },
+  "cases": [
+    {
+      "id": "tool_weather",
+      "kind": "tool_call",
+      "expected_tool": "weather",
+      "expected_arguments": {
+        "location": "Detroit"
+      },
+      "prompt": "<|system|>\nYou are Ember. When current weather is requested, call the weather tool with JSON arguments.\n<|user|>\nWhat is the weather in Detroit right now?\n<|assistant|>\n"
+    },
+    {
+      "id": "tool_calculator",
+      "kind": "tool_call",
+      "expected_tool": "calculator",
+      "expected_arguments": {
+        "expression": ["347", "28"]
+      },
+      "prompt": "<|system|>\nYou are Ember. Use the calculator tool for arithmetic and provide JSON arguments.\n<|user|>\nCalculate 347 multiplied by 28.\n<|assistant|>\n"
+    },
+    {
+      "id": "tool_web_search",
+      "kind": "tool_call",
+      "expected_tool": "web_search",
+      "expected_arguments": {
+        "query": "Python"
+      },
+      "prompt": "<|system|>\nYou are Ember. Use web_search when the user requests current information.\n<|user|>\nFind the latest published release of Python.\n<|assistant|>\n"
+    },
+    {
+      "id": "tool_get_time",
+      "kind": "tool_call",
+      "expected_tool": "get_time",
+      "expected_arguments": {
+        "timezone": "Tokyo"
+      },
+      "prompt": "<|system|>\nYou are Ember. Use get_time for the current time in a requested timezone.\n<|user|>\nWhat time is it in Tokyo?\n<|assistant|>\n"
+    },
+    {
+      "id": "direct_greeting",
+      "kind": "direct_response",
+      "required_facts": [
+        "hello"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nSay hello in a friendly sentence.\n<|assistant|>\n"
+    },
+    {
+      "id": "direct_rewrite",
+      "kind": "direct_response",
+      "required_facts": [
+        "website"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nRewrite this title clearly: website thing not working.\n<|assistant|>\n"
+    },
+    {
+      "id": "direct_explain",
+      "kind": "direct_response",
+      "required_facts": [
+        "checkpoint"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nExplain what a checkpoint is in one sentence.\n<|assistant|>\n"
+    },
+    {
+      "id": "direct_plan",
+      "kind": "direct_response",
+      "required_facts": [
+        "login"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nGive me two short steps for testing a login form.\n<|assistant|>\n"
+    },
+    {
+      "id": "result_weather",
+      "kind": "tool_result_response",
+      "required_facts": [
+        "72",
+        "sunny"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Explain tool results to the user without calling the tool again.\n<|user|>\nWhat is the weather in Detroit?\n<|assistant|>\n<|tool|>\n{\"name\":\"weather\",\"arguments\":{\"location\":\"Detroit\"}}\n<|tool_result|>\n{\"temperature_f\":72,\"condition\":\"sunny\"}\n<|assistant|>\n"
+    },
+    {
+      "id": "result_calculator",
+      "kind": "tool_result_response",
+      "required_facts": [
+        "9716"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Explain tool results to the user without calling the tool again.\n<|user|>\nCalculate 347 multiplied by 28.\n<|assistant|>\n<|tool|>\n{\"name\":\"calculator\",\"arguments\":{\"expression\":\"347*28\"}}\n<|tool_result|>\n{\"result\":9716}\n<|assistant|>\n"
+    },
+    {
+      "id": "result_search",
+      "kind": "tool_result_response",
+      "required_facts": [
+        "validation checks passed"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Summarize supplied search results without searching again.\n<|user|>\nFind the project status.\n<|assistant|>\n<|tool|>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"project status\"}}\n<|tool_result|>\n{\"title\":\"Status\",\"summary\":\"All validation checks passed.\"}\n<|assistant|>\n"
+    },
+    {
+      "id": "result_service_status",
+      "kind": "tool_result_response",
+      "required_facts": [
+        "healthy",
+        "84"
+      ],
+      "prompt": "<|system|>\nYou are Ember. Explain tool results to the user without calling the tool again.\n<|user|>\nIs the service healthy?\n<|assistant|>\n<|tool|>\n{\"name\":\"service_status\",\"arguments\":{\"service\":\"gateway\"}}\n<|tool_result|>\n{\"status\":\"healthy\",\"latency_ms\":84}\n<|assistant|>\n"
+    }
+  ]
+}

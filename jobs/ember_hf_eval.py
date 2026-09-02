@@ -8,8 +8,10 @@
 # ///
 """Evaluate an Ember checkpoint with deterministic ClawAgent contract cases.
 
-The job is CPU-safe. It records a reproducible baseline for v0.0.7 and compares
-v0.0.8 against both absolute tool-use gates and that baseline before promotion.
+The job is CPU-safe. The historical v0.0.8 specification scores tool routing
+and response shape. The v0.0.10 specification additionally requires correct
+tool-argument values, answers that use supplied tool-result facts, and a clean
+stop at <|endoftext|>.
 """
 from __future__ import annotations
 
@@ -31,6 +33,8 @@ PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main
 PACKAGE_SHA256 = "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a289"
 EVAL_SPEC_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/config/ember_v0.0.8_eval.json"
 EVAL_SPEC_SHA256 = "e006aa0f7c50797e0466a87fa3f1e35a1f00a63baf1f5113cf6e574844079bd4"
+EVAL_SPEC_V010_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/config/ember_v0.0.10_eval.json"
+EVAL_SPEC_V010_SHA256 = "545bd49ea901b5ec60e8df017107dbc8f88b54fe5d7f1af929f7da3dc4ecf1e0"
 MODEL_NAME_PATTERN = re.compile(r"^ember-v\d+\.\d+\.\d+-t4$")
 SPECIAL_TOKENS = [
     "<|system|>",
@@ -40,6 +44,17 @@ SPECIAL_TOKENS = [
     "<|tool_result|>",
     "<|endoftext|>",
 ]
+CONVERSATION_TOKENS = ("<|system|>", "<|user|>")
+EVAL_SPEC_CATALOG = {
+    "v0.0.8": {
+        "url": EVAL_SPEC_URL,
+        "sha256": EVAL_SPEC_SHA256,
+    },
+    "v0.0.10": {
+        "url": EVAL_SPEC_V010_URL,
+        "sha256": EVAL_SPEC_V010_SHA256,
+    },
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -117,9 +132,91 @@ def tool_arguments(payload: dict):
     return None
 
 
+def normalize_score_text(value) -> str:
+    text = str(value).casefold()
+    for source, target in (("×", "*"), ("÷", "/"), ("−", "-")):
+        text = text.replace(source, target)
+    return re.sub(r"[\s,_]+", "", text)
+
+
+def argument_needles(expected_value) -> list[str]:
+    values = expected_value if isinstance(expected_value, list) else [expected_value]
+    return [needle for needle in (normalize_score_text(value) for value in values) if needle]
+
+
+def arguments_satisfy(actual, expected: dict | None) -> bool:
+    """Require each expected argument value or token list to appear in the tool call."""
+    if not expected:
+        return isinstance(actual, (dict, str)) and bool(actual)
+    if isinstance(actual, str):
+        parsed = extract_json_object(actual)
+        if parsed is not None:
+            actual = parsed
+        else:
+            blob = normalize_score_text(actual)
+            return all(
+                needle in blob
+                for expected_value in expected.values()
+                for needle in argument_needles(expected_value)
+            )
+    if not isinstance(actual, dict) or not actual:
+        return False
+    values_blob = normalize_score_text(" ".join(str(value) for value in actual.values()))
+    for expected_value in expected.values():
+        for needle in argument_needles(expected_value):
+            if needle not in values_blob:
+                return False
+    return True
+
+
+def facts_satisfy(completion: str, facts: list | None) -> bool:
+    if not facts:
+        return True
+    readable = visible_text(completion).casefold()
+    compact = normalize_score_text(readable)
+    for fact in facts:
+        needle = str(fact).casefold()
+        compact_needle = normalize_score_text(fact)
+        if needle in readable or compact_needle in compact:
+            continue
+        return False
+    return True
+
+
+def stop_contract(completion: str) -> dict:
+    """Reject leftover conversation after the first end-of-text marker."""
+    has_eot = "<|endoftext|>" in completion
+    after = completion.split("<|endoftext|>", 1)[1] if has_eot else ""
+    leftover = visible_text(after)
+    scan = after if has_eot else completion
+    extra_turns = any(token in scan for token in CONVERSATION_TOKENS)
+    return {
+        "endoftext_present": has_eot,
+        "post_endoftext_empty": leftover == "",
+        "no_extra_conversation": not extra_turns,
+        "clean_stop": leftover == "" and not extra_turns,
+    }
+
+
+def prepare_case(case: dict, spec: dict | None = None) -> dict:
+    scoring = (spec or {}).get("scoring") or {}
+    prepared = dict(case)
+    prepared["require_clean_stop"] = bool(
+        case.get("require_clean_stop", scoring.get("require_clean_stop", False))
+    )
+    prepared["require_endoftext"] = bool(
+        case.get("require_endoftext", scoring.get("require_endoftext", False))
+    )
+    return prepared
+
+
 def score_case(case: dict, completion: str) -> dict:
     kind = case["kind"]
     readable = visible_text(completion)
+    stop = stop_contract(completion)
+    stop_ok = (not bool(case.get("require_clean_stop")) or stop["clean_stop"]) and (
+        not bool(case.get("require_endoftext")) or stop["endoftext_present"]
+    )
     if kind == "tool_call":
         marker_present = "<|tool|>" in completion
         after_marker = completion.split("<|tool|>", 1)[1] if marker_present else completion
@@ -127,22 +224,30 @@ def score_case(case: dict, completion: str) -> dict:
         expected = case["expected_tool"]
         name_matches = bool(payload) and tool_name(payload) == expected
         arguments = tool_arguments(payload or {})
-        arguments_valid = isinstance(arguments, (dict, str)) and bool(arguments)
-        passed = marker_present and name_matches and arguments_valid
+        arguments_present = isinstance(arguments, (dict, str)) and bool(arguments)
+        expected_arguments = case.get("expected_arguments")
+        arguments_match = arguments_satisfy(arguments, expected_arguments)
+        passed = marker_present and name_matches and arguments_match and stop_ok
         return {
             "passed": passed,
             "marker_present": marker_present,
             "json_valid": payload is not None,
             "tool_name_matches": name_matches,
-            "arguments_present": arguments_valid,
+            "arguments_present": arguments_present,
+            "arguments_match": arguments_match,
+            **stop,
         }
     if kind in {"direct_response", "tool_result_response"}:
         no_extra_tool_call = "<|tool|>" not in completion
         nonempty = len(readable) >= 3
+        facts_present = facts_satisfy(completion, case.get("required_facts"))
+        passed = no_extra_tool_call and nonempty and facts_present and stop_ok
         return {
-            "passed": no_extra_tool_call and nonempty,
+            "passed": passed,
             "nonempty": nonempty,
             "no_extra_tool_call": no_extra_tool_call,
+            "facts_present": facts_present,
+            **stop,
         }
     raise ValueError(f"unsupported evaluation case kind: {kind}")
 
@@ -159,8 +264,28 @@ def aggregate_scores(results: list[dict]) -> dict:
         if not selected:
             raise RuntimeError(f"evaluation spec has no {kind} cases")
         metrics[metric_name] = sum(bool(row["score"]["passed"]) for row in selected) / len(selected)
+    metrics["clean_stop_rate"] = sum(
+        bool(row["score"].get("clean_stop", True)) for row in results
+    ) / len(results)
     metrics["all_generations_nonempty"] = all(len(visible_text(row["completion"])) >= 3 for row in results)
     return metrics
+
+
+def rescore_recorded_cases(spec: dict, recorded_cases: list[dict]) -> dict:
+    """Re-score stored completions with the current specification."""
+    spec_by_id = {case["id"]: case for case in spec["cases"]}
+    results = []
+    for row in recorded_cases:
+        case = spec_by_id.get(row["id"])
+        if case is None:
+            raise RuntimeError(f"recorded evaluation case {row.get('id')} is not in the current spec")
+        results.append({
+            "id": row["id"],
+            "kind": case["kind"],
+            "completion": row["completion"],
+            "score": score_case(prepare_case(case, spec), row["completion"]),
+        })
+    return aggregate_scores(results)
 
 
 def latest_checkpoint_path(files: list[str], suffix: str) -> str:
@@ -256,6 +381,7 @@ def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> 
     relative_improvement = (baseline_loss - candidate_loss) / baseline_loss
     candidate_metrics = candidate["metrics"]
     baseline_metrics = baseline["metrics"]
+    compare_rates = bool(thresholds.get("require_no_structural_regression_from_baseline", True))
     checks = {
         "validation_loss_improved": relative_improvement >= float(
             thresholds["minimum_relative_validation_loss_improvement"]
@@ -269,17 +395,26 @@ def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> 
         "absolute_tool_result_gate": candidate_metrics["tool_result_response_rate"] >= float(
             thresholds["minimum_tool_result_response_rate"]
         ),
-        "tool_call_non_regression": candidate_metrics["valid_tool_call_rate"] >= baseline_metrics[
-            "valid_tool_call_rate"
-        ],
-        "direct_response_non_regression": candidate_metrics["direct_response_rate"] >= baseline_metrics[
-            "direct_response_rate"
-        ],
-        "tool_result_non_regression": candidate_metrics["tool_result_response_rate"] >= baseline_metrics[
-            "tool_result_response_rate"
-        ],
         "technical_gate": bool(candidate["technical_pass"]),
     }
+    if "minimum_clean_stop_rate" in thresholds:
+        checks["absolute_clean_stop_gate"] = candidate_metrics.get("clean_stop_rate", 0.0) >= float(
+            thresholds["minimum_clean_stop_rate"]
+        )
+    if compare_rates:
+        checks["tool_call_non_regression"] = (
+            candidate_metrics["valid_tool_call_rate"] >= baseline_metrics["valid_tool_call_rate"]
+        )
+        checks["direct_response_non_regression"] = (
+            candidate_metrics["direct_response_rate"] >= baseline_metrics["direct_response_rate"]
+        )
+        checks["tool_result_non_regression"] = (
+            candidate_metrics["tool_result_response_rate"] >= baseline_metrics["tool_result_response_rate"]
+        )
+        if "minimum_clean_stop_rate" in thresholds:
+            checks["clean_stop_non_regression"] = candidate_metrics.get(
+                "clean_stop_rate", 0.0
+            ) >= baseline_metrics.get("clean_stop_rate", 0.0)
     return {
         "baseline_fixed_validation_loss": baseline_loss,
         "candidate_fixed_validation_loss": candidate_loss,
@@ -293,9 +428,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate a private Ember model repository")
     parser.add_argument("--model-name", required=True)
     parser.add_argument("--label", required=True)
+    parser.add_argument("--eval-spec", choices=sorted(EVAL_SPEC_CATALOG), default="v0.0.8")
     args = parser.parse_args()
     if not MODEL_NAME_PATTERN.fullmatch(args.model_name):
         raise ValueError("model name must look like ember-v0.0.8-t4")
+    selected_spec = EVAL_SPEC_CATALOG[args.eval_spec]
 
     token = os.environ.get("HF_TOKEN", "").strip()
     if not token:
@@ -312,7 +449,11 @@ def main() -> None:
     with tempfile.TemporaryDirectory(prefix="ember-eval-") as temporary:
         work = Path(temporary)
         archive = download_verified(PACKAGE_URL, work / "ember.zip", PACKAGE_SHA256)
-        spec_path = download_verified(EVAL_SPEC_URL, work / "eval.json", EVAL_SPEC_SHA256)
+        spec_path = download_verified(
+            selected_spec["url"],
+            work / "eval.json",
+            selected_spec["sha256"],
+        )
         spec = json.loads(spec_path.read_text(encoding="utf-8"))
         with zipfile.ZipFile(archive) as package:
             package.extractall(work / "src")
@@ -370,11 +511,12 @@ def main() -> None:
         case_results = []
         for case in spec["cases"]:
             completion = generate_completion(model, tokenizer, torch, case["prompt"], spec["generation"])
+            scored_case = prepare_case(case, spec)
             case_results.append({
                 "id": case["id"],
                 "kind": case["kind"],
                 "completion": completion,
-                "score": score_case(case, completion),
+                "score": score_case(scored_case, completion),
             })
         metrics = aggregate_scores(case_results)
         metrics["fixed_validation_loss"] = validation_loss
@@ -422,7 +564,8 @@ def main() -> None:
             "int4_smoke": {"passed": int4_smoke_pass, "completion": int4_completion},
             "technical_pass": technical_pass,
             "cases": case_results,
-            "evaluation_spec_sha256": EVAL_SPEC_SHA256,
+            "evaluation_spec": args.eval_spec,
+            "evaluation_spec_sha256": selected_spec["sha256"],
             "package_sha256": PACKAGE_SHA256,
         }
 
@@ -437,6 +580,19 @@ def main() -> None:
                     local_dir=work / "baseline",
                 )
                 baseline = json.loads(Path(baseline_path).read_text(encoding="utf-8"))
+                if bool(spec["promotion"].get("rescore_baseline_cases")):
+                    if not baseline.get("cases"):
+                        raise RuntimeError("baseline cases unavailable for semantic rescoring")
+                    rescored = rescore_recorded_cases(spec, baseline["cases"])
+                    baseline = {
+                        **baseline,
+                        "metrics": {
+                            **baseline.get("metrics", {}),
+                            **rescored,
+                            "fixed_validation_loss": baseline["metrics"]["fixed_validation_loss"],
+                        },
+                    }
+                    result["baseline_rescored"] = True
                 result["promotion"] = compare_for_promotion(result, baseline, spec["promotion"])
             except Exception as exc:
                 result["promotion"] = {

@@ -45,22 +45,36 @@ The corpus workflow never launches GPU training.
 
 ## Current milestone result
 
-The v0.0.8 3,000-step run and its CPU evaluation are complete. Training and
-technical checks passed, fixed validation loss improved by 29%, and INT4 loaded
-successfully. Promotion remains blocked because the held-out evaluation scored
-0/4 correct tool names and 1/4 direct responses without an unnecessary tool
-call. v0.0.7 therefore remains authoritative.
+The v0.0.9 tool-routing SFT is the accepted checkpoint for the next Ember
+development stage. Training and the original structural promotion checks all
+passed, and fixed validation loss improved 23.54% versus the v0.0.7 baseline
+(3.4088 vs 4.4580). Ember now chooses weather, calculator, web_search, and
+get_time at the right times.
+
+That structural gate is **not** a production claim. The v0.0.8 scorer credited
+the correct tool name and the presence of arguments; it did not check argument
+values, tool-result facts, or a clean stop at `<|endoftext|>`. Held-out
+generations that called `weather(Austin)` for Detroit, searched for SQLite
+instead of Python, or invented numbers after a correct calculator result could
+still score 100%. Ember is therefore not ClawAgent's default model yet.
 
 ## Next milestone
 
-Ember v0.0.9 is a focused completion-only supervised fine-tune initialized
-from the evaluated v0.0.8 checkpoint. Its deterministic 1,152-example training
-set and 144-example validation set are balanced across tool calls, direct
-responses, and tool-result explanations. The official 12 promotion prompts are
-excluded. The run uses 600 T4 steps, durable resume checkpoints, Trackio, and
-full plus INT4 exports before a separate CPU evaluation.
+Ember v0.0.10 is a focused completion-only supervised fine-tune initialized
+from the accepted v0.0.9 checkpoint. It targets three remaining failures:
 
-The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
+- copy the requested tool-argument values from the user prompt;
+- answer from the supplied tool-result facts; and
+- stop generation at `<|endoftext|>`.
+
+The official 12 promotion prompts stay held out. The new
+`config/ember_v0.0.10_eval.json` specification uses those same prompts, but a
+`weather(Austin)` answer to a Detroit request is now an automatic failure. The
+run uses 400 T4 steps, durable resume checkpoints, Trackio, and full plus INT4
+exports before a separate CPU evaluation that rescores the stored v0.0.9
+completions with the stricter rubric.
+
+The **Ember Hugging Face Jobs** workflow exposes these manual milestone modes:
 
 - `eval-v007` records the CPU baseline;
 - `train-v008` launches the cost-gated `t4-small` run only after explicit
@@ -69,11 +83,17 @@ The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
 - `preflight-v009` validates the SFT data, tokenizer boundaries, checkpoint, and
   masked loss on CPU;
 - `sft-v009` launches the explicitly approved tool-routing SFT; and
-- `eval-v009` evaluates that new candidate with the unchanged held-out gate.
+- `eval-v009` evaluates that candidate with the original structural held-out
+  gate.
+- `preflight-v010` validates the semantic-fidelity SFT data and masked loss on
+  CPU;
+- `sft-v010` launches the explicitly approved argument/fact SFT; and
+- `eval-v010` evaluates the new candidate with the stricter semantic gate.
 
 Merging these changes does not launch a job. Follow
-[`docs/ember-v0.0.8-runbook.md`](docs/ember-v0.0.8-runbook.md) for the execution
-order, recovery rules, private artifact locations, and promotion gates. Keep
-v0.0.7 authoritative until the candidate reports `promotion_eligible: true`;
-ClawAgent integration is deliberately deferred until a candidate reports
-`promotion_eligible: true`.
+[`docs/ember-v0.0.10-runbook.md`](docs/ember-v0.0.10-runbook.md) for the
+execution order, recovery rules, private artifact locations, and promotion
+gates. Keep v0.0.9 as the experimental development checkpoint until
+`evaluations/latest.json` reports `promotion_eligible: true` under the v0.0.10
+specification; ClawAgent integration stays deferred until that stricter gate
+passes.
