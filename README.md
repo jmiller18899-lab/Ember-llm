@@ -53,12 +53,24 @@ call. v0.0.7 therefore remains authoritative.
 
 ## Next milestone
 
-Ember v0.0.9 is a focused completion-only supervised fine-tune initialized
-from the evaluated v0.0.8 checkpoint. Its deterministic 1,152-example training
-set and 144-example validation set are balanced across tool calls, direct
-responses, and tool-result explanations. The official 12 promotion prompts are
-excluded. The run uses 600 T4 steps, durable resume checkpoints, Trackio, and
-full plus INT4 exports before a separate CPU evaluation.
+v0.0.9 remains the last accepted experimental checkpoint. The later copy
+canaries on Hugging Face failed their internal smoke gates:
+
+- v0.0.11 (`Jmiller18899/ember-v0.0.11-t4`) learned EOS stopping and tool
+  JSON shape but memorized a closed city/tech pool (`Ann Arbor`, `Boston`).
+- v0.0.12 (`Jmiller18899/ember-v0.0.12-t4`, run
+  `ember-agent-v0.0.12-copy-canary-20260902T220906Z`) initialized from that
+  failed checkpoint, trained 40 T4 steps, and ended `failed_internal_smoke`
+  with tool/direct/result rates of 0. The model kept valid `<|tool|>` JSON
+  but substituted values (`Rapidton-7669` → `Rapids-3588`,
+  `Maplewood-5253` → `Seattle`). Direct answers collapsed under 8x semantic
+  weight.
+
+Ember v0.0.13 is a short unique-copy canary initialized from the accepted
+v0.0.9 checkpoint, not from v0.0.11 or v0.0.12. Each example has one short
+copy target, semantic weight 3.0, and 160 T4 steps. The leftover
+`.github/ember-hf.trigger` marker is reset to `bootstrap`, so a merge may
+re-run the CPU persistence check. It does not launch GPU training.
 
 The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
 
@@ -68,10 +80,12 @@ The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
 - `eval-v008` evaluates the candidate on CPU and records the promotion result.
 - `preflight-v009` validates the SFT data, tokenizer boundaries, checkpoint, and
   masked loss on CPU;
-- `sft-v009` launches the explicitly approved tool-routing SFT; and
-- `eval-v009` evaluates that new candidate with the unchanged held-out gate.
+- `sft-v009` launches the explicitly approved tool-routing SFT;
+- `eval-v009` evaluates that new candidate with the unchanged held-out gate;
+- `preflight-v013` validates the short-copy canary on CPU from v0.0.9; and
+- `sft-v013` launches the explicitly approved short-copy T4 canary.
 
-Merging these changes does not launch a job. Follow
+Merging these changes does not launch GPU training. Follow
 [`docs/ember-v0.0.8-runbook.md`](docs/ember-v0.0.8-runbook.md) for the execution
 order, recovery rules, private artifact locations, and promotion gates. Keep
 v0.0.7 authoritative until the candidate reports `promotion_eligible: true`;
