@@ -1,0 +1,67 @@
+name: Ember v0.0.12 one-shot T4 canary
+
+on:
+  pull_request:
+    types: [opened]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  launch-v012-canary:
+    if: github.head_ref == 'training/ember-v0.0.12-launch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_REPO_ID: Jmiller18899/ember-v0.0.12-t4
+      HF_JOB_NAME: ember-v0-0-12-copy-canary
+
+    steps:
+      - name: Checkout launch branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Hugging Face CLI
+        run: pip install 'huggingface-hub>=1.4'
+
+      - name: Verify write access and target repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          token = os.environ['HF_TOKEN']
+          repo_id = os.environ['HF_REPO_ID']
+          api = HfApi(token=token)
+          api.create_repo(repo_id=repo_id, repo_type='model', private=True, exist_ok=True)
+          print(f'HF_WRITE_OK repo={repo_id}')
+          PY
+
+      - name: Refuse duplicate active canary
+        shell: bash
+        run: |
+          set -euo pipefail
+          jobs="$(hf jobs ps 2>/dev/null || true)"
+          printf '%s\n' "$jobs"
+          if printf '%s\n' "$jobs" | grep -F "$HF_JOB_NAME" | grep -Eqi 'pending|running|queued|starting'; then
+            echo "Active job named $HF_JOB_NAME already exists; refusing duplicate launch."
+            exit 1
+          fi
+
+      - name: Launch 40-step T4 canary
+        shell: bash
+        run: |
+          set -euo pipefail
+          hf jobs uv run --detach \
+            --name "$HF_JOB_NAME" \
+            --flavor t4-small \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v012_release.py
