@@ -11,13 +11,14 @@
 The original weighted trainer correctly refuses to train if a declared focus
 term cannot be found in the completion. Some direct-title examples preserve the
 semantic term while changing presentation case (for example API -> Api). This
-launcher keeps the fail-closed behavior while allowing only deterministic case
-forms of the declared term to map to the actual target tokens.
+launcher aligns a focus label to the exact casing already present in the target,
+then keeps the original fail-closed token-span validation.
 """
 from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import re
 import tempfile
 import urllib.request
 
@@ -37,22 +38,28 @@ def load_trainer(path: Path):
     return mod
 
 
+def align_focus_terms(rows):
+    """Align labels only when the same text exists with different casing."""
+    for row in rows:
+        completion = str(row["completion"])
+        aligned = []
+        for term in row["focus_terms"]:
+            raw = str(term)
+            match = re.search(re.escape(raw), completion, flags=re.IGNORECASE)
+            aligned.append(completion[match.start():match.end()] if match else raw)
+        row["focus_terms"] = aligned
+    return rows
+
+
 def fixed_term_sequences(tokenizer, term):
     raw = str(term)
-    forms = []
-    for value in (raw, raw.title(), raw.capitalize(), raw.lower(), raw.upper()):
-        if value not in forms:
-            forms.append(value)
-
     seqs = []
-    for form in forms:
-        for value in (form, " " + form):
-            ids = list(tokenizer.encode(value))
-            if ids and ids not in seqs:
-                seqs.append(ids)
-            # SentencePiece-style tokenizers may add a leading boundary token.
-            if len(ids) > 1 and ids[1:] not in seqs:
-                seqs.append(ids[1:])
+    for value in (raw, " " + raw):
+        ids = list(tokenizer.encode(value))
+        if ids and ids not in seqs:
+            seqs.append(ids)
+        if len(ids) > 1 and ids[1:] not in seqs:
+            seqs.append(ids[1:])
     return sorted(seqs, key=len, reverse=True)
 
 
@@ -61,6 +68,17 @@ def main():
         trainer_path = Path(td) / "ember_hf_sft_v011.py"
         urllib.request.urlretrieve(TRAINER_URL, trainer_path)
         trainer = load_trainer(trainer_path)
+
+        original_load_module = trainer.load_module
+        def fixed_load_module(path):
+            data = original_load_module(path)
+            original_build_examples = data.build_examples
+            def build_examples(split, total):
+                return align_focus_terms(original_build_examples(split, total))
+            data.build_examples = build_examples
+            return data
+
+        trainer.load_module = fixed_load_module
         trainer.term_sequences = fixed_term_sequences
         trainer.main()
 
