@@ -11,9 +11,9 @@
 The original weighted trainer correctly refuses to train if a declared focus
 term cannot be found in the completion. Some direct-title examples preserve the
 semantic term while changing presentation case (for example API -> Api), and
-SentencePiece tokenization can differ at a completion/newline boundary. This
-launcher aligns case to the target and derives token needles in realistic local
-contexts while retaining the original fail-closed semantic validation.
+SentencePiece tokenization can differ at completion, JSON, numeric, and
+punctuation boundaries. This launcher aligns case to the target and derives
+context-aware token needles while retaining fail-closed semantic validation.
 """
 from __future__ import annotations
 
@@ -71,17 +71,17 @@ def fixed_term_sequences(tokenizer, term):
         if len(ids) > 1 and ids[1:] not in seqs:
             seqs.append(ids[1:])
 
-    # Standalone forms retained for normal in-text matches.
     add(tokenizer.encode(raw))
     add(tokenizer.encode(" " + raw))
 
-    # Derive suffix tokens using realistic preceding contexts. This handles
-    # SentencePiece boundary changes at assistant newlines and JSON values.
-    for prefix in ("\n", " ", '"', ':', '":', '":"'):
+    left_contexts = ("", "\n", " ", '"', ':', '":', '":"')
+    right_contexts = ("", ".", ",", '"', "}", " ", "\n", "°", " ms")
+    for prefix in left_contexts:
         before = list(tokenizer.encode(prefix))
-        combined = list(tokenizer.encode(prefix + raw))
-        cut = _lcp_len(before, combined)
-        add(combined[cut:])
+        for suffix in right_contexts:
+            combined = list(tokenizer.encode(prefix + raw + suffix))
+            cut = _lcp_len(before, combined)
+            add(combined[cut:])
 
     return sorted(seqs, key=len, reverse=True)
 
