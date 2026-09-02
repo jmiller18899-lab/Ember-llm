@@ -66,10 +66,19 @@ canaries on Hugging Face failed their internal smoke gates:
   `Maplewood-5253` → `Seattle`). Direct answers collapsed under 8x semantic
   weight.
 
-Ember v0.0.13 is a short unique-copy canary initialized from the accepted
-v0.0.9 checkpoint, not from v0.0.11 or v0.0.12. Each example has one short
-copy target, semantic weight 3.0, and 160 T4 steps. The leftover
-`.github/ember-hf.trigger` marker is reset to `bootstrap`, so a merge may
+Ember v0.0.13 (`Jmiller18899/ember-v0.0.13-t4`, job
+`Jmiller18899/6a98a17f21c5aa7c8364ede0`) initialized from v0.0.9, trained
+160 T4 steps, and also ended `failed_internal_smoke`. Validation loss fell
+3.085 → 1.111 and clean EOS stopping was 1.0, but every sampled case missed
+the exact identifier (`WX-200239` → `WX-2009`, `REL-200323` → `REL-200309`).
+That recipe used shared `TAG-NNNNNN` codes, some calculator format
+conversions, and only about one training epoch.
+
+Ember v0.0.14 is a literal-copy retry from the accepted v0.0.9 checkpoint.
+Each example repeats one short 4-character code (or a verbatim expression)
+in the prompt, completions stay short, semantic weight is 5.0, and the
+run is 480 T4 steps (at least three passes). The leftover
+`.github/ember-hf.trigger` marker stays `bootstrap`, so a merge may
 re-run the CPU persistence check. It does not launch GPU training.
 
 The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
@@ -82,8 +91,10 @@ The **Ember Hugging Face Jobs** workflow exposes three manual milestone modes:
   masked loss on CPU;
 - `sft-v009` launches the explicitly approved tool-routing SFT;
 - `eval-v009` evaluates that new candidate with the unchanged held-out gate;
-- `preflight-v013` validates the short-copy canary on CPU from v0.0.9; and
-- `sft-v013` launches the explicitly approved short-copy T4 canary.
+- `preflight-v013` validates the short-copy canary on CPU from v0.0.9;
+- `sft-v013` launches the explicitly approved short-copy T4 canary;
+- `preflight-v014` validates the literal-copy canary on CPU from v0.0.9; and
+- `sft-v014` launches the explicitly approved literal-copy T4 canary.
 
 Merging these changes does not launch GPU training. Follow
 [`docs/ember-v0.0.8-runbook.md`](docs/ember-v0.0.8-runbook.md) for the execution

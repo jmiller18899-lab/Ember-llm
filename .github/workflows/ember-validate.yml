@@ -68,6 +68,7 @@ jobs:
           python -m json.tool config/ember_agent_tool_sft_v0.0.9.json >/dev/null
           python -m json.tool config/ember_v0.0.8_eval.json >/dev/null
           python -m json.tool config/ember_agent_copy_canary_v0.0.13.json >/dev/null
+          python -m json.tool config/ember_agent_copy_canary_v0.0.14.json >/dev/null
           python -m json.tool .cursor/environment.json >/dev/null
           bash -n .cursor/install.sh
 
