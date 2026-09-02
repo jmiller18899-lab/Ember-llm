@@ -6,14 +6,14 @@
 #   "torch>=2.4",
 # ]
 # ///
-"""Ember v0.0.11 corrective SFT launcher with robust semantic-span matching.
+"""Ember v0.0.11 corrective SFT launcher with robust semantic-span mapping.
 
-The original weighted trainer correctly refuses to train if a declared focus
-term cannot be found in the completion. Some direct-title examples preserve the
-semantic term while changing presentation case (for example API -> Api), and
-SentencePiece tokenization can differ at completion, JSON, numeric, and
-punctuation boundaries. This launcher aligns case to the target and derives
-context-aware token needles while retaining fail-closed semantic validation.
+The base trainer fails closed when a semantic focus term cannot be matched to
+its target token IDs. SentencePiece can tokenize the same text differently at
+completion, JSON, and punctuation boundaries, so standalone token needles are
+not reliable. This launcher first locates each focus term in the decoded actual
+completion, then maps that character span back onto the already-tokenized
+completion. No missing semantic label is silently ignored.
 """
 from __future__ import annotations
 
@@ -52,38 +52,92 @@ def align_focus_terms(rows):
     return rows
 
 
-def _lcp_len(a, b):
-    n = min(len(a), len(b))
-    i = 0
-    while i < n and a[i] == b[i]:
-        i += 1
-    return i
+def _decoded_prefix_lengths(tokenizer, ids):
+    lengths = [0]
+    for i in range(1, len(ids) + 1):
+        lengths.append(len(tokenizer.decode(ids[:i])))
+    return lengths
 
 
-def fixed_term_sequences(tokenizer, term):
-    raw = str(term)
-    seqs = []
+def fixed_encode_row(tokenizer, row, block_size, semantic_weight, eos_weight, torch):
+    prompt_ids = list(tokenizer.encode(row["prompt"]))
+    full_ids = list(tokenizer.encode(row["prompt"] + row["completion"]))
+    if full_ids[:len(prompt_ids)] != prompt_ids:
+        raise RuntimeError(f"tokenization changed at completion boundary: {row['id']}")
+    if len(full_ids) < 2 or len(full_ids) > block_size + 1:
+        raise RuntimeError(f"sequence length out of range: {row['id']}={len(full_ids)}")
 
-    def add(ids):
-        ids = list(ids)
-        if ids and ids not in seqs:
-            seqs.append(ids)
-        if len(ids) > 1 and ids[1:] not in seqs:
-            seqs.append(ids[1:])
+    eot = list(tokenizer.encode("<|endoftext|>"))
+    eot_id = int(eot[-1])
+    x = torch.full((block_size,), eot_id, dtype=torch.long)
+    y = torch.full((block_size,), -100, dtype=torch.long)
+    w = torch.zeros((block_size,), dtype=torch.float32)
+    seq_x = torch.tensor(full_ids[:-1], dtype=torch.long)
+    seq_y = torch.tensor(full_ids[1:], dtype=torch.long)
+    x[:len(seq_x)] = seq_x
+    first_target = max(0, len(prompt_ids) - 1)
+    y[first_target:len(seq_y)] = seq_y[first_target:]
+    w[first_target:len(seq_y)] = 1.0
 
-    add(tokenizer.encode(raw))
-    add(tokenizer.encode(" " + raw))
+    completion_ids = full_ids[len(prompt_ids):]
+    decoded_completion = tokenizer.decode(completion_ids)
+    prefix_lengths = _decoded_prefix_lengths(tokenizer, completion_ids)
+    semantic_positions = set()
+    missing = []
 
-    left_contexts = ("", "\n", " ", '"', ':', '":', '":"')
-    right_contexts = ("", ".", ",", '"', "}", " ", "\n", "°", " ms")
-    for prefix in left_contexts:
-        before = list(tokenizer.encode(prefix))
-        for suffix in right_contexts:
-            combined = list(tokenizer.encode(prefix + raw + suffix))
-            cut = _lcp_len(before, combined)
-            add(combined[cut:])
+    for term in row["focus_terms"]:
+        raw = str(term)
+        matches = list(re.finditer(re.escape(raw), decoded_completion))
+        if not matches:
+            matches = list(re.finditer(re.escape(raw), decoded_completion, flags=re.IGNORECASE))
+        if not matches:
+            missing.append(raw)
+            continue
 
-    return sorted(seqs, key=len, reverse=True)
+        for match in matches:
+            char_start, char_end = match.span()
+            token_start = None
+            token_end = None
+            for i in range(len(completion_ids)):
+                left = prefix_lengths[i]
+                right = prefix_lengths[i + 1]
+                if token_start is None and right > char_start:
+                    token_start = i
+                if token_start is not None and right >= char_end:
+                    token_end = i + 1
+                    break
+            if token_start is None:
+                missing.append(raw)
+                continue
+            if token_end is None:
+                token_end = len(completion_ids)
+            for comp_pos in range(token_start, token_end):
+                token_pos = len(prompt_ids) + comp_pos
+                target_pos = token_pos - 1
+                if first_target <= target_pos < len(seq_y):
+                    semantic_positions.add(target_pos)
+
+    if missing:
+        raise RuntimeError(f"semantic text span not found: {row['id']} {sorted(set(missing))}")
+    if not semantic_positions:
+        raise RuntimeError(f"semantic token span empty after text mapping: {row['id']}")
+    for pos in semantic_positions:
+        w[pos] = max(float(w[pos]), float(semantic_weight))
+
+    eos_positions = 0
+    for token_pos in range(len(prompt_ids), len(full_ids)):
+        if int(full_ids[token_pos]) == eot_id:
+            target_pos = token_pos - 1
+            if first_target <= target_pos < len(seq_y):
+                w[target_pos] = max(float(w[target_pos]), float(eos_weight))
+                eos_positions += 1
+    if eos_positions < 1:
+        raise RuntimeError(f"no trainable EOS target: {row['id']}")
+
+    return {
+        "x": x, "y": y, "w": w, "row": row,
+        "semantic_positions": len(semantic_positions),
+    }
 
 
 def main():
@@ -102,7 +156,7 @@ def main():
             return data
 
         trainer.load_module = fixed_load_module
-        trainer.term_sequences = fixed_term_sequences
+        trainer.encode_row = fixed_encode_row
         trainer.main()
 
 
