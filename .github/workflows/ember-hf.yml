@@ -18,6 +18,10 @@ on:
           - preflight-v009
           - sft-v009
           - eval-v009
+          - preflight-v013
+          - sft-v013
+          - preflight-v014
+          - sft-v014
   push:
     branches:
       - main
@@ -51,7 +55,7 @@ jobs:
             mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-hf.trigger)"
           fi
           case "$mode" in
-            bootstrap|corpus|train|eval-v007|train-v008|eval-v008|preflight-v009|sft-v009|eval-v009) ;;
+            bootstrap|corpus|train|eval-v007|train-v008|eval-v008|preflight-v009|sft-v009|eval-v009|preflight-v013|sft-v013|preflight-v014|sft-v014) ;;
             *) echo "::error::Unsupported Ember HF mode: $mode"; exit 1 ;;
           esac
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
@@ -168,10 +172,60 @@ jobs:
             --model-name ember-v0.0.9-t4 \
             --label candidate-v0.0.9
 
+      - name: Submit v0.0.13 short-copy CPU preflight
+        if: ${{ steps.request.outputs.mode == 'preflight-v013' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-13-copy-preflight \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v013.py -- \
+            --preflight-only
+
+      - name: Submit explicitly approved v0.0.13 short-copy canary
+        if: ${{ steps.request.outputs.mode == 'sft-v013' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-13-short-copy \
+            --flavor t4-small \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v013.py
+
+      - name: Submit v0.0.14 literal-copy CPU preflight
+        if: ${{ steps.request.outputs.mode == 'preflight-v014' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-14-copy-preflight \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v014.py -- \
+            --preflight-only
+
+      - name: Submit explicitly approved v0.0.14 literal-copy canary
+        if: ${{ steps.request.outputs.mode == 'sft-v014' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-14-literal-copy \
+            --flavor t4-small \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v014.py
+
       - name: Confirm launcher safety gate
         run: |
           echo "Ember HF launcher completed in ${{ steps.request.outputs.mode }} mode."
           case "${{ steps.request.outputs.mode }}" in
-            train|train-v008|sft-v009) echo "An explicitly selected paid GPU mode was launched." ;;
+            train|train-v008|sft-v009|sft-v013|sft-v014) echo "An explicitly selected paid GPU mode was launched." ;;
             *) echo "GPU training was NOT launched." ;;
           esac
