@@ -18,6 +18,9 @@ on:
           - preflight-v009
           - sft-v009
           - eval-v009
+          - preflight-v010
+          - sft-v010
+          - eval-v010
   push:
     branches:
       - main
@@ -51,7 +54,7 @@ jobs:
             mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-hf.trigger)"
           fi
           case "$mode" in
-            bootstrap|corpus|train|eval-v007|train-v008|eval-v008|preflight-v009|sft-v009|eval-v009) ;;
+            bootstrap|corpus|train|eval-v007|train-v008|eval-v008|preflight-v009|sft-v009|eval-v009|preflight-v010|sft-v010|eval-v010) ;;
             *) echo "::error::Unsupported Ember HF mode: $mode"; exit 1 ;;
           esac
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
@@ -168,10 +171,50 @@ jobs:
             --model-name ember-v0.0.9-t4 \
             --label candidate-v0.0.9
 
+      - name: Submit v0.0.10 SFT CPU preflight
+        if: ${{ steps.request.outputs.mode == 'preflight-v010' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-10-sft-preflight \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v010.py -- \
+            --preflight-only
+
+      - name: Submit explicitly approved v0.0.10 semantic-fidelity SFT
+        if: ${{ steps.request.outputs.mode == 'sft-v010' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-10-semantic-sft \
+            --flavor t4-small \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v010.py
+
+      - name: Submit v0.0.10 CPU candidate evaluation
+        if: ${{ steps.request.outputs.mode == 'eval-v010' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-10-candidate-eval \
+            --flavor cpu-upgrade \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_eval.py -- \
+            --model-name ember-v0.0.10-t4 \
+            --label candidate-v0.0.10 \
+            --eval-spec v0.0.10
+
       - name: Confirm launcher safety gate
         run: |
           echo "Ember HF launcher completed in ${{ steps.request.outputs.mode }} mode."
           case "${{ steps.request.outputs.mode }}" in
-            train|train-v008|sft-v009) echo "An explicitly selected paid GPU mode was launched." ;;
+            train|train-v008|sft-v009|sft-v010) echo "An explicitly selected paid GPU mode was launched." ;;
             *) echo "GPU training was NOT launched." ;;
           esac

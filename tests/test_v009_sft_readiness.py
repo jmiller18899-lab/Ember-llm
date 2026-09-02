@@ -182,7 +182,7 @@ def test_workflow_exposes_manual_sft_and_cpu_eval_without_default_gpu_launch():
     assert "--name ember-v0-0-9-tool-sft" in workflow
     assert "--flavor t4-small" in workflow
     mode = marker.splitlines()[0].split(":", 1)[1].strip()
-    assert mode not in {"train", "train-v008", "sft-v009"}
+    assert mode not in {"train", "train-v008", "sft-v009", "sft-v010"}
 
 
 def test_no_hugging_face_token_is_committed_for_v009():

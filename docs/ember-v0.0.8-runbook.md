@@ -47,6 +47,10 @@ operational estimate, not a billing quote.
    `promotion_eligible: true`. ClawAgent integration is a separate, later
    change.
 
+v0.0.9 later passed this structural gate and is the accepted experimental
+checkpoint for v0.0.10. It is still not ClawAgent's default model. The next
+gate is documented in [`docs/ember-v0.0.10-runbook.md`](ember-v0.0.10-runbook.md).
+
 ## Evaluation and promotion gates
 
 Both versions run the same 12 held-out deterministic prompts: four tool-call

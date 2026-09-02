@@ -191,7 +191,7 @@ def test_paid_long_run_is_manual_only_and_current_marker_is_cpu_safe():
     assert "--flavor t4-small" in workflow
     assert "--timeout 3h" in workflow
     mode = marker.splitlines()[0].split(":", 1)[1].strip()
-    assert mode not in {"train", "train-v008", "sft-v009"}
+    assert mode not in {"train", "train-v008", "sft-v009", "sft-v010"}
 
 
 def test_paid_run_state_lock_rejects_live_and_completed_runs():
