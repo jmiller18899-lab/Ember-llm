@@ -72,22 +72,27 @@ failure.
 
 ## Evaluation and promotion gates
 
+v0.0.10 is testing whether Ember can learn the information inside the agent
+structure that v0.0.9 already demonstrated. A lower loss is not enough.
+
 Both v0.0.9 (rescored) and v0.0.10 run the same 12 held-out deterministic
 prompts: four tool-call requests, four direct responses, and four responses
 to supplied tool results. Generation uses seed 1337 and greedy decoding
-(`top_k: 1`). The candidate must:
+(`top_k: 1`). Promotion requires:
 
-- improve loss by at least 2% on the same 128 evenly spaced validation-corpus
-  sequences used for earlier versions;
-- produce valid marked JSON tool calls with the requested argument values for
-  at least 25% of tool cases;
-- answer at least 75% of direct-response cases without an unnecessary tool
-  call and with the required topical facts;
-- answer at least 75% of tool-result cases using the supplied facts and
-  without recursively calling a tool;
-- stop cleanly at `<|endoftext|>` for at least 50% of all cases;
-- avoid regression against the rescored v0.0.9 semantic rates; and
-- load and generate non-empty output from the INT4 checkpoint.
+- tool selection stays essentially perfect: at least 3/4 held-out tool names
+  correct, with no regression against rescored v0.0.9 routing;
+- tool-argument accuracy rises dramatically: at least 2/4 argument sets
+  match the request (v0.0.9 rescored at 0/4);
+- tool-result grounding is reliable: at least 3/4 answers use the supplied
+  facts and do not call another tool;
+- no extra invented dialogue after `<|endoftext|>`: at least 9/12 cases stop
+  cleanly;
+- no material regression in direct responses (absolute floor 3/4, and no drop
+  versus rescored v0.0.9);
+- fixed held-out validation loss does not regress more than 5% versus
+  v0.0.9; a large loss improvement without the behavior gates still fails; and
+- INT4 still loads and generates non-empty output.
 
 These are minimum promotion gates, not a claim that the model is production
 ready.

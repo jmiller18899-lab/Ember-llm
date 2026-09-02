@@ -69,10 +69,14 @@ from the accepted v0.0.9 checkpoint. It targets three remaining failures:
 
 The official 12 promotion prompts stay held out. The new
 `config/ember_v0.0.10_eval.json` specification uses those same prompts, but a
-`weather(Austin)` answer to a Detroit request is now an automatic failure. The
-run uses 400 T4 steps, durable resume checkpoints, Trackio, and full plus INT4
-exports before a separate CPU evaluation that rescores the stored v0.0.9
-completions with the stricter rubric.
+`weather(Austin)` answer to a Detroit request is now an automatic failure.
+Promotion is not granted for a loss drop alone. The candidate must keep tool
+selection essentially perfect, raise argument accuracy dramatically, ground
+tool-result answers, stop at `<|endoftext|>`, avoid direct-response
+regression, keep held-out loss from regressing more than 5%, and still pass
+INT4. The run uses 400 T4 steps, durable resume checkpoints, Trackio, and
+full plus INT4 exports before a separate CPU evaluation that rescores the
+stored v0.0.9 completions with that rubric.
 
 The **Ember Hugging Face Jobs** workflow exposes these manual milestone modes:
 

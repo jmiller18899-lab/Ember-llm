@@ -34,7 +34,7 @@ PACKAGE_SHA256 = "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a2
 EVAL_SPEC_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/config/ember_v0.0.8_eval.json"
 EVAL_SPEC_SHA256 = "e006aa0f7c50797e0466a87fa3f1e35a1f00a63baf1f5113cf6e574844079bd4"
 EVAL_SPEC_V010_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/config/ember_v0.0.10_eval.json"
-EVAL_SPEC_V010_SHA256 = "545bd49ea901b5ec60e8df017107dbc8f88b54fe5d7f1af929f7da3dc4ecf1e0"
+EVAL_SPEC_V010_SHA256 = "1cc53d7bfcacd812fc6273de7879c1cd36b898322bd7922c7c32e69eb1dd324d"
 MODEL_NAME_PATTERN = re.compile(r"^ember-v\d+\.\d+\.\d+-t4$")
 SPECIAL_TOKENS = [
     "<|system|>",
@@ -264,6 +264,13 @@ def aggregate_scores(results: list[dict]) -> dict:
         if not selected:
             raise RuntimeError(f"evaluation spec has no {kind} cases")
         metrics[metric_name] = sum(bool(row["score"]["passed"]) for row in selected) / len(selected)
+    tool_rows = [row for row in results if row["kind"] == "tool_call"]
+    metrics["tool_name_rate"] = sum(
+        bool(row["score"].get("tool_name_matches")) for row in tool_rows
+    ) / len(tool_rows)
+    metrics["tool_argument_rate"] = sum(
+        bool(row["score"].get("arguments_match")) for row in tool_rows
+    ) / len(tool_rows)
     metrics["clean_stop_rate"] = sum(
         bool(row["score"].get("clean_stop", True)) for row in results
     ) / len(results)
@@ -379,13 +386,11 @@ def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> 
     baseline_loss = float(baseline["metrics"]["fixed_validation_loss"])
     candidate_loss = float(candidate["metrics"]["fixed_validation_loss"])
     relative_improvement = (baseline_loss - candidate_loss) / baseline_loss
+    relative_regression = (candidate_loss - baseline_loss) / baseline_loss
     candidate_metrics = candidate["metrics"]
     baseline_metrics = baseline["metrics"]
     compare_rates = bool(thresholds.get("require_no_structural_regression_from_baseline", True))
     checks = {
-        "validation_loss_improved": relative_improvement >= float(
-            thresholds["minimum_relative_validation_loss_improvement"]
-        ),
         "absolute_tool_call_gate": candidate_metrics["valid_tool_call_rate"] >= float(
             thresholds["minimum_valid_tool_call_rate"]
         ),
@@ -397,6 +402,22 @@ def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> 
         ),
         "technical_gate": bool(candidate["technical_pass"]),
     }
+    if "minimum_relative_validation_loss_improvement" in thresholds:
+        checks["validation_loss_improved"] = relative_improvement >= float(
+            thresholds["minimum_relative_validation_loss_improvement"]
+        )
+    if "maximum_relative_validation_loss_regression" in thresholds:
+        checks["validation_loss_not_regressed"] = relative_regression <= float(
+            thresholds["maximum_relative_validation_loss_regression"]
+        )
+    if "minimum_tool_name_rate" in thresholds:
+        checks["absolute_tool_name_gate"] = candidate_metrics.get("tool_name_rate", 0.0) >= float(
+            thresholds["minimum_tool_name_rate"]
+        )
+    if "minimum_tool_argument_rate" in thresholds:
+        checks["absolute_tool_argument_gate"] = candidate_metrics.get(
+            "tool_argument_rate", 0.0
+        ) >= float(thresholds["minimum_tool_argument_rate"])
     if "minimum_clean_stop_rate" in thresholds:
         checks["absolute_clean_stop_gate"] = candidate_metrics.get("clean_stop_rate", 0.0) >= float(
             thresholds["minimum_clean_stop_rate"]
@@ -411,6 +432,10 @@ def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> 
         checks["tool_result_non_regression"] = (
             candidate_metrics["tool_result_response_rate"] >= baseline_metrics["tool_result_response_rate"]
         )
+        if "minimum_tool_name_rate" in thresholds:
+            checks["tool_name_non_regression"] = candidate_metrics.get(
+                "tool_name_rate", 0.0
+            ) >= baseline_metrics.get("tool_name_rate", 0.0)
         if "minimum_clean_stop_rate" in thresholds:
             checks["clean_stop_non_regression"] = candidate_metrics.get(
                 "clean_stop_rate", 0.0
@@ -419,6 +444,7 @@ def compare_for_promotion(candidate: dict, baseline: dict, thresholds: dict) -> 
         "baseline_fixed_validation_loss": baseline_loss,
         "candidate_fixed_validation_loss": candidate_loss,
         "relative_validation_loss_improvement": relative_improvement,
+        "relative_validation_loss_regression": relative_regression,
         "checks": checks,
         "promotion_eligible": all(checks.values()),
     }

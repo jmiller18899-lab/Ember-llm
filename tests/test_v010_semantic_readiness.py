@@ -162,6 +162,15 @@ def test_legacy_structural_spec_stays_frozen():
     assert all("expected_arguments" in case for case in semantic["cases"] if case["kind"] == "tool_call")
     assert all("required_facts" in case for case in semantic["cases"] if case["kind"] != "tool_call")
     assert semantic["scoring"] == {"require_clean_stop": True, "require_endoftext": True}
+    promotion = semantic["promotion"]
+    assert "minimum_relative_validation_loss_improvement" not in promotion
+    assert promotion["maximum_relative_validation_loss_regression"] == 0.05
+    assert promotion["minimum_tool_name_rate"] == 0.75
+    assert promotion["minimum_tool_argument_rate"] == 0.5
+    assert promotion["minimum_valid_tool_call_rate"] == 0.5
+    assert promotion["minimum_tool_result_response_rate"] == 0.75
+    assert promotion["minimum_clean_stop_rate"] == 0.75
+    assert promotion["minimum_direct_response_rate"] == 0.75
 
 
 def test_wrong_tool_arguments_fail_the_semantic_gate():
@@ -294,8 +303,125 @@ def test_baseline_rescore_rejects_v009_style_wrong_arguments():
         },
     ]
     metrics = module.rescore_recorded_cases(spec, recorded)
+    assert metrics["tool_name_rate"] == 1.0
+    assert metrics["tool_argument_rate"] == 0.0
     assert metrics["valid_tool_call_rate"] == 0.0
     assert metrics["tool_result_response_rate"] == 0.5
+
+
+def test_semantic_promotion_requires_behavior_not_just_loss():
+    module = load_eval_module()
+    thresholds = json.loads(EVAL_SPEC.read_text(encoding="utf-8"))["promotion"]
+    baseline = {
+        "metrics": {
+            "fixed_validation_loss": 3.4088,
+            "valid_tool_call_rate": 0.0,
+            "tool_name_rate": 1.0,
+            "tool_argument_rate": 0.0,
+            "direct_response_rate": 1.0,
+            "tool_result_response_rate": 0.5,
+            "clean_stop_rate": 0.5,
+        }
+    }
+    loss_only = {
+        "technical_pass": True,
+        "metrics": {
+            "fixed_validation_loss": 2.6,
+            "valid_tool_call_rate": 0.0,
+            "tool_name_rate": 1.0,
+            "tool_argument_rate": 0.0,
+            "direct_response_rate": 1.0,
+            "tool_result_response_rate": 0.5,
+            "clean_stop_rate": 0.5,
+        },
+    }
+    loss_only_result = module.compare_for_promotion(loss_only, baseline, thresholds)
+    assert loss_only_result["checks"]["validation_loss_not_regressed"] is True
+    assert loss_only_result["checks"]["absolute_tool_argument_gate"] is False
+    assert loss_only_result["promotion_eligible"] is False
+
+    collapsed_routing = {
+        "technical_pass": True,
+        "metrics": {
+            "fixed_validation_loss": 3.4,
+            "valid_tool_call_rate": 0.5,
+            "tool_name_rate": 0.5,
+            "tool_argument_rate": 0.5,
+            "direct_response_rate": 1.0,
+            "tool_result_response_rate": 0.75,
+            "clean_stop_rate": 0.75,
+        },
+    }
+    assert module.compare_for_promotion(collapsed_routing, baseline, thresholds)[
+        "promotion_eligible"
+    ] is False
+
+    direct_regression = {
+        "technical_pass": True,
+        "metrics": {
+            "fixed_validation_loss": 3.4,
+            "valid_tool_call_rate": 0.75,
+            "tool_name_rate": 1.0,
+            "tool_argument_rate": 0.75,
+            "direct_response_rate": 0.5,
+            "tool_result_response_rate": 0.75,
+            "clean_stop_rate": 0.75,
+        },
+    }
+    assert module.compare_for_promotion(direct_regression, baseline, thresholds)[
+        "promotion_eligible"
+    ] is False
+
+    bad_loss = {
+        "technical_pass": True,
+        "metrics": {
+            "fixed_validation_loss": 3.7,
+            "valid_tool_call_rate": 0.75,
+            "tool_name_rate": 1.0,
+            "tool_argument_rate": 0.75,
+            "direct_response_rate": 1.0,
+            "tool_result_response_rate": 0.75,
+            "clean_stop_rate": 0.75,
+        },
+    }
+    assert module.compare_for_promotion(bad_loss, baseline, thresholds)[
+        "promotion_eligible"
+    ] is False
+
+    no_int4 = {
+        "technical_pass": False,
+        "metrics": {
+            "fixed_validation_loss": 3.45,
+            "valid_tool_call_rate": 0.75,
+            "tool_name_rate": 1.0,
+            "tool_argument_rate": 0.75,
+            "direct_response_rate": 1.0,
+            "tool_result_response_rate": 0.75,
+            "clean_stop_rate": 0.75,
+        },
+    }
+    assert module.compare_for_promotion(no_int4, baseline, thresholds)["promotion_eligible"] is False
+
+    eligible = {
+        "technical_pass": True,
+        "metrics": {
+            "fixed_validation_loss": 3.45,
+            "valid_tool_call_rate": 0.75,
+            "tool_name_rate": 1.0,
+            "tool_argument_rate": 0.75,
+            "direct_response_rate": 1.0,
+            "tool_result_response_rate": 0.75,
+            "clean_stop_rate": 0.75,
+        },
+    }
+    result = module.compare_for_promotion(eligible, baseline, thresholds)
+    assert result["checks"]["validation_loss_not_regressed"] is True
+    assert result["checks"]["absolute_tool_name_gate"] is True
+    assert result["checks"]["absolute_tool_argument_gate"] is True
+    assert result["checks"]["absolute_clean_stop_gate"] is True
+    assert result["checks"]["direct_response_non_regression"] is True
+    assert result["checks"]["technical_gate"] is True
+    assert result["promotion_eligible"] is True
 
 
 def test_remote_training_inputs_are_content_pinned():

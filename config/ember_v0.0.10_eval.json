@@ -17,11 +17,13 @@
     "require_endoftext": true
   },
   "promotion": {
-    "minimum_relative_validation_loss_improvement": 0.02,
-    "minimum_valid_tool_call_rate": 0.25,
+    "maximum_relative_validation_loss_regression": 0.05,
+    "minimum_tool_name_rate": 0.75,
+    "minimum_tool_argument_rate": 0.5,
+    "minimum_valid_tool_call_rate": 0.5,
     "minimum_direct_response_rate": 0.75,
     "minimum_tool_result_response_rate": 0.75,
-    "minimum_clean_stop_rate": 0.5,
+    "minimum_clean_stop_rate": 0.75,
     "require_int4_smoke": true,
     "require_no_structural_regression_from_baseline": true,
     "rescore_baseline_cases": true
