@@ -34,7 +34,7 @@ from huggingface_hub import HfApi, hf_hub_download
 
 PACKAGE_URL = "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/ember-v0.0.7-hf-ready.zip"
 PACKAGE_SHA256 = "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a289"
-ASSET_PIN = "CURSOR_PIN_PLACEHOLDER"
+ASSET_PIN = "42acfa8fcb36742955b90c2424f3eed2a3adf6d9"
 CONFIG_URL = f"https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/{ASSET_PIN}/config/ember_agent_copy_canary_v0.0.13.json"
 CONFIG_SHA256 = "1e1c164cc4d8e46550fe5cf16babe3944f81f4cc6dacb7a4b55ac65a283bb0ed"
 DATA_URL = f"https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/{ASSET_PIN}/jobs/ember_sft_data_v013.py"
