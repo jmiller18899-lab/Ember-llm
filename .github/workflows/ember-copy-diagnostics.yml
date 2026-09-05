@@ -1,0 +1,38 @@
+name: Ember Copy Diagnostics
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: github.repository == 'jmiller18899-lab/Ember-llm'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU diagnostic dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest 'huggingface-hub>=1.4' 'sentencepiece>=0.2'
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Validate diagnostic logic
+        run: |
+          python -m py_compile jobs/ember_hf_diagnose_copy.py
+          pytest -q tests/test_ember_copy_diagnostics.py
+      - name: Run read-only v0.0.7 vs v0.0.9 diagnostic
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python jobs/ember_hf_diagnose_copy.py --output ember-diagnostics.json
+      - name: Upload diagnostic report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-copy-diagnostics
+          path: ember-diagnostics.json
+          retention-days: 7
