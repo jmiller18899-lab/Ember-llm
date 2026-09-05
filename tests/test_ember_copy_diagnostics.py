@@ -56,6 +56,11 @@ def base_summary(**overrides):
         "exact_copy_rate": 0.1,
         "target_containment_rate": 0.1,
         "clean_stop_rate": 1.0,
+        "first_token_top1_rate": 0.0,
+        "first_token_top5_rate": 0.2,
+        "first_token_top20_rate": 0.4,
+        "mean_first_token_rank": 40.0,
+        "mean_top1_logprob_gap_over_expected": 2.0,
         "teacher_forced_expected_win_rate": 0.4,
         "mean_nll_margin_corrupt_minus_expected": -0.2,
     }
@@ -72,16 +77,31 @@ def test_classifier_flags_foundation_when_correct_completion_is_not_preferred():
     assert "pretraining" in result["next_step"]
 
 
-def test_classifier_separates_decoding_from_conditioning():
+def test_classifier_flags_dominant_response_prior_when_copy_signal_exists_but_start_is_not_competitive():
     module = load_module()
     baseline = fake_model(base_summary())
     candidate = fake_model(base_summary(
         teacher_forced_expected_win_rate=0.9,
         mean_nll_margin_corrupt_minus_expected=0.8,
+        first_token_top5_rate=0.3,
+        exact_copy_rate=0.0,
+    ))
+    result = module.classify(baseline, candidate)
+    assert result["verdict"] == "copy_signal_overwhelmed_by_response_prior"
+    assert "literal-copy warmup" in result["next_step"]
+
+
+def test_classifier_separates_continuation_control_when_copy_start_is_competitive():
+    module = load_module()
+    baseline = fake_model(base_summary())
+    candidate = fake_model(base_summary(
+        teacher_forced_expected_win_rate=0.9,
+        mean_nll_margin_corrupt_minus_expected=0.8,
+        first_token_top5_rate=0.9,
         exact_copy_rate=0.3,
     ))
     result = module.classify(baseline, candidate)
-    assert result["verdict"] == "decoding_or_sequence_control_bottleneck"
+    assert result["verdict"] == "sequence_decoding_after_copy_start_bottleneck"
 
 
 def test_classifier_accepts_healthy_copy_mechanism():
@@ -90,6 +110,7 @@ def test_classifier_accepts_healthy_copy_mechanism():
     candidate = fake_model(base_summary(
         teacher_forced_expected_win_rate=1.0,
         mean_nll_margin_corrupt_minus_expected=1.2,
+        first_token_top5_rate=1.0,
         exact_copy_rate=0.9,
         target_containment_rate=0.9,
     ))
