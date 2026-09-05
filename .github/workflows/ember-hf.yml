@@ -22,6 +22,8 @@ on:
           - sft-v013
           - preflight-v014
           - sft-v014
+          - preflight-v015
+          - sft-v015
   push:
     branches:
       - main
@@ -55,7 +57,7 @@ jobs:
             mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-hf.trigger)"
           fi
           case "$mode" in
-            bootstrap|corpus|train|eval-v007|train-v008|eval-v008|preflight-v009|sft-v009|eval-v009|preflight-v013|sft-v013|preflight-v014|sft-v014) ;;
+            bootstrap|corpus|train|eval-v007|train-v008|eval-v008|preflight-v009|sft-v009|eval-v009|preflight-v013|sft-v013|preflight-v014|sft-v014|preflight-v015|sft-v015) ;;
             *) echo "::error::Unsupported Ember HF mode: $mode"; exit 1 ;;
           esac
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
@@ -222,10 +224,35 @@ jobs:
             --secrets HF_TOKEN \
             jobs/ember_hf_sft_v014.py
 
+      - name: Submit v0.0.15 first-token copy CPU preflight
+        if: ${{ steps.request.outputs.mode == 'preflight-v015' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-15-first-token-preflight \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v015.py -- \
+            --preflight-only
+
+      - name: Submit explicitly approved v0.0.15 first-token copy warmup
+        if: ${{ steps.request.outputs.mode == 'sft-v015' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-15-first-token-copy \
+            --flavor t4-small \
+            --timeout 2h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v015.py
+
       - name: Confirm launcher safety gate
         run: |
           echo "Ember HF launcher completed in ${{ steps.request.outputs.mode }} mode."
           case "${{ steps.request.outputs.mode }}" in
-            train|train-v008|sft-v009|sft-v013|sft-v014) echo "An explicitly selected paid GPU mode was launched." ;;
+            train|train-v008|sft-v009|sft-v013|sft-v014|sft-v015) echo "An explicitly selected paid GPU mode was launched." ;;
             *) echo "GPU training was NOT launched." ;;
           esac
