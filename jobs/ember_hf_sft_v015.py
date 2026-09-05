@@ -35,6 +35,8 @@ DATA_URL = f"https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/{ASSET
 SOURCE_REPO = "Jmiller18899/ember-v0.0.9-t4"
 SOURCE_CHECKPOINT = "checkpoints/ember-agent-v0.0.9-tool-sft-20260828T142047Z/best.pt"
 SOURCE_SHA256 = "8299d52e8a852b9bd3e8403e086b48fd42d2babfd51c74eb94af29bd87ef2d13"
+EXPECTED_HF_OWNER = "Jmiller18899"
+HF_WRITE_CHECK_PATH = "preflight/v0.0.15-hf-write-check.json"
 EOT = "<|endoftext|>"
 DIAGNOSTICS = (
     ("Q7M4", "R8N5"),
@@ -71,6 +73,39 @@ def load_module(path: Path):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def verify_hf_output_access(api, cfg: dict, work: Path):
+    identity = api.whoami()
+    owner = str(identity.get("name", "")).strip()
+    if not owner:
+        raise RuntimeError("HF_TOKEN identity check returned no account name")
+    if owner.casefold() != EXPECTED_HF_OWNER.casefold():
+        raise RuntimeError(f"HF_TOKEN belongs to {owner!r}; expected {EXPECTED_HF_OWNER!r}")
+    repo = f"{owner}/{cfg['output_model_name']}"
+    marker = work / "hf-write-preflight.json"
+    marker.write_text(json.dumps({
+        "status": "PASS",
+        "version": "0.0.15",
+        "owner": owner,
+        "output_repo": repo,
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+    }, indent=2) + "\n")
+    try:
+        api.create_repo(repo_id=repo, repo_type="model", private=True, exist_ok=True)
+        api.upload_file(
+            repo_id=repo,
+            repo_type="model",
+            path_or_fileobj=str(marker),
+            path_in_repo=HF_WRITE_CHECK_PATH,
+            commit_message="Verify Ember v0.0.15 Hugging Face write access",
+        )
+    except Exception as exc:
+        raise RuntimeError(
+            f"HF_TOKEN cannot create or write the required output repo {repo}. "
+            f"Use a Hugging Face token with write permission for the {EXPECTED_HF_OWNER} namespace."
+        ) from exc
+    return owner, repo
 
 
 def prompt_for(value: str) -> str:
@@ -253,6 +288,7 @@ def main():
             raise RuntimeError("unexpected v0.0.15 config")
         if cfg.get("source_model_name") != "ember-v0.0.9-t4":
             raise RuntimeError("v0.0.15 must start from v0.0.9")
+        owner, repo = verify_hf_output_access(api, cfg, work)
         data = load_module(data_path)
         train_rows = data.build_examples("train", int(cfg["train_examples"]))
         val_rows = data.build_examples("validation", int(cfg["validation_examples"]))
@@ -272,6 +308,7 @@ def main():
         val = [encode_row(tokenizer, r, cfg, torch) for r in val_rows]
         baseline = diagnostic(model, tokenizer, cfg, "cpu", torch)
         preflight = {"status": "PASS", "source": SOURCE_REPO, "train": len(train), "validation": len(val), "baseline": baseline["metrics"],
+                     "hf": {"owner": owner, "output_repo": repo, "write_check": "PASS", "write_check_path": HF_WRITE_CHECK_PATH},
                      "diagnostic_gates": {k: cfg[k] for k in cfg if k.startswith("minimum_")}}
         print(json.dumps(preflight, indent=2), flush=True)
         if args.preflight_only:
@@ -283,8 +320,6 @@ def main():
         random.seed(int(cfg["seed"])); torch.manual_seed(int(cfg["seed"])); torch.cuda.manual_seed_all(int(cfg["seed"]))
         optimizer = torch.optim.AdamW(model.parameters(), lr=float(cfg["learning_rate"]), betas=(0.9, 0.95), weight_decay=0.01)
         generator = torch.Generator(device="cpu").manual_seed(int(cfg["seed"]))
-        owner = api.whoami()["name"]; repo = f"{owner}/{cfg['output_model_name']}"
-        api.create_repo(repo_id=repo, repo_type="model", private=True, exist_ok=True)
         run_id = f"{cfg['run_name']}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
         ckpt = work / "checkpoints"; ckpt.mkdir(); best_path = ckpt / "best.pt"; latest_path = ckpt / "latest.pt"
         best_score = None; best_step = -1; history = []
