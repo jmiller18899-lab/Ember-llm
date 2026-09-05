@@ -1,12 +1,7 @@
-name: Ember copy diagnostics (temporary)
+name: Ember Copy Diagnostics
 
 on:
-  push:
-    branches: [autofix/ember-diagnostics-20260904]
-    paths:
-      - jobs/ember_hf_diagnose_copy.py
-      - tests/test_ember_copy_diagnostics.py
-      - .github/workflows/ember-copy-diagnostics.yml
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,8 +13,6 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: autofix/ember-diagnostics-20260904
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
