@@ -103,6 +103,37 @@ def eos_greedy(model, tokenizer, torch, prompt: str, max_new: int = 64) -> tuple
     return tokenizer.decode(generated), stopped
 
 
+def first_token_metrics(model, tokenizer, torch, prompt: str, completion: str) -> dict:
+    prompt_ids = list(tokenizer.encode(prompt))
+    full_ids = list(tokenizer.encode(prompt + completion))
+    if full_ids[: len(prompt_ids)] != prompt_ids:
+        return {"valid": False, "reason": "tokenization_changed_at_completion_boundary"}
+    if len(full_ids) <= len(prompt_ids):
+        return {"valid": False, "reason": "no_completion_token"}
+    expected_id = int(full_ids[len(prompt_ids)])
+    x = torch.tensor([prompt_ids[-int(model.cfg.block_size):]], dtype=torch.long)
+    with torch.inference_mode():
+        logits, _ = model(x, None)
+        scores = logits[0, -1]
+        expected_score = scores[expected_id]
+        rank = 1 + int((scores > expected_score).sum().item())
+        top1_id = int(torch.argmax(scores).item())
+        log_probs = torch.log_softmax(scores, dim=-1)
+        gap = float(log_probs[top1_id].item() - log_probs[expected_id].item())
+    return {
+        "valid": True,
+        "expected_token_id": expected_id,
+        "expected_piece": tokenizer.decode([expected_id]),
+        "rank": rank,
+        "top1": rank == 1,
+        "top5": rank <= 5,
+        "top20": rank <= 20,
+        "top1_token_id": top1_id,
+        "top1_piece": tokenizer.decode([top1_id]),
+        "top1_logprob_gap_over_expected": gap,
+    }
+
+
 def completion_nll(model, tokenizer, torch, prompt: str, completion: str) -> dict:
     prompt_ids = list(tokenizer.encode(prompt))
     full_ids = list(tokenizer.encode(prompt + completion))
@@ -155,8 +186,10 @@ def diagnose_case(model, tokenizer, torch, case: dict) -> dict:
     value = str(case["value"])
     alternate = str(case["alternate"])
     prompt = prompt_for(value)
+    expected_text = expected_completion(value)
     generated, stopped = eos_greedy(model, tokenizer, torch, prompt)
-    expected = completion_nll(model, tokenizer, torch, prompt, expected_completion(value))
+    first_token = first_token_metrics(model, tokenizer, torch, prompt, expected_text)
+    expected = completion_nll(model, tokenizer, torch, prompt, expected_text)
     corrupted = completion_nll(model, tokenizer, torch, prompt, expected_completion(alternate))
     margin = None
     expected_wins = False
@@ -177,6 +210,7 @@ def diagnose_case(model, tokenizer, torch, case: dict) -> dict:
             "contains_alternate": alternate in normalized,
             "clean_stop": stopped,
         },
+        "first_token": first_token,
         "teacher_forcing": {
             "expected": expected,
             "corrupted": corrupted,
@@ -190,6 +224,8 @@ def summarize(cases: list[dict]) -> dict:
     count = len(cases)
     margins = [row["teacher_forcing"]["nll_margin_corrupt_minus_expected"] for row in cases]
     margins = [float(value) for value in margins if value is not None and math.isfinite(float(value))]
+    ranks = [int(row["first_token"]["rank"]) for row in cases if row["first_token"].get("valid")]
+    gaps = [float(row["first_token"]["top1_logprob_gap_over_expected"]) for row in cases if row["first_token"].get("valid")]
     return {
         "cases": count,
         "tokenizer_roundtrip_rate": sum(row["tokenizer"]["roundtrip_exact"] for row in cases) / count,
@@ -197,6 +233,11 @@ def summarize(cases: list[dict]) -> dict:
         "exact_copy_rate": sum(row["generation"]["exact"] for row in cases) / count,
         "target_containment_rate": sum(row["generation"]["contains_target"] for row in cases) / count,
         "clean_stop_rate": sum(row["generation"]["clean_stop"] for row in cases) / count,
+        "first_token_top1_rate": sum(bool(row["first_token"].get("top1")) for row in cases) / count,
+        "first_token_top5_rate": sum(bool(row["first_token"].get("top5")) for row in cases) / count,
+        "first_token_top20_rate": sum(bool(row["first_token"].get("top20")) for row in cases) / count,
+        "mean_first_token_rank": (sum(ranks) / len(ranks)) if ranks else None,
+        "mean_top1_logprob_gap_over_expected": (sum(gaps) / len(gaps)) if gaps else None,
         "teacher_forced_expected_win_rate": sum(row["teacher_forcing"]["expected_wins"] for row in cases) / count,
         "mean_nll_margin_corrupt_minus_expected": (sum(margins) / len(margins)) if margins else None,
     }
@@ -210,20 +251,21 @@ def classify(baseline: dict, candidate: dict) -> dict:
         next_step = "Repair tokenizer encode/decode fidelity before more SFT."
     elif c["teacher_forced_expected_win_rate"] < 0.75:
         verdict = "conditioning_or_foundation_bottleneck"
-        next_step = "Stop copy-canary SFT iteration; strengthen general pretraining and token-level copy curriculum."
-    elif c["exact_copy_rate"] < 0.75 and c["teacher_forced_expected_win_rate"] >= 0.75:
-        verdict = "decoding_or_sequence_control_bottleneck"
-        next_step = "Keep the checkpoint; inspect EOS/greedy decoding and output formatting before more training."
-    elif c["exact_copy_rate"] >= 0.75:
+        next_step = "Stop narrow copy-canary iteration; strengthen general pretraining and a token-level copy curriculum."
+    elif c["first_token_top5_rate"] < 0.75:
+        verdict = "copy_signal_overwhelmed_by_response_prior"
+        next_step = "Keep v0.0.9 as source, but train a short-output literal-copy warmup that suppresses memorized generic response openings before returning to tool SFT."
+    elif c["exact_copy_rate"] < 0.75:
+        verdict = "sequence_decoding_after_copy_start_bottleneck"
+        next_step = "The correct copy starts are competitive; inspect continuation/EOS sequence control before more general pretraining."
+    else:
         verdict = "copy_mechanism_healthy"
         next_step = "Move to the stronger semantic tool-argument/result gate before additional training."
-    else:
-        verdict = "mixed"
-        next_step = "Inspect per-case NLL margins and token fragmentation before deciding on the next phase."
     return {
         "verdict": verdict,
         "next_step": next_step,
         "delta_exact_copy_rate_v009_minus_v007": c["exact_copy_rate"] - b["exact_copy_rate"],
+        "delta_first_token_top5_rate_v009_minus_v007": c["first_token_top5_rate"] - b["first_token_top5_rate"],
         "delta_teacher_forced_win_rate_v009_minus_v007": c["teacher_forced_expected_win_rate"] - b["teacher_forced_expected_win_rate"],
         "delta_mean_nll_margin_v009_minus_v007": (
             None if b["mean_nll_margin_corrupt_minus_expected"] is None or c["mean_nll_margin_corrupt_minus_expected"] is None
@@ -249,8 +291,8 @@ def main() -> None:
     torch.set_num_threads(max(1, min(4, os.cpu_count() or 1)))
     api = HfApi(token=token)
     report = {
-        "schema_version": 1,
-        "diagnostic": "ember-copy-conditioning-v1",
+        "schema_version": 2,
+        "diagnostic": "ember-copy-conditioning-v2",
         "read_only": True,
         "models": [],
     }
