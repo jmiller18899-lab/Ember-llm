@@ -68,13 +68,13 @@ jobs:
 
       - name: Verify write access and private persistence
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: python jobs/ember_hf_bootstrap.py
 
       - name: Submit full corpus job to Hugging Face CPU Upgrade
         if: ${{ steps.request.outputs.mode == 'corpus' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-7-corpus \
@@ -86,7 +86,7 @@ jobs:
       - name: Submit gated T4 validation job
         if: ${{ steps.request.outputs.mode == 'train' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-7-t4-validation \
@@ -98,7 +98,7 @@ jobs:
       - name: Submit v0.0.7 CPU baseline evaluation
         if: ${{ steps.request.outputs.mode == 'eval-v007' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-7-baseline-eval \
@@ -112,7 +112,7 @@ jobs:
       - name: Submit explicitly approved v0.0.8 long T4 run
         if: ${{ steps.request.outputs.mode == 'train-v008' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-8-t4-long \
@@ -124,7 +124,7 @@ jobs:
       - name: Submit v0.0.8 CPU candidate evaluation
         if: ${{ steps.request.outputs.mode == 'eval-v008' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-8-candidate-eval \
@@ -138,7 +138,7 @@ jobs:
       - name: Submit explicitly approved v0.0.9 tool-routing SFT
         if: ${{ steps.request.outputs.mode == 'sft-v009' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-9-tool-sft \
@@ -150,7 +150,7 @@ jobs:
       - name: Submit v0.0.9 SFT CPU preflight
         if: ${{ steps.request.outputs.mode == 'preflight-v009' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-9-sft-preflight \
@@ -163,7 +163,7 @@ jobs:
       - name: Submit v0.0.9 CPU candidate evaluation
         if: ${{ steps.request.outputs.mode == 'eval-v009' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-9-candidate-eval \
@@ -177,7 +177,7 @@ jobs:
       - name: Submit v0.0.13 short-copy CPU preflight
         if: ${{ steps.request.outputs.mode == 'preflight-v013' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-13-copy-preflight \
@@ -190,7 +190,7 @@ jobs:
       - name: Submit explicitly approved v0.0.13 short-copy canary
         if: ${{ steps.request.outputs.mode == 'sft-v013' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-13-short-copy \
@@ -202,7 +202,7 @@ jobs:
       - name: Submit v0.0.14 literal-copy CPU preflight
         if: ${{ steps.request.outputs.mode == 'preflight-v014' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-14-copy-preflight \
@@ -215,7 +215,7 @@ jobs:
       - name: Submit explicitly approved v0.0.14 literal-copy canary
         if: ${{ steps.request.outputs.mode == 'sft-v014' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-14-literal-copy \
@@ -227,7 +227,7 @@ jobs:
       - name: Submit v0.0.15 first-token copy CPU preflight
         if: ${{ steps.request.outputs.mode == 'preflight-v015' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-15-first-token-preflight \
@@ -240,7 +240,7 @@ jobs:
       - name: Submit explicitly approved v0.0.15 first-token copy warmup
         if: ${{ steps.request.outputs.mode == 'sft-v015' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-15-first-token-copy \
