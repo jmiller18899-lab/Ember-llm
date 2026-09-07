@@ -55,13 +55,13 @@ jobs:
 
       - name: Verify usable Hugging Face token
         env:
-          HF_TOKEN: ${{ secrets.HF_2 }}
+          HF_TOKEN: ${{ secrets.H_F2 }}
         run: python jobs/ember_hf_bootstrap.py
 
       - name: Submit v0.0.16 CPU preflight
         if: ${{ steps.request.outputs.mode == 'preflight' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_2 }}
+          HF_TOKEN: ${{ secrets.H_F2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-16-sequence-preflight \
@@ -74,7 +74,7 @@ jobs:
       - name: Submit one approved v0.0.16 T4 training session
         if: ${{ steps.request.outputs.mode == 'train' }}
         env:
-          HF_TOKEN: ${{ secrets.HF_2 }}
+          HF_TOKEN: ${{ secrets.H_F2 }}
         run: |
           hf jobs uv run --detach \
             --name ember-v0-0-16-sequence-copy \
