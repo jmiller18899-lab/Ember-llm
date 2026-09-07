@@ -1,6 +1,8 @@
-mode: train
-purpose: launch one approved Ember v0.0.25 T4 tokenizer-aware position-conditioned curriculum repair session after CPU preflight PASS
+mode: bootstrap
+purpose: disarm the submitted Ember v0.0.25 training trigger so later pushes cannot launch a duplicate paid GPU session
 preflight_job: Jmiller18899/6a9f39ce259f8e97255ece8b
+training_job: Jmiller18899/6a9f3a24259f8e97255ece95
+training_commit: 44dc49fdb43c7627cd41be62100e517a0b7b621b
 trainer_commit: 5ecf3eefb2708ceb6ac142b5c832d7ab6d1232f4
 source_checkpoint: checkpoints/ember-agent-v0.0.20-continuation-margin-hard-mining-20260907T210927Z/best.pt
 source_sha256: a6f6281e8fab5153eb7837cd010296aae92cf26074cb4de8e5ac3a90b2a3839b
@@ -12,5 +14,6 @@ coverage_path: tokens=41,pairs=309
 coverage_mixed: tokens=106,pairs=317
 baseline_exact_copy_rate: 0.4444444444444444
 baseline_continuation_top1_rate: 0.8405797101449275
+baseline_copy_position_top1_rate: 0.8405797101449275
 target_exact_copy_rate: 0.5555555556
 target_continuation_top1_rate: 0.90
