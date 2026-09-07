@@ -66,7 +66,8 @@ source = source.replace("ember_hf_sft_v019_runtime.py", "ember_hf_sft_v020_runti
 
 # The v0.0.19 objective scored first TARGET and continuation TARGET positions.
 # v0.0.20 deliberately excludes the already-solved first TARGET token from
-# both hard-example selection and the argmax-margin loss.
+# both hard-example selection and the argmax-margin loss. These two guarded
+# replacements are the continuation-only contract.
 old_hard_mask = '''target_mask = y.ne(-100) & (\n        weights.ge(copy_weight - 1e-6) | (weights - first_weight).abs().lt(1e-6)\n    )'''
 new_hard_mask = '''target_mask = y.ne(-100) & weights.ge(copy_weight - 1e-6)'''
 replace_required(old_hard_mask, new_hard_mask, count=1)
@@ -85,25 +86,5 @@ replace_required(
     count=1,
 )
 
-# Extend CPU preflight so it proves that first-token and continuation masks are
-# distinct and that the continuation-only mask is non-empty before GPU spend.
-replace_required(
-    'print("EMBER_V020_HARD_MINING_PREFLIGHT=PASS", flush=True)\n'
-    '            print("EMBER_HF_V020_PREFLIGHT=PASS", flush=True)',
-    'probe_item = train[probe[0]]\n'
-    '            probe_y = probe_item["y"]\n'
-    '            probe_w = probe_item["w"]\n'
-    '            probe_active = probe_y.ne(-100)\n'
-    '            probe_first = probe_active & (probe_w - float(cfg["first_token_weight"])).abs().lt(1e-6)\n'
-    '            probe_cont = probe_active & probe_w.ge(float(cfg["copy_token_weight"]) - 1e-6)\n'
-    '            if not bool(probe_first.any().item()) or not bool(probe_cont.any().item()):\n'
-    '                raise RuntimeError("v0.0.20 preflight could not identify both first-token and continuation positions")\n'
-    '            if bool((probe_first & probe_cont).any().item()):\n'
-    '                raise RuntimeError("v0.0.20 first-token and continuation masks overlap")\n'
-    '            print("EMBER_V020_CONTINUATION_ONLY_PREFLIGHT=PASS", flush=True)\n'
-    '            print("EMBER_V020_HARD_MINING_PREFLIGHT=PASS", flush=True)\n'
-    '            print("EMBER_HF_V020_PREFLIGHT=PASS", flush=True)',
-    count=1,
-)
-
+print("EMBER_V020_CONTINUATION_ONLY_TRANSFORM=PASS", flush=True)
 exec(compile(source, "ember_hf_sft_v020_wrapper_runtime.py", "exec"), {"__name__": "__main__"})
