@@ -27,7 +27,7 @@ jobs:
           pytest -q tests/test_ember_copy_diagnostics.py
       - name: Run read-only v0.0.7 vs v0.0.9 diagnostic
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_2 }}
         run: |
           python jobs/ember_hf_diagnose_copy.py --output ember-diagnostics.json
       - name: Upload diagnostic report
