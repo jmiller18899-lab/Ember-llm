@@ -1,0 +1,14 @@
+{
+  "project": "Ember",
+  "version": "0.0.24",
+  "phase": "token-support-capacity-diagnostic",
+  "source_model_name": "ember-v0.0.20-t4",
+  "train_examples": 3600,
+  "diagnostic_cases": 9,
+  "near_miss_max_rank": 3,
+  "near_miss_min_gap": -1.5,
+  "strong_same_kind_support": 20,
+  "strong_same_offset_support": 4,
+  "deep_miss_min_rank": 10,
+  "deep_miss_max_gap": -3.0
+}
