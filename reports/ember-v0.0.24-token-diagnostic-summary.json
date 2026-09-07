@@ -1,0 +1,97 @@
+{
+  "version": "0.0.24",
+  "phase": "token-support-capacity-diagnostic",
+  "job_id": "6a9f356ee686246ca69a9596",
+  "status": "PASS",
+  "source_checkpoint": "checkpoints/ember-agent-v0.0.20-continuation-margin-hard-mining-20260907T210927Z/best.pt",
+  "source_sha256": "a6f6281e8fab5153eb7837cd010296aae92cf26074cb4de8e5ac3a90b2a3839b",
+  "baseline_exact_copy_rate": 0.4444444444444444,
+  "baseline_continuation_top1_rate": 0.8405797101449275,
+  "training_support_rows": 3600,
+  "held_out_leakage": false,
+  "failed_cases": [
+    {
+      "kind": "digits",
+      "first_error_offset": 2,
+      "evidence_label": "deep_context_miss_with_support",
+      "expected_piece": "4",
+      "predicted_piece": "84",
+      "expected_rank": 59,
+      "gap": -1.595892,
+      "support_global": 395,
+      "support_same_kind": 46,
+      "support_same_kind_offset": 7,
+      "support_same_kind_prev_pair": 0
+    },
+    {
+      "kind": "model_id",
+      "first_error_offset": 2,
+      "evidence_label": "support_sparse",
+      "expected_piece": "g",
+      "predicted_piece": "ember",
+      "expected_rank": 24,
+      "gap": -7.321181,
+      "support_global": 234,
+      "support_same_kind": 40,
+      "support_same_kind_offset": 0,
+      "support_same_kind_prev_pair": 0
+    },
+    {
+      "kind": "url",
+      "first_error_offset": 8,
+      "evidence_label": "support_sparse",
+      "expected_piece": "9",
+      "predicted_piece": "7",
+      "expected_rank": 7,
+      "gap": -0.993625,
+      "support_global": 408,
+      "support_same_kind": 74,
+      "support_same_kind_offset": 1,
+      "support_same_kind_prev_pair": 0
+    },
+    {
+      "kind": "path",
+      "first_error_offset": 7,
+      "evidence_label": "support_sparse",
+      "expected_piece": "4/",
+      "predicted_piece": "3/",
+      "expected_rank": 4,
+      "gap": -1.160543,
+      "support_global": 16,
+      "support_same_kind": 4,
+      "support_same_kind_offset": 4,
+      "support_same_kind_prev_pair": 0
+    },
+    {
+      "kind": "mixed",
+      "first_error_offset": 7,
+      "evidence_label": "support_sparse",
+      "expected_piece": "58",
+      "predicted_piece": "54",
+      "expected_rank": 5,
+      "gap": -0.293611,
+      "support_global": 34,
+      "support_same_kind": 7,
+      "support_same_kind_offset": 1,
+      "support_same_kind_prev_pair": 3
+    }
+  ],
+  "hypothesis": {
+    "failed_cases": 5,
+    "label_counts": {
+      "deep_context_miss_with_support": 1,
+      "support_sparse": 4
+    },
+    "primary_evidence_hypothesis": "tokenizer_or_training_support_bottleneck"
+  },
+  "recommended_next_phase": {
+    "version": "0.0.25",
+    "strategy": "position-conditioned curriculum repair",
+    "notes": [
+      "Do not increase model size yet.",
+      "Generate synthetic examples that deliberately populate the missing same-kind/same-offset and previous-token-to-expected-token transitions for model_id, url, path, and mixed formats.",
+      "Treat digits separately with a context-disambiguation curriculum because token support is already adequate but the expected token is ranked poorly.",
+      "Keep v0.0.20 best checkpoint as the protected baseline and require exact-copy/continuation improvement before replacing it."
+    ]
+  }
+}
