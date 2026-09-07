@@ -67,11 +67,13 @@ source = source.replace("ember_hf_sft_v019_runtime.py", "ember_hf_sft_v020_runti
 # The v0.0.19 objective scored first TARGET and continuation TARGET positions.
 # v0.0.20 deliberately excludes the already-solved first TARGET token from
 # both hard-example selection and the argmax-margin loss.
-old_mask = '''target_mask = y.ne(-100) & (\n        weights.ge(copy_weight - 1e-6) | (weights - first_weight).abs().lt(1e-6)\n    )'''
-new_mask = '''target_mask = y.ne(-100) & weights.ge(copy_weight - 1e-6)'''
-if source.count(old_mask) != 2:
-    raise RuntimeError(f"v0.0.20 expected 2 continuation-mask transform targets, found {source.count(old_mask)}")
-source = source.replace(old_mask, new_mask)
+old_hard_mask = '''target_mask = y.ne(-100) & (\n        weights.ge(copy_weight - 1e-6) | (weights - first_weight).abs().lt(1e-6)\n    )'''
+new_hard_mask = '''target_mask = y.ne(-100) & weights.ge(copy_weight - 1e-6)'''
+replace_required(old_hard_mask, new_hard_mask, count=1)
+
+old_loss_mask = '''target_mask = active & (\n        weights.ge(copy_weight - 1e-6) | (weights - first_weight).abs().lt(1e-6)\n    )'''
+new_loss_mask = '''target_mask = active & weights.ge(copy_weight - 1e-6)'''
+replace_required(old_loss_mask, new_loss_mask, count=1)
 
 # Prioritize rows where any continuation token is currently wrong, while still
 # ranking by continuation error rate and logit-margin deficit.
