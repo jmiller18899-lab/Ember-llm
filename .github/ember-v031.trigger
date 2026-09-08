@@ -1,5 +1,5 @@
-mode: bootstrap
-purpose: keep Ember v0.0.31 disarmed until CPU preflight passes; no paid GPU training
+mode: preflight
+purpose: run Ember v0.0.31 CPU preflight only; no paid GPU training
 source_checkpoint_repo: Jmiller18899/ember-v0.0.30-t4
 source_best_step: 499
 source_run_id: ember-agent-v0.0.30-multi-position-consolidation-20260908T033037Z
@@ -10,4 +10,4 @@ curriculum: unchanged since v0.0.26
 sequence_worst_k: 2
 learning_rate: 1.2e-6
 max_steps: 600
-next_action: run mode preflight on CPU only; require explicit approval before any T4 launch
+next_action: read CPU preflight result and re-disarm before any T4 decision
