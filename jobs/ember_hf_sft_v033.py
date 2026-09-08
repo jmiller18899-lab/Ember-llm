@@ -1085,6 +1085,10 @@ TRANSFORMS = (
      "            print('EMBER_V033_BASELINE_SLOT_MARGIN_HEALTH=%.4f' % baseline['metrics']['envelope_slot_margin_health'], flush=True)\n"
      '            if reach <= 0.0:\n'
      '                print("EMBER_V033_ADVICE=NO_REACHABLE_SEQUENCES_DO_NOT_LAUNCH_T4", flush=True)\n'
+     '            preflight_path = work / "v0.0.33-preflight.json"\n'
+     '            preflight_path.write_text(json.dumps(preflight, indent=2) + "\\n")\n'
+     '            base.upload(api, repo, preflight_path, "preflight/v0.0.33-preflight-latest.json", "Ember v0.0.33 CPU preflight report")\n'
+     '            print("EMBER_V033_PREFLIGHT_REPORT=preflight/v0.0.33-preflight-latest.json", flush=True)\n'
      '            print("EMBER_HF_V033_PREFLIGHT=PASS", flush=True)\n'
      '            return', 1),
 

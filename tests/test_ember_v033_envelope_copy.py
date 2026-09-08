@@ -328,6 +328,24 @@ def test_the_preflight_reports_the_slot_baseline_before_any_gpu_guard():
     )
 
 
+def test_the_preflight_persists_its_report_rather_than_only_printing_it():
+    """A detached job's stdout lives only in its log stream.
+
+    The v0.0.32 evaluator had to learn this after a run produced numbers nobody
+    could read back. The preflight returns before every other upload in the
+    scaffold, so it needs its own.
+    """
+    trainer = load(TRAINER_V033, "ember_hf_sft_v033_preflight_report")
+    runtime = trainer.apply_transforms(TRAINER_V016.read_text())
+    target = "preflight/v0.0.33-preflight-latest.json"
+    assert target in runtime
+    assert runtime.index(target) < runtime.index("torch.cuda.is_available()")
+    # The report carries the four numbers the launch decision needs.
+    for field in ("train_encoding", "validation_encoding",
+                  "baseline_slot_exact_rate", "baseline_slot_margin_health"):
+        assert field in runtime, field
+
+
 def test_the_report_contract_still_holds():
     """The same producer/consumer check that v0.0.29 failed."""
     import re
