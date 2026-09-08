@@ -1,0 +1,100 @@
+{
+  "version": "0.0.28",
+  "phase": "boundary-focus-repair",
+  "status": "completed",
+  "promotion": "FAIL",
+  "progress": "ADVANCED",
+  "source_checkpoint_repo": "Jmiller18899/ember-v0.0.27-t4",
+  "headline": "Strongest Ember checkpoint to date. Eight additional held-out strings became perfect copies and the legacy exact-copy bar of 5/9 was reached for the first time.",
+  "metrics": {
+    "expanded_exact_copy_rate": {"baseline": 0.2222, "final": 0.3111, "counts": "20/90 -> 28/90"},
+    "expanded_continuation_top1_rate": {"baseline": 0.8205, "final": 0.8658, "counts": "599/730 -> 632/730"},
+    "expanded_first_token_top1_rate": {"baseline": 0.8667, "final": 0.9444, "counts": "78/90 -> 85/90"},
+    "expanded_full_sequence_margin_health": {"baseline": -0.8377, "final": -0.5865, "gain": 0.2512},
+    "expanded_sequence_margin_health": {"baseline": -0.6846, "final": -0.5260, "gain": 0.1586},
+    "expanded_sequences_within_reach": {"baseline": 0.1778, "final": 0.2333, "counts": "16/90 -> 21/90"},
+    "legacy_exact_copy_rate": {"baseline": 0.4444, "final": 0.5556, "counts": "4/9 -> 5/9"},
+    "legacy_continuation_top1_rate": {"baseline": 0.8696, "final": 0.8986, "counts": "60/69 -> 62/69"},
+    "weakest_decision_first_token": {"baseline": 13, "final": 9},
+    "clean_stop_rate": 1.0
+  },
+  "findings": [
+    {
+      "id": "B1",
+      "claim": "Boundary focus converted margin movement into whole strings, which is what v0.0.27 could not do.",
+      "evidence": [
+        "v0.0.27 gained 0.2025 of continuation-only margin health and flipped zero strings.",
+        "v0.0.28 gained 0.1586 on that same statistic and flipped eight, while also gaining 0.2512 on the full-span statistic the redirected loss actually optimises."
+      ]
+    },
+    {
+      "id": "B2",
+      "claim": "Extending the objective to the first token paid for itself.",
+      "evidence": [
+        "Expanded first-token top-1 rose 0.8667 -> 0.9444, seven cases.",
+        "Cases whose weakest decision is the first token fell from 13 to 9.",
+        "That decision was outside every mask in the codebase before v0.0.28, because encode_row overwrites w[first] after laying down copy_token_weight."
+      ]
+    },
+    {
+      "id": "B3",
+      "claim": "The boundary pipeline is flowing end to end rather than draining.",
+      "evidence": [
+        "The reachable band held 16 cases at baseline and 21 at the end while 8 crossed out of it.",
+        "That implies 13 cases were pulled up into the band from below during the run."
+      ],
+      "consequence": "21 cases now sit in [-0.75, 0). Converting most of them is worth up to +23.3 points of exact copy on its own, which would clear the 0.40 expanded gate."
+    },
+    {
+      "id": "B4",
+      "claim": "The loss pushes one position per row, but the average failing row has more than one wrong decision.",
+      "evidence": [
+        "730 x (1 - 0.8658) = 98.0 wrong continuation decisions spread over 62 failing rows is 1.58 per row.",
+        "Adding the 5 first-token failures gives about 1.66 wrong decisions per failing row.",
+        "The v0.0.28 sequence term reduces each row to the maximum of its hinges, so it can retire at most one of those per row per pass."
+      ],
+      "consequence": "A top-k worst-position term with k = 2 matches the measured failure count. This is the clearest remaining lever and it is orthogonal to everything v0.0.28 changed."
+    },
+    {
+      "id": "B5",
+      "severity": "bug",
+      "claim": "Four promotion gates are stored as truncated decimals that the exact fraction can never reach, and one of them started biting with this result.",
+      "evidence": [
+        "5/9 is 0.5555555555555556 in double precision; the stored gate is 0.5555555556, which is larger by 4.44e-11.",
+        "The scaffold's diagnostic() compares with a raw >=, so legacy exact copy at exactly 5/9 is recorded as unmet.",
+        "The same holds for minimum_first_token_top20_rate against 7/9 and minimum_first_token_top5_rate and minimum_teacher_forced_expected_win_rate against 8/9.",
+        "Those three have been masked so far because the measured rates were 1.0."
+      ],
+      "consequence": "Check the gates block of the v0.0.28 report: legacy exact copy should read as met and is very likely recorded as failed. v0.0.29 recomputes every threshold gate with the tolerance the protection checks already use."
+    },
+    {
+      "id": "B6",
+      "claim": "Exact copy again sits on the independence curve, so the remaining distance is per-token accuracy rather than a structural failure.",
+      "evidence": [
+        "Mean continuation is 730/90 = 8.111 tokens; 0.8658 ** 8.111 = 0.3107 against a measured 0.3111.",
+        "Multiplying by first-token top-1 0.9444 gives 0.2935, below the measurement, so first-token failures overlap with continuation failures rather than compounding independently."
+      ],
+      "consequence": "The 0.40 expanded exact-copy gate corresponds to roughly 0.89 per-token accuracy, so it and the 0.90 continuation gate are consistent targets rather than competing ones."
+    }
+  ],
+  "gate_distance": {
+    "expanded_exact_copy_rate": {"measured": "28/90", "gate": 0.40, "needs": "36/90", "short_by_cases": 8},
+    "expanded_continuation_top1_rate": {"measured": "632/730", "gate": 0.90, "needs": "657/730", "short_by_tokens": 25},
+    "legacy_continuation_top1_rate": {"measured": "62/69", "gate": 0.90, "needs": "63/69 = 0.9130", "short_by_tokens": 1,
+      "note": "a 0.90 gate on a 69-token denominator is really a 0.9130 gate; the next token clears it outright"},
+    "legacy_exact_copy_rate": {"measured": "5/9", "gate": 0.5555555556, "note": "meets the stated 5/9 bar; see finding B5"}
+  },
+  "recommended_next_phase": {
+    "version": "0.0.29",
+    "strategy": "multi-position repair, from the v0.0.28 checkpoint",
+    "notes": [
+      "Promote the source: v0.0.28 replaces v0.0.27 as the starting checkpoint and the protected baseline.",
+      "Push the k worst positions per row instead of one, with k = 2 to match the measured 1.66 wrong decisions per failing row.",
+      "Use the sum of the top-k hinges rather than their mean, so k = 1 reduces exactly to v0.0.28 and k = 2 adds a second push without diluting the first.",
+      "Recompute every threshold gate with a tolerance so a rate that exactly equals its bar is recorded as meeting it.",
+      "Report the per-case band transition matrix, so the next run says whether the boundary pipeline is saturating or still refilling.",
+      "Report the discrete distance to each unmet gate, because a 0.90 gate on 69 tokens is not the same requirement as a 0.90 gate on 730.",
+      "Hold the learning rate, step count, batch size and curriculum where they are; five runs of one-variable discipline produced this result."
+    ]
+  }
+}
