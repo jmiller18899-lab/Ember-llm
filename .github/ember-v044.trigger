@@ -1,3 +1,2 @@
-mode: preflight
-request: v0.0.44 freezes the v0.0.43 user-prompt stack that measured 84/90 and calibrates only the system line for code-shaped lookups; CPU-only, no training, GPU, promotion, deployment, or integration
-retry: compat-launcher-path-fix
+mode: bootstrap
+request: v0.0.44 measured and stopped at CPU system-line baseline; preserve evidence and do not rerun automatically; no optimizer, GPU, training, promotion, deployment, or integration
