@@ -1,50 +1,62 @@
 # Ember v0.0.42 cross-seed subtype calibration
 
-v0.0.41 reached the strongest raw envelope score so far at **82/90**, but correctly failed its protection gates because `short_code/len5` regressed from the v0.0.40 floor of 3/4 to 2/4. At the same time, two subtype changes were genuine non-regressing gains: `url/one_mixed` improved to 4/4 and `mixed/upper` improved to 3/3.
+v0.0.41 reached 82/90 canonical envelopes but failed protection because `short_code/len5` regressed from 3/4 to 2/4. Two v0.0.41 subtype changes were nevertheless real non-regressing gains: `url/one_mixed` reached 4/4 and `mixed/upper` reached 3/3.
 
-v0.0.42 assembles the safest known stack before trying anything new:
+v0.0.42 assembled those gains with the v0.0.40 safe stack, restored the short-code len5 fallback, and calibrated only six remaining failure-bearing subtypes. Candidate selection used two independent synthetic folds and required a challenger to beat the mandatory baseline on both folds before held-out replacement.
 
-- preserve v0.0.41 `url/one_mixed = quoted_text`;
-- preserve v0.0.41 `mixed/upper = literal_query`;
-- restore `short_code/len5` to the v0.0.40 exact-identifier prompt;
-- keep every other subtype on its strongest non-regressing prompt.
+## Measured result
 
-That assembled floor corresponds to 83/90 if the deterministic held-out outcomes reproduce.
+GitHub Actions run `34285257677` evaluated commit `4f0ac856c0382a7f4d9b0b482bce32df33db2ad7` after the v0.0.42 runner was decoupled from the malformed post-run v0.0.41 source file. The inherited/focused suite passed **184 tests**. The CPU measurement then correctly returned **FAIL** only because the unchanged 95% global threshold was not reached.
 
-## Remaining calibration targets
+- Exact v0.0.8 reference control: **4/4 envelope and 4/4 correct tool**.
+- 90-case JSON-valid envelope: **84/90 (93.3%)**.
+- 90-case correct tool name: **84/90 (93.3%)**.
+- Correct tool conditional on valid envelope: **84/84 (100%)**.
+- Slot exact: **0/84 (0%)**.
+- Right envelope + right tool + wrong value: **84/90 (93.3%)**.
+- Clean stop: **90/90 (100%)**.
+- Kind no-regression gate: **PASS**.
+- Structural-subtype no-regression gate: **PASS**.
 
-Only six failure-bearing subtypes remain eligible for replacement:
+The two-fold selector froze:
 
-- `short_code/len4`
-- `short_code/len5`
-- `long_code/4x4`
-- `long_code/3x5`
-- `url/two_segment`
-- `path/plain_leaf`
+| Subtype | Selection |
+| --- | --- |
+| `short_code/len4` | baseline |
+| `short_code/len5` | baseline |
+| `long_code/4x4` | baseline |
+| `long_code/3x5` | baseline |
+| `path/plain_leaf` | baseline |
+| `url/two_segment` | `tool_query` |
 
-Every subtype keeps the assembled safe prompt as a mandatory baseline candidate.
+Only `url/two_segment` cleared the two-fold replacement rule. That change improved the held-out subtype from 2/3 to **3/3** and raised the full URL cohort to **10/10**.
 
-## Two-fold synthetic selection
+Held-out kind results are now:
 
-For each target subtype, v0.0.42 generates two independent synthetic folds (`select` and `confirm`), six exact-subtype values per fold, all disjoint from the 90 held-out targets and corruptions.
+| Kind | v0.0.40 | v0.0.41 raw | v0.0.42 | Protected floor |
+| --- | ---: | ---: | ---: | ---: |
+| `short_code` | 8/10 | 7/10 | **8/10** | 8/10 |
+| `long_code` | 7/10 | 7/10 | **7/10** | 7/10 |
+| `digits` | 10/10 | 10/10 | **10/10** | — |
+| `model_id` | 10/10 | 10/10 | **10/10** | — |
+| `url` | 7/10 | 9/10 | **10/10** | 9/10 |
+| `path` | 9/10 | 9/10 | **9/10** | 9/10 |
+| `entity` | 10/10 | 10/10 | **10/10** | — |
+| `expression` | 10/10 | 10/10 | **10/10** | — |
+| `mixed` | 9/10 | 10/10 | **10/10** | 10/10 |
 
-Three challengers are compared with the baseline:
+The protected subtype floors also all held: short len4 5/6, short len5 3/4, long 4x4 5/6, long 3x5 2/4, URL one-mixed 4/4, URL two-segment 3/3, path plain-leaf 3/4, and mixed upper 3/3.
 
-1. `typed_exact`: `Search the web for this exact <type>: "<value>".`
-2. `tool_query`: `Use web_search with query "<value>".`
-3. `query_exact`: `Use web_search. Set query exactly to "<value>".`
+## Conclusion
 
-A challenger may replace the baseline only if it beats the baseline by at least one case on **both folds** for both canonical envelope and correct tool name, and by at least two cases combined. This is designed to reject one-seed synthetic wins like the v0.0.41 short-code len5 result.
+v0.0.42 is the strongest fully regression-safe envelope baseline so far: **84/90 (93.3%)**, up from v0.0.40's 80/90 and only **two cases short** of the required 86/90 threshold.
 
-## Protection gates
+The remaining six envelope failures are localized to only four areas:
 
-The final 90-case held-out battery is measured once after selection. All of these must pass:
+- `short_code`: 2 failures (`len4` one, `len5` one)
+- `long_code`: 3 failures (`4x4` one, `3x5` two)
+- `path/plain_leaf`: 1 failure
 
-- exact v0.0.8 control: 4/4 envelope and 4/4 tool;
-- global envelope/tool baseline: at least 86/90 (95%);
-- kind floors: `short_code >= 8`, `long_code >= 7`, `url >= 9`, `path >= 9`, `mixed >= 10`;
-- subtype floors: `short_code/len4 >= 5`, `short_code/len5 >= 3`, `long_code/4x4 >= 5`, `long_code/3x5 >= 2`, `url/one_mixed >= 4`, `url/two_segment >= 2`, `path/plain_leaf >= 3`, `mixed/upper >= 3`.
+URL and mixed are now fully solved at 10/10, and all four historically strong kinds remain 10/10. A next CPU-only experiment should freeze URL, mixed, and every passing subtype, then target only these six remaining failures with stronger cross-seed evidence or a prompt feature orthogonal to the already-tested wording.
 
-`slot_exact` remains diagnostic only. No optimizer is present. `training_authorized=false`, `gpu_training_authorized=false`, and `production_authorized=false`.
-
-Even a PASS only establishes a valid baseline for a separate placement-learning phase. It does not authorize training automatically.
+No optimizer, GPU job, training, promotion, deployment, or production integration was run. This remains failing baseline evidence and does not authorize placement learning.
