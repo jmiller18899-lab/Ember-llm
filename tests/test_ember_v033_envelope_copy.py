@@ -399,12 +399,18 @@ def test_a_403_can_say_which_call_failed(helpers):
     """
     trainer = load(TRAINER_V033, "ember_hf_sft_v033_access")
     runtime = trainer.apply_transforms(TRAINER_V016.read_text())
-    for step in ("step=read_source", "step=create_repo"):
+    for step in ("step_read_source", "step_create_repo", "step_write_output"):
         assert step in runtime, step
-    # Source-repo read is checked before the output repo is touched, so a
-    # missing read grant is not reported as a missing write grant.
-    assert runtime.index("step=read_source") < runtime.index("step=create_repo")
-    assert runtime.index("step=read_source") < runtime.index("torch.cuda.is_available()")
+    # The verdict is persisted into the output repo, which the write check has
+    # just proved writable, rather than only raised into a detached job log.
+    assert "preflight/v0.0.33-access-check.json" in runtime
+    # And the message distinguishes the two repositories, which need different
+    # grants: the run that prompted this could write the output repo at
+    # 20:33:53 and still failed afterwards.
+    assert "cannot read the source checkpoint repo" in runtime
+    assert runtime.index("preflight/v0.0.33-access-check.json") < runtime.index(
+        "resolve_v031_source(api, token"
+    ), "the probe must run before the source download it is diagnosing"
 
 
 def test_the_report_contract_still_holds():

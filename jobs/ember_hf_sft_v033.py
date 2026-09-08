@@ -1000,19 +1000,36 @@ def v033_envelope_battery(model, tokenizer, data, cfg, device, torch, base):
 '''
 
 TRANSFORMS = (
-    # Name the failing call. The scaffold wraps whoami, create_repo and
-    # upload_file in one except clause whose message says "cannot create or
-    # write the output repo", so a 403 on any of them -- or on reading the
-    # source checkpoint, which is a different repository -- reads identically.
-    ("    identity = api.whoami()",
+    # Probe the source repository, which is a different repository needing a
+    # different grant, and persist the verdict into the output repo that the
+    # write check has just proved writable. The scaffold raises into a detached
+    # job's log, which cannot be read back -- the same gap the v0.0.32 evaluator
+    # and this preflight both had to learn.
+    ("    return owner, repo",
+     "    access = {\"step_whoami\": \"OK\", \"step_create_repo\": \"OK\", \"step_write_output\": \"OK\",\n"
+     "              \"output_repo\": repo, \"source_repo\": SOURCE_REPO}\n"
      "    try:\n"
      "        api.list_repo_files(repo_id=SOURCE_REPO, repo_type=\"model\")\n"
+     "        access[\"step_read_source\"] = \"OK\"\n"
      "    except Exception as exc:\n"
+     "        access[\"step_read_source\"] = \"FAIL\"\n"
+     "        access[\"error\"] = repr(exc)[:800]\n"
+     "    report = work / \"v0.0.33-access-check.json\"\n"
+     "    report.write_text(json.dumps(access, indent=2) + \"\\n\")\n"
+     "    try:\n"
+     "        api.upload_file(repo_id=repo, repo_type=\"model\", path_or_fileobj=str(report),\n"
+     "                        path_in_repo=\"preflight/v0.0.33-access-check.json\",\n"
+     "                        commit_message=\"Ember v0.0.33 access check\")\n"
+     "    except Exception:\n"
+     "        pass\n"
+     "    print(f\"EMBER_V033_HF_ACCESS={json.dumps(access, sort_keys=True)}\", flush=True)\n"
+     "    if access[\"step_read_source\"] != \"OK\":\n"
      "        raise RuntimeError(\n"
-     "            f\"EMBER_V033_HF_ACCESS=FAIL step=read_source repo={SOURCE_REPO}: {exc}\"\n"
-     "        ) from exc\n"
-     "    print(f\"EMBER_V033_HF_ACCESS=OK step=read_source repo={SOURCE_REPO}\", flush=True)\n"
-     "    identity = api.whoami()", 1),
+     "            f\"HF_TOKEN can write {repo} but cannot read the source checkpoint repo \"\n"
+     "            f\"{SOURCE_REPO}. Grant read on {SOURCE_REPO}; this is a different \"\n"
+     "            f\"repository from the output one. Detail: {access.get('error')}\"\n"
+     "        )\n"
+     "    return owner, repo", 1),
 
     ("    try:\n"
      "        api.create_repo(repo_id=repo, repo_type=\"model\", private=True, exist_ok=True)\n"
