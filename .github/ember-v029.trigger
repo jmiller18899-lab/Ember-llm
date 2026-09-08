@@ -1,5 +1,5 @@
-mode: bootstrap
-purpose: disarm Ember v0.0.29 after successful CPU preflight; no paid GPU training
+mode: train
+purpose: launch one explicitly approved Ember v0.0.29 T4 multi-position run from the successful CPU preflight
 source_checkpoint_repo: Jmiller18899/ember-v0.0.28-t4
 preflight_job: Jmiller18899/6a9f774fe686246ca69a9d38
 source_checkpoint: checkpoints/ember-agent-v0.0.28-boundary-focus-repair-20260908T022648Z/best.pt
@@ -17,4 +17,4 @@ output_repo_write_check: PASS
 sequence_worst_k: 2
 learning_rate: 1.2e-6
 max_steps: 600
-next_action: v0.0.29 T4 is evidence-supported; require explicit approval before one paid T4 launch
+next_action: submit exactly one v0.0.29 T4-small session, then immediately disarm this trigger and observe only that job
