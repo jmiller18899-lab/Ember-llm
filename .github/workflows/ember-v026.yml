@@ -16,6 +16,7 @@ on:
   push:
     branches:
       - main
+      - claude/ember-v0025-plateau-tnxpua
     paths:
       - ".github/ember-v026.trigger"
 
@@ -51,9 +52,6 @@ jobs:
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
           echo "Resolved Ember v0.0.26 mode: $mode"
 
-      # Free, dependency-free, and a hard gate on every other mode: the
-      # v0.0.21..v0.0.25 runs each spent a paid session on a curriculum that
-      # could not emit four of the held-out templates.
       - name: Assert curriculum format parity
         run: |
           python jobs/ember_curriculum_audit_v026.py \
