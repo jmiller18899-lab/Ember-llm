@@ -235,14 +235,37 @@ def test_too_many_unencodable_rows_fails_the_preflight_rather_than_the_paid_run(
     torch = pytest.importorskip("torch")
 
     rows = [bare_row(f"CODE{i:03d}") for i in range(20)]
-    with pytest.raises(RuntimeError, match="encode cleanly inside the envelope"):
-        helpers["encode_envelope_rows"](MergingTokenizer(), rows, cfg, torch, "train")
 
-    # And a clean tokenizer reports a full encodable fraction.
+    # Measuring never raises, so the numbers survive to be recorded...
+    encoded, summary = helpers["encode_envelope_rows"](MergingTokenizer(), rows, cfg, torch, "train")
+    assert encoded == []
+    assert summary["encodable_fraction"] == 0.0
+    assert sum(summary["rejected"].values()) == 20
+    # ...and enforcement is a separate step that then fails.
+    with pytest.raises(RuntimeError, match="below the floor"):
+        helpers["enforce_encodable_floor"]([summary], cfg)
+
+    # A clean tokenizer reports a full fraction and passes the floor.
     encoded, summary = helpers["encode_envelope_rows"](CharTokenizer(), rows, cfg, torch, "train")
     assert len(encoded) == 20
     assert summary["encodable_fraction"] == 1.0
     assert summary["rejected"] == {}
+    helpers["enforce_encodable_floor"]([summary], cfg)
+
+
+def test_the_encoding_summary_is_recorded_before_the_floor_is_enforced():
+    """The encodable fraction is the most valuable number this preflight
+    produces and the most likely thing to fail on, so it must not be destroyed
+    by the failure it describes."""
+    trainer = load(TRAINER_V033, "ember_hf_sft_v033_encoding")
+    runtime = trainer.apply_transforms(TRAINER_V016.read_text())
+    assert "preflight/v0.0.33-encoding.json" in runtime
+    # Compare against the call site, not the helper's definition, which sits
+    # earlier in the file for every helper.
+    call_site = runtime.index("enforce_encodable_floor([train_encoding, val_encoding], cfg)")
+    assert runtime.index("preflight/v0.0.33-encoding.json") < call_site
+    # And both happen before any GPU work.
+    assert call_site < runtime.index("torch.cuda.is_available()")
 
 
 def test_a_single_token_value_is_skipped_rather_than_encoded_without_a_copy_span(helpers, cfg):

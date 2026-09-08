@@ -867,14 +867,26 @@ def encode_envelope_rows(tokenizer, rows, cfg, torch, label):
             continue
         encoded.append(item)
     usable = len(encoded) / len(rows) if rows else 0.0
+    return encoded, {"label": label, "rows": len(rows), "encoded": len(encoded),
+                     "encodable_fraction": usable, "rejected": rejected,
+                     "floor": float(cfg["minimum_envelope_encodable_fraction"])}
+
+
+def enforce_encodable_floor(summaries, cfg):
+    """Enforced separately from measuring, so the numbers are recorded first.
+
+    Whether the tokenizer merges across the value's boundaries is the one thing
+    this phase could not test without the real tokenizer, which makes the
+    encodable fraction the single most valuable number the preflight produces --
+    and the most likely thing to fail on. Raising from inside the encoder
+    destroyed it, because a detached job's traceback is not readable afterwards.
+    """
     floor = float(cfg["minimum_envelope_encodable_fraction"])
-    if usable < floor:
+    short = [s for s in summaries if s["encodable_fraction"] < floor]
+    if short:
         raise RuntimeError(
-            "v0.0.33 %s: only %.3f of rows encode cleanly inside the envelope "
-            "(floor %.3f); rejections: %s" % (label, usable, floor, rejected)
+            "v0.0.33 envelope encoding below the floor of %.3f: %s" % (floor, short)
         )
-    return encoded, {"rows": len(rows), "encoded": len(encoded),
-                     "encodable_fraction": usable, "rejected": rejected}
 
 
 def _v033_first_json_object(text):
@@ -1082,7 +1094,14 @@ TRANSFORMS = (
      "        train, train_encoding = encode_envelope_rows(tokenizer, train_rows, cfg, torch, \"train\")\n"
      "        val, val_encoding = encode_envelope_rows(tokenizer, val_rows, cfg, torch, \"validation\")\n"
      "        print(f\"EMBER_V033_TRAIN_ENCODING={json.dumps(train_encoding, sort_keys=True)}\", flush=True)\n"
-     "        print(f\"EMBER_V033_VAL_ENCODING={json.dumps(val_encoding, sort_keys=True)}\", flush=True)", 1),
+     "        print(f\"EMBER_V033_VAL_ENCODING={json.dumps(val_encoding, sort_keys=True)}\", flush=True)\n"
+     "        encoding_path = work / \"v0.0.33-encoding.json\"\n"
+     "        encoding_path.write_text(json.dumps({\"train\": train_encoding, \"validation\": val_encoding}, indent=2) + \"\\n\")\n"
+     "        try:\n"
+     "            base.upload(api, repo, encoding_path, \"preflight/v0.0.33-encoding.json\", \"Ember v0.0.33 envelope encoding summary\")\n"
+     "        except Exception:\n"
+     "            pass\n"
+     "        enforce_encodable_floor([train_encoding, val_encoding], cfg)", 1),
 
     ('baseline = diagnostic(model, tokenizer, cfg, "cpu", torch, base)',
      'baseline = v033_diagnostic(model, tokenizer, data, cfg, "cpu", torch, base)', 1),
