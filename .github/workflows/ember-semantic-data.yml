@@ -1,0 +1,71 @@
+name: Ember Semantic Data CPU Preflight
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: CPU data validation only
+        required: true
+        default: bootstrap
+        type: choice
+        options: [bootstrap, preflight]
+  push:
+    branches:
+      - codex/ember-semantic-training-data-v1
+    paths:
+      - .github/ember-semantic-data.trigger
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-semantic-data-v1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - name: Resolve mode
+        id: mode
+        env:
+          REQUESTED_MODE: ${{ inputs.mode }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            mode="$REQUESTED_MODE"
+          else
+            mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-semantic-data.trigger)"
+          fi
+          case "$mode" in
+            bootstrap|preflight) ;;
+            *) echo 'Unsupported data preflight mode'; exit 1 ;;
+          esac
+          echo "value=$mode" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v6
+        if: steps.mode.outputs.value == 'preflight'
+        with:
+          python-version: '3.11'
+      - name: Install CPU dependencies
+        if: steps.mode.outputs.value == 'preflight'
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install sentencepiece==0.2.0 'huggingface-hub>=1.4,<2' jsonschema==4.23.0 pytest==8.3.5 numpy==2.2.6
+      - name: Test data grounding, separation, loss masks, and the frozen gate
+        if: steps.mode.outputs.value == 'preflight'
+        run: python -m pytest -q tests/test_ember_semantic_data.py tests/test_ember_semantic_gate.py
+      - name: Validate against the pinned checkpoint and save the private dataset
+        if: steps.mode.outputs.value == 'preflight'
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+          CUDA_VISIBLE_DEVICES: ''
+        run: python jobs/ember_semantic_data_preflight.py --output-dir semantic-data-results --publish
+      - name: Preserve data and validation evidence even on failure
+        if: always() && steps.mode.outputs.value == 'preflight'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-semantic-data-v1-${{ github.run_id }}
+          path: semantic-data-results/
+          if-no-files-found: warn
+          retention-days: 90
