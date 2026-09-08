@@ -1,5 +1,5 @@
-mode: bootstrap
-purpose: disarm Ember v0.0.30 after successful CPU contract/preflight; no paid GPU training
+mode: train
+purpose: launch exactly one explicitly approved Ember v0.0.30 T4 consolidation run from the passed CPU contract preflight
 source_checkpoint_repo: Jmiller18899/ember-v0.0.29-t4
 source_best_step: 479
 preflight_job: Jmiller18899/6a9f7f37259f8e97255edc0e
@@ -17,4 +17,4 @@ sequence_worst_k: 2
 learning_rate: 1.2e-6
 max_steps: 600
 changed_this_phase: source checkpoint only, plus reporter repair/producer-consumer contract protection
-next_action: v0.0.30 T4 is evidence-supported; require explicit approval before one paid T4 launch
+next_action: submit one approved t4-small v0.0.30 run, then immediately disarm after Hugging Face returns the training job id
