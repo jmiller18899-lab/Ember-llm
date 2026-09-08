@@ -1,5 +1,14 @@
 # Ember v0.0.26 — breaking the copy plateau
 
+> **Result (HF job `6a9f5cbde686246ca69a9a49`): the plateau broke.** Expanded
+> continuation 0.7534 → 0.8151, legacy continuation 0.8406 → 0.8696, expanded
+> exact copy 0.1889 → 0.2222, clean stop 1.0. Promotion FAIL on the stricter
+> gates, but this is the first run since v0.0.16 in which the model measurably
+> learned. Full analysis in
+> [`reports/ember-v0.0.26-result.json`](../reports/ember-v0.0.26-result.json);
+> the follow-up phase is
+> [`docs/ember-v0.0.27-sequence-completion.md`](ember-v0.0.27-sequence-completion.md).
+
 ## What v0.0.25 actually measured
 
 v0.0.25 completed, protected the baseline, and reported a final result identical
