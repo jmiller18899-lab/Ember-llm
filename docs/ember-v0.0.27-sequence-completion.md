@@ -1,5 +1,16 @@
 # Ember v0.0.27 — converting continuation into exact copies
 
+> **Result: the mechanism works, the allocation does not.**
+> `sequence_margin_health` −0.8871 → −0.6846 (+0.2025), expanded continuation
+> 0.8151 → 0.8205, expanded mean first-token rank 23.74 → 16.18, expanded exact
+> copy unchanged at 22.22%. Promotion FAIL, progress FLAT — and that FLAT was my
+> own reporting bug: `v027_progress` looked only at exact copy and continuation,
+> so a +0.2025 move in the statistic the run was built to move counted for
+> nothing. Fixed in v0.0.28. Analysis in
+> [`reports/ember-v0.0.27-result.json`](../reports/ember-v0.0.27-result.json);
+> next phase in
+> [`docs/ember-v0.0.28-boundary-focus.md`](ember-v0.0.28-boundary-focus.md).
+
 ## What v0.0.26 left behind
 
 v0.0.26 fixed the format gap, restored a learning rate that moves the model, and
