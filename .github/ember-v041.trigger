@@ -1,2 +1,2 @@
 mode: preflight
-request: calibrate prompt by structural subtype with v0.0.40 mandatory fallback; same 90-case gate; no optimizer, GPU, promotion, deployment, or integration
+request: structural-subtype CPU calibration with v0.0.40 mandatory fallback; registered workflow retry; no optimizer, GPU, promotion, deployment, or integration
