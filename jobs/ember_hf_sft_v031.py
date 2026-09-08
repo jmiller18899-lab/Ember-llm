@@ -43,9 +43,12 @@ def build_v031_source(source: str) -> str:
     source = source.replace("0.0.30", "0.0.31")
 
     # Then advance the source-model target from v0.0.29 -> v0.0.30.  These
-    # tokens intentionally remain one version behind the phase itself.
+    # tokens intentionally remain one version behind the phase itself.  Include
+    # both the prose form (v0.0.29) and the bare version string (0.0.29), because
+    # the checkpoint resolver compares train_config['version'] without a leading v.
     source = source.replace("ember-v0.0.29-t4", "ember-v0.0.30-t4")
     source = source.replace("v0.0.29", "v0.0.30")
+    source = source.replace("0.0.29", "0.0.30")
     source = source.replace("v029", "v030").replace("V029", "V030")
 
     # Pin the immutable commit that contains the v0.0.31 config.
@@ -61,6 +64,7 @@ def build_v031_source(source: str) -> str:
         'resolve_v029_source',
         'EMBER_HF_V030_',
         'EMBER_V030_',
+        'source_cfg.get("version")) != "0.0.29"',
     ):
         if forbidden in source:
             raise RuntimeError(f"v0.0.31 transform left stale token: {forbidden}")
@@ -68,6 +72,7 @@ def build_v031_source(source: str) -> str:
         'ember_multi_position_v0.0.31.json',
         'SOURCE_REPO = "Jmiller18899/ember-v0.0.30-t4"',
         'resolve_v030_source',
+        'source_cfg.get("version")) != "0.0.30"',
         'EMBER_HF_V031_',
         'EMBER_V031_',
         V031_CONFIG_COMMIT,
