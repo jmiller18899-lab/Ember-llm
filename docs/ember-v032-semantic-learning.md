@@ -56,3 +56,18 @@ of v0.0.31's promotion evidence is performed.
 The connected Hugging Face credential lacks repository write scope, so the
 existing GitHub `H_F2` secret is used for private checkpoint persistence and the
 conditional Jobs submission. The Hugging Face connector can inspect that job.
+
+## Launched experiment
+
+[CPU learning workflow 34215725680](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34215725680)
+was started from code `d2ca7fcd18c0ee7b36e0dc032f79a8eea306a25d` in `begin` mode.
+All 125 focused tests passed locally and on that runner. The separate
+[repository CPU validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34215762092)
+also passed. The CPU learning measurement is pending; this launch record is not
+a canary or semantic PASS.
+
+The trigger has returned to `bootstrap` for subsequent pushes. The active
+workflow retains its original `begin` mode: a passing canary can submit its one
+guarded T4 job, whose script then evaluates the selected full and INT4 checkpoints.
+The run's `publication.json` and, if submitted, `gpu-submission.json` provide the
+immutable report revision and actual Hugging Face job ID.
