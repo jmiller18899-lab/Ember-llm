@@ -1,5 +1,5 @@
-mode: bootstrap
-purpose: keep the Ember v0.0.30 trigger disarmed; no preflight and no paid GPU session is launched by merging this branch
+mode: preflight
+purpose: run the Ember v0.0.30 CPU contract/preflight only; do not launch paid GPU training
 source_checkpoint_repo: Jmiller18899/ember-v0.0.29-t4
 source_best_step: 479
 previous_result: reports/ember-v0.0.29-reporter-defect.json (training ADVANCED, artifacts complete, reporter crashed after upload)
@@ -11,4 +11,4 @@ curriculum: unchanged since v0.0.26 (jobs/ember_sft_data_v026.py)
 learning_rate: 1.2e-6, unchanged since v0.0.26
 steps: 600, unchanged since v0.0.26 (v0.0.29 peaked at step 479, so a longer schedule is not indicated)
 changed_this_phase: source checkpoint only, plus the reporter repair and a contract test that derives required keys from the transform text
-next_action: run mode "audit" (free), then "preflight" (CPU), then decide
+next_action: CPU preflight only; validate source checkpoint, reporter contract, gates, and output write access before any paid launch
