@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -221,10 +222,31 @@ def test_every_spec_case_maps_to_a_legacy_prompt(spec):
     assert all(value == 1.0 for value in spec["gates"].values())
 
 
-def test_the_job_never_trains_uploads_or_promotes():
+def test_the_job_never_trains_or_promotes():
+    """It writes one evaluation report and touches nothing else.
+
+    The earlier form of this test forbade upload_file outright, which was too
+    blunt: a detached job's stdout lives only in its log stream, so a report that
+    is printed and nowhere else cannot be read back. The evaluator now publishes
+    under evaluations/ exactly as jobs/ember_hf_eval.py does, and this test pins
+    the narrower property that actually matters.
+    """
     source = JOB.read_text()
-    for forbidden in ("upload_file", "save_checkpoint", "loss.backward", "optimizer", "cuda"):
-        assert forbidden not in source, f"a read-only evaluator must not reference {forbidden}"
+    for forbidden in ("save_checkpoint", "loss.backward", "optimizer.step", "torch.cuda", "model.train()"):
+        assert forbidden not in source, f"an evaluator must not reference {forbidden}"
+    # Exactly one upload call, and every path it can be given is a report.
+    assert source.count("api.upload_file(") == 1, "an evaluator writes one thing"
+    assert "path_in_repo=remote" in source
+    targets = re.findall(r'for remote in \(\s*(.*?)\s*\):', source, re.S)
+    assert len(targets) == 1, "could not find the upload target list"
+    literals = re.findall(r'f?"([^"]+)"', targets[0])
+    assert len(literals) >= 2, literals
+    assert all(literal.startswith("evaluations/") for literal in literals), literals
+    # run-state is read to resolve the checkpoint and never written back.
+    assert 'filename="run-state.json"' in source, "resolution should consult run-state"
+    assert 'path_in_repo="run-state.json"' not in source, "an evaluator must not rewrite run-state"
+    # And it never claims a promotion.
+    assert "promotion_eligible" not in source
 
 
 def test_the_job_fetches_its_assets_by_url_because_only_the_script_is_uploaded(gate):

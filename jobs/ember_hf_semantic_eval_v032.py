@@ -397,6 +397,8 @@ def main() -> int:
         out = Path(args.out)
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(report, indent=2) + "\n")
+    if not args.completions:
+        publish_report(spec, report)
     print(f"EMBER_V032_SEMANTIC_GATE={'PASS' if report['passed'] else 'FAIL'}", flush=True)
     print(
         "EMBER_V032_LEGACY_PASSES_BUT_STRICT_FAILS="
@@ -404,6 +406,45 @@ def main() -> int:
         flush=True,
     )
     return 0
+
+
+def publish_report(spec: dict, report: dict) -> None:
+    """Persist the report to the candidate repo under evaluations/.
+
+    A detached job's stdout lives only in its log stream, so a report that is
+    printed and nowhere else cannot be read back later. jobs/ember_hf_eval.py
+    writes its results to evaluations/ for the same reason; this follows it.
+    Nothing else in the repository is touched: no checkpoint, no run-state, no
+    promotion.
+    """
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+
+    from huggingface_hub import HfApi
+
+    token = os.environ.get("HF_TOKEN", "").strip()
+    if not token:
+        print("EMBER_V032_REPORT_PUBLISHED=SKIPPED_NO_TOKEN", flush=True)
+        return
+    api = HfApi(token=token)
+    repo = f"Jmiller18899/{spec['candidate_model_name']}"
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    body = json.dumps(report, indent=2) + "\n"
+    with tempfile.TemporaryDirectory(prefix="ember-v032-report-") as td:
+        local = Path(td) / "report.json"
+        local.write_text(body)
+        for remote in (
+            f"evaluations/v032-semantic-gate-{stamp}.json",
+            "evaluations/v032-semantic-gate-latest.json",
+        ):
+            api.upload_file(
+                repo_id=repo, repo_type="model",
+                path_or_fileobj=str(local), path_in_repo=remote,
+                commit_message="Ember v0.0.32 semantic quality gate report",
+            )
+            print(f"EMBER_V032_REPORT={repo}/{remote}", flush=True)
+    print("EMBER_V032_REPORT_PUBLISHED=PASS", flush=True)
 
 
 def generate_all(spec: dict, prompts: dict) -> dict:
