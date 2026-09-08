@@ -70,4 +70,58 @@ These labels summarize evidence; they do not authorize a learning phase.
 
 There is no optimizer, backward pass, CUDA execution path, checkpoint write, promotion, deployment, or integration action in v0.0.45.
 
-The useful output is a localization decision for the next experiment: whether future learning should target the envelope-entry token decision specifically, or whether the residual cases require a broader decoding intervention.
+## Measured result
+
+The formal corrected diagnostic was GitHub Actions run `34289689685`, job `102273238774`, on commit `92ea5b1030c39f638827c274f30ce02b5821409b`.
+
+- Focused/inherited guards: **99 passed**.
+- Restored v0.0.41 runner: Python compile **PASS**.
+- Exact v0.0.8 reference controls: **4/4** before the residual diagnostic was accepted.
+- Residual-subtype cohort: **24 cases** — the six stable failures plus all 18 same-subtype passes.
+- The exact six historical failure IDs reproduced.
+- Diagnostic status: **COMPLETE**.
+- Artifact: `ember-v045-logit-34289689685`, artifact ID `10080894928`, ZIP SHA256 `9648818041ceae00053ea6f13fd1e7a85343d90d2cb752aebfb43bf357fa7522`.
+
+### Failure group versus matched passes
+
+| Measurement | Six failures | 18 matched passes |
+| --- | ---: | ---: |
+| median `<|tool|>` rank | **19** | **1** |
+| mean `<|tool|>` rank | 56.33 | 1.00 |
+| median tool margin vs best other | **-1.4068** | **+2.0095** |
+| mean tool margin | -1.4480 | +1.6840 |
+| median tool probability | 0.003977 | 0.013332 |
+| median target token count | 6.0 | 6.5 |
+| valid correct-tool envelope after one forced marker | **2/6** | **18/18** |
+
+The matched passing group is extremely clean: all 18 cases rank `<|tool|>` first and all 18 remain valid after the one-token intervention. The failure group is materially different, but not in one uniform way.
+
+### Six residual cases
+
+| Case | Subtype | Tool rank | Tool margin | One-marker rescue | Interpretation |
+| --- | --- | ---: | ---: | --- | --- |
+| `system_target_short_code_02` | `short_code/len5` | 1 | +1.6712 | no | already enters the tool envelope; failure is downstream |
+| `system_target_short_code_03` | `short_code/len4` | 3 | -1.6754 | no | tool token is competitive, but downstream decoding also fails |
+| `system_target_long_code_02` | `long_code/3x5` | 226 | -3.7581 | **yes** | strong entry suppression; downstream tool decoder is intact |
+| `system_target_long_code_05` | `long_code/4x4` | 72 | -3.9198 | **yes** | strong entry suppression; downstream tool decoder is intact |
+| `system_target_long_code_08` | `long_code/3x5` | 35 | -1.1382 | no | entry suppression plus a deeper decoding failure |
+| `system_target_path_05` | `path/plain_leaf` | 1 | +0.1325 | no | tool marker is already greedy; failure is downstream |
+
+Forced-marker rescue on the six failures was only **2/6 (33.3%)**. Two cases were classified near the configured boundary and three were competitive by the broader heuristic, but the overall regime is:
+
+`deeper_decoding_difference_after_envelope_entry`
+
+## Conclusion
+
+v0.0.45 rejects the idea that the remaining 84/90 plateau is one simple tool-entry problem.
+
+There are at least two distinct mechanisms:
+
+1. **Envelope-entry suppression with intact downstream decoding** — `long_code_02` and `long_code_05`. Their `<|tool|>` ranks are 226 and 72, yet forcing exactly that one marker immediately restores a canonical correct-tool envelope.
+2. **Downstream envelope-construction failure** — the other four residual cases. Most importantly, `short_code_02` and `path_05` already rank `<|tool|>` first, so an entry-only learning objective cannot solve them. `short_code_03` and `long_code_08` also remain invalid after the forced marker.
+
+That means a narrow objective that only teaches Ember to choose `<|tool|>` would be incomplete. It could plausibly fix two residual long-code cases but would leave four structural failures unresolved.
+
+Do **not** authorize placement learning or GPU training from v0.0.45. The next useful experiment is a CPU-only v0.0.46 structural-prefix diagnostic: hold prompts and weights frozen, teacher-force only non-value canonical envelope structure (`<|tool|>`, JSON opening/name/tool/arguments/slot-key boundaries) on the four non-rescued failures versus matched passes, and measure the token-by-token divergence. The target argument values must remain unforced so `slot_exact` stays an honest future learning target. The two rescued long-code cases should be kept as a separate entry-suppression cohort and their first-token competitors recorded.
+
+No optimizer, GPU job, training, promotion, deployment, or production integration was run.
