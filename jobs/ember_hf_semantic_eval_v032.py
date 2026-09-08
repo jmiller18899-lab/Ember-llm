@@ -46,6 +46,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import urllib.request
 from pathlib import Path
 
@@ -166,22 +167,52 @@ def repeated_ngram_ratio(text: str, n: int) -> float:
     return 1.0 - (len(set(grams)) / len(grams))
 
 
-def clean_stop(completion: str) -> bool:
-    """The model chose to stop, rather than running out of budget."""
-    return EOT in completion
+def split_at_eos(completion: str) -> tuple:
+    """(answer, text_after_eos, stopped_at_eos).
+
+    These are three different facts and the first version of this rubric
+    collapsed them. `clean_stop` returned True whenever EOS appeared anywhere,
+    and every other check ran on `before_eos`, which discards the text after it.
+    So a completion that answered, emitted EOS, and then invented four more
+    conversation turns scored clean_stop and no_trailing_noise at 1.0 -- the
+    exact "scores the first segment and ignores the rest" flaw this gate was
+    written to catch in the legacy evaluator.
+
+    The evaluation harness generates the full token budget without halting at
+    EOS, so text after the first EOS is a property of the harness, not of what a
+    caller that stops at EOS would ever see. It is therefore reported as
+    evidence rather than gated, while *whether the model emitted EOS at all*
+    is a real property of the model and is gated.
+    """
+    stopped = EOT in completion
+    if not stopped:
+        return completion, "", False
+    answer, after = completion.split(EOT, 1)
+    return answer, after, True
 
 
-def before_eos(completion: str) -> str:
-    return completion.split(EOT, 1)[0]
+def extra_turn_markers(text: str, forbidden) -> list:
+    return [marker for marker in forbidden if marker in text]
 
 
-def extra_turn_markers(completion: str, forbidden) -> list:
-    body = before_eos(completion)
-    return [marker for marker in forbidden if marker in body]
+def numbers_in(text: str) -> list:
+    return re.findall(r"\d+(?:\.\d+)?", text.replace(",", ""))
 
 
-def score_tool_call(case: dict, completion: str, quality: dict) -> dict:
-    body = before_eos(completion)
+def unfaithful_numbers(answer: str, prompt: str, tolerated) -> list:
+    """Numbers the answer states that appear nowhere in the prompt.
+
+    The prompt carries the user's request and the tool result, so any other
+    number in the answer was invented. This is what catches "587 multiplied by
+    27 equals 672" against a tool result of 9716, and "45 degrees" against a
+    tool result of 72.
+    """
+    available = set(numbers_in(prompt)) | set(str(value) for value in tolerated)
+    return [value for value in numbers_in(answer) if value not in available]
+
+
+def score_tool_call(case: dict, completion: str, quality: dict, prompt: str = "") -> dict:
+    body, after_eos, stopped = split_at_eos(completion)
     markers = body.count("<|tool|>")
     after = body.split("<|tool|>", 1)[1] if markers else body
     found = extract_json_object(after)
@@ -214,9 +245,9 @@ def score_tool_call(case: dict, completion: str, quality: dict) -> dict:
         "arguments_are_object": normalised is not None,
         "required_keys_present": keys_present,
         "arguments_grounded": not grounded_missing,
-        "clean_stop": clean_stop(completion) if quality["require_clean_stop"] else True,
+        "stopped_at_eos": stopped if quality.get("require_stop_at_eos", True) else True,
         "no_trailing_noise": len(trailing) <= int(quality["max_trailing_visible_chars"]),
-        "no_extra_turn_markers": not extra_turn_markers(completion, quality["forbid_extra_turn_markers"]),
+        "no_extra_turn_markers": not extra_turn_markers(body, quality["forbid_extra_turn_markers"]),
         "no_degenerate_repetition": repeated_ngram_ratio(
             visible_text(body), int(quality["repetition_ngram"])
         ) <= float(quality["max_repeated_ngram_ratio"]),
@@ -224,6 +255,8 @@ def score_tool_call(case: dict, completion: str, quality: dict) -> dict:
     return {
         "passed": all(checks.values()),
         "checks": checks,
+        "advisory": advisory_after_eos(after_eos, quality),
+        "answer": visible_text(body)[:200],
         "tool_markers": markers,
         "argument_keys": sorted(keys),
         "grounded_missing": grounded_missing,
@@ -231,32 +264,74 @@ def score_tool_call(case: dict, completion: str, quality: dict) -> dict:
     }
 
 
-def score_response(case: dict, completion: str, quality: dict) -> dict:
-    body = before_eos(completion)
+def advisory_after_eos(after_eos: str, quality: dict) -> dict:
+    """Reported, never gated. See split_at_eos for why."""
+    if not quality.get("report_text_after_eos", True):
+        return {}
+    visible = visible_text(after_eos)
+    return {
+        "no_text_after_eos": not visible,
+        "text_after_eos_chars": len(visible),
+        "invented_turns_after_eos": sorted(set(
+            marker for marker in ("<|user|>", "<|assistant|>", "<|system|>", "<|tool|>")
+            if marker in after_eos
+        )),
+        "extra_eos_count": after_eos.count(EOT),
+    }
+
+
+def score_response(case: dict, completion: str, quality: dict, prompt: str = "") -> dict:
+    body, after_eos, stopped = split_at_eos(completion)
     readable = visible_text(body)
+    lowered = readable.casefold()
+
+    facts = list(case.get("tool_result_facts", []))
+    missing_facts = [fact for fact in facts if fact.casefold() not in lowered]
+
+    wanted = list(case.get("addresses_request_any", []))
+    addresses = (not wanted) or any(item.casefold() in lowered for item in wanted)
+
+    invented = []
+    if case.get("numeric_faithfulness"):
+        if not prompt:
+            raise RuntimeError(
+                f"case {case['id']} declares numeric_faithfulness; scoring it needs the prompt"
+            )
+        invented = unfaithful_numbers(
+            readable, prompt, quality.get("numeric_faithfulness_tolerated_values", [])
+        )
+
     checks = {
         "no_tool_call": "<|tool|>" not in body,
-        "clean_stop": clean_stop(completion) if quality["require_clean_stop"] else True,
-        "no_extra_turn_markers": not extra_turn_markers(completion, quality["forbid_extra_turn_markers"]),
+        "stopped_at_eos": stopped if quality.get("require_stop_at_eos", True) else True,
+        "no_extra_turn_markers": not extra_turn_markers(body, quality["forbid_extra_turn_markers"]),
         "long_enough": len(readable) >= int(quality["direct_min_visible_chars"]),
         "enough_words": len(readable.split()) >= int(quality["direct_min_words"]),
         "no_degenerate_repetition": repeated_ngram_ratio(
             readable, int(quality["repetition_ngram"])
         ) <= float(quality["max_repeated_ngram_ratio"]),
+        # The content checks the first version of this rubric did not have.
+        "uses_tool_result": not missing_facts,
+        "addresses_request": addresses,
+        "no_invented_numbers": not invented,
     }
     return {
         "passed": all(checks.values()),
         "checks": checks,
+        "advisory": advisory_after_eos(after_eos, quality),
+        "answer": readable[:200],
+        "missing_tool_result_facts": missing_facts,
+        "invented_numbers": invented,
         "visible_chars": len(readable),
         "repeated_ngram_ratio": repeated_ngram_ratio(readable, int(quality["repetition_ngram"])),
     }
 
 
-def score_case(case: dict, completion: str, quality: dict) -> dict:
+def score_case(case: dict, completion: str, quality: dict, prompt: str = "") -> dict:
     if case["kind"] == "tool_call":
-        return score_tool_call(case, completion, quality)
+        return score_tool_call(case, completion, quality, prompt)
     if case["kind"] in {"direct_response", "tool_result_response"}:
-        return score_response(case, completion, quality)
+        return score_response(case, completion, quality, prompt)
     raise ValueError(f"unsupported case kind: {case['kind']}")
 
 
@@ -284,13 +359,26 @@ def aggregate(rows: list, spec: dict) -> dict:
         return sum(bool(predicate(r)) for r in selected) / len(selected)
 
     strict = [r for r in rows if r["strict"]["passed"]]
+    responses = [r for r in rows if r["kind"] != "tool_call"]
     metrics = {
         "grounded_tool_call_rate": rate("tool_call", lambda r: r["strict"]["passed"]),
         "direct_quality_rate": rate("direct_response", lambda r: r["strict"]["passed"]),
         "tool_result_quality_rate": rate("tool_result_response", lambda r: r["strict"]["passed"]),
-        "clean_stop_rate": sum(r["strict"]["checks"]["clean_stop"] for r in rows) / len(rows),
+        # Content, separated from shape: does the answer use what it was given
+        # and answer what was asked, without inventing numbers?
+        "faithful_response_rate": sum(
+            all(r["strict"]["checks"][name] for name in
+                ("uses_tool_result", "addresses_request", "no_invented_numbers"))
+            for r in responses
+        ) / len(responses) if responses else 0.0,
+        # The model emitting EOS, which is distinct from what the harness
+        # generated after it. The latter is advisory; see split_at_eos.
+        "stop_at_eos_rate": sum(r["strict"]["checks"]["stopped_at_eos"] for r in rows) / len(rows),
         "no_trailing_noise_rate": sum(
             r["strict"]["checks"].get("no_trailing_noise", True) for r in rows
+        ) / len(rows),
+        "no_text_after_eos_rate": sum(
+            bool(r["strict"].get("advisory", {}).get("no_text_after_eos")) for r in rows
         ) / len(rows),
         "overall_strict_pass_rate": len(strict) / len(rows),
         "legacy_pass_rate": sum(bool(r["legacy_passed"]) for r in rows) / len(rows),
@@ -307,6 +395,12 @@ def aggregate(rows: list, spec: dict) -> dict:
         "legacy_passes_but_strict_fails": [
             r["id"] for r in rows if r["legacy_passed"] and not r["strict"]["passed"]
         ],
+        "advisory_note": (
+            "no_text_after_eos is reported, not gated: the harness generates the full token "
+            "budget without halting at EOS, so text after the first EOS is a property of the "
+            "harness rather than of what a caller stopping at EOS would see. stopped_at_eos is "
+            "gated because emitting EOS is a property of the model."
+        ),
     }
 
 
@@ -381,7 +475,7 @@ def main() -> int:
             "id": case["id"],
             "kind": case["kind"],
             "completion": text,
-            "strict": score_case(case, text, quality),
+            "strict": score_case(case, text, quality, prompts[case["id"]]),
             "legacy_passed": score_legacy(case, text),
         })
 

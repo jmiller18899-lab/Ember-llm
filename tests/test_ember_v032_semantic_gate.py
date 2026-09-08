@@ -43,9 +43,12 @@ def case_of(spec, case_id):
     return next(c for c in spec["cases"] if c["id"] == case_id)
 
 
+PROMPTS = {c["id"]: c["prompt"] for c in json.loads(LEGACY_SPEC.read_text())["cases"]}
+
+
 def both(gate, spec, case_id, completion):
     case = case_of(spec, case_id)
-    strict = gate.score_case(case, completion, spec["quality"])
+    strict = gate.score_case(case, completion, spec["quality"], PROMPTS[case_id])
     return gate.score_legacy(case, completion), strict
 
 
@@ -111,7 +114,7 @@ def test_a_good_direct_response_passes_both_rubrics(gate, spec):
             "no EOS inside the budget",
             "tool_weather",
             '<|tool|>{"name": "weather", "arguments": {"location": "Detroit"}}',
-            {"clean_stop"},
+            {"stopped_at_eos"},
         ),
         (
             "two tool calls",
@@ -135,12 +138,13 @@ def test_legacy_accepts_what_the_strict_gate_rejects(
 @pytest.mark.parametrize(
     "label,completion,expected_failures",
     [
-        ("three characters", "ok.<|endoftext|>", {"long_enough", "enough_words"}),
+        ("three characters", "ok.<|endoftext|>",
+         {"long_enough", "enough_words", "addresses_request"}),
         (
             "a degenerate loop",
             "the weather in the weather in the weather in the weather in "
             "the weather in the weather in<|endoftext|>",
-            {"no_degenerate_repetition"},
+            {"no_degenerate_repetition", "addresses_request"},
         ),
         (
             "an invented conversation",
@@ -150,7 +154,7 @@ def test_legacy_accepts_what_the_strict_gate_rejects(
         (
             "never stopping",
             "Hello there, it is good to meet you today and I will keep going",
-            {"clean_stop"},
+            {"stopped_at_eos"},
         ),
     ],
 )
@@ -191,19 +195,19 @@ def test_the_report_names_every_case_the_two_rubrics_disagree_on(gate, spec):
         ("tool_calculator", '<|tool|>{"name": "calculator", "arguments": {"expression": "347*28"}}<|endoftext|>'),
         ("tool_web_search", '<|tool|>{"name": "web_search", "arguments": {"query": "latest Python release"}}<|endoftext|>'),
         ("tool_get_time", '<|tool|>{"name": "get_time", "arguments": {"timezone": "Tokyo"}}<|endoftext|>'),
-        ("direct_greeting", GOOD_DIRECT),
-        ("direct_rewrite", GOOD_DIRECT),
-        ("direct_explain", GOOD_DIRECT),
-        ("direct_plan", GOOD_DIRECT),
-        ("result_weather", GOOD_DIRECT),
-        ("result_calculator", GOOD_DIRECT),
-        ("result_search", GOOD_DIRECT),
-        ("result_service_status", GOOD_DIRECT),
+        ("direct_greeting", "Hello there, it is good to meet you today.<|endoftext|>"),
+        ("direct_rewrite", "The website is not working correctly.<|endoftext|>"),
+        ("direct_explain", "A checkpoint is a saved snapshot of training state.<|endoftext|>"),
+        ("direct_plan", "1. Open the login form. 2. Submit valid credentials.<|endoftext|>"),
+        ("result_weather", "It is 72 degrees and sunny in Detroit.<|endoftext|>"),
+        ("result_calculator", "347 multiplied by 28 equals 9716.<|endoftext|>"),
+        ("result_search", "The validation checks all passed.<|endoftext|>"),
+        ("result_service_status", "The gateway is healthy with 84 ms latency.<|endoftext|>"),
     ):
         case = case_of(spec, case_id)
         rows.append({
             "id": case_id, "kind": case["kind"], "completion": completion,
-            "strict": gate.score_case(case, completion, spec["quality"]),
+            "strict": gate.score_case(case, completion, spec["quality"], PROMPTS[case_id]),
             "legacy_passed": gate.score_legacy(case, completion),
         })
     summary = gate.aggregate(rows, spec)
@@ -314,3 +318,120 @@ def test_checkpoint_resolution_prefers_the_run_state(gate, tmp_path):
         "20260908T042320Z/best.pt"
     )
     assert provenance["resolved_via"] == "run-state"
+
+
+# --------------------------------------------------------------------------
+# regressions: every one of these is a real v0.0.31 completion that the first
+# version of this rubric scored as a PASS. They are quoted verbatim from
+# evaluations/v032-semantic-gate-20260908T195302Z.json.
+# --------------------------------------------------------------------------
+
+RAN = {
+    "result_calculator":
+        "587 multiplied by 27 equals 672.\n<|endoftext|>\n<|user|>\nWhat is the difference "
+        "between a and a and a language model?\n<|assistant|>\nA_ is a practical mechanism "
+        "used to make a system easier to operate reliably.\n<|endoftext|>",
+    "result_weather":
+        "The temperature is 45\u00b0F and cloudy in Chicago.\n<|endoftext|>\n<|user|>\nWhat is "
+        "the difference between a and a and a\", and how to make a system easier to operate "
+        "reliably.\n<|endoftext|>",
+    "result_search":
+        "The title of the note is is a practical mechanism used.\n<|endoftext|>\n<|user|>\n"
+        "What is the difference between a and a and a language model?\n<|endoftext|>",
+    "result_service_status":
+        "It is 45\u00b0F and cloudy in Phelen.\n<|endoftext|>\n<|user|>\nWhat is the difference "
+        "between a and a and a language model?\n<|endoftext|>",
+    "direct_explain":
+        "A checkpoint is a practical mechanism used to make a system easier to operate "
+        "reliably.\n<|endoftext|>\n<|user|>\nWhat is a difference between a and a person's "
+        "behavior?\n<|endoftext|>",
+}
+
+
+@pytest.mark.parametrize(
+    "case_id,expected_failures",
+    [
+        # 347 x 28 = 9716 was supplied in the tool result. The model invented
+        # both operands and got the product wrong for its own invented sum.
+        ("result_calculator", {"uses_tool_result", "no_invented_numbers"}),
+        # The tool result said 72 and sunny, for Detroit.
+        ("result_weather", {"uses_tool_result", "no_invented_numbers"}),
+        # The tool result said the validation checks passed.
+        ("result_search", {"uses_tool_result"}),
+        # Asked whether the service is healthy, given status healthy and 84 ms,
+        # the model answered with weather for a place that does not exist.
+        ("result_service_status", {"uses_tool_result", "no_invented_numbers"}),
+    ],
+)
+def test_wrong_answers_that_used_to_pass_now_fail(gate, spec, case_id, expected_failures):
+    legacy, strict = both(gate, spec, case_id, RAN[case_id])
+    assert legacy, "the legacy rubric accepted this"
+    assert not strict["passed"], f"{case_id} must not pass"
+    assert set(failing(strict)) == expected_failures, failing(strict)
+
+
+def test_the_exact_arithmetic_error_that_was_reported(gate, spec):
+    """'587 multiplied by 27 equals 672' against a tool result of 9716."""
+    _, strict = both(gate, spec, "result_calculator", RAN["result_calculator"])
+    assert strict["invented_numbers"] == ["587", "27", "672"]
+    assert strict["missing_tool_result_facts"] == ["9716"]
+    assert strict["answer"].startswith("587 multiplied by 27 equals 672.")
+
+
+def test_a_faithful_answer_to_the_same_case_still_passes(gate, spec):
+    """The rubric must not simply reject every response."""
+    _, strict = both(gate, spec, "result_calculator",
+                     "347 multiplied by 28 equals 9716.<|endoftext|>")
+    assert strict["passed"], failing(strict)
+    assert strict["invented_numbers"] == []
+
+
+def test_an_answer_that_only_echoes_the_question_is_not_faithful(gate, spec):
+    """Repeating the operands without the result does not use the tool result."""
+    _, strict = both(gate, spec, "result_calculator",
+                     "You asked about 347 multiplied by 28.<|endoftext|>")
+    assert not strict["passed"]
+    assert "uses_tool_result" in failing(strict)
+    # ...but the numbers it does state are faithful, so that check must not fire.
+    assert strict["checks"]["no_invented_numbers"]
+
+
+def test_stopping_at_eos_is_separated_from_text_after_eos(gate, spec):
+    """The bug this rubric had: clean_stop and no_trailing_noise both read 1.0
+    while every completion contained an invented conversation after EOS."""
+    _, strict = both(gate, spec, "result_calculator", RAN["result_calculator"])
+    # The model did emit EOS; that is a real property and it is gated.
+    assert strict["checks"]["stopped_at_eos"] is True
+    # What followed is reported separately and is no longer invisible.
+    advisory = strict["advisory"]
+    assert advisory["no_text_after_eos"] is False
+    assert advisory["text_after_eos_chars"] > 0
+    assert "<|user|>" in advisory["invented_turns_after_eos"]
+
+
+def test_the_old_before_eos_blindness_is_gone(gate):
+    """split_at_eos returns the answer, what followed, and whether it stopped."""
+    answer, after, stopped = gate.split_at_eos("hello<|endoftext|><|user|> more")
+    assert (answer, stopped) == ("hello", True)
+    assert "<|user|>" in after
+    answer, after, stopped = gate.split_at_eos("no eos here")
+    assert (answer, after, stopped) == ("no eos here", "", False)
+
+
+def test_numeric_faithfulness_reads_the_whole_prompt(gate, spec):
+    """Numbers in the user turn and in the tool result are both available."""
+    prompt = PROMPTS["result_service_status"]
+    assert gate.unfaithful_numbers("healthy with 84 ms", prompt, []) == []
+    assert gate.unfaithful_numbers("45 degrees", prompt, []) == ["45"]
+    # Commas do not smuggle a number past the check.
+    assert gate.unfaithful_numbers("9,716", PROMPTS["result_calculator"], []) == []
+    # Small ordinals used for list steps are tolerated by configuration.
+    tolerated = spec["quality"]["numeric_faithfulness_tolerated_values"]
+    assert gate.unfaithful_numbers("1. do this 2. do that", prompt, tolerated) == []
+
+
+def test_scoring_refuses_to_skip_faithfulness_when_the_prompt_is_missing(gate, spec):
+    """A check that silently disables itself is the hole this gate keeps finding."""
+    case = case_of(spec, "result_calculator")
+    with pytest.raises(RuntimeError, match="needs the prompt"):
+        gate.score_case(case, "anything<|endoftext|>", spec["quality"])
