@@ -56,3 +56,12 @@ Local verification passed all 134 focused tests, including actual optimizer
 updates toward the more heavily weighted copy target, checkpoint/optimizer/RNG
 persistence, checkpoint selection independent of copy results, unchanged gate
 checks, and replay separation. The workflow repeats these tests before training.
+
+## Launched CPU experiment
+
+[Workflow 34219463932](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34219463932)
+started from code `06b9e19011de53be90dc280f571f63b8174e92d1` in `canary` mode.
+The measured result is pending. The trigger has returned to `bootstrap` for
+future pushes; the active workflow keeps its originally checked-out canary
+request. The implementation is published in
+[draft PR #24](https://github.com/jmiller18899-lab/Ember-llm/pull/24).
