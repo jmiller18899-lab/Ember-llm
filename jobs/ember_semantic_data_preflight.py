@@ -168,8 +168,9 @@ def cpu_check(splits: dict, config: dict) -> dict:
         checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
         if checkpoint["step"] != source["step"] or checkpoint["train_config"]["version"] != source["version"]:
             raise ValueError("reference checkpoint identity mismatch")
-        if checkpoint["model_config"]["block_size"] != config["block_size"]:
-            raise ValueError("context size differs from reference checkpoint")
+        model_context = checkpoint["model_config"]["block_size"]
+        if not 0 < config["block_size"] <= model_context:
+            raise ValueError("data context exceeds reference model capacity")
         tokenizer = tokenizer_from_state_dict(checkpoint["tokenizer"])
         contract = token_contract(tokenizer)
         encoded, token_stats = {}, {}
@@ -211,6 +212,7 @@ def cpu_check(splits: dict, config: dict) -> dict:
             raise ValueError("CPU preflight changed model state")
         model.zero_grad(set_to_none=True)
         return {"status": "PASS", "device": "cpu", "reference_model": source,
+                "model_context_capacity": model_context, "data_block_size": config["block_size"],
                 "tokenizer_sha256": hashlib.sha256(data.compact(checkpoint["tokenizer"]).encode()).hexdigest(),
                 "vocab_size": tokenizer.vocab_size, "special_tokens": contract,
                 "encoded_rows": sum(len(rows) for rows in splits.values()), "tokens": token_stats,
