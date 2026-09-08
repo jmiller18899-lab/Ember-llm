@@ -1,0 +1,72 @@
+{
+  "version": "0.0.44",
+  "phase": "system-line-activation-calibration",
+  "seed": 2026090844,
+  "source_version": "0.0.31",
+  "expected_cases": 90,
+  "expected_reference_cases": 4,
+  "generation_budget": 96,
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "calibration_folds": ["select", "confirm", "stress"],
+  "calibration_values_per_fold": 6,
+  "calibration_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/4x4",
+    "long_code/3x5"
+  ],
+  "frozen_user_selection": {
+    "short_code/len4": "baseline",
+    "short_code/len5": "baseline",
+    "long_code/4x4": "baseline",
+    "long_code/3x5": "baseline",
+    "path/plain_leaf": "web_lookup"
+  },
+  "schema_sentence": "Its only required argument is {field}, a string.",
+  "challenger_systems": {
+    "code_activation": "You are Ember. Use {tool} with JSON arguments when the user asks to look up a code or identifier. Its only required argument is {field}, a string.",
+    "identifier_capability": "You are Ember. {tool} looks up codes and identifiers. Call it with JSON arguments. Its only required argument is {field}, a string.",
+    "reference_lookup": "You are Ember. Requests to look up an exact reference code are handled by {tool} with JSON arguments. Its only required argument is {field}, a string."
+  },
+  "forbidden_system_phrases": [
+    "copy",
+    "verbatim",
+    "character for character",
+    "word for word",
+    "exactly as",
+    "unchanged",
+    "into the query",
+    "as the query",
+    "in the query field"
+  ],
+  "minimum_winning_folds": 2,
+  "minimum_combined_gain": 2,
+  "historical_floor": {
+    "short_code": 8,
+    "long_code": 7,
+    "url": 10,
+    "path": 9,
+    "mixed": 10
+  },
+  "historical_subtype_floor": {
+    "short_code/len4": 5,
+    "short_code/len5": 3,
+    "long_code/4x4": 5,
+    "long_code/3x5": 2,
+    "url/one_mixed": 4,
+    "url/two_segment": 3,
+    "path/plain_leaf": 3,
+    "mixed/upper": 3
+  },
+  "reference_gate": {
+    "minimum_envelope_json_valid_rate": 1.0,
+    "minimum_envelope_tool_name_rate": 1.0
+  },
+  "baseline_gate": {
+    "minimum_envelope_json_valid_rate": 0.95,
+    "minimum_envelope_tool_name_rate": 0.95
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false
+}
