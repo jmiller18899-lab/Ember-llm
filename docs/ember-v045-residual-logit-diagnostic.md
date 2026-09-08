@@ -2,10 +2,10 @@
 
 v0.0.43 and v0.0.44 are two independent prompt-side nulls. With the prompt stack frozen, the pinned v0.0.31 step-479 checkpoint remains at **84/90 (93.3%)** canonical envelopes and correct tool names. The six failures are stable:
 
-- `short_code/len4`: 1 failure out of 5;
-- `short_code/len5`: 1 failure out of 5;
-- `long_code/4x4`: 1 failure out of 5;
-- `long_code/3x5`: 2 failures out of 5;
+- `short_code/len4`: 1 failure out of 6;
+- `short_code/len5`: 1 failure out of 4;
+- `long_code/4x4`: 1 failure out of 6;
+- `long_code/3x5`: 2 failures out of 4;
 - `path/plain_leaf`: 1 failure out of 4.
 
 The exact failure IDs are pinned in the v0.0.45 config. If the deterministic source checkpoint no longer reproduces them, this diagnostic stops rather than silently analyzing a different cohort.
