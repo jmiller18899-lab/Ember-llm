@@ -10,8 +10,24 @@ Every system line is copied exactly from `config/ember_v0.0.8_eval.json` for one
 - `calculator` for digit strings and expressions, argument `expression`.
 - `web_search` for short codes, long codes, model IDs, URLs, paths, and mixed identifiers, argument `query`.
 
-The user request is natural and task-shaped. It names the requested value and explicitly says the other two values are not the requested location, expression, or query. The old rigid `TARGET=...` / `Reply with TARGET` envelope is not used.
+The gate is unchanged: at least 86/90 cases must produce a canonical JSON tool envelope and at least 86/90 must name the expected tool. `slot_exact` remains diagnostic, not a baseline pass condition.
 
-The gate is unchanged: at least 86/90 cases must produce a canonical JSON tool envelope and at least 86/90 must name the expected tool. `slot_exact` remains diagnostic, not a baseline pass condition. A high envelope/tool baseline with low `slot_exact` would reproduce the v0.0.32 observation at 90-case scale: the model knows the envelope and routing but places the wrong value.
+`training_authorized=false`, `gpu_training_authorized=false`, and `production_authorized=false`.
 
-`training_authorized=false`, `gpu_training_authorized=false`, and `production_authorized=false`. A PASS authorizes no model update; it only makes the placement metric interpretable for a later, separately designed phase.
+## Measured result
+
+GitHub Actions run `34280170317` evaluated commit `d8468a3b5f27dd18db32d0c12c4c95cd7abfede7` and returned **FAIL**, as required by the baseline gate.
+
+- Focused tests: **141 passed**.
+- Envelope JSON valid: **45/90 (50.0%)**.
+- Correct tool name: **44/90 (48.9%)**.
+- Slot evaluable: **44/90 (48.9%)**.
+- Slot exact: **0/44 (0%)**.
+- Right envelope + correct tool + wrong value: **44/90 (48.9%)**.
+- Clean stop: **88/90 (97.8%)**.
+
+The known-tool restriction materially clarified routing: 44 of the 45 JSON-valid envelopes (97.8%) named the expected tool. The remaining failure is primarily envelope production, not tool-name selection. Per kind, JSON-valid counts were short_code 7/10, long_code 7/10, digits 4/10, model_id 7/10, url 0/10, path 2/10, entity 8/10, expression 3/10, and mixed 7/10.
+
+Inspection of the original v0.0.32 CPU artifact explains why this prompt was still the wrong baseline. Before v0.0.32 training, its strongest examples of the intended failure mode were single-target literal requests: for example, calculator literal produced 4/4 canonical envelopes with the correct tool name and 0/4 exact argument values in the training probe; weather literal also produced 4/4 correct envelopes/tool names and 0/4 exact values. v0.0.35 added two distractors to every request, an experimental requirement not present in the proposed agent-style baseline.
+
+Per the gate contract, no optimizer, GPU job, promotion, deployment, or integration was run. The next preflight should remove the extra distractors, first verify the exact v0.0.8 reference tool prompts against the pinned checkpoint, then measure the 90 held-out values with one natural requested value per case. A future learning phase remains blocked unless the 90-case JSON-valid and correct-tool baselines both reach the configured threshold.
