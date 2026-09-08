@@ -83,19 +83,40 @@ v0.0.28 stopped leading on a 90-case count — but **only after** the protection
 gates pass, so a checkpoint that wins the slot by losing bare-value copying is
 disqualified before its slot metrics are compared.
 
+## This is not a clean single-variable test
+
+Calling it "one variable" is a simplification worth stating plainly. The *idea*
+is one thing — where the copy target sits — but the implementation moves several
+at once:
+
+- the prompt wording (`Call weather for TARGET` rather than `Reply with TARGET
+  exactly once`, plus a different system line);
+- a tool and argument-key vocabulary the copy curriculum never contained;
+- envelope scaffolding tokens added to the loss at weight 1.0;
+- a supervised span with a different shape, now including the EOS decision.
+
+A result therefore cannot attribute itself to placement alone. Isolating it
+would need a control — the same envelope with the target at position zero, or
+the same prompt wording with a bare-value completion — and that control is not
+in this run.
+
 ## Reading the result
 
-- **Slot exact rises, bare value holds** → placement was the whole problem, and
-  the v0.0.32 gate should be rerun against the new checkpoint.
+- **Slot exact rises, bare value holds** → *consistent with* the placement
+  hypothesis, and enough to justify rerunning the v0.0.32 gate against the new
+  checkpoint. It does not isolate placement from the confounds above.
 - **Slot exact rises, bare value falls** → the capability is moving rather than
   generalising. Protection will have refused the checkpoint; the next question
   is a mixed curriculum, not more steps.
 - **Neither moves and the encodable fraction is low** → the tokenizer merges at
   the slot boundary, and the envelope needs a different delimiter before any of
   this is testable.
-- **Neither moves and the encodable fraction is high** → placement was not the
-  limit. That would be the first real evidence for capacity or representation
-  work rather than curriculum work.
+- **Neither moves and the encodable fraction is high** → *this intervention*
+  did not work. That is not evidence of a capacity or representation limit, and
+  should not be read as one. At least these remain untested first: the confounds
+  listed above, a learning rate and step count chosen for the bare-value
+  objective, the value-span weighting, and the specific tool/key pairings.
+  A capacity claim would need experiments aimed at capacity.
 
 ## Run order
 

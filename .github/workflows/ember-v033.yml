@@ -69,6 +69,15 @@ jobs:
             exit 1
           fi
 
+      # Runs in every mode, before anything can be submitted. Without this the
+      # workflow's green status says nothing about the trainer's tests, which is
+      # exactly what a bootstrap run's green tick meant before.
+      - name: Run the CPU test suite
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q tests/test_ember_v033_envelope_copy.py
+          python -m json.tool config/ember_envelope_copy_v0.0.33.json >/dev/null
+
       - name: Install Hugging Face Jobs client
         if: ${{ steps.request.outputs.mode != 'audit' }}
         run: python -m pip install --upgrade "huggingface-hub>=1.4"
