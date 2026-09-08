@@ -63,3 +63,48 @@ A data PASS means these examples are ready for a separate training decision.
 It does not change v0.0.31's semantic FAIL or its legitimate legacy promotion
 PASS. A future trained candidate must rerun the frozen semantic gate and receive
 human review of any valid answer rejected by its conservative finite oracle.
+
+## Verified result
+
+The [complete CPU preflight](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34191668495)
+passed on code `f05b0034d1c59a2b6f488859d79c2729e6777496`.
+The [repository CPU validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34191671392)
+also passed. The dedicated runner passed all 107 focused data and frozen-gate tests.
+
+| Check | Observed result |
+| --- | --- |
+| Valid examples / normalized unique inputs | 3,456 / 3,456 |
+| Rejected corrupted targets | 6,912 |
+| Frozen benchmark input / argument matches | 0 / 0 |
+| Actual BPE vocabulary / EOS token ID | 16,384 / 6 |
+| Data window / model context capacity | 256 / 512 tokens |
+| Longest prompt / complete sequence | 113 / 129 tokens |
+| Truncated examples | 0 |
+| Examples supervising the final EOS | 3,456 |
+| Prompt / padding loss tokens | 0 / 0 |
+| CPU forward / backward samples | 48 / 24 |
+| Finite gradient tensors checked | 1,056 |
+| Optimizer steps / model-state changes | 0 / 0 |
+
+The actual tokenizer exposed a trailing newline after EOS in the initial data.
+Final targets end exactly at EOS, so there is no post-EOS training token. The
+preflight also distinguishes the 256-token data window from the model's larger
+512-token capacity; the examples are checked against the smaller window.
+
+The private dataset was saved at
+[revision dd99fb5](https://huggingface.co/datasets/Jmiller18899/ember-semantic-data-v1/commit/dd99fb5df322ffc8716fa8050ccb33f578239454).
+Its content prefix is
+`ember-semantic-data-v1/776c565486efc36d5bd535cf144a4348b163ac63cfa760cf4adc2bd95a654e74/`.
+Training and validation JSONL files are at that prefix; the full report and
+manifest are under `runs/34191668495/`. The Actions artifact contains the same
+bytes plus publication details. Downloaded artifact hashes were verified against
+both the manifest and a deterministic local rebuild.
+
+| File | SHA256 |
+| --- | --- |
+| train.jsonl | `fc66cb1e116861fbc5f13499d56d63a8e4d6db3d43262a888df1907251b1d100` |
+| validation.jsonl | `a51623cea837deda0131dd7fa8f0fc05e61ee8aae60b6e404ccc59c476df2761` |
+
+The trigger is returned to `bootstrap`. Training configuration remains
+unauthorized, and neither the old model repository nor the promotion state was
+modified by this data job.
