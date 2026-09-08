@@ -1,5 +1,5 @@
-mode: bootstrap
-purpose: disarm Ember v0.0.27 after successful CPU preflight; no paid GPU training
+mode: train
+purpose: launch exactly one approved Ember v0.0.27 T4 sequence-completion training run after successful CPU preflight
 source_checkpoint_repo: Jmiller18899/ember-v0.0.26-t4
 preflight_job: Jmiller18899/6a9f63a5e686246ca69a9afe
 source_checkpoint: checkpoints/ember-agent-v0.0.26-format-parity-copy-repair-20260908T005821Z/best.pt
@@ -11,4 +11,4 @@ baseline_sequences_all_positions_positive: 0.23333333333333334
 format_parity: PASS
 sequence_mining: PASS
 output_repo_write_check: PASS
-next_action: review CPU preflight before any explicit train-mode T4 launch
+next_action: after confirmed HF T4 submission, immediately return this trigger to bootstrap
