@@ -58,7 +58,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.H_F2 }}
           CUDA_VISIBLE_DEVICES: ''
-        run: python jobs/ember_envelope_preflight_v044.py --output-dir v044-results
+        run: python jobs/ember_envelope_preflight_v044_compat.py --output-dir v044-results
       - name: Show measured baseline
         if: always() && steps.mode.outputs.value == 'preflight'
         run: |
