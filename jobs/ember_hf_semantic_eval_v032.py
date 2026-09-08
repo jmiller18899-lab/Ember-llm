@@ -54,7 +54,7 @@ from pathlib import Path
 # checkout. Every asset therefore comes from a commit-pinned raw URL, the same
 # way jobs/ember_hf_eval.py and the v0.0.16+ trainers fetch theirs. The local
 # --spec / --legacy-spec flags exist for offline use and for the test suite.
-ASSET_COMMIT = "41c1b294bf411623b45faa859a23e53f1ad7b9bb"
+ASSET_COMMIT = "63d37c49dd7bb67cc6a99575a0ef87405fcc1260"
 RAW = f"https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/{ASSET_COMMIT}"
 SPEC_URL = f"{RAW}/config/ember_semantic_quality_v0.0.32.json"
 LEGACY_SPEC_URL = f"{RAW}/config/ember_v0.0.8_eval.json"
