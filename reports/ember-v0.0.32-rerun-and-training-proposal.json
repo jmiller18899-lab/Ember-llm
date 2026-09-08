@@ -1,0 +1,136 @@
+{
+  "version": "0.0.32",
+  "checkpoint": "Jmiller18899/ember-v0.0.31-t4 (unchanged, best step 479)",
+  "report": "evaluations/v032-semantic-gate-20260908T200555Z.json",
+  "rubric_commit": "63d37c49dd7bb67cc6a99575a0ef87405fcc1260",
+  "result": {
+    "overall_strict_pass_rate": "1/12",
+    "previous_rubric": "7/12",
+    "grounded_tool_call_rate": "0/4",
+    "direct_quality_rate": "1/4",
+    "tool_result_quality_rate": "0/4",
+    "faithful_response_rate": "1/8",
+    "stop_at_eos_rate": "12/12",
+    "no_text_after_eos_rate": "0/12",
+    "legacy_pass_rate": "12/12",
+    "legacy_passes_but_strict_fails": 11,
+    "passed": false
+  },
+  "eos_finding": {
+    "question": "Why did clean-stop and no-trailing-noise read 100% while raw completions contained invented conversation after EOS?",
+    "cause": "clean_stop returned True whenever EOS appeared anywhere in the completion, and every other check ran on before_eos(), which discards the text after the first EOS. The invented turns were never in scope for any check. That is the same defect this gate was written to catch in the legacy evaluator, reproduced inside the gate.",
+    "resolution": "split_at_eos now returns (answer, text_after_eos, stopped) as three separate facts.",
+    "measured": {
+      "stop_at_eos_rate": 1.0,
+      "stop_at_eos_meaning": "the model emits EOS in every case; this is a real model property and is gated",
+      "no_text_after_eos_rate": 0.0,
+      "no_text_after_eos_meaning": "the harness generates the full token budget without halting at EOS, so text after the first EOS is a harness property, not what a caller stopping at EOS would see; it is reported, not gated",
+      "per_case_after_eos": "197 to 315 visible characters, 2 to 4 additional EOS tokens, invented <|user|> and <|assistant|> turns in all 12 cases and an invented second <|tool|> call in tool_web_search"
+    }
+  },
+  "cases": [
+    {"id": "tool_weather", "kind": "tool_call",
+     "expected": "weather with location Detroit",
+     "actual": "{\"arguments\":{\"location\":\"Austin\"},\"name\":\"weather\"}",
+     "failed": ["arguments_grounded"], "missing": ["Detroit"]},
+    {"id": "tool_calculator", "kind": "tool_call",
+     "expected": "calculator with an expression containing 347 and 28",
+     "actual": "{\"arguments\":{\"expression\":\"337\"},\"name\":\"calculator\"}",
+     "failed": ["arguments_grounded"], "missing": ["347", "28"]},
+    {"id": "tool_web_search", "kind": "tool_call",
+     "expected": "web_search with a query naming Python",
+     "actual": "{\"arguments\":{\"query\":\"recent WebAssembly announcements\"},\"name\":\"web_search\"}",
+     "failed": ["arguments_grounded"], "missing": ["Python"]},
+    {"id": "tool_get_time", "kind": "tool_call",
+     "expected": "get_time with timezone Tokyo",
+     "actual": "{\"arguments\":{\"timezone\":\"America/Anchorage\"},\"name\":\"get_time\"}",
+     "failed": ["arguments_grounded"], "missing": ["Tokyo"]},
+
+    {"id": "direct_greeting", "kind": "direct_response",
+     "expected": "a friendly greeting",
+     "actual": "... is a practical mechanism used to make a system easier to operate reliably.",
+     "failed": ["addresses_request"]},
+    {"id": "direct_rewrite", "kind": "direct_response",
+     "expected": "a clear rewrite of 'website thing not working'",
+     "actual": "程orshook</issue>",
+     "failed": ["enough_words", "addresses_request"]},
+    {"id": "direct_explain", "kind": "direct_response",
+     "expected": "one sentence defining a checkpoint",
+     "actual": "A checkpoint is a practical mechanism used to make a system easier to operate reliably.",
+     "failed": [], "note": "the only strict pass in the battery; vague but on topic"},
+    {"id": "direct_plan", "kind": "direct_response",
+     "expected": "two steps for testing a login form",
+     "actual": "1. Prepare a controlled example and validate a broken link.",
+     "failed": ["addresses_request"]},
+
+    {"id": "result_weather", "kind": "tool_result_response",
+     "tool_result": "{\"temperature_f\":72,\"condition\":\"sunny\"}",
+     "expected": "72 degrees and sunny, in Detroit",
+     "actual": "The temperature is 45°F and cloudy in Chicago.",
+     "failed": ["uses_tool_result", "no_invented_numbers"],
+     "missing": ["72", "sunny"], "invented_numbers": ["45"]},
+    {"id": "result_calculator", "kind": "tool_result_response",
+     "tool_result": "{\"result\":9716}",
+     "expected": "347 multiplied by 28 equals 9716",
+     "actual": "587 multiplied by 27 equals 672.",
+     "failed": ["uses_tool_result", "no_invented_numbers"],
+     "missing": ["9716"], "invented_numbers": ["587", "27", "672"],
+     "note": "the case reported as incorrectly accepted; both operands invented and the product wrong even for them"},
+    {"id": "result_search", "kind": "tool_result_response",
+     "tool_result": "{\"title\":\"Status\",\"summary\":\"All validation checks passed.\"}",
+     "expected": "the validation checks passed",
+     "actual": "The title of the note is is a practical mechanism used.",
+     "failed": ["uses_tool_result"], "missing": ["validation", "passed"]},
+    {"id": "result_service_status", "kind": "tool_result_response",
+     "tool_result": "{\"status\":\"healthy\",\"latency_ms\":84}",
+     "expected": "the service is healthy, 84 ms latency",
+     "actual": "It is 45°F and cloudy in Phelen.",
+     "failed": ["uses_tool_result", "no_invented_numbers"],
+     "missing": ["healthy", "84"], "invented_numbers": ["45"]}
+  ],
+  "diagnosis": {
+    "claim": "The copy capability exists and does not reach the argument slot. This is a placement problem, not a capability problem.",
+    "evidence": [
+      "All four tool calls pass marker_present, single_tool_marker, json_valid, tool_name_matches, arguments_are_object, required_keys_present, no_trailing_noise and stopped_at_eos.",
+      "All four fail exactly one check: arguments_grounded. The envelope, the routing and the argument key are right; only the value is wrong.",
+      "The same checkpoint reproduces 43 of 90 held-out literal strings exactly, with first-token top-1 at 89/90.",
+      "Every copy phase since v0.0.15 trained completions whose first token is the target: prompt carries TARGET=<value> and the completion is the bare value.",
+      "In a tool call the copied span begins roughly fifteen tokens into the completion, after {\"arguments\":{\"location\":\". No phase has ever trained a copy that starts anywhere but position zero.",
+      "The tool_result cases show the same shape one step later: the model produces a fluent sentence of the right form and fills its slots from nowhere."
+    ]
+  },
+  "proposed_training_step": {
+    "version": "0.0.33",
+    "name": "envelope-placed copy",
+    "one_variable": "where the copy target sits in the completion",
+    "change": "Extend the v0.0.26 format-parity curriculum so the completion is a tool-call envelope containing the copied value in the argument slot, instead of the bare value.",
+    "example": {
+      "prompt": "<|system|>...<|user|>\\nIgnore old=... and fallback=... TARGET=Q7M4. Call weather for TARGET.\\n<|assistant|>\\n",
+      "completion": "<|tool|>\\n{\"arguments\":{\"location\":\"Q7M4\"},\"name\":\"weather\"}\\n<|endoftext|>\\n"
+    },
+    "held_fixed": [
+      "the worst-k=2 boundary-focused sequence hinge, which produced 43/90",
+      "learning rate 1.2e-6, 600 steps, batch 8 x 2, and every token weight",
+      "the boundary band and out-of-band weighting",
+      "the baseline-protected best.pt seeding"
+    ],
+    "mechanics": [
+      "Apply copy_token_weight to the value tokens inside the envelope and a low weight to the envelope's fixed scaffolding, so the objective still measures the copy and not the punctuation.",
+      "The supervised span already covers first token through EOS, so the envelope's opening brace and the closing EOS stay in scope without further change.",
+      "Run the v0.0.26 format-parity audit at the envelope level: every held-out tool-call shape needs supporting rows. That audit is what broke the original plateau and it has never been applied to this format.",
+      "Add an envelope-shaped held-out battery so exact-copy-in-slot has the same 90-case resolution the bare-value battery has."
+    ],
+    "predicted_signal": "arguments_grounded rises from 0/4 on the legacy battery, and exact-copy-in-slot becomes measurable on the new one. If the envelope battery moves while the bare-value battery holds, placement was the whole problem.",
+    "explicitly_not_doing": [
+      "Raising the learning rate or adding steps. v0.0.25 is the record of answering a curriculum gap with training changes.",
+      "Changing the objective. There is no evidence the worst-k hinge is the limit here.",
+      "Touching the copy curriculum's values or the promotion gates."
+    ]
+  },
+  "status": {
+    "trained": false,
+    "promoted": false,
+    "integrated_into_clawagent": false,
+    "checkpoint_unchanged": true
+  }
+}
