@@ -6,6 +6,13 @@ runner, avoiding any change to prompts, selection, gates, or model behavior.
 """
 from __future__ import annotations
 
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from jobs import ember_envelope_preflight_v044 as v044
 
 v044.prior.per_kind = v044.prior.prior.per_kind
