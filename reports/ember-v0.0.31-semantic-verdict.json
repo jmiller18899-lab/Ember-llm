@@ -1,0 +1,84 @@
+{
+  "version": "0.0.31",
+  "question": "Is the promoted checkpoint ready for ClawAgent integration?",
+  "verdict": "NOT READY",
+  "basis": "hf://models/Jmiller18899/ember-v0.0.31-t4/evaluations/semantic-v1/latest.json",
+  "basis_note": "A semantic-v1 evaluation already existed, run at 2026-09-08T05:03:49Z on a 36-case battery with oracle answers and a new_challenge cohort. It is broader than the v0.0.32 rubric and reaches the same conclusion with the raw generations attached.",
+  "summary": {
+    "passed": 0,
+    "total": 36,
+    "semantic_gate_pass": false,
+    "groups": {
+      "tool_call": {"total": 12, "passed": 0, "clean_output_rate": 0.4167, "semantic_content_rate": 0.0},
+      "direct_response": {"total": 12, "passed": 0, "clean_output_rate": 1.0, "semantic_content_rate": 0.0},
+      "tool_result_response": {"total": 12, "passed": 0, "clean_output_rate": 1.0, "semantic_content_rate": 0.0}
+    },
+    "failure_counts": {
+      "whole_answer_matches_oracle": 24,
+      "argument_values_exact": 12,
+      "argument_schema_valid": 9,
+      "tool_name_correct": 9,
+      "single_canonical_json_envelope": 8,
+      "no_extra_roles": 7,
+      "endoftext_present": 1,
+      "no_trailing_output": 1,
+      "single_endoftext": 1
+    }
+  },
+  "findings": [
+    {
+      "id": "V1",
+      "claim": "Structure is right and content is wrong. Every single tool call failed argument_values_exact.",
+      "evidence": [
+        "Prompt asks for Detroit; the model emits {\"arguments\":{\"location\":\"Austin\"},\"name\":\"weather\"}.",
+        "Prompt asks for 347 multiplied by 28; the model emits {\"arguments\":{\"expression\":\"337\"},\"name\":\"calculator\"} -- neither operand and no operator.",
+        "Prompt asks for the latest published release of Python; the model emits {\"arguments\":{\"query\":\"recent WebAssembly announcements\"},\"name\":\"web_search\"}.",
+        "argument_values_exact fails on 12 of 12 tool calls, while the JSON parses and the envelope is well formed."
+      ],
+      "consequence": "This is exactly the omission recorded as Q1 in reports/ember-v0.0.31-promotion-and-semantic-gap.json. The legacy evaluator scored these 4/4 because it checks that arguments is a non-empty object and never reads the values."
+    },
+    {
+      "id": "V2",
+      "claim": "The held-out copy capability has not transferred into the tool-argument slot, and no phase ever trained it to.",
+      "evidence": [
+        "v0.0.31 copies 43 of 90 held-out strings exactly, with first-token top-1 at 89/90.",
+        "The copy curriculum since v0.0.15 is TARGET=<value> in a plain user turn, with the completion being the bare value.",
+        "The tool-call format asks the model to place that value inside a JSON argument, which the curriculum never contains.",
+        "v0.0.9 trained tool routing but predates every copy phase, so nothing has trained both shapes together."
+      ],
+      "consequence": "Copy accuracy is not the bottleneck; the format gap between where the skill was trained and where it is needed is. That is a curriculum problem of the same kind the v0.0.26 format-parity audit was built to catch, one level up."
+    },
+    {
+      "id": "V3",
+      "claim": "Free-running generation does not terminate in the agent format, unlike the copy format.",
+      "evidence": [
+        "Clean stop is 1.0 on the 90-case copy battery.",
+        "Here the model emits its answer, emits EOS, and then continues with invented <|user|> and <|assistant|> turns.",
+        "no_extra_roles fails 7 times and single_canonical_json_envelope 8 times; one web_search case emits a second, unrelated weather tool call."
+      ],
+      "consequence": "The EOS behaviour that copy training established does not hold once the prompt is agent-shaped, which points at the same format gap as V2."
+    },
+    {
+      "id": "V4",
+      "claim": "The v0.0.32 rubric added in this branch is a weaker duplicate of semantic-v1 and should not be the basis of the decision.",
+      "evidence": [
+        "semantic-v1 grades 36 cases across three cohorts with oracle answers; v0.0.32 grades the 12 legacy prompts.",
+        "semantic-v1 checks tool_name_correct, argument_schema_valid, single_canonical_json_envelope and whole_answer_matches_oracle, which v0.0.32 does not.",
+        "Both agree on the direction and on the specific failure: ungrounded argument values."
+      ],
+      "consequence": "Keep v0.0.32 only for what it uniquely offers -- a stdlib-only rubric that runs in CI with no token, and a side-by-side legacy comparison that names the cases the two rubrics disagree on. Do not maintain two overlapping semantic batteries; semantic-v1 is the one to grow."
+    }
+  ],
+  "recommendation": {
+    "ready_for_clawagent": false,
+    "keep_promoted_checkpoint": true,
+    "keep_promoted_checkpoint_reason": "v0.0.31 is a large, real advance on the copy objective it was trained for and remains the best checkpoint. The promotion it earned was against the copy gates and the legacy routing evaluator, both of which it genuinely passed. Nothing here re-opens that.",
+    "next_phase": "Train the copy skill inside the tool-call envelope rather than beside it.",
+    "notes": [
+      "Build a curriculum whose completion is a tool-call envelope containing a value copied from the user turn, so the target sits in the argument slot instead of at the start of a bare completion.",
+      "Reuse the v0.0.26 format-parity audit at the envelope level: every held-out tool-call shape must have supporting rows, which is the check that broke the original plateau.",
+      "Keep the worst-k boundary-focused objective; it is the mechanism that produced 43/90 and there is no evidence it is the limit here.",
+      "Do not raise the learning rate or add steps in response to this result. The failure is a format gap, and v0.0.25 is the record of what happens when a curriculum gap is answered with training changes."
+    ]
+  }
+}
