@@ -1,12 +1,20 @@
 mode: bootstrap
-purpose: disarm Ember v0.0.29 after CPU preflight submission; no paid GPU training
+purpose: disarm Ember v0.0.29 after successful CPU preflight; no paid GPU training
 source_checkpoint_repo: Jmiller18899/ember-v0.0.28-t4
 preflight_job: Jmiller18899/6a9f774fe686246ca69a9d38
-previous_result: reports/ember-v0.0.28-result.json (promotion FAIL, progress ADVANCED, exact copy 20/90 -> 28/90, legacy 4/9 -> 5/9)
-runbook: docs/ember-v0.0.29-multi-position.md
-protected_baseline: v0.0.28 (expanded exact-copy 28/90, expanded continuation 632/730, legacy exact-copy 5/9, first-token top-1 85/90)
-curriculum: unchanged since v0.0.26 (jobs/ember_sft_data_v026.py)
-learning_rate: 1.2e-6, unchanged since v0.0.26
-steps: 600, unchanged since v0.0.26
-changed_this_phase: sequence hinge sums the k=2 worst decisions per row; threshold gates compared with a tolerance; band-transition and gate-distance reporting
-next_action: observe CPU preflight only; do not launch T4 until gate-distance and band reports are reviewed
+source_checkpoint: checkpoints/ember-agent-v0.0.28-boundary-focus-repair-20260908T022648Z/best.pt
+source_sha256: 2d09554553b1a47ea9d7f2e81858e2c3e317c76c6c5472c6fe1ffdf447896da4
+v028_best_step: 599
+protected_baseline: v0.0.28 (expanded exact-copy 28/90, expanded continuation 632/730, legacy exact-copy 5/9, legacy continuation 62/69, first-token top-1 85/90)
+sequences_within_reach: 21/90 in [-0.75, 0)
+legacy_exact_copy_gate: met at 5/9; short_by 0 cases
+legacy_continuation_gate: needs 63/69; short_by 1 token
+expanded_exact_copy_gate: needs 36/90; short_by 8 cases
+expanded_continuation_gate: needs 657/730; short_by 25 tokens
+format_parity: PASS
+boundary_mining: PASS
+output_repo_write_check: PASS
+sequence_worst_k: 2
+learning_rate: 1.2e-6
+max_steps: 600
+next_action: v0.0.29 T4 is evidence-supported; require explicit approval before one paid T4 launch
