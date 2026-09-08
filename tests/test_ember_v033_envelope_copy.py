@@ -390,6 +390,23 @@ def test_the_preflight_persists_its_report_rather_than_only_printing_it():
         assert field in runtime, field
 
 
+def test_a_403_can_say_which_call_failed(helpers):
+    """The scaffold's one except clause makes every access failure read alike.
+
+    whoami, create_repo, upload_file and reading the source checkpoint are four
+    different permissions on two different repositories, and the message
+    "cannot create or write the output repo" is emitted for any of them.
+    """
+    trainer = load(TRAINER_V033, "ember_hf_sft_v033_access")
+    runtime = trainer.apply_transforms(TRAINER_V016.read_text())
+    for step in ("step=read_source", "step=create_repo"):
+        assert step in runtime, step
+    # Source-repo read is checked before the output repo is touched, so a
+    # missing read grant is not reported as a missing write grant.
+    assert runtime.index("step=read_source") < runtime.index("step=create_repo")
+    assert runtime.index("step=read_source") < runtime.index("torch.cuda.is_available()")
+
+
 def test_the_report_contract_still_holds():
     """The same producer/consumer check that v0.0.29 failed."""
     import re

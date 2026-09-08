@@ -75,7 +75,15 @@ jobs:
       - name: Run the CPU test suite
         run: |
           python -m pip install --quiet pytest
-          python -m pytest -q tests/test_ember_v033_envelope_copy.py
+          python -m pip install --quiet --index-url https://download.pytorch.org/whl/cpu "torch>=2.4"
+          # Six of these tests need torch, and they are the ones that check the
+          # weight layout, the value span and the boundary rejection. Without it
+          # they skip and the gate goes green having verified none of that.
+          python -m pytest -q tests/test_ember_v033_envelope_copy.py | tee /tmp/v033-tests.txt
+          if grep -q "skipped" /tmp/v033-tests.txt; then
+            echo "::error::v0.0.33 tests were skipped; the gate must run the encoder tests"
+            exit 1
+          fi
           python -m json.tool config/ember_envelope_copy_v0.0.33.json >/dev/null
 
       - name: Install Hugging Face Jobs client

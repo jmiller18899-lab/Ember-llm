@@ -1000,6 +1000,33 @@ def v033_envelope_battery(model, tokenizer, data, cfg, device, torch, base):
 '''
 
 TRANSFORMS = (
+    # Name the failing call. The scaffold wraps whoami, create_repo and
+    # upload_file in one except clause whose message says "cannot create or
+    # write the output repo", so a 403 on any of them -- or on reading the
+    # source checkpoint, which is a different repository -- reads identically.
+    ("    identity = api.whoami()",
+     "    try:\n"
+     "        api.list_repo_files(repo_id=SOURCE_REPO, repo_type=\"model\")\n"
+     "    except Exception as exc:\n"
+     "        raise RuntimeError(\n"
+     "            f\"EMBER_V033_HF_ACCESS=FAIL step=read_source repo={SOURCE_REPO}: {exc}\"\n"
+     "        ) from exc\n"
+     "    print(f\"EMBER_V033_HF_ACCESS=OK step=read_source repo={SOURCE_REPO}\", flush=True)\n"
+     "    identity = api.whoami()", 1),
+
+    ("    try:\n"
+     "        api.create_repo(repo_id=repo, repo_type=\"model\", private=True, exist_ok=True)\n"
+     "        api.upload_file(",
+     "    try:\n"
+     "        api.create_repo(repo_id=repo, repo_type=\"model\", private=True, exist_ok=True)\n"
+     "    except Exception as exc:\n"
+     "        raise RuntimeError(\n"
+     "            f\"EMBER_V033_HF_ACCESS=FAIL step=create_repo repo={repo}: {exc}\"\n"
+     "        ) from exc\n"
+     "    print(f\"EMBER_V033_HF_ACCESS=OK step=create_repo repo={repo}\", flush=True)\n"
+     "    try:\n"
+     "        api.upload_file(", 1),
+
     ('CONFIG_PIN = "42ed91ac6e6b8ff22873fec6706c4f243f57f2fa"',
      f'CONFIG_PIN = "{CONFIG_COMMIT}"', 1),
     ('DATA_PIN = "14995a94a4d1594463e266c4c5fed0ecec329da9"',
