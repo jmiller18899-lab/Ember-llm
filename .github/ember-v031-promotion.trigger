@@ -1,8 +1,10 @@
-mode: export-int4
-purpose: run the v0.0.31 INT4 export on CPU only before the next promotion evaluation
+mode: eval
+purpose: run the v0.0.31 held-out ClawAgent promotion evaluation on CPU only
 source_model_repo: Jmiller18899/ember-v0.0.31-t4
 source_best_step: 479
 copy_promotion: PASS
+int4_export_job: Jmiller18899/6a9f9151e686246ca69a9f48
+int4_export: PASS
+int4_path: checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.int4.pt
 next_gate: held-out ClawAgent tool-routing/direct-response evaluation
-required_before_eval: best.int4.pt exists and reconstructs successfully
-next_action: export INT4 on CPU; no GPU training in this workflow
+next_action: evaluate candidate on CPU; no GPU training in this workflow
