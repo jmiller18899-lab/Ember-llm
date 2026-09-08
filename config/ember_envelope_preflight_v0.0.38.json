@@ -6,7 +6,8 @@
   "expected_cases": 90,
   "expected_reference_cases": 4,
   "generation_budget": 96,
-  "prompt_reference": "docs/ember-v037-schema-envelope-preflight.md",
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "parent_result": "docs/ember-v037-schema-envelope-preflight.md",
   "calibration_kinds": ["short_code", "long_code"],
   "code_user_template": "Search the web for this exact identifier: \"{value}\".",
   "reference_gate": {
