@@ -1,0 +1,92 @@
+name: Ember v0.0.31 Next Promotion
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "v0.0.31 next-promotion action"
+        required: true
+        default: bootstrap
+        type: choice
+        options:
+          - bootstrap
+          - export-int4
+          - eval
+  push:
+    branches:
+      - main
+      - claude/ember-v0025-plateau-tnxpua
+    paths:
+      - ".github/ember-v031-promotion.trigger"
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Ember
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Resolve mode
+        id: request
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            mode="${{ inputs.mode }}"
+          else
+            mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-v031-promotion.trigger)"
+          fi
+          case "$mode" in
+            bootstrap|export-int4|eval) ;;
+            *) echo "::error::Unsupported promotion mode: $mode"; exit 1 ;;
+          esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Resolved Ember v0.0.31 promotion mode: $mode"
+
+      - name: Install Hugging Face Jobs client
+        if: ${{ steps.request.outputs.mode != 'bootstrap' }}
+        run: python -m pip install --upgrade "huggingface-hub>=1.4"
+
+      - name: Verify H_F2 Hugging Face token
+        if: ${{ steps.request.outputs.mode != 'bootstrap' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: python jobs/ember_hf_bootstrap.py
+
+      - name: Export promoted v0.0.31 INT4 on CPU
+        if: ${{ steps.request.outputs.mode == 'export-int4' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-31-int4-export \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_export_int4_v031.py
+
+      - name: Run held-out ClawAgent promotion evaluation on CPU
+        if: ${{ steps.request.outputs.mode == 'eval' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-31-tool-routing-promotion \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_eval.py -- \
+            --model-name ember-v0.0.31-t4 \
+            --label v031-tool-routing-promotion
+
+      - name: Safety summary
+        run: |
+          echo "CPU-only next-promotion workflow; no paid GPU training is submitted by any mode."
