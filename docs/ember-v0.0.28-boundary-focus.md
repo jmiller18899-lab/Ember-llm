@@ -1,5 +1,14 @@
 # Ember v0.0.28 — spending the gradient where sequences can still flip
 
+> **Result: it worked.** Expanded exact copy 20/90 → 28/90, expanded continuation
+> 599/730 → 632/730, legacy exact copy 4/9 → **5/9** (the historical promotion
+> bar, reached for the first time), first-token top-1 78/90 → 85/90, full-span
+> margin health −0.8377 → −0.5865. `PROGRESS=ADVANCED`, promotion still FAIL on
+> the expanded gates. The reachable band went 16 → 21 *while* 8 crossed out of
+> it, so 13 were pulled up from below — the pipeline is flowing, not draining.
+> Analysis in [`reports/ember-v0.0.28-result.json`](../reports/ember-v0.0.28-result.json);
+> next phase in [`docs/ember-v0.0.29-multi-position.md`](ember-v0.0.29-multi-position.md).
+
 ## What v0.0.27 proved, and what it cost
 
 The worst-position hinge moved its target hard: `sequence_margin_health` went
