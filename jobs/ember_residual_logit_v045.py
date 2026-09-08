@@ -18,7 +18,6 @@ from collections import defaultdict
 from datetime import datetime, timezone
 import hashlib
 import json
-import math
 import os
 from pathlib import Path
 from statistics import mean, median
@@ -53,6 +52,13 @@ EXPECTED_FAILURE_IDS = {
     "system_target_long_code_05",
     "system_target_long_code_08",
     "system_target_path_05",
+}
+EXPECTED_SUBTYPE_COUNTS = {
+    "short_code/len4": 6,
+    "short_code/len5": 4,
+    "long_code/4x4": 6,
+    "long_code/3x5": 4,
+    "path/plain_leaf": 4,
 }
 
 
@@ -114,14 +120,7 @@ def target_cases() -> list[dict]:
         counts[case["subtype"]] += 1
         if case["system_variant"] != "v037_schema_system":
             raise ValueError(f"v0.0.45 system line is not frozen for {case['id']}")
-    expected_counts = {
-        "short_code/len4": 5,
-        "short_code/len5": 5,
-        "long_code/4x4": 5,
-        "long_code/3x5": 5,
-        "path/plain_leaf": 4,
-    }
-    if dict(counts) != expected_counts:
+    if dict(counts) != EXPECTED_SUBTYPE_COUNTS:
         raise ValueError(f"residual subtype composition changed: {dict(counts)}")
     return selected
 
@@ -129,7 +128,7 @@ def target_cases() -> list[dict]:
 def _decode_token(tokenizer, token_id: int) -> str:
     try:
         return tokenizer.decode([int(token_id)])
-    except Exception as exc:  # diagnostic display must not crash the run
+    except Exception as exc:
         return f"<decode-error:{type(exc).__name__}>"
 
 
