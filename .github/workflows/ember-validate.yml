@@ -74,6 +74,7 @@ jobs:
           python -m json.tool config/ember_sequence_completion_v0.0.27.json >/dev/null
           python -m json.tool config/ember_boundary_focus_v0.0.28.json >/dev/null
           python -m json.tool config/ember_multi_position_v0.0.29.json >/dev/null
+          python -m json.tool config/ember_multi_position_v0.0.30.json >/dev/null
           python -m json.tool .cursor/environment.json >/dev/null
           bash -n .cursor/install.sh
 

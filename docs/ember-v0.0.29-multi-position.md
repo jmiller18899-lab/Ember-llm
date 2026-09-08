@@ -1,5 +1,18 @@
 # Ember v0.0.29 — retiring more than one bad decision per row
 
+> **Result: both legacy gates now pass.** Best step 479. Expanded exact copy
+> 28/90 → 32/90, expanded continuation 632/730 → 642/730, legacy exact copy
+> 5/9 → **6/9**, legacy continuation 62/69 → **65/69 = 0.9420**, first-token
+> top-1 85/90 → 87/90, full-span margin health −0.5865 → −0.4361.
+> `PROGRESS=ADVANCED`.
+>
+> The run then crashed in its **final reporter** with `KeyError: 'gate_distance'`
+> — my defect, after every artifact had already uploaded. Training was
+> unaffected and no rerun is needed. Root cause and the recovered numbers are in
+> [`reports/ember-v0.0.29-reporter-defect.json`](../reports/ember-v0.0.29-reporter-defect.json);
+> the repair and the next phase are in
+> [`docs/ember-v0.0.30-consolidation.md`](ember-v0.0.30-consolidation.md).
+
 ## Where v0.0.28 left the model
 
 | | v0.0.27 | v0.0.28 |
