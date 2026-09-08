@@ -37,7 +37,7 @@ def test_complete_dataset_is_balanced_reproducible_and_excludes_frozen_cases():
     preflight.verify_frozen(CONFIG)
     for split, rows in splits.items():
         assert data.jsonl_bytes(rows) == data.jsonl_bytes(data.build_dataset()[split])
-        assert all(r["completion"].endswith("\n<|endoftext|>\n") for r in rows)
+        assert all(r["completion"].endswith("\n<|endoftext|>") for r in rows)
 
 
 @pytest.mark.parametrize("payload", [

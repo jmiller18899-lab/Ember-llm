@@ -183,7 +183,9 @@ def compact(value) -> str:
 
 
 def done(answer: str) -> str:
-    return answer + "\n" + EOT + "\n"
+    # The real tokenizer can encode a trailing newline as a token after EOS.
+    # A served answer stops at EOS, so the training target stops there too.
+    return answer + "\n" + EOT
 
 
 def render_prompt(messages: list[dict]) -> str:

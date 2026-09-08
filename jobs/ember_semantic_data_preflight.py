@@ -116,8 +116,10 @@ def encode_row(tokenizer, row: dict, block_size: int, generation_budget: int, eo
         raise ValueError(f"context overflow: {row['id']} has {len(ids)} tokens, limit {block_size + 1}")
     if len(prompt_ids) + generation_budget > block_size:
         raise ValueError(f"generation context overflow: {row['id']} needs {len(prompt_ids)} + {generation_budget}, limit {block_size}")
-    if ids[-1] != eos_id or ids.count(eos_id) != 1 or len(ids) - len(prompt_ids) > generation_budget:
-        raise ValueError(f"completion lacks one final EOS or exceeds generation budget: {row['id']}")
+    if ids[-1] != eos_id or ids.count(eos_id) != 1:
+        raise ValueError(f"completion lacks one final EOS: {row['id']}; eos_id={eos_id}, count={ids.count(eos_id)}, last_ids={ids[-4:]}")
+    if len(ids) - len(prompt_ids) > generation_budget:
+        raise ValueError(f"completion exceeds generation budget: {row['id']} needs {len(ids) - len(prompt_ids)}, limit {generation_budget}")
     x = torch.full((block_size,), eos_id, dtype=torch.long)
     y = torch.full((block_size,), -100, dtype=torch.long)
     x[:len(ids) - 1] = torch.tensor(ids[:-1], dtype=torch.long)
