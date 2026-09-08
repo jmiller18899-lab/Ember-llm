@@ -46,8 +46,21 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
+import urllib.request
 from pathlib import Path
+
+# `hf jobs uv run` uploads only this script, so the runner has no repository
+# checkout. Every asset therefore comes from a commit-pinned raw URL, the same
+# way jobs/ember_hf_eval.py and the v0.0.16+ trainers fetch theirs. The local
+# --spec / --legacy-spec flags exist for offline use and for the test suite.
+ASSET_COMMIT = "41c1b294bf411623b45faa859a23e53f1ad7b9bb"
+RAW = f"https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/{ASSET_COMMIT}"
+SPEC_URL = f"{RAW}/config/ember_semantic_quality_v0.0.32.json"
+LEGACY_SPEC_URL = f"{RAW}/config/ember_v0.0.8_eval.json"
+PACKAGE_URL = (
+    "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/"
+    "ember-v0.0.7-hf-ready.zip"
+)
 
 SPECIAL_TOKENS = (
     "<|system|>", "<|user|>", "<|assistant|>",
@@ -301,16 +314,56 @@ def aggregate(rows: list, spec: dict) -> dict:
 # job
 # --------------------------------------------------------------------------
 
+def load_spec(local_path: str, url: str) -> dict:
+    """A local file when one is given, otherwise the pinned raw URL."""
+    if local_path:
+        return json.loads(Path(local_path).read_text())
+    with urllib.request.urlopen(url) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def resolve_checkpoint(api, repo: str, token: str, work: Path, hf_hub_download) -> tuple:
+    """The candidate's best.pt, from run-state when it is usable.
+
+    run-state.json names the run whose checkpoint was selected, which is the
+    right answer. Listing the repository is the fallback for a checkpoint whose
+    state file is missing or incomplete -- the same fallback the legacy
+    evaluator uses -- so a reporting gap in an earlier run cannot block a
+    read-only evaluation.
+    """
+    run_id = ""
+    try:
+        state = json.loads(Path(hf_hub_download(
+            repo_id=repo, repo_type="model", filename="run-state.json",
+            token=token, local_dir=work / "state",
+        )).read_text())
+        if state.get("status") == "evaluation_complete":
+            run_id = str(state.get("run_id", "")).strip()
+    except Exception:
+        run_id = ""
+
+    if run_id:
+        return f"checkpoints/{run_id}/best.pt", {"resolved_via": "run-state", "run_id": run_id}
+
+    candidates = sorted(
+        path for path in api.list_repo_files(repo_id=repo, repo_type="model")
+        if path.startswith("checkpoints/") and path.endswith("/best.pt")
+    )
+    if not candidates:
+        raise RuntimeError(f"{repo} has no checkpoints/*/best.pt")
+    return candidates[-1], {"resolved_via": "repository listing", "run_id": candidates[-1]}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--spec", default="", help="local semantic-quality spec (default: fetch pinned)")
-    parser.add_argument("--legacy-spec", default="", help="local v0.0.8 spec supplying the prompts")
+    parser.add_argument("--spec", default="", help="local spec override; default fetches the pinned SPEC_URL")
+    parser.add_argument("--legacy-spec", default="", help="local override; default fetches the pinned LEGACY_SPEC_URL")
     parser.add_argument("--out", default="", help="write the JSON report here")
     parser.add_argument("--completions", default="", help="score a JSON map of id -> completion instead of generating")
     args = parser.parse_args()
 
-    spec = json.loads(Path(args.spec).read_text())
-    legacy = json.loads(Path(args.legacy_spec).read_text())
+    spec = load_spec(args.spec, SPEC_URL)
+    legacy = load_spec(args.legacy_spec, LEGACY_SPEC_URL)
     prompts = {case["id"]: case["prompt"] for case in legacy["cases"]}
     quality = spec["quality"]
 
@@ -368,16 +421,13 @@ def generate_all(spec: dict, prompts: dict) -> dict:
     if not token:
         raise RuntimeError("HF_TOKEN is required to read the candidate checkpoint")
     api = HfApi(token=token)
+    api.whoami()  # fail before downloading anything if the token is not live
     repo = f"Jmiller18899/{spec['candidate_model_name']}"
 
     with tempfile.TemporaryDirectory(prefix="ember-v032-") as td:
         work = Path(td)
         package = work / "ember.zip"
-        urllib.request.urlretrieve(
-            "https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/main/"
-            "ember-v0.0.7-hf-ready.zip",
-            package,
-        )
+        urllib.request.urlretrieve(PACKAGE_URL, package)
         with zipfile.ZipFile(package) as archive:
             archive.extractall(work / "src")
         sys.path.insert(0, str(work / "src" / "ember"))
@@ -385,16 +435,10 @@ def generate_all(spec: dict, prompts: dict) -> dict:
         from src.model import EmberGPT, ModelConfig
         from src.tokenizer import tokenizer_from_state_dict
 
-        state = json.loads(Path(hf_hub_download(
-            repo_id=repo, repo_type="model", filename="run-state.json",
-            token=token, local_dir=work / "state",
-        )).read_text())
-        if state.get("status") != "evaluation_complete":
-            raise RuntimeError(f"candidate run-state is not evaluation_complete: {state}")
-        run_id = str(state["run_id"])
+        remote, provenance = resolve_checkpoint(api, repo, token, work, hf_hub_download)
+        print(f"EMBER_V032_CHECKPOINT={repo}/{remote} ({provenance['resolved_via']})", flush=True)
         checkpoint = Path(hf_hub_download(
-            repo_id=repo, repo_type="model",
-            filename=f"checkpoints/{run_id}/best.pt",
+            repo_id=repo, repo_type="model", filename=remote,
             token=token, local_dir=work / "model",
         ))
         loaded = load_checkpoint(checkpoint, device="cpu")
@@ -421,7 +465,6 @@ def generate_all(spec: dict, prompts: dict) -> dict:
                     top_k=int(generation["top_k"]),
                 )
             out[case["id"]] = tokenizer.decode(y[0].tolist()[len(ids):])
-        api.whoami()  # confirm the token is live before the report claims a source
         return out
 
 

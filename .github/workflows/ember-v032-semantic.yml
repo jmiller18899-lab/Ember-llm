@@ -70,6 +70,10 @@ jobs:
           HF_TOKEN: ${{ secrets.H_F2 }}
         run: python jobs/ember_hf_bootstrap.py
 
+      # `hf jobs uv run` uploads only the script, so the runner has no
+      # repository checkout. The job fetches both specs from commit-pinned raw
+      # URLs; passing --spec/--legacy-spec here would hand it paths that do not
+      # exist there.
       - name: Score the promoted v0.0.31 checkpoint on CPU
         if: ${{ steps.request.outputs.mode == 'evaluate' }}
         env:
@@ -80,9 +84,7 @@ jobs:
             --flavor cpu-upgrade \
             --timeout 1h \
             --secrets HF_TOKEN \
-            jobs/ember_hf_semantic_eval_v032.py -- \
-            --spec config/ember_semantic_quality_v0.0.32.json \
-            --legacy-spec config/ember_v0.0.8_eval.json
+            jobs/ember_hf_semantic_eval_v032.py
 
       - name: Safety summary
         run: |

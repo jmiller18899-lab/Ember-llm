@@ -225,3 +225,70 @@ def test_the_job_never_trains_uploads_or_promotes():
     source = JOB.read_text()
     for forbidden in ("upload_file", "save_checkpoint", "loss.backward", "optimizer", "cuda"):
         assert forbidden not in source, f"a read-only evaluator must not reference {forbidden}"
+
+
+def test_the_job_fetches_its_assets_by_url_because_only_the_script_is_uploaded(gate):
+    """`hf jobs uv run` uploads the script, not the repository.
+
+    jobs/ember_hf_eval.py and every v0.0.16+ trainer fetch their config from a
+    raw URL for this reason. Reading a repo-relative path by default would fail
+    on the runner with FileNotFoundError before generating anything.
+    """
+    for url in (gate.SPEC_URL, gate.LEGACY_SPEC_URL):
+        assert url.startswith("https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/")
+    # Pinned to an immutable commit, not to a moving branch.
+    assert len(gate.ASSET_COMMIT) == 40
+    assert f"/{gate.ASSET_COMMIT}/" in gate.SPEC_URL
+    assert "/main/" not in gate.SPEC_URL and "/main/" not in gate.LEGACY_SPEC_URL
+
+    # The default path must not touch the filesystem.
+    source = JOB.read_text()
+    assert "spec = load_spec(args.spec, SPEC_URL)" in source
+    assert "legacy = load_spec(args.legacy_spec, LEGACY_SPEC_URL)" in source
+
+
+def test_the_workflow_does_not_hand_the_runner_repo_relative_paths():
+    workflow = (ROOT / ".github" / "workflows" / "ember-v032-semantic.yml").read_text()
+    submit = workflow.split("Score the promoted", 1)[1]
+    assert "jobs/ember_hf_semantic_eval_v032.py" in submit
+    assert "--spec config/" not in submit, "the runner has no config/ directory"
+    assert "--legacy-spec config/" not in submit
+
+
+def test_checkpoint_resolution_falls_back_to_listing_the_repository(gate):
+    """A missing or incomplete run-state must not block a read-only evaluation."""
+    class Api:
+        def list_repo_files(self, repo_id, repo_type):
+            return [
+                "run-state.json",
+                "checkpoints/run-a/best.pt",
+                "checkpoints/run-b/best.pt",
+                "checkpoints/run-b/latest.pt",
+                "evaluation/report.json",
+            ]
+
+    def missing_state(**kwargs):
+        raise RuntimeError("run-state.json not found")
+
+    remote, provenance = gate.resolve_checkpoint(
+        Api(), "Jmiller18899/ember-v0.0.31-t4", "token", Path("/tmp"), missing_state
+    )
+    assert remote == "checkpoints/run-b/best.pt"
+    assert provenance["resolved_via"] == "repository listing"
+
+
+def test_checkpoint_resolution_prefers_the_run_state(gate, tmp_path):
+    written = tmp_path / "run-state.json"
+    written.write_text(json.dumps({
+        "status": "evaluation_complete",
+        "run_id": "ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z",
+    }))
+
+    remote, provenance = gate.resolve_checkpoint(
+        None, "Jmiller18899/ember-v0.0.31-t4", "token", tmp_path, lambda **kw: str(written)
+    )
+    assert remote == (
+        "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-"
+        "20260908T042320Z/best.pt"
+    )
+    assert provenance["resolved_via"] == "run-state"
