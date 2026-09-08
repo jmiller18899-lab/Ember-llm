@@ -10,6 +10,7 @@ else about the phase moves.
 from __future__ import annotations
 
 import importlib.util
+import ast
 import json
 from pathlib import Path
 
@@ -23,6 +24,23 @@ CONFIG_V031 = ROOT / "config" / "ember_multi_position_v0.0.31.json"
 CONFIG_V033 = ROOT / "config" / "ember_envelope_copy_v0.0.33.json"
 
 EOT = "<|endoftext|>"
+
+
+def test_generated_runtime_accepts_current_config_and_rejects_wrong_phase():
+    trainer = load(TRAINER_V033, "v033_config_guard")
+    runtime = ast.parse(trainer.apply_transforms(TRAINER_V016.read_text()))
+    guards = [node for node in ast.walk(runtime) if isinstance(node, ast.If)
+              and any(isinstance(child, ast.Constant)
+                      and child.value == "unexpected v0.0.33 config"
+                      for statement in node.body for child in ast.walk(statement))]
+    assert len(guards) == 1
+    code = compile(ast.fix_missing_locations(ast.Module(body=guards, type_ignores=[])),
+                   "v033_config_guard", "exec")
+    config = json.loads(CONFIG_V033.read_text())
+    exec(code, {"cfg": config})
+    for overrides in ({"phase": "multi-position-consolidation"}, {"version": "0.0.31"}):
+        with pytest.raises(RuntimeError, match="unexpected v0.0.33 config"):
+            exec(code, {"cfg": {**config, **overrides}})
 
 
 def load(path: Path, name: str):

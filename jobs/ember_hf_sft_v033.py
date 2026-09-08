@@ -1007,7 +1007,7 @@ TRANSFORMS = (
     ("0.0.16", "0.0.33", -1),
     ("ember_sequence_copy_v0.0.33.json", "ember_envelope_copy_v0.0.33.json", -1),
     ("ember_sft_data_v015.py", "ember_sft_data_v026.py", -1),
-    ("sequence-copy-consolidation", "multi-position-consolidation", -1),
+    ("sequence-copy-consolidation", "envelope-placed-copy", -1),
     ('SOURCE_REPO = "Jmiller18899/ember-v0.0.15-t4"',
      'SOURCE_REPO = "Jmiller18899/ember-v0.0.31-t4"', -1),
     ('cfg.get("source_model_name") != "ember-v0.0.15-t4"',
