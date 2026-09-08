@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "dataset_version": "ember-semantic-data-v1",
+  "seed": 20260908,
+  "train_examples": 2880,
+  "validation_examples": 576,
+  "block_size": 256,
+  "generation_budget": 96,
+  "completion_only_loss": true,
+  "reference_model": {
+    "repo_id": "Jmiller18899/ember-v0.0.31-t4",
+    "revision": "353b538e4ce35679cd7e1e8e7c10bf2807916a7a",
+    "checkpoint_path": "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.pt",
+    "checkpoint_sha256": "e957802185072f174563b4bc2813059c2cbdfc479aea9a8d25b815aa6ecba03b",
+    "step": 479,
+    "version": "0.0.31"
+  },
+  "frozen_evaluation_spec_sha256": "4d7dbf9896631b41c993171a7a55a37dfd7dd8476edfcc036579fe1131c8383e",
+  "frozen_evaluator_sha256": "2f5c1c440c37530702c97f0e12df85978021cbb8307f21d60f50b02f8c73e96e",
+  "output_dataset_repo": "Jmiller18899/ember-semantic-data-v1",
+  "training_authorized": false,
+  "deployment_authorized": false
+}
