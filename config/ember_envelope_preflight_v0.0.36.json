@@ -1,0 +1,21 @@
+{
+  "version": "0.0.36",
+  "phase": "single-target-agent-envelope-preflight",
+  "seed": 2026090836,
+  "source_version": "0.0.31",
+  "expected_cases": 90,
+  "expected_reference_cases": 4,
+  "generation_budget": 96,
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "reference_gate": {
+    "minimum_envelope_json_valid_rate": 1.0,
+    "minimum_envelope_tool_name_rate": 1.0
+  },
+  "baseline_gate": {
+    "minimum_envelope_json_valid_rate": 0.95,
+    "minimum_envelope_tool_name_rate": 0.95
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false
+}

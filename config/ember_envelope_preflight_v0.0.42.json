@@ -1,0 +1,55 @@
+{
+  "version": "0.0.42",
+  "phase": "crossseed-structural-subtype-envelope-calibration",
+  "seed": 2026090842,
+  "source_version": "0.0.31",
+  "expected_cases": 90,
+  "expected_reference_cases": 4,
+  "generation_budget": 96,
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "calibration_values_per_fold": 6,
+  "calibration_folds": ["select", "confirm"],
+  "replacement_margin_per_fold": 1,
+  "replacement_margin_combined": 2,
+  "calibration_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/4x4",
+    "long_code/3x5",
+    "url/two_segment",
+    "path/plain_leaf"
+  ],
+  "challenger_templates": {
+    "typed_exact": "Search the web for this exact {label}: \"{value}\".",
+    "tool_query": "Use web_search with query \"{value}\".",
+    "query_exact": "Use web_search. Set query exactly to \"{value}\"."
+  },
+  "historical_floor": {
+    "short_code": 8,
+    "long_code": 7,
+    "url": 9,
+    "path": 9,
+    "mixed": 10
+  },
+  "historical_subtype_floor": {
+    "short_code/len4": 5,
+    "short_code/len5": 3,
+    "long_code/4x4": 5,
+    "long_code/3x5": 2,
+    "url/one_mixed": 4,
+    "url/two_segment": 2,
+    "path/plain_leaf": 3,
+    "mixed/upper": 3
+  },
+  "reference_gate": {
+    "minimum_envelope_json_valid_rate": 1.0,
+    "minimum_envelope_tool_name_rate": 1.0
+  },
+  "baseline_gate": {
+    "minimum_envelope_json_valid_rate": 0.95,
+    "minimum_envelope_tool_name_rate": 0.95
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false
+}

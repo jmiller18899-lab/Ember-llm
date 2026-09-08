@@ -1,0 +1,595 @@
+{
+  "schema_version": 1,
+  "contract": "ember-semantic-v1",
+  "source": {
+    "repo_id": "Jmiller18899/ember-v0.0.31-t4",
+    "version": "0.0.31",
+    "step": 479,
+    "run_id": "ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z",
+    "checkpoint_path": "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.pt",
+    "int4_path": "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.int4.pt"
+  },
+  "generation": {
+    "max_new_tokens": 96,
+    "seed": 1337
+  },
+  "policy": {
+    "required_pass_rate_per_group_per_variant": 1.0,
+    "production_authorized": false
+  },
+  "limitations": [
+    "A conservative finite-answer fixture gate, not a general semantic or production-readiness benchmark. Valid unlisted paraphrases fail and need human review; do not quietly loosen this version.",
+    "The 12 legacy prompts are a semantic recheck, not newly held-out evidence. The 24 new challenges were authored after the pinned candidate was trained; no claim of exhaustive corpus decontamination is made.",
+    "Fresh decoding stops only at the actual emitted EOS token. The full legacy raw outputs are separately rescored without trimming; noise after EOS in the old fixed-length generator is not assumed to be a served answer.",
+    "INT4 weights are reconstructed on CPU. This checks quantized-weight behavior, not performance of a native INT4 serving kernel.",
+    "No tools are executed and no deployment is authorized. A PASS only clears this bounded gate."
+  ],
+  "cases": [
+    {
+      "id": "tool_weather",
+      "kind": "tool_call",
+      "expected_tool": "weather",
+      "prompt": "<|system|>\nYou are Ember. When current weather is requested, call the weather tool with JSON arguments.\n<|user|>\nWhat is the weather in Detroit right now?\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "location": "Detroit"
+        },
+        {
+          "location": "Detroit, Michigan"
+        },
+        {
+          "location": "Detroit, MI"
+        }
+      ]
+    },
+    {
+      "id": "tool_calculator",
+      "kind": "tool_call",
+      "expected_tool": "calculator",
+      "prompt": "<|system|>\nYou are Ember. Use the calculator tool for arithmetic and provide JSON arguments.\n<|user|>\nCalculate 347 multiplied by 28.\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "expression": "347*28"
+        },
+        {
+          "expression": "347 * 28"
+        }
+      ]
+    },
+    {
+      "id": "tool_web_search",
+      "kind": "tool_call",
+      "expected_tool": "web_search",
+      "prompt": "<|system|>\nYou are Ember. Use web_search when the user requests current information.\n<|user|>\nFind the latest published release of Python.\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "query": "latest published release of Python"
+        },
+        {
+          "query": "latest Python release"
+        },
+        {
+          "query": "latest stable Python release"
+        },
+        {
+          "query": "Python latest release"
+        },
+        {
+          "query": "latest published Python release"
+        }
+      ]
+    },
+    {
+      "id": "tool_get_time",
+      "kind": "tool_call",
+      "expected_tool": "get_time",
+      "prompt": "<|system|>\nYou are Ember. Use get_time for the current time in a requested timezone.\n<|user|>\nWhat time is it in Tokyo?\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "timezone"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "timezone": "Asia/Tokyo"
+        }
+      ]
+    },
+    {
+      "id": "direct_greeting",
+      "kind": "direct_response",
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nSay hello in a friendly sentence.\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "Hello! It is nice to meet you.",
+        "Hello! It's nice to meet you.",
+        "Hello! How can I help you today?",
+        "Hello! I am happy to help.",
+        "Hello! I'm happy to help.",
+        "Hello! Nice to meet you.",
+        "Hello!"
+      ]
+    },
+    {
+      "id": "direct_rewrite",
+      "kind": "direct_response",
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nRewrite this title clearly: website thing not working.\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "Website not working",
+        "Website not working.",
+        "The website is not working.",
+        "The website is not working",
+        "Website is not working",
+        "Website is not working.",
+        "Website malfunction",
+        "Website malfunction."
+      ]
+    },
+    {
+      "id": "direct_explain",
+      "kind": "direct_response",
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nExplain what a checkpoint is in one sentence.\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "A checkpoint is a saved snapshot of a model that lets training resume later.",
+        "A checkpoint is a saved snapshot of the model and training state that allows training to resume.",
+        "A checkpoint is a saved snapshot of a model's state that lets you resume training later.",
+        "A checkpoint is a saved model state that lets training resume later.",
+        "A checkpoint saves the model and training state so training can resume later."
+      ]
+    },
+    {
+      "id": "direct_plan",
+      "kind": "direct_response",
+      "prompt": "<|system|>\nYou are Ember. Answer directly when no tool is needed.\n<|user|>\nGive me two short steps for testing a login form.\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "1. Test a valid login. 2. Test an invalid login.",
+        "1. Enter valid credentials and verify login succeeds. 2. Enter invalid credentials and verify an error appears.",
+        "1. Test valid credentials. 2. Test invalid credentials.",
+        "1. Check that valid credentials log in successfully. 2. Check that invalid credentials show an error."
+      ]
+    },
+    {
+      "id": "result_weather",
+      "kind": "tool_result_response",
+      "prompt": "<|system|>\nYou are Ember. Explain tool results to the user without calling the tool again.\n<|user|>\nWhat is the weather in Detroit?\n<|assistant|>\n<|tool|>\n{\"name\":\"weather\",\"arguments\":{\"location\":\"Detroit\"}}\n<|tool_result|>\n{\"temperature_f\":72,\"condition\":\"sunny\"}\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "It is 72°F and sunny in Detroit.",
+        "Detroit is sunny at 72°F.",
+        "The weather in Detroit is sunny with a temperature of 72°F.",
+        "It is sunny and 72 degrees Fahrenheit in Detroit.",
+        "Detroit is sunny and 72°F.",
+        "It is 72 degrees Fahrenheit and sunny in Detroit."
+      ]
+    },
+    {
+      "id": "result_calculator",
+      "kind": "tool_result_response",
+      "prompt": "<|system|>\nYou are Ember. Explain tool results to the user without calling the tool again.\n<|user|>\nCalculate 347 multiplied by 28.\n<|assistant|>\n<|tool|>\n{\"name\":\"calculator\",\"arguments\":{\"expression\":\"347*28\"}}\n<|tool_result|>\n{\"result\":9716}\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "347 × 28 = 9716.",
+        "347 * 28 = 9716.",
+        "347 multiplied by 28 is 9716.",
+        "The result is 9716.",
+        "9716",
+        "9,716",
+        "The result is 9,716."
+      ]
+    },
+    {
+      "id": "result_search",
+      "kind": "tool_result_response",
+      "prompt": "<|system|>\nYou are Ember. Summarize supplied search results without searching again.\n<|user|>\nFind the project status.\n<|assistant|>\n<|tool|>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"project status\"}}\n<|tool_result|>\n{\"title\":\"Status\",\"summary\":\"All validation checks passed.\"}\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "All validation checks passed.",
+        "The project status shows that all validation checks passed.",
+        "The project status is: all validation checks passed."
+      ]
+    },
+    {
+      "id": "result_service_status",
+      "kind": "tool_result_response",
+      "prompt": "<|system|>\nYou are Ember. Explain tool results to the user without calling the tool again.\n<|user|>\nIs the service healthy?\n<|assistant|>\n<|tool|>\n{\"name\":\"service_status\",\"arguments\":{\"service\":\"gateway\"}}\n<|tool_result|>\n{\"status\":\"healthy\",\"latency_ms\":84}\n<|assistant|>\n",
+      "cohort": "legacy_recheck",
+      "accepted_responses": [
+        "The gateway is healthy with a latency of 84 ms.",
+        "The service is healthy with a latency of 84 ms.",
+        "The gateway is healthy, with 84 ms latency.",
+        "The gateway service is healthy with a latency of 84 ms."
+      ]
+    },
+    {
+      "id": "weather_marquette",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "weather",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "location": "Marquette, Michigan"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use weather. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"],\"additionalProperties\":false}\n<|user|>\nCheck the current weather in Marquette, Michigan. Copy the location exactly.\n<|assistant|>\n"
+    },
+    {
+      "id": "weather_benton",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "weather",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "location"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "location": "Benton Harbor"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use weather. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"location\":{\"type\":\"string\"}},\"required\":[\"location\"],\"additionalProperties\":false}\n<|user|>\nCheck the weather in Benton Harbor, not Ann Arbor. Use exactly Benton Harbor as the location.\n<|assistant|>\n"
+    },
+    {
+      "id": "calc_order",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "calculator",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "expression": "83-27"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use calculator. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"expression\":{\"type\":\"string\"}},\"required\":[\"expression\"],\"additionalProperties\":false}\n<|user|>\nUse the calculator for 83-27. Copy the expression exactly.\n<|assistant|>\n"
+    },
+    {
+      "id": "calc_parentheses",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "calculator",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "expression": "(46+18)*7"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use calculator. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"expression\":{\"type\":\"string\"}},\"required\":[\"expression\"],\"additionalProperties\":false}\n<|user|>\nCalculate (46+18)*7 with the calculator. Preserve the parentheses and copy the expression exactly.\n<|assistant|>\n"
+    },
+    {
+      "id": "time_chatham",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "get_time",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "timezone"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "timezone": "Pacific/Chatham"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use get_time. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"timezone\":{\"type\":\"string\"}},\"required\":[\"timezone\"],\"additionalProperties\":false}\n<|user|>\nLook up the current time for the timezone Pacific/Chatham. Copy the timezone exactly.\n<|assistant|>\n"
+    },
+    {
+      "id": "time_toronto",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "get_time",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "timezone"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "timezone": "America/Toronto"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use get_time. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"timezone\":{\"type\":\"string\"}},\"required\":[\"timezone\"],\"additionalProperties\":false}\n<|user|>\nUse get_time for America/Toronto, not America/Chicago. Copy the requested timezone exactly.\n<|assistant|>\n"
+    },
+    {
+      "id": "search_release",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "web_search",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "query": "Ember semantic gate report 9037"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use web_search. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"string\"}},\"required\":[\"query\"],\"additionalProperties\":false}\n<|user|>\nSearch for this exact query: Ember semantic gate report 9037\n<|assistant|>\n"
+    },
+    {
+      "id": "search_identifier",
+      "kind": "tool_call",
+      "cohort": "new_challenge",
+      "expected_tool": "web_search",
+      "arguments_schema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "argument_variants": [
+        {
+          "query": "ticket ZV82 closed status"
+        }
+      ],
+      "prompt": "<|system|>\nYou are Ember. Use web_search. Return one tool call with a JSON object containing name and arguments. Arguments schema: {\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"string\"}},\"required\":[\"query\"],\"additionalProperties\":false}\n<|user|>\nSearch for this exact query: ticket ZV82 closed status\n<|assistant|>\n"
+    },
+    {
+      "id": "direct_status_failed",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nThe status is failed. Reply with exactly one word: failed or passed.\n<|assistant|>\n",
+      "accepted_responses": [
+        "failed"
+      ]
+    },
+    {
+      "id": "direct_negation",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nThe file was not saved. Reply with exactly one of these labels: saved or not saved.\n<|assistant|>\n",
+      "accepted_responses": [
+        "not saved"
+      ]
+    },
+    {
+      "id": "direct_count",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nThe list contains red, green, and blue. How many items are listed? Reply with only the digit.\n<|assistant|>\n",
+      "accepted_responses": [
+        "3"
+      ]
+    },
+    {
+      "id": "direct_select",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nChoose the larger number from 17 and 42. Reply with only the number.\n<|assistant|>\n",
+      "accepted_responses": [
+        "42"
+      ]
+    },
+    {
+      "id": "direct_order",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nPut these words in alphabetical order: zebra, apple. Reply exactly as word, word.\n<|assistant|>\n",
+      "accepted_responses": [
+        "apple, zebra"
+      ]
+    },
+    {
+      "id": "direct_rewrite_new",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nRewrite \"account settings will not save\" as a clear title. Return only the title.\n<|assistant|>\n",
+      "accepted_responses": [
+        "Account settings fail to save",
+        "Account settings fail to save.",
+        "Account settings will not save",
+        "Account settings will not save.",
+        "Unable to save account settings",
+        "Unable to save account settings."
+      ]
+    },
+    {
+      "id": "direct_extract",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nThe ticket is ZV82 and its owner is Morgan. Who owns the ticket? Reply with only the name.\n<|assistant|>\n",
+      "accepted_responses": [
+        "Morgan"
+      ]
+    },
+    {
+      "id": "direct_missing",
+      "kind": "direct_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Answer from the supplied facts without tools. Finish the answer cleanly.\n<|user|>\nThe ticket is ZV82. Its owner was not supplied. Reply with only unknown if the owner is missing.\n<|assistant|>\n",
+      "accepted_responses": [
+        "unknown"
+      ]
+    },
+    {
+      "id": "result_weather_new",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nReport the result exactly as: condition, temperature°F.\n<|assistant|>\n<|tool|>\n{\"name\":\"weather\",\"arguments\":{\"location\":\"Marquette\"}}\n<|tool_result|>\n{\"temperature_f\":41,\"condition\":\"rainy\"}\n<|assistant|>\n",
+      "accepted_responses": [
+        "rainy, 41°F"
+      ]
+    },
+    {
+      "id": "result_weather_negative",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nReport the result exactly as: condition, temperature°F.\n<|assistant|>\n<|tool|>\n{\"name\":\"weather\",\"arguments\":{\"location\":\"Benton Harbor\"}}\n<|tool_result|>\n{\"temperature_f\":-6,\"condition\":\"cloudy\"}\n<|assistant|>\n",
+      "accepted_responses": [
+        "cloudy, -6°F"
+      ]
+    },
+    {
+      "id": "result_arithmetic_new",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nReply with only the result number.\n<|assistant|>\n<|tool|>\n{\"name\":\"calculator\",\"arguments\":{\"expression\":\"83-27\"}}\n<|tool_result|>\n{\"result\":56}\n<|assistant|>\n",
+      "accepted_responses": [
+        "56"
+      ]
+    },
+    {
+      "id": "result_decimal",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nReply with only the result number.\n<|assistant|>\n<|tool|>\n{\"name\":\"calculator\",\"arguments\":{\"expression\":\"5/2\"}}\n<|tool_result|>\n{\"result\":2.5}\n<|assistant|>\n",
+      "accepted_responses": [
+        "2.5"
+      ]
+    },
+    {
+      "id": "result_service_failed",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nReport the supplied status and latency exactly as: status, latency ms.\n<|assistant|>\n<|tool|>\n{\"name\":\"service_status\",\"arguments\":{\"service\":\"gateway\"}}\n<|tool_result|>\n{\"status\":\"unhealthy\",\"latency_ms\":184}\n<|assistant|>\n",
+      "accepted_responses": [
+        "unhealthy, 184 ms"
+      ]
+    },
+    {
+      "id": "result_timeout",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nIf the tool failed, reply exactly: Weather unavailable: timeout. Do not invent a temperature.\n<|assistant|>\n<|tool|>\n{\"name\":\"weather\",\"arguments\":{\"location\":\"Marquette\"}}\n<|tool_result|>\n{\"error\":\"timeout\"}\n<|assistant|>\n",
+      "accepted_responses": [
+        "Weather unavailable: timeout."
+      ]
+    },
+    {
+      "id": "result_empty",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nIf results are empty, reply exactly: No results found.\n<|assistant|>\n<|tool|>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"ticket ZV82\"}}\n<|tool_result|>\n{\"results\":[]}\n<|assistant|>\n",
+      "accepted_responses": [
+        "No results found."
+      ]
+    },
+    {
+      "id": "result_no_invented_owner",
+      "kind": "tool_result_response",
+      "cohort": "new_challenge",
+      "prompt": "<|system|>\nYou are Ember. Use only the supplied tool result, without another tool call. Finish the answer cleanly.\n<|user|>\nWho owns the service? Reply with only unknown if the tool result does not identify an owner.\n<|assistant|>\n<|tool|>\n{\"name\":\"service_status\",\"arguments\":{\"service\":\"gateway\"}}\n<|tool_result|>\n{\"status\":\"healthy\"}\n<|assistant|>\n",
+      "accepted_responses": [
+        "unknown"
+      ]
+    }
+  ]
+}

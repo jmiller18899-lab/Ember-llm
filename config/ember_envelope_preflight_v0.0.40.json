@@ -1,0 +1,35 @@
+{
+  "version": "0.0.40",
+  "phase": "regression-safe-agent-envelope-calibration",
+  "seed": 2026090840,
+  "source_version": "0.0.31",
+  "expected_cases": 90,
+  "expected_reference_cases": 4,
+  "generation_budget": 96,
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "calibration_kinds": ["short_code", "long_code", "url", "path", "mixed"],
+  "calibration_values_per_kind": 8,
+  "replacement_margin": 2,
+  "challenger_templates": {
+    "direct_query": "Use web_search with query \"{value}\".",
+    "current_quoted": "Use web_search to find current information about \"{value}\"."
+  },
+  "historical_floor": {
+    "short_code": 8,
+    "long_code": 7,
+    "url": 7,
+    "path": 9,
+    "mixed": 9
+  },
+  "reference_gate": {
+    "minimum_envelope_json_valid_rate": 1.0,
+    "minimum_envelope_tool_name_rate": 1.0
+  },
+  "baseline_gate": {
+    "minimum_envelope_json_valid_rate": 0.95,
+    "minimum_envelope_tool_name_rate": 0.95
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false
+}

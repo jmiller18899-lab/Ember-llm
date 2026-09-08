@@ -1,0 +1,79 @@
+name: Ember v0.0.43 Three Fold Residual Calibration
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: CPU-only three-fold residual envelope calibration
+        required: true
+        default: bootstrap
+        type: choice
+        options: [bootstrap, preflight]
+  push:
+    branches: [codex/ember-v043-threefold-residual-calibration]
+    paths: [.github/ember-v043.trigger]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-v043-threefold-residual-calibration
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - name: Resolve mode
+        id: mode
+        env:
+          REQUESTED_MODE: ${{ inputs.mode }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            mode="$REQUESTED_MODE"
+          else
+            mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-v043.trigger)"
+          fi
+          case "$mode" in
+            bootstrap|preflight) ;;
+            *) echo 'Unsupported v0.0.43 mode'; exit 1 ;;
+          esac
+          echo "value=$mode" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v6
+        if: steps.mode.outputs.value == 'preflight'
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU dependencies
+        if: steps.mode.outputs.value == 'preflight'
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install huggingface-hub==1.30.0 sentencepiece==0.2.0 jsonschema==4.23.0 pytest==8.3.5 numpy==2.2.6
+      - name: Test three-fold calibration and inherited gates
+        if: steps.mode.outputs.value == 'preflight'
+        run: python -m pytest -q tests/test_ember_v043_envelope_preflight.py tests/test_ember_v042_envelope_preflight.py tests/test_ember_v040_envelope_preflight.py tests/test_ember_v039_envelope_preflight.py tests/test_ember_v038_envelope_preflight.py tests/test_ember_v037_envelope_preflight.py tests/test_ember_v036_envelope_preflight.py tests/test_ember_v035_envelope_preflight.py tests/test_ember_v034_envelope_preflight.py tests/test_ember_v032_learning.py tests/test_ember_semantic_data.py tests/test_ember_semantic_gate.py
+      - name: Run CPU-only three-fold residual calibration and 90-case baseline
+        if: steps.mode.outputs.value == 'preflight'
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+          CUDA_VISIBLE_DEVICES: ''
+        run: python jobs/ember_envelope_preflight_v043.py --output-dir v043-results
+      - name: Show measured baseline
+        if: always() && steps.mode.outputs.value == 'preflight'
+        run: |
+          if [ -f v043-results/summary.md ]; then
+            cat v043-results/summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'The v0.0.43 preflight stopped before a summary was saved. Check the failed step logs.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve CPU calibration evidence
+        if: always() && steps.mode.outputs.value == 'preflight'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v043-envelope-${{ github.run_id }}
+          path: |
+            v043-results/report.json
+            v043-results/summary.md
+          if-no-files-found: warn
+          retention-days: 90
