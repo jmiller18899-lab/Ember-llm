@@ -28,3 +28,18 @@ It also records `right_envelope_tool_wrong_value_rate`, which is the specific v0
 The baseline gate requires both JSON validity and correct tool-name routing to be at least 95% (86 of 90 cases). A future learning phase must not consume this baseline unless those checks pass. If the gate fails, the prompt/envelope baseline is still wrong and the experiment stops without training.
 
 Authorization is intentionally closed: `training_authorized=false`, `gpu_training_authorized=false`, and `production_authorized=false`. The runner contains no optimizer and no model write path. A PASS means only that `slot_exact` is meaningful to interpret on this prompt family; it does not authorize a training phase, promotion, deployment, or production integration.
+
+## Measured result
+
+GitHub Actions run `34279609411` evaluated commit `d00654b9206d8013a24998099ac8c532ebae83d2` and correctly returned **FAIL**.
+
+- Envelope JSON valid: **55/90 (61.1%)**
+- Correct tool name: **38/90 (42.2%)**
+- Slot evaluable: **38/90 (42.2%)**
+- Slot exact: **0/38 (0%)**
+- Right envelope + correct tool + wrong value: **38/90 (42.2%)**
+- Clean stop: **89/90 (98.9%)**
+
+The failure is diagnostic, not an infrastructure failure: all 134 focused tests passed and all 90 cases ran. The new/unproven tool families caused most of the envelope collapse: `url` and `path` produced 0/10 valid JSON, `long_code` produced 10/10 valid JSON but 0/10 correct `lookup` routing, and `mixed` produced only 4/10 valid JSON with 0/10 correct `lookup` routing. By contrast, `digits` and `entity` each produced 10/10 valid JSON and 10/10 correct tool names, while `expression` produced 7/10 for both. Every one of the 38 correct-tool envelopes still placed the wrong value in the argument, reproducing the placement failure only on the subset where the envelope was stable.
+
+Per the preflight contract, this result stops the experiment before training. No optimizer, GPU job, promotion, or integration was run. The next prompt revision should stay inside the tool vocabulary already demonstrated by the v0.0.8 agent envelope instead of introducing `lookup`, `fetch_url`, or `read_file` as baseline requirements.
