@@ -284,6 +284,32 @@ def test_the_bare_value_capability_is_protected(cfg):
     assert cfg["protected_legacy_continuation_top1_rate"] <= 65 / 69
 
 
+def test_the_runtime_asserts_the_phase_the_config_actually_declares():
+    """A producer/consumer contract that a version-rename cannot maintain.
+
+    The scaffold hard-checks cfg["version"] and cfg["phase"]. Renaming a phase
+    file by version substitution leaves the phase *string* untouched, because it
+    contains no version -- so the trainer asserted "multi-position-consolidation"
+    against a config declaring "envelope-placed-copy" and the job died at the
+    config check before it created its output repository.
+    """
+    import re
+    trainer = load(TRAINER_V033, "ember_hf_sft_v033_phase")
+    runtime = trainer.apply_transforms(TRAINER_V016.read_text())
+    cfg = json.loads(CONFIG_V033.read_text())
+
+    match = re.search(
+        r'cfg\.get\("version"\) != "([^"]+)" or cfg\.get\("phase"\) != "([^"]+)"', runtime
+    )
+    assert match, "could not find the config assertion in the runtime"
+    version, phase = match.groups()
+    assert version == cfg["version"], f"runtime expects version {version}, config says {cfg['version']}"
+    assert phase == cfg["phase"], f"runtime expects phase {phase}, config says {cfg['phase']}"
+
+    # The config it pins must also be the one on disk.
+    assert cfg["source_model_name"] in runtime
+
+
 def test_the_runtime_trains_on_envelopes_and_continues_from_v031():
     trainer = load(TRAINER_V033, "ember_hf_sft_v033_runtime")
     assert trainer.unmatched_transform_targets(TRAINER_V016.read_text()) == []
