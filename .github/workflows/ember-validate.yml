@@ -70,8 +70,16 @@ jobs:
           python -m json.tool config/ember_agent_copy_canary_v0.0.13.json >/dev/null
           python -m json.tool config/ember_agent_copy_canary_v0.0.14.json >/dev/null
           python -m json.tool config/ember_sequence_copy_v0.0.16.json >/dev/null
+          python -m json.tool config/ember_format_parity_v0.0.26.json >/dev/null
           python -m json.tool .cursor/environment.json >/dev/null
           bash -n .cursor/install.sh
+
+      - name: Audit curriculum format parity
+        run: |
+          python jobs/ember_curriculum_audit_v026.py \
+            --data jobs/ember_sft_data_v026.py \
+            --diagnostics jobs/ember_sft_data_v026.py \
+            --assert-parity
 
       - name: Install CPU-only Ember dependencies
         working-directory: /tmp/ember-src/ember
