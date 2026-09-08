@@ -1,0 +1,90 @@
+name: Ember v0.0.32 Semantic Quality Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "v0.0.32 semantic-gate action"
+        required: true
+        default: rubric
+        type: choice
+        options:
+          - bootstrap
+          - rubric
+          - evaluate
+  push:
+    branches:
+      - main
+      - claude/ember-v0025-plateau-tnxpua
+    paths:
+      - ".github/ember-v032-semantic.trigger"
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Ember
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Resolve mode
+        id: request
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            mode="${{ inputs.mode }}"
+          else
+            mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-v032-semantic.trigger)"
+          fi
+          case "$mode" in
+            bootstrap|rubric|evaluate) ;;
+            *) echo "::error::Unsupported v0.0.32 mode: $mode"; exit 1 ;;
+          esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Resolved Ember v0.0.32 mode: $mode"
+
+      # Free, no token, and a hard gate on the paid path: the rubric has to
+      # reject the completions the legacy evaluator waves through, or it is not
+      # measuring anything the legacy job did not already measure.
+      - name: Exercise the rubric offline
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q tests/test_ember_v032_semantic_gate.py
+          python -m json.tool config/ember_semantic_quality_v0.0.32.json >/dev/null
+
+      - name: Install Hugging Face Jobs client
+        if: ${{ steps.request.outputs.mode == 'evaluate' }}
+        run: python -m pip install --upgrade "huggingface-hub>=1.4"
+
+      - name: Verify H_F2 Hugging Face token
+        if: ${{ steps.request.outputs.mode == 'evaluate' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: python jobs/ember_hf_bootstrap.py
+
+      - name: Score the promoted v0.0.31 checkpoint on CPU
+        if: ${{ steps.request.outputs.mode == 'evaluate' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-32-semantic-quality-gate \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_semantic_eval_v032.py -- \
+            --spec config/ember_semantic_quality_v0.0.32.json \
+            --legacy-spec config/ember_v0.0.8_eval.json
+
+      - name: Safety summary
+        run: |
+          echo "CPU-only semantic gate; no GPU training is submitted by any mode."
+          echo "This workflow reads a checkpoint and writes a report. It never trains, uploads a model, or promotes."

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "project": "Ember",
+  "version": "0.0.32",
+  "phase": "semantic-quality-gate",
+  "candidate_model_name": "ember-v0.0.31-t4",
+  "legacy_spec": "config/ember_v0.0.8_eval.json",
+  "purpose": "The legacy evaluator scores the first structural element of a completion and ignores everything after it. A tool call passes on any non-empty arguments object, and a direct response passes on three visible characters. This spec grades what the legacy one does not: argument content, grounding in the prompt, termination, and the text that follows the answer.",
+
+  "generation": {
+    "max_new_tokens": 96,
+    "temperature": 1.0,
+    "top_k": 1,
+    "seed": 1337
+  },
+
+  "quality": {
+    "require_clean_stop": true,
+    "max_trailing_visible_chars": 0,
+    "forbid_extra_turn_markers": ["<|user|>", "<|system|>", "<|assistant|>", "<|tool_result|>"],
+    "max_tool_markers": 1,
+    "max_repeated_ngram_ratio": 0.35,
+    "repetition_ngram": 4,
+    "direct_min_visible_chars": 12,
+    "direct_min_words": 3
+  },
+
+  "gates": {
+    "minimum_grounded_tool_call_rate": 1.0,
+    "minimum_clean_stop_rate": 1.0,
+    "minimum_no_trailing_noise_rate": 1.0,
+    "minimum_direct_quality_rate": 1.0,
+    "minimum_tool_result_quality_rate": 1.0,
+    "minimum_overall_strict_pass_rate": 1.0
+  },
+
+  "cases": [
+    {
+      "id": "tool_weather",
+      "kind": "tool_call",
+      "expected_tool": "weather",
+      "required_argument_keys": ["location"],
+      "grounded_values": ["Detroit"],
+      "grounding_case_sensitive": false
+    },
+    {
+      "id": "tool_calculator",
+      "kind": "tool_call",
+      "expected_tool": "calculator",
+      "required_argument_keys_any_of": ["expression", "a", "operands", "input"],
+      "grounded_values": ["347", "28"],
+      "grounding_case_sensitive": true
+    },
+    {
+      "id": "tool_web_search",
+      "kind": "tool_call",
+      "expected_tool": "web_search",
+      "required_argument_keys_any_of": ["query", "q", "search", "input"],
+      "grounded_values": ["Python"],
+      "grounding_case_sensitive": false
+    },
+    {
+      "id": "tool_get_time",
+      "kind": "tool_call",
+      "expected_tool": "get_time",
+      "required_argument_keys_any_of": ["timezone", "tz", "location", "city"],
+      "grounded_values": ["Tokyo"],
+      "grounding_case_sensitive": false
+    },
+    {"id": "direct_greeting", "kind": "direct_response"},
+    {"id": "direct_rewrite", "kind": "direct_response"},
+    {"id": "direct_explain", "kind": "direct_response"},
+    {"id": "direct_plan", "kind": "direct_response"},
+    {"id": "result_weather", "kind": "tool_result_response"},
+    {"id": "result_calculator", "kind": "tool_result_response"},
+    {"id": "result_search", "kind": "tool_result_response"},
+    {"id": "result_service_status", "kind": "tool_result_response"}
+  ]
+}
