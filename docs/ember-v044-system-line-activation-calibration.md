@@ -115,3 +115,53 @@ A regression on any floor means the selected system line hurt a cohort that was
 already passing, and the selector's zero-loss rule failed to predict it. That is
 itself worth recording, because it would be the first measured case of a system
 line moving a non-target cohort.
+
+## Measured result
+
+The formal compatibility-corrected run was GitHub Actions run `34288515663`, job
+`102269563506`, on commit `003a3117cee090aab32c787c411a79f551f4d96e`.
+The workflow returned **FAIL** only because the unchanged global 95% gate was not
+met; the runner completed normally, wrote the report and summary, and uploaded
+its evidence artifact.
+
+- Focused/inherited tests: **207 passed**.
+- Exact v0.0.8 reference: **4/4** canonical envelopes and **4/4** correct tool names.
+- 90-case JSON-valid envelope: **84/90 (93.3%)**.
+- 90-case correct tool name: **84/90 (93.3%)**.
+- Correct tool conditional on a valid envelope: **84/84 (100%)**.
+- `slot_exact`: **0/84 (0%)**.
+- Right envelope + right tool + wrong value: **84/90 (93.3%)**.
+- Clean stop: **90/90 (100%)**.
+- Kind no-regression gate: **PASS**.
+- Subtype no-regression gate: **PASS**.
+- Artifact: `ember-v044-envelope-34288515663`, artifact ID `10080549791`, ZIP SHA256 `9717dbeb7a684cff6442f2c73d83ef29fbbd944da74d3de22ea255fd939fe9df`.
+
+All four code-shaped subtype selectors retained the baseline system line:
+
+| Subtype | Selected system | Synthetic gain | Held-out result |
+| --- | --- | ---: | ---: |
+| `short_code/len4` | baseline | +0 | 5/5 |
+| `short_code/len5` | baseline | +0 | 3/5 |
+| `long_code/4x4` | baseline | +0 | 5/5 |
+| `long_code/3x5` | baseline | +0 | 2/5 |
+
+The held-out kind totals therefore stayed exactly at the protected v0.0.43 level:
+`short_code 8/10`, `long_code 7/10`, `url 10/10`, `path 9/10`, and
+`mixed 10/10`; digits, model IDs, entities, and expressions remained 10/10.
+
+## Conclusion
+
+v0.0.44 is a second independent prompt-side null result. v0.0.43 found no global
+gain from changing the user request; v0.0.44 found no selectable synthetic gain
+from changing the system activation line. The remaining six envelope failures are
+stable: two short-code cases, three long-code cases, and one path case.
+
+Do **not** lower the 86/90 gate and do **not** launch placement training from this
+result. The next useful CPU-only step is a residual activation/logit diagnostic on
+the six failures versus matched passing cases while holding prompts completely
+frozen. That can determine whether the failures are near the JSON/tool-call
+decision boundary or are qualitatively in a different decoding regime before any
+learning-phase design is authorized.
+
+No optimizer, GPU job, training, promotion, deployment, or production integration
+was run.
