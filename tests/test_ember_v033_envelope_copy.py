@@ -95,13 +95,24 @@ class MergingTokenizer(CharTokenizer):
     """Rewrites the boundary token, as a BPE merge across it would.
 
     Dropping a token would not be caught: a truncated prefix is still a prefix.
-    Changing the last token's identity is what a real merge does.
+    Changing the last token's identity is what a real merge does, and the first
+    preflight measured it happening on 425 of 3600 rows.
     """
 
     def encode(self, text):
         ids = super().encode(text)
         if text.endswith('"'):
             ids[-1] = 7777
+        return ids
+
+
+class HostileTokenizer(CharTokenizer):
+    """Disturbs two tokens at the boundary, which cannot be absorbed."""
+
+    def encode(self, text):
+        ids = super().encode(text)
+        if text.endswith('"') and len(ids) >= 2:
+            ids[-1], ids[-2] = 7777, 7778
         return ids
 
 
@@ -221,14 +232,40 @@ def test_the_supervised_span_reaches_the_value_boundaries_and_the_eos(helpers, c
 
 # --- the assumption that cannot be checked without the real tokenizer -------
 
-def test_a_row_whose_value_boundary_merges_is_rejected_not_mis_encoded(helpers, cfg):
-    torch = pytest.importorskip("torch")
+def test_a_merged_value_boundary_is_absorbed_rather_than_rejected(helpers, cfg):
+    """The measured case: BPE merges the head's closing quote into the value.
 
+    The first preflight rejected 425 of 3600 train rows this way, all with the
+    same cause. Rejecting them was too strict -- the merged token is exactly
+    what the model has to emit at that position, so it is the value's first
+    token and carries the value's weight.
+    """
+    torch = pytest.importorskip("torch")
+    row = helpers["to_envelope_row"](bare_row())
+
+    clean, reason = helpers["encode_envelope_row"](CharTokenizer(), row, cfg, torch)
+    merged, merged_reason = helpers["encode_envelope_row"](MergingTokenizer(), row, cfg, torch)
+    assert reason is None and merged_reason is None
+    assert clean["merged_boundary"] is False
+    assert merged["merged_boundary"] is True
+
+    # The span starts one token earlier, because that token now carries the
+    # first character(s) of the value.
+    assert merged["value_span"][0] == clean["value_span"][0] - 1
+    assert merged["value_span"][1] == clean["value_span"][1]
+    # And that straddling token is weighted as the value's first token.
+    start = merged["value_span"][0]
+    assert float(merged["w"][start]) == pytest.approx(cfg["first_token_weight"], abs=1e-6)
+    assert float(merged["w"][start + 1]) == pytest.approx(cfg["copy_token_weight"], abs=1e-6)
+
+
+def test_a_boundary_that_cannot_be_absorbed_is_still_rejected(helpers, cfg):
+    torch = pytest.importorskip("torch")
     item, reason = helpers["encode_envelope_row"](
-        MergingTokenizer(), helpers["to_envelope_row"](bare_row()), cfg, torch
+        HostileTokenizer(), helpers["to_envelope_row"](bare_row()), cfg, torch
     )
     assert item is None
-    assert reason in {"head_value_boundary", "value_tail_boundary", "prompt_head_boundary"}
+    assert reason == "head_value_boundary"
 
 
 def test_too_many_unencodable_rows_fails_the_preflight_rather_than_the_paid_run(helpers, cfg):
@@ -237,18 +274,29 @@ def test_too_many_unencodable_rows_fails_the_preflight_rather_than_the_paid_run(
     rows = [bare_row(f"CODE{i:03d}") for i in range(20)]
 
     # Measuring never raises, so the numbers survive to be recorded...
-    encoded, summary = helpers["encode_envelope_rows"](MergingTokenizer(), rows, cfg, torch, "train")
+    encoded, summary = helpers["encode_envelope_rows"](HostileTokenizer(), rows, cfg, torch, "train")
     assert encoded == []
     assert summary["encodable_fraction"] == 0.0
-    assert sum(summary["rejected"].values()) == 20
+    assert summary["rejected"] == {"head_value_boundary": 20}
+    # ...including which formats were lost, so a concentrated loss is not
+    # mistaken for a uniform one.
+    assert summary["rejected_by_kind"] == {"entity": {"head_value_boundary": 20}}
     # ...and enforcement is a separate step that then fails.
     with pytest.raises(RuntimeError, match="below the floor"):
         helpers["enforce_encodable_floor"]([summary], cfg)
 
-    # A clean tokenizer reports a full fraction and passes the floor.
+    # A merging tokenizer is now fully absorbed and counted.
+    encoded, summary = helpers["encode_envelope_rows"](MergingTokenizer(), rows, cfg, torch, "train")
+    assert len(encoded) == 20
+    assert summary["encodable_fraction"] == 1.0
+    assert summary["merged_boundary_rows"] == 20
+    helpers["enforce_encodable_floor"]([summary], cfg)
+
+    # And a clean tokenizer needs no absorption at all.
     encoded, summary = helpers["encode_envelope_rows"](CharTokenizer(), rows, cfg, torch, "train")
     assert len(encoded) == 20
     assert summary["encodable_fraction"] == 1.0
+    assert summary["merged_boundary_rows"] == 0
     assert summary["rejected"] == {}
     helpers["enforce_encodable_floor"]([summary], cfg)
 

@@ -819,13 +819,25 @@ def encode_envelope_row(tokenizer, row, cfg, torch):
     full_ids = list(tokenizer.encode(prompt + row["completion"]))
     if head_ids[:len(prompt_ids)] != prompt_ids:
         return None, "prompt_head_boundary"
-    if value_ids[:len(head_ids)] != head_ids:
+    # The head ends with the opening quote of a JSON string, and BPE merges that
+    # quote with the value's first characters for about one row in eight. The
+    # first preflight measured 3175/3600 encodable, every rejection with this one
+    # cause. Rejecting those rows was too strict: the merged token is precisely
+    # what the model has to emit at that position, so it is the value's first
+    # token and is weighted as such.
+    merged = False
+    if value_ids[:len(head_ids)] == head_ids:
+        value_start_token = len(head_ids)
+    elif len(head_ids) >= 1 and value_ids[:len(head_ids) - 1] == head_ids[:-1]:
+        value_start_token = len(head_ids) - 1
+        merged = True
+    else:
         return None, "head_value_boundary"
     if full_ids[:len(value_ids)] != value_ids:
         return None, "value_tail_boundary"
     if len(full_ids) > int(cfg["block_size"]) + 1:
         return None, "too_long"
-    if len(value_ids) - len(head_ids) < int(cfg["minimum_value_tokens"]):
+    if len(value_ids) - value_start_token < int(cfg["minimum_value_tokens"]):
         return None, "value_too_short"
     eot_id = int(tokenizer.encode(V033_EOT)[-1])
     eot_positions = [i for i in range(len(value_ids), len(full_ids)) if int(full_ids[i]) == eot_id]
@@ -842,7 +854,7 @@ def encode_envelope_row(tokenizer, row, cfg, torch):
 
     first = len(prompt_ids) - 1          # predicts the envelope's first token
     eos_target = eot_positions[0] - 1    # predicts EOS
-    value_start = len(head_ids) - 1      # predicts the value's first token
+    value_start = value_start_token - 1  # predicts the value's first token
     value_end = len(value_ids) - 1       # one past the last value-predicting index
 
     y[first:eos_target + 1] = seq_y[first:eos_target + 1]
@@ -852,7 +864,7 @@ def encode_envelope_row(tokenizer, row, cfg, torch):
     w[value_start] = float(cfg["first_token_weight"])
     w[eos_target] = float(cfg["eos_token_weight"])
     return {
-        "x": x, "y": y, "w": w, "row": row,
+        "x": x, "y": y, "w": w, "row": row, "merged_boundary": merged,
         "value_span": (value_start, value_end), "eos_target": eos_target,
     }, None
 
@@ -860,15 +872,24 @@ def encode_envelope_row(tokenizer, row, cfg, torch):
 def encode_envelope_rows(tokenizer, rows, cfg, torch, label):
     encoded = []
     rejected = {}
+    rejected_by_kind = {}
+    merged = 0
     for row in rows:
-        item, reason = encode_envelope_row(tokenizer, to_envelope_row(row), cfg, torch)
+        envelope = to_envelope_row(row)
+        item, reason = encode_envelope_row(tokenizer, envelope, cfg, torch)
         if item is None:
             rejected[reason] = rejected.get(reason, 0) + 1
+            kind = str(envelope.get("kind"))
+            rejected_by_kind.setdefault(kind, {})
+            rejected_by_kind[kind][reason] = rejected_by_kind[kind].get(reason, 0) + 1
             continue
+        merged += int(bool(item.get("merged_boundary")))
         encoded.append(item)
     usable = len(encoded) / len(rows) if rows else 0.0
     return encoded, {"label": label, "rows": len(rows), "encoded": len(encoded),
                      "encodable_fraction": usable, "rejected": rejected,
+                     "rejected_by_kind": rejected_by_kind,
+                     "merged_boundary_rows": merged,
                      "floor": float(cfg["minimum_envelope_encodable_fraction"])}
 
 
