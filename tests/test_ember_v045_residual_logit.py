@@ -42,11 +42,11 @@ def test_v045_target_cohort_is_all_cases_in_the_failure_bearing_subtypes():
         counts[case["subtype"]] = counts.get(case["subtype"], 0) + 1
         assert case["subtype"] in v045.TARGET_SUBTYPES
         assert case["system_variant"] == "v037_schema_system"
-    assert counts == {
-        "short_code/len4": 5,
-        "short_code/len5": 5,
-        "long_code/4x4": 5,
-        "long_code/3x5": 5,
+    assert counts == v045.EXPECTED_SUBTYPE_COUNTS == {
+        "short_code/len4": 6,
+        "short_code/len5": 4,
+        "long_code/4x4": 6,
+        "long_code/3x5": 4,
         "path/plain_leaf": 4,
     }
 
