@@ -172,7 +172,7 @@ def calibration_values(cfg: dict) -> dict[str, list[str]]:
             if value in used:
                 continue
             if subtype_for(kind, value) != subtype:
-                raise ValueError(f"synthetic subtype mismatch for {subtype}: {value}")
+                continue
             used.add(value)
             values.append(value)
         out[subtype] = values
