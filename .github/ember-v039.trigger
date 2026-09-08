@@ -1,2 +1,2 @@
-mode: preflight
-request: calibrate only weak web-search value kinds on synthetic disjoint values, freeze one prompt variant per kind, then run the 90-case CPU baseline; no optimizer, GPU, promotion, deployment, or integration
+mode: bootstrap
+request: v0.0.39 measured and stopped at CPU baseline; preserve result, do not rerun automatically; no optimizer, GPU, promotion, deployment, or integration
