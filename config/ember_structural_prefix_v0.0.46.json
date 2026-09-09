@@ -1,0 +1,48 @@
+{
+  "version": "0.0.46",
+  "phase": "structural-prefix-diagnostic",
+  "seed": 2026090846,
+  "source_version": "0.0.31",
+  "generation_budget": 96,
+  "expected_reference_cases": 4,
+  "expected_residual_cases": 24,
+  "expected_structural_cases": 17,
+  "expected_nonrescued_failures": 4,
+  "expected_structural_passes": 13,
+  "expected_entry_suppression_cases": 2,
+  "nonrescued_failure_ids": [
+    "system_target_short_code_02",
+    "system_target_short_code_03",
+    "system_target_long_code_08",
+    "system_target_path_05"
+  ],
+  "entry_suppression_ids": [
+    "system_target_long_code_02",
+    "system_target_long_code_05"
+  ],
+  "structural_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/3x5",
+    "path/plain_leaf"
+  ],
+  "canonical_prefix_segments": [
+    {"name": "tool_marker", "text": "<|tool|>"},
+    {"name": "json_open", "text": "{"},
+    {"name": "name_key", "text": "\"name\""},
+    {"name": "name_colon", "text": ":"},
+    {"name": "tool_name", "text": "\"web_search\""},
+    {"name": "comma_after_name", "text": ","},
+    {"name": "arguments_key", "text": "\"arguments\""},
+    {"name": "arguments_colon", "text": ":"},
+    {"name": "arguments_object_open", "text": "{"},
+    {"name": "query_key", "text": "\"query\""},
+    {"name": "query_colon", "text": ":"},
+    {"name": "value_quote_open", "text": "\""}
+  ],
+  "matched_pass_complete_rate_minimum": 0.8,
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false,
+  "placement_learning_authorized": false
+}
