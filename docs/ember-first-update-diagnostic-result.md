@@ -27,3 +27,11 @@ This run uses the published v0.0.51 objectives (0.05 entry, 0.20 placement, 0.50
 Evaluated commit: `9f232d050991acc37cef1759fb2ed64406e539b2`. Artifact ID: `10104961019`; SHA256: `a1d5caee7852c2568a968c0c3a15125b397c5ee29834c33761dd4a67ed796105`.
 
 This note and the event JSON were verified from the completed job log. The artifact was successfully uploaded by GitHub; its returned attachment URL could not be downloaded into this workspace (HTTP 403), so unlogged raw metrics are not represented here as independently inspected.
+
+Follow-up evidence check (2026-09-09): the artifact was downloaded successfully
+and its report/data/summary were inspected. The raw report confirms the logged
+retention and placement results above. Weighted step-0 gradient norms were
+22.7292 entry, 16.7970 placement, and 0.0000688187 combined preservation; these
+belong to this separate diagnostic and must not be substituted for the ladder's
+27.7029 placement gradient. The ladder source is now available and is used by
+the separate rung-0 trajectory diagnostic.
