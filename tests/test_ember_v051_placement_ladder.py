@@ -89,7 +89,9 @@ def _rung(lr, exact, token, tool_kl, preserved, candidate):
     }
 
 
-def test_choose_rung_prefers_one_that_learned_and_preserved():
+def test_choose_rung_takes_the_smallest_update_that_cleared_the_bar():
+    """v0.0.51 selected the largest gain and paid for its drift in the final
+    evaluation. Among rungs clearing the same bar, least disturbance wins."""
     rungs = [
         _rung(1e-7, 0, 0.0, 0.01, True, False),
         _rung(4e-7, 1, 0.04, 0.02, True, True),
@@ -97,8 +99,48 @@ def test_choose_rung_prefers_one_that_learned_and_preserved():
         _rung(6.4e-6, 5, 0.20, 0.90, False, False),
     ]
     chosen = ladder.choose_rung(rungs)
-    assert chosen["index"] == 2
-    assert chosen["reason"] == "learned and preserved"
+    assert chosen["index"] == 1, "the bigger gain at rung 2 must not win"
+    assert chosen["reason"] == "smallest update that cleared the bar"
+
+
+def _balanced(place, preserve):
+    return {"gradient_balance": {"weighted_placement_grad_norm": place,
+                                 "weighted_preservation_grad_norm": preserve}}
+
+
+def test_identical_step0_gradients_verify_every_rung_restarted_from_pristine():
+    check = ladder.pristine_restore_verified([_balanced(1.25, 8.4)] * 4)
+    assert check["verified"] is True
+    assert len(check["step0_gradient_norms"]) == 4
+
+
+def test_a_drifted_step0_gradient_means_a_rung_did_not_restart():
+    check = ladder.pristine_restore_verified(
+        [_balanced(1.25, 8.4), _balanced(1.25, 8.4), _balanced(0.91, 8.4)])
+    assert check["verified"] is False
+
+
+def test_completion_evaluation_names_the_checks_that_failed():
+    report = {
+        "selected_evaluation": {
+            "learning_rate": 1e-07,
+            "familiar_90": {"envelope_json_valid": 71, "correct_tool": 70,
+                            "by_kind": {"url": 6}},
+            "familiar_gate": {"passed": False,
+                              "checks": {"json_floor": False, "tool_floor": False,
+                                         "kind_url": False, "kind_path": True}},
+            "reference": {"passed_cases": 3},
+            "copy_guard": {"passed": False,
+                           "checks": {"existing_copy_gate": False,
+                                      "exact_copy_rate_non_regression": True}},
+        },
+    }
+    evaluation = ladder.completion_evaluation(report)
+    assert evaluation["familiar_correct_tool"] == 70
+    assert evaluation["familiar_gate_passed"] is False
+    assert evaluation["familiar_failed_checks"] == ["json_floor", "kind_url", "tool_floor"]
+    assert evaluation["reference_passed_cases"] == 3
+    assert evaluation["copy_failed_checks"] == ["existing_copy_gate"]
 
 
 def test_choose_rung_falls_back_to_the_largest_update_that_preserved():

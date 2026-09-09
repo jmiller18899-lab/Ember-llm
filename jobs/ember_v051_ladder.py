@@ -260,8 +260,25 @@ def run_rung(student, teacher, tokenizer, torch, cfg, learning_rate, place_examp
     }
 
 
+def pristine_restore_verified(rungs: list[dict]) -> dict:
+    """Every rung measures its gradient balance on the pristine source before any
+    step, so those numbers must be identical. If they are not, a rung did not
+    restart from the source and the whole ladder is confounded."""
+    norms = [
+        (round(r["gradient_balance"]["weighted_placement_grad_norm"], 9),
+         round(r["gradient_balance"]["weighted_preservation_grad_norm"], 9))
+        for r in rungs
+    ]
+    return {"verified": len(set(norms)) == 1, "step0_gradient_norms": norms}
+
+
 def choose_rung(rungs: list[dict]) -> dict:
-    """Prefer a rung that both learned and preserved; else the most informative one.
+    """Prefer the SMALLEST update that cleared the bar, not the largest gain.
+
+    The phase's goal is learning without forgetting. Among rungs that clear the
+    same learning bar, the one that disturbs the model least is strictly better,
+    and teacher KL inside budget does not guarantee the familiar battery holds --
+    so maximising gain buys drift that the evaluation still has to pay for.
 
     With nothing qualifying, the rung reported is the largest update that still
     preserved, because that is the one whose familiar-90 evidence bounds how much
@@ -269,13 +286,38 @@ def choose_rung(rungs: list[dict]) -> dict:
     """
     qualifying = [r for r in rungs if r["candidate"]]
     if qualifying:
-        best = max(qualifying, key=lambda r: (r["placement_exact_gain"], r["placement_token_top1_gain"]))
-        return {"index": rungs.index(best), "reason": "learned and preserved"}
+        best = min(qualifying, key=lambda r: r["learning_rate"])
+        return {"index": rungs.index(best), "reason": "smallest update that cleared the bar"}
     preserving = [r for r in rungs if r["preservation_held"]]
     if preserving:
         best = max(preserving, key=lambda r: r["learning_rate"])
         return {"index": rungs.index(best), "reason": "largest update that still preserved"}
     return {"index": 0, "reason": "no rung preserved; reporting the smallest update"}
+
+
+def completion_evaluation(report: dict) -> dict:
+    """The evaluation-only numbers, flattened for stdout.
+
+    The v0.0.51 run wrote these to report.json and the step summary only, so the
+    logs could not say why operating_point_found was false. They belong in both.
+    """
+    evaluation = report["selected_evaluation"]
+    familiar = evaluation["familiar_90"]
+    return {
+        "learning_rate": evaluation["learning_rate"],
+        "familiar_envelope_json": familiar["envelope_json_valid"],
+        "familiar_correct_tool": familiar["correct_tool"],
+        "familiar_by_kind": familiar["by_kind"],
+        "familiar_gate_passed": evaluation["familiar_gate"]["passed"],
+        "familiar_failed_checks": sorted(
+            name for name, ok in evaluation["familiar_gate"]["checks"].items() if not ok
+        ),
+        "reference_passed_cases": evaluation["reference"]["passed_cases"],
+        "copy_guard_passed": evaluation["copy_guard"]["passed"],
+        "copy_failed_checks": sorted(
+            name for name, ok in evaluation["copy_guard"]["checks"].items() if not ok
+        ),
+    }
 
 
 def summary_markdown(report: dict) -> str:
@@ -318,13 +360,23 @@ def summary_markdown(report: dict) -> str:
     ]
     familiar = report.get("selected_evaluation", {}).get("familiar_90")
     if familiar:
+        evaluation = completion_evaluation(report)
         lines += [
+            f"- Learning rate: {evaluation['learning_rate']:.1e}",
             f"- Familiar canonical JSON: {familiar['envelope_json_valid']}/90",
             f"- Familiar correct tool: {familiar['correct_tool']}/90",
-            f"- Familiar regression gate: {'PASS' if report['selected_evaluation']['familiar_gate']['passed'] else 'FAIL'}",
-            f"- Reference controls: {report['selected_evaluation']['reference']['passed_cases']}/4",
-            f"- Historical copy protection: {'PASS' if report['selected_evaluation']['copy_guard']['passed'] else 'FAIL'}",
+            f"- Familiar regression gate: {'PASS' if evaluation['familiar_gate_passed'] else 'FAIL'}",
+            f"- Reference controls: {evaluation['reference_passed_cases']}/4",
+            f"- Historical copy protection: {'PASS' if evaluation['copy_guard_passed'] else 'FAIL'}",
         ]
+        for label, failed in (("familiar", evaluation["familiar_failed_checks"]),
+                              ("copy", evaluation["copy_failed_checks"])):
+            if failed:
+                lines.append(f"- Failed {label} checks: {', '.join(failed)}")
+        lines.append(
+            f"- Pristine restore verified across rungs: "
+            f"{'yes' if report['pristine_restore']['verified'] else 'NO'}"
+        )
     lines += [
         "",
         "A ladder where nothing moves is a complete result, not a failure. Nothing here is a "
@@ -413,11 +465,17 @@ def main() -> int:
                                 place_examples, tool_rows, copy_rows, place_dev, template,
                                 before_place, pristine)
                 rungs.append(rung)
-                print(json.dumps({"event": "rung_complete", "index": index, **{
-                    k: rung[k] for k in ("learning_rate", "placement_exact_gain",
-                                         "placement_token_top1_gain", "tool_teacher_kl",
-                                         "copy_teacher_kl", "preservation_held", "candidate")}}), flush=True)
+                print(json.dumps({
+                    "event": "rung_complete", "index": index,
+                    **{k: rung[k] for k in ("learning_rate", "placement_exact_gain",
+                                            "placement_token_top1_gain", "tool_teacher_kl",
+                                            "copy_teacher_kl", "preservation_held", "candidate")},
+                    "max_relative_drift": rung["drift"]["max_relative_drift"],
+                    "gradient_balance": rung["gradient_balance"],
+                }), flush=True)
 
+            restore_check = pristine_restore_verified(rungs)
+            print(json.dumps({"event": "pristine_restore", **restore_check}), flush=True)
             selected = choose_rung(rungs)
             best_index = selected["index"]
             # Re-run the selected rung so its state is the one evaluated. The loop is
@@ -460,6 +518,7 @@ def main() -> int:
                     "reference": before_reference,
                 },
                 rungs=rungs,
+                pristine_restore=restore_check,
                 selected=selected,
                 selected_evaluation={
                     "learning_rate": float(cfg["ladder_learning_rates"][best_index]),
@@ -481,11 +540,13 @@ def main() -> int:
         if report.get("status") == "COMPLETE":
             (output / "summary.md").write_text(summary_markdown(report), encoding="utf-8")
 
+    print(json.dumps({"event": "selected_evaluation", **completion_evaluation(report)}), flush=True)
     print(json.dumps({
         "event": "complete",
         "status": report["status"],
         "operating_point_found": report["operating_point_found"],
         "selected": report["selected"],
+        "pristine_restore_verified": report["pristine_restore"]["verified"],
         "rungs": [
             {k: r[k] for k in ("learning_rate", "placement_exact_gain",
                                "placement_token_top1_gain", "tool_teacher_kl", "preservation_held")}
