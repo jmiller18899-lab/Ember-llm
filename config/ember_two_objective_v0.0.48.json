@@ -1,0 +1,62 @@
+{
+  "version": "0.0.48",
+  "phase": "two-objective-cpu-canary",
+  "seed": 2026090848,
+  "source_version": "0.0.31",
+  "generation_budget": 96,
+  "template_values_per_subtype": 2,
+  "train_values_per_subtype": 8,
+  "development_values_per_subtype": 6,
+  "entry_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/4x4",
+    "long_code/3x5"
+  ],
+  "placement_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/3x5",
+    "path/plain_leaf"
+  ],
+  "optimizer_steps": 120,
+  "entry_batch_size": 8,
+  "placement_batch_size": 8,
+  "learning_rate": 0.0000012,
+  "weight_decay": 0.01,
+  "gradient_clip": 1.0,
+  "entry_loss_weight": 0.5,
+  "placement_loss_weight": 0.5,
+  "template_minimum_successes": 6,
+  "template_dominance_minimum": 0.8,
+  "gate": {
+    "minimum_entry_development_loss_reduction": 0.03,
+    "minimum_placement_development_loss_reduction": 0.05,
+    "minimum_entry_top1_gain": 1,
+    "minimum_placement_exact_gain": 1,
+    "minimum_placement_token_top1_gain": 0.05,
+    "minimum_familiar_envelope_json": 84,
+    "minimum_familiar_correct_tool": 84
+  },
+  "historical_kind_floor": {
+    "short_code": 8,
+    "long_code": 7,
+    "url": 10,
+    "path": 9,
+    "mixed": 10
+  },
+  "historical_subtype_floor": {
+    "short_code/len4": 5,
+    "short_code/len5": 3,
+    "long_code/4x4": 5,
+    "long_code/3x5": 2,
+    "url/one_mixed": 4,
+    "url/two_segment": 3,
+    "path/plain_leaf": 3,
+    "mixed/upper": 3
+  },
+  "cpu_learning_authorized": true,
+  "gpu_training_authorized": false,
+  "production_authorized": false,
+  "promotion_authorized": false
+}
