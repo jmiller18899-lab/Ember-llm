@@ -43,6 +43,8 @@
     "minimum_entry_top1_gain": 1,
     "minimum_placement_exact_gain": 1,
     "minimum_placement_token_top1_gain": 0.03,
+    "minimum_tool_replay_token_top1": 0.95,
+    "minimum_copy_replay_token_top1": 0.95,
     "minimum_familiar_envelope_json": 84,
     "minimum_familiar_correct_tool": 84
   },
