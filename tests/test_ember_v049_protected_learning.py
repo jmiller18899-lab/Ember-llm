@@ -236,7 +236,7 @@ def test_interference_summary_traces_the_run_from_start_to_finish():
 
 
 def test_runner_cannot_authorize_gpu_promotion_or_deployment():
-    text = (data.ROOT / "jobs/ember_v049_canary.py").read_text(encoding="utf-8")
+    text = (data.ROOT / "jobs/ember_v049_protected_learning_canary.py").read_text(encoding="utf-8")
     assert '"gpu_training_authorized": False' in text
     assert '"promotion_authorized": False' in text
     assert "cuda" not in text.lower()
