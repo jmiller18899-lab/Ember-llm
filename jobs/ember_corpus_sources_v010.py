@@ -184,7 +184,10 @@ def collect_sources(cfg, revisions, store, *, load_dataset=None):
 
     license_repo = cfg["sources"]["agent_trajectories"]["license_join_dataset"]
     store.db.execute("CREATE TABLE licenses (id TEXT PRIMARY KEY, name TEXT)")
-    splits = load_dataset(license_repo, streaming=True, revision=revisions[license_repo])
+    # The license join needs two scalar columns, not multi-megabyte patches,
+    # environment descriptions, and test histories from every benchmark row.
+    splits = load_dataset(license_repo, streaming=True, revision=revisions[license_repo],
+                          columns=["instance_id", "license_name"])
     for split in splits.values():
         for row in split:
             if row.get("instance_id"):

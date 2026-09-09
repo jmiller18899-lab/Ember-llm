@@ -42,7 +42,7 @@ before collection and recorded in every report.
 | Synthetic envelope copying | Stream the generator and use case-sensitive exact hashes, preserving different literal values. External sources retain MinHash dedup. |
 | Finite sources | Apply the 1.0x hard candidate minimum and optional 1.3x headroom to OASST and both Glaive categories. Actual token quotas still must pass. |
 | Tool formatting | Emit bare assistant/tool boundaries, canonical argument JSON, and raw result content; malformed calls are excluded. |
-| Memory use | Store candidate text, order keys, parent/license lookups, selected rows, and split assignments in SQLite. Write output and provenance incrementally. The MinHash index remains in memory. |
+| Memory use | Store candidate text, order keys, parent/license lookups, selected rows, and split assignments in SQLite. Read only the two required columns for the license join. Write output and provenance incrementally. The MinHash index remains in memory. |
 | Final audit | Re-audit the selected synthetic slice, validate serialized calls, check real recovery/interpretation provenance, and recount the final files with the saved tokenizer. |
 
 Chunks of the same source document, and OASST replies sharing a parent prompt,
