@@ -53,14 +53,14 @@ jobs:
       - name: Test structural-prefix diagnostic and inherited guards
         if: steps.mode.outputs.value == 'diagnostic'
         run: |
-          python -m py_compile jobs/ember_structural_prefix_v046.py jobs/ember_residual_logit_v045.py jobs/ember_envelope_preflight_v041.py
+          python -m py_compile jobs/ember_structural_prefix_v046.py jobs/ember_structural_prefix_v046_compat.py jobs/ember_residual_logit_v045.py jobs/ember_envelope_preflight_v041.py
           python -m pytest -q tests/test_ember_v046_structural_prefix.py tests/test_ember_v045_residual_logit.py tests/test_ember_v044_envelope_preflight.py tests/test_ember_v043_envelope_preflight.py tests/test_ember_v042_envelope_preflight.py tests/test_ember_v041_envelope_preflight.py tests/test_ember_v040_envelope_preflight.py tests/test_ember_v039_envelope_preflight.py tests/test_ember_v038_envelope_preflight.py tests/test_ember_v037_envelope_preflight.py tests/test_ember_v036_envelope_preflight.py tests/test_ember_v035_envelope_preflight.py tests/test_ember_v034_envelope_preflight.py
       - name: Run CPU-only structural-prefix diagnostic
         if: steps.mode.outputs.value == 'diagnostic'
         env:
           HF_TOKEN: ${{ secrets.H_F2 }}
           CUDA_VISIBLE_DEVICES: ''
-        run: python jobs/ember_structural_prefix_v046.py --output-dir v046-results
+        run: python jobs/ember_structural_prefix_v046_compat.py --output-dir v046-results
       - name: Show diagnostic summary
         if: always() && steps.mode.outputs.value == 'diagnostic'
         run: |
