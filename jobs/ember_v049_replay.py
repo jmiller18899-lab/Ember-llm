@@ -39,6 +39,9 @@ def load_config(path: Path = DEFAULT_CONFIG) -> dict:
         raise ValueError("v0.0.49 learning rate exceeds protected bound")
     if not 1 <= int(cfg["optimizer_steps"]) <= 120:
         raise ValueError("v0.0.49 step count exceeds protected bound")
+    for key in ("tool_replay_values_per_variant", "copy_replay_values_per_variant"):
+        if int(cfg.get(key, 0)) <= 0:
+            raise ValueError(f"v0.0.49 missing positive replay count: {key}")
     if cfg.get("historical_kind_floor") != v048d.v043.EXPECTED_KIND_FLOOR:
         raise ValueError("historical kind floors changed")
     if cfg.get("historical_subtype_floor") != v048d.v043.EXPECTED_SUBTYPE_FLOOR:
@@ -87,7 +90,8 @@ def replay_value_rows(cfg: dict, family: str) -> list[dict]:
         raise ValueError(family)
     used = _used_values()
     rows = []
-    count = int(cfg["replay_values_per_variant"])
+    count_key = "tool_replay_values_per_variant" if family == "tool" else "copy_replay_values_per_variant"
+    count = int(cfg[count_key])
     for kind in copy_data.KINDS:
         for variant in range(int(copy_data.VARIANTS[kind])):
             made = 0
