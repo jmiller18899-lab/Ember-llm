@@ -104,3 +104,27 @@ def test_published_config_cannot_silently_drift(tmp_path, monkeypatch):
     monkeypatch.setattr(trace, 'CONFIG', config)
     with pytest.raises(ValueError, match='configuration changed'):
         trace.load_config()
+
+
+def test_full_evaluation_steps_default_to_the_published_pair():
+    cfg = trace.load_config()
+    assert trace.full_eval_steps(','.join(str(s) for s in trace.DEFAULT_FULL_EVAL_STEPS), cfg) == {1, 40}
+
+
+def test_requested_states_are_added_without_dropping_baseline_or_endpoint():
+    cfg = trace.load_config()
+    assert trace.full_eval_steps('12,13,23', cfg) == {1, 12, 13, 23, 40}
+    assert trace.full_eval_steps(' 12 , ,13 ', cfg) == {1, 12, 13, 40}
+    assert trace.full_eval_steps('', cfg) == {1, 40}
+
+
+def test_unmeasurable_states_are_rejected_rather_than_silently_skipped():
+    cfg = trace.load_config()
+    with pytest.raises(ValueError, match='outside 1..40'):
+        trace.full_eval_steps('41', cfg)
+    with pytest.raises(ValueError, match='outside 1..40'):
+        trace.full_eval_steps('0', cfg)
+    with pytest.raises(ValueError, match='positive integers'):
+        trace.full_eval_steps('twelve', cfg)
+    with pytest.raises(ValueError, match='positive integers'):
+        trace.full_eval_steps('-3', cfg)

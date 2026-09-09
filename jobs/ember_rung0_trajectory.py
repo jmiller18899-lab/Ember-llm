@@ -36,7 +36,8 @@ CONFIG = ROOT / "config/ember_placement_ladder_v0.0.51.json"
 CONFIG_SHA256 = "17374128222b2e00024c8522a7097ec37fdc0697ccbcc7f624907af8e70e0d62"
 LADDER_COMMIT = "ea3fe6a9f1ccaac59a91e5c6b3e8ebee70700e1c"
 WALL_TIME_LIMIT = 1800
-FULL_EVAL_STEPS = {1, 40}
+MAXIMUM_WALL_TIME_LIMIT = 3300
+DEFAULT_FULL_EVAL_STEPS = (1, 40)
 
 
 def load_config():
@@ -44,6 +45,28 @@ def load_config():
     if hashlib.sha256(raw).hexdigest() != CONFIG_SHA256:
         raise ValueError("published ladder configuration changed")
     return json.loads(raw)
+
+
+def full_eval_steps(requested, cfg):
+    """Steps whose state gets the full preservation battery.
+
+    The first and last steps are always measured: step 1 is the baseline the
+    later states are compared against, and the last step carries the published
+    endpoint reproduction. Anything else is opt-in, because each battery costs
+    wall time and the trace is bounded.
+    """
+    steps = {1, cfg["steps_per_rung"]}
+    for part in str(requested).split(","):
+        part = part.strip()
+        if not part:
+            continue
+        if not part.isdigit():
+            raise ValueError(f"full-evaluation steps must be positive integers, got {part!r}")
+        step = int(part)
+        if not 1 <= step <= cfg["steps_per_rung"]:
+            raise ValueError(f"full-evaluation step {step} is outside 1..{cfg['steps_per_rung']}")
+        steps.add(step)
+    return steps
 
 
 def batch_schedule(cfg, nplace, ntool, ncopy):
@@ -158,7 +181,8 @@ def summary_markdown(report):
     lines = ["# Ember rung-0 CPU trajectory", "", f"Execution: {report['status']}",
              f"Optimizer steps: {report['optimizer_steps_executed']}/40", "",
              "Same source, original ladder data, LR 1e-7 and original 0.20/0.55/0.25 objective weights.",
-             "Every-step short-code and placement observations; full guards at steps 1, 40 and the first learning-gate pass.", "",
+             "Every-step short-code and placement observations; full guards at steps "
+             f"{', '.join(str(s) for s in report.get('full_evaluation_steps', []))} and the first learning-gate pass.", "",
              f"First short-code loss: {timing.get('first_short_code_loss_step')}",
              f"First placement-learning pass: {timing.get('first_placement_learning_step')}",
              f"Fully passing steps: {timing.get('fully_passing_steps', [])}", "",
@@ -182,8 +206,16 @@ def summary_markdown(report):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=Path("rung0-trajectory-results"))
+    parser.add_argument("--full-eval-steps", default=",".join(str(s) for s in DEFAULT_FULL_EVAL_STEPS),
+                        help="comma-separated steps to run the full preservation battery on; "
+                             "the first and last steps are always included")
+    parser.add_argument("--wall-time-limit", type=int, default=WALL_TIME_LIMIT,
+                        help="CPU bound in seconds; raise it when extra batteries are requested")
     args = parser.parse_args()
     cfg = load_config()
+    eval_steps = full_eval_steps(args.full_eval_steps, cfg)
+    if not 600 <= args.wall_time_limit <= MAXIMUM_WALL_TIME_LIMIT:
+        raise ValueError(f"wall-time limit must be 600..{MAXIMUM_WALL_TIME_LIMIT} seconds")
     import torch
     torch.set_num_threads(2)
     torch.manual_seed(cfg["seed"])
@@ -192,13 +224,14 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
     def timeout(_signum, _frame):
-        raise TimeoutError("rung-0 trace exceeded its fixed 30-minute CPU bound")
+        raise TimeoutError(f"rung-0 trace exceeded its fixed {args.wall_time_limit}-second CPU bound")
     signal.signal(signal.SIGALRM, timeout)
-    signal.alarm(WALL_TIME_LIMIT)
+    signal.alarm(args.wall_time_limit)
     report = {"schema_version": 1, "diagnostic": "ember-rung0-trajectory-v1", "status": "ERROR",
               "created_at": datetime.now(timezone.utc).isoformat(), "code_commit": os.environ.get("GITHUB_SHA"),
               "replicated_ladder_commit": LADDER_COMMIT, "config": cfg, "config_sha256": CONFIG_SHA256,
               "optimizer_steps_executed": 0, "steps": [], "full_evaluations": {},
+              "full_evaluation_steps": sorted(eval_steps), "wall_time_limit_seconds": args.wall_time_limit,
               "gpu_training_authorized": False, "promotion_authorized": False, "production_authorized": False}
     student = teacher = pristine = None
     try:
@@ -271,7 +304,7 @@ def main():
                         first_learning = step
                     diag.event("trace_step", step=step, retained=retained["retained"], lost_ids=retained["lost_ids"],
                                placement_exact=place["exact_top1"], placement_tokens=place["token_top1"], learning=learning["passed"])
-                    if step in FULL_EVAL_STEPS or first_pass:
+                    if step in eval_steps or first_pass:
                         diag.event("full_evaluation_start", step=step)
                         result = full_evaluation(student, teacher, tokenizer, torch, cfg, tools, copies, before, place)
                         report["full_evaluations"][str(step)] = result

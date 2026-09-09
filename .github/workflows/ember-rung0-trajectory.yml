@@ -2,7 +2,7 @@ name: Ember Rung 0 CPU Trajectory
 
 on:
   push:
-    branches: [codex/ember-rung0-trajectory]
+    branches: [codex/ember-rung0-trajectory, claude/rung0-full-checks]
     paths: [.github/ember-rung0-trajectory.launch]
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
 jobs:
   trajectory:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -32,7 +32,11 @@ jobs:
           HF_TOKEN: ${{ secrets.H_F2 }}
           CUDA_VISIBLE_DEVICES: ''
           PYTHONUNBUFFERED: '1'
-        run: python jobs/ember_rung0_trajectory.py --output-dir rung0-trajectory-results
+        run: |
+          python jobs/ember_rung0_trajectory.py \
+            --output-dir rung0-trajectory-results \
+            --full-eval-steps 12,13,23 \
+            --wall-time-limit 3000
       - name: Publish summary
         if: always()
         run: |
