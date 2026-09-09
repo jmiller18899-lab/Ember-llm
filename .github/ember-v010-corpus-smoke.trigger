@@ -1,1 +1,1 @@
-Run one 1M-token real-source CPU pipeline smoke for the v0.1.0 builder.
+Run the 1M-token smoke with at least two independent source groups per category and the projected license join.

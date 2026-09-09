@@ -225,6 +225,27 @@ def test_short_actual_token_count_fails_even_if_character_goal_passed(cfg, tmp_p
         store.close()
 
 
+def test_one_large_trajectory_cannot_consume_both_splits(cfg, tmp_path):
+    cfg["mix"] = {"error_recovery": 1.0}
+    cfg["sources"] = {"error_recovery": cfg["sources"]["error_recovery"]}
+    store = builder.CandidateStore(tmp_path / "candidates.db", cfg, 10)
+    class Tokenizer:
+        def encode(self, text):
+            return [1] * (1 if text == builder.EOT + "\n" else 101 if text.startswith(builder.EOT) else 100)
+    try:
+        assert store.add(fixture_doc("error_recovery", 1))
+        assert store.chars["error_recovery"] > store.char_goals["error_recovery"]
+        assert not store.full("error_recovery")
+        assert store.add(fixture_doc("error_recovery", 2))
+        assert store.full("error_recovery")
+        totals, splits = builder.select_and_split(store, Tokenizer())
+        assert totals["error_recovery"] == 200
+        assert splits["error_recovery"]["train_docs"] == 1
+        assert splits["error_recovery"]["val_docs"] == 1
+    finally:
+        store.close()
+
+
 def test_small_budget_cannot_claim_production_pass(cfg, tmp_path):
     with pytest.raises(ValueError, match="requires --smoke"):
         builder.build(cfg, tmp_path / "out", target_total=1000)

@@ -7,7 +7,7 @@ and a tokenizer only; it has no model-training, upload, or deployment operation.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 from contextlib import ExitStack
 import copy
 from datetime import datetime, timezone
@@ -176,6 +176,7 @@ class CandidateStore:
         self.char_goals = {c: int(n * cfg["candidate_chars_per_token"] * cfg["candidate_headroom"])
                            for c, n in self.targets.items()}
         self.chars, self.counts, self.rejected = Counter(), Counter(), Counter()
+        self.first_groups = defaultdict(set)
         self.finite_shortfalls = {}
         self.db = sqlite3.connect(path)
         self.db.execute("PRAGMA cache_size=-16384")
@@ -203,7 +204,7 @@ class CandidateStore:
         self.db.close()
 
     def full(self, category: str) -> bool:
-        return self.chars[category] >= self.char_goals[category]
+        return self.chars[category] >= self.char_goals[category] and len(self.first_groups[category]) >= 2
 
     def add(self, doc: dict) -> bool:
         category = doc["category"]
@@ -239,6 +240,8 @@ class CandidateStore:
             digest(f"order:{category}:{doc['source_id']}:{sha}:{self.seed}")))
         self.chars[category] += len(text)
         self.counts[category] += 1
+        if len(self.first_groups[category]) < 2:
+            self.first_groups[category].add((doc["source"], group))
         if sum(self.counts.values()) % 1000 == 0:
             self.db.commit()
         return True
@@ -305,24 +308,32 @@ def select_and_split(store: CandidateStore, tokenizer):
         raise ValueError("validation_ratio must be between zero and one")
     for category, target in store.targets.items():
         total = 0
-        for row_id, text in store.db.execute(
-                "SELECT id,text FROM docs WHERE category=? ORDER BY selection_key", (category,)):
-            if total >= target:
+        selected_groups = set()
+        for row_id, text, group in store.db.execute(
+                "SELECT id,text,split_key FROM docs WHERE category=? ORDER BY selection_key", (category,)):
+            if total >= target and len(selected_groups) >= 2:
                 break
             count = document_tokens(tokenizer, text)
             store.db.execute("UPDATE docs SET tokens=?, selected=1 WHERE id=?", (count, row_id))
             total += count
+            if len(selected_groups) < 2:
+                selected_groups.add(group)
         if total < target:
             raise RuntimeError(f"{category}: only {total} actual Ember tokens; target={target}")
         selected_tokens[category] = total
         val_target = max(1, int(total * ratio))
-        val_count, last_group = 0, None
+        group_count = store.db.execute(
+            "SELECT COUNT(DISTINCT split_key) FROM docs WHERE category=? AND selected=1", (category,)).fetchone()[0]
+        val_count, last_group, group_index = 0, None, 0
         category_stats = Counter()
         split = "val"
         for row_id, group, count in store.db.execute(
                 "SELECT id,split_key,tokens FROM docs WHERE category=? AND selected=1 ORDER BY split_key,id", (category,)):
             if group != last_group:
-                split = "val" if val_count < val_target else "train"
+                group_index += 1
+                # Whole groups can exceed a small category's budget. Keep the
+                # last group available for training even if validation is short.
+                split = "val" if val_count < val_target and group_index < group_count else "train"
                 last_group = group
             store.db.execute("UPDATE docs SET split=? WHERE id=?", (split, row_id))
             category_stats[split + "_docs"] += 1
