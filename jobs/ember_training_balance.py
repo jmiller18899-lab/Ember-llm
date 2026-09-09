@@ -38,9 +38,22 @@ def optimizer_digest(optimizer):
     return h.hexdigest()
 
 
+def stable_dot(a,b,torch):
+    # Float32 reductions over millions of tiny parameter deltas lose precision.
+    # Accumulate bounded chunks in float64; optimizer math stays unchanged.
+    total=0.
+    for start in range(0,a.numel(),1048576):
+        total+=float(torch.dot(a[start:start+1048576].double(),b[start:start+1048576].double()))
+    return total
+
+
+def stable_norm(a,torch):
+    return math.sqrt(max(0.,stable_dot(a,a,torch)))
+
+
 def cosine(a,b,torch):
-    denominator=float(a.norm())*float(b.norm())
-    return float(torch.dot(a,b))/denominator if denominator>1e-20 else None
+    denominator=stable_norm(a,torch)*stable_norm(b,torch)
+    return stable_dot(a,b,torch)/denominator if denominator>1e-20 else None
 
 
 def assign_gradient(model,vector):
@@ -100,8 +113,8 @@ def inspect_state(student,optimizer,teacher,tokenizer,torch,cfg,examples,snapsho
     weighted={'placement':cfg['placement_loss_weight']*gp,'tool_kl':cfg['tool_kl_loss_weight']*gt,
               'copy_kl':cfg['copy_kl_loss_weight']*gc,'closing':g.CLOSURE_WEIGHT*gs}
     base_grad=weighted['placement']+weighted['tool_kl']+weighted['copy_kl']
-    row={'step':step,'before':before,'raw_gradient_norms':{k:float(v.norm()) for k,v in gradients.items()},
-         'weighted_gradient_norms_at_020':{k:float(v.norm()) for k,v in weighted.items()},
+    row={'step':step,'before':before,'raw_gradient_norms':{k:stable_norm(v,torch) for k,v in gradients.items()},
+         'weighted_gradient_norms_at_020':{k:stable_norm(v,torch) for k,v in weighted.items()},
          'placement_closing_cosine':cosine(gp,gs,torch),
          'base_closing_cosine':cosine(base_grad,gs,torch),'trials':[]}
     theta=diag.flat_parameters(student,torch)
@@ -111,23 +124,24 @@ def inspect_state(student,optimizer,teacher,tokenizer,torch,cfg,examples,snapsho
         po=new_optimizer(probe,torch,cfg,state)
         if optimizer_digest(po)!=opt_hash: raise ValueError('shadow optimizer history mismatch')
         combined=base_grad+weight*gs
-        norm=float(combined.norm())
+        norm=stable_norm(combined,torch)
         assign_gradient(probe,combined)
-        torch.nn.utils.clip_grad_norm_(probe.parameters(),cfg['gradient_clip'],error_if_nonfinite=True)
+        clip_norm=float(torch.nn.utils.clip_grad_norm_(probe.parameters(),cfg['gradient_clip'],error_if_nonfinite=True))
         po.step();probe.zero_grad(set_to_none=True)
         delta=diag.flat_parameters(probe,torch)-theta
-        dn=float(delta.norm())
+        dn=stable_norm(delta,torch)
         if not math.isfinite(dn) or dn<=0: raise ValueError('invalid trial update')
         with torch.no_grad(): after={k:float(fn()) for k,fn in functions.items()}
         if not all(math.isfinite(x) for x in after.values()): raise ValueError('invalid trial loss')
         if zero_delta is None: zero_delta=delta.clone()
-        matched_zero=zero_delta*(dn/float(zero_delta.norm()))
+        matched_zero=zero_delta*(dn/stable_norm(zero_delta,torch))
         trial={'weight':weight,'combined_gradient_norm':norm,
-               'clip_multiplier':min(1.,cfg['gradient_clip']/(norm+1e-6)),
+               'optimizer_reported_gradient_norm':clip_norm,
+               'clip_multiplier':min(1.,cfg['gradient_clip']/(clip_norm+1e-6)),
                'actual_update_l2':dn,'update_cosine_to_zero':cosine(delta,zero_delta,torch),
-               'update_norm_ratio_to_zero':dn/float(zero_delta.norm()),
-               'predicted_loss_change':{k:float(torch.dot(v,delta)) for k,v in gradients.items()},
-               'norm_matched_zero_predicted_loss_change':{k:float(torch.dot(v,matched_zero)) for k,v in gradients.items()},
+               'update_norm_ratio_to_zero':dn/stable_norm(zero_delta,torch),
+               'predicted_loss_change':{k:stable_dot(v,delta,torch) for k,v in gradients.items()},
+               'norm_matched_zero_predicted_loss_change':{k:stable_dot(v,matched_zero,torch) for k,v in gradients.items()},
                'after':after,'loss_decrease':{k:before[k]-after[k] for k in before}}
         row['trials'].append(trial)
         diag.event('balance_trial',step=step,weight=weight,placement_decrease=trial['loss_decrease']['placement'],closing_decrease=trial['loss_decrease']['closing'],update_cosine=trial['update_cosine_to_zero'])

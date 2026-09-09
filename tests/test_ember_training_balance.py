@@ -60,3 +60,10 @@ def test_recommendation_requires_all_states_and_both_losses():
     assert b.recommend(observations(placement=.08))['suggested_weight_for_next_full_test'] is None
     assert b.recommend(observations(closing=-.001))['suggested_weight_for_next_full_test'] is None
     assert not b.recommend(observations())['validated_training_balance']
+
+
+def test_direction_measurements_remain_accurate_for_millions_of_tiny_updates():
+    a=torch.full((3000000,),1e-7,dtype=torch.float32)
+    a[::7]=-1e-7
+    assert b.cosine(a,a,torch)==pytest.approx(1.,abs=1e-12)
+    assert b.stable_norm(a,torch)==pytest.approx(float(a.double().norm()),rel=1e-10)

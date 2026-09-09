@@ -59,3 +59,12 @@ bound. Four sets of five temporary optimizer steps plus one 40-update replay.
 No weights are saved. Local tests: 67 passed, including conflicting gradients,
 cloned optimizer isolation, comparison with a real autograd AdamW step and the
 recommendation rule's failure cases.
+
+
+Measurement correction: the initial run 34399461056 exposed inaccurate float32
+reductions on full parameter-delta vectors (self-cosine was about 0.984 rather
+than 1). Repeat the identical protocol with chunked float64 dot/norm calculations
+for diagnostic scalars. Preserve the original float32 optimizer and clipping
+behavior, recording its reported clip norm separately. Actual loss measurements
+and the recommendation rule are unchanged. The initial run is superseded for
+vector geometry; compare its measured losses with the corrected repeat.
