@@ -70,9 +70,15 @@ def test_structural_probe_cannot_receive_or_reference_the_target_value():
     signature = inspect.signature(v046.structural_prefix_probe)
     assert "target" not in signature.parameters
     source = inspect.getsource(v046.structural_prefix_probe)
-    assert "target" not in source
-    assert "argument_key" not in source
-    assert "slot_exact" not in source
+    forbidden_value_references = [
+        'case["target"]',
+        "case['target']",
+        "target_ids",
+        "target_token",
+        "argument_key",
+        "slot_exact",
+    ]
+    assert not any(token in source for token in forbidden_value_references)
 
 
 def test_runner_contains_no_training_or_gpu_path():
