@@ -1,0 +1,4 @@
+mode: bootstrap
+result: fail
+reason: protected-behavior regression
+rerun: false
