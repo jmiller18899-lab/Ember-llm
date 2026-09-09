@@ -1,0 +1,40 @@
+name: Ember v0.0.48 One Shot
+
+on:
+  push:
+    branches: [codex/ember-v048-two-objective-canary]
+    paths: [.github/ember-v048.launch]
+
+permissions:
+  contents: read
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install huggingface-hub==1.30.0 sentencepiece==0.2.0 jsonschema==4.23.0 pytest==8.3.5 numpy==2.2.6
+      - name: Run guards
+        run: |
+          python -m py_compile jobs/ember_v048_data.py jobs/ember_v048_objectives.py jobs/ember_v048_regression.py jobs/ember_v048_gate.py jobs/ember_v048_canary.py
+          python -m pytest -q tests/test_ember_v048_two_objective.py tests/test_ember_v047_envelope_template.py tests/test_ember_v046_structural_prefix.py tests/test_ember_v045_residual_logit.py tests/test_ember_v044_envelope_preflight.py tests/test_ember_v043_envelope_preflight.py tests/test_ember_v042_envelope_preflight.py tests/test_ember_v041_envelope_preflight.py tests/test_ember_v040_envelope_preflight.py tests/test_ember_v039_envelope_preflight.py tests/test_ember_v038_envelope_preflight.py tests/test_ember_v037_envelope_preflight.py tests/test_ember_v036_envelope_preflight.py tests/test_ember_v035_envelope_preflight.py tests/test_ember_v034_envelope_preflight.py
+      - name: Run CPU canary
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+          CUDA_VISIBLE_DEVICES: ''
+        run: python jobs/ember_v048_canary.py --output-dir v048-results
+      - name: Preserve evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v048-canary-${{ github.run_id }}
+          path: v048-results/
+          if-no-files-found: warn
+          retention-days: 90
