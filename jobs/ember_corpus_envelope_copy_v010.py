@@ -38,7 +38,7 @@ import json
 from pathlib import Path
 import random
 import sys
-from typing import Iterator
+from typing import Iterable, Iterator
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VERSION = "ember-corpus-envelope-copy-v0.1.0"
@@ -571,7 +571,7 @@ def iter_documents(cfg: dict, count: int | None = None) -> Iterator[dict]:
     return generator.iter_documents(total)
 
 
-def audit(documents: list[dict], cfg: dict, *, exclusions: Exclusions | None = None) -> dict:
+def audit(documents: Iterable[dict], cfg: dict, *, exclusions: Exclusions | None = None) -> dict:
     """Format-parity and leakage audit for a generated slice. No tokenizer or model."""
     block = slice_config(cfg)
     exclusions = exclusions or Exclusions.from_config(block)
@@ -585,8 +585,10 @@ def audit(documents: list[dict], cfg: dict, *, exclusions: Exclusions | None = N
     distinct: dict[str, set[str]] = defaultdict(set)
     failures: list[str] = []
     chars = 0
+    document_count = 0
 
     for doc in documents:
+        document_count += 1
         text = doc["text"]
         chars += len(text)
         per_shape[doc["shape"]] += 1
@@ -655,10 +657,10 @@ def audit(documents: list[dict], cfg: dict, *, exclusions: Exclusions | None = N
     return {
         "version": VERSION,
         "status": "PASS" if not failures else "FAIL",
-        "documents": len(documents),
+        "documents": document_count,
         "characters": chars,
         "approx_tokens_at_4.8_chars_per_token": approx_tokens,
-        "approx_tokens_per_document": round(approx_tokens / max(1, len(documents)), 1),
+        "approx_tokens_per_document": round(approx_tokens / max(1, document_count), 1),
         "documents_per_tool": dict(sorted(per_tool.items())),
         "documents_per_shape": dict(sorted(per_shape.items())),
         "documents_per_kind": dict(sorted(per_kind.items())),
