@@ -1,0 +1,245 @@
+{
+  "run_id": 34395767464,
+  "commit": "829084a03446fccc62d82ddc9b19b9b6380fbe70",
+  "artifact_zip_sha256": "8184897340e23be052ea83df027ba2c93e8094989f4fd59da52c462a55a86952",
+  "verification_checks": {
+    "data_digest": true,
+    "code_commit": true,
+    "source_identity": true,
+    "source_state": true,
+    "original_config": true,
+    "source_restored": true,
+    "teacher_unchanged": true,
+    "complete": true,
+    "all_steps": true,
+    "refresh_schedule": true,
+    "original_values": true,
+    "original_template": true,
+    "original_tools": true,
+    "original_copies": true,
+    "original_schedule": true,
+    "only_training_refreshes": true,
+    "pure_punctuation_labels": true,
+    "artifact_service_digest": true
+  },
+  "elapsed_seconds": 479.36161187799996,
+  "endpoint_passed": false,
+  "endpoint_checks": {
+    "all_40_nonzero_updates": true,
+    "all_source_cases_retained": true,
+    "copy": true,
+    "copy_kl_budget": true,
+    "familiar_floors": true,
+    "fresh_holdout_retained": true,
+    "fresh_training_structure_retained": true,
+    "placement_learning": false,
+    "reference": true,
+    "tool_kl_budget": true
+  },
+  "refreshes": [
+    {
+      "step": 1,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 6,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 11,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 16,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 21,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 26,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 31,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 36,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 1,
+      "unclosed": 0
+    }
+  ],
+  "observations": [
+    {
+      "step": 1,
+      "short_retained": 8,
+      "lost_ids": [],
+      "exact": 1,
+      "tokens": 88,
+      "training_structure": 8,
+      "holdout_structure": 6,
+      "holdout_exact": 0
+    },
+    {
+      "step": 12,
+      "short_retained": 8,
+      "lost_ids": [],
+      "exact": 1,
+      "tokens": 88,
+      "training_structure": 8,
+      "holdout_structure": 6,
+      "holdout_exact": 0
+    },
+    {
+      "step": 13,
+      "short_retained": 8,
+      "lost_ids": [],
+      "exact": 1,
+      "tokens": 88,
+      "training_structure": 8,
+      "holdout_structure": 6,
+      "holdout_exact": 0
+    },
+    {
+      "step": 23,
+      "short_retained": 8,
+      "lost_ids": [],
+      "exact": 1,
+      "tokens": 90,
+      "training_structure": 8,
+      "holdout_structure": 6,
+      "holdout_exact": 0
+    },
+    {
+      "step": 40,
+      "short_retained": 8,
+      "lost_ids": [],
+      "exact": 1,
+      "tokens": 89,
+      "training_structure": 8,
+      "holdout_structure": 6,
+      "holdout_exact": 0
+    }
+  ],
+  "final": {
+    "retention": {
+      "gained_ids": [],
+      "lost_ids": [],
+      "passed": true,
+      "retained": 84,
+      "source_passed": 84
+    },
+    "learning_gate": {
+      "checks": {
+        "exact_gain": false,
+        "token_gain": false
+      },
+      "passed": false
+    },
+    "copy_guard": {
+      "checks": {
+        "clean_stop_rate_non_regression": true,
+        "continuation_top1_rate_non_regression": true,
+        "exact_copy_rate_non_regression": true,
+        "existing_copy_gate": true,
+        "expanded_cases_retained": true,
+        "expanded_clean_stop_rate_non_regression": true,
+        "expanded_continuation_top1_rate_non_regression": true,
+        "expanded_exact_copy_rate_non_regression": true,
+        "legacy_cases_retained": true
+      },
+      "passed": true
+    },
+    "tool_distill": {
+      "examples": 130,
+      "teacher_kl": 0.0013467642300597886,
+      "token_top1": 2697,
+      "token_top1_rate": 0.9897247706422019,
+      "tokens": 2725
+    },
+    "copy_distill": {
+      "examples": 48,
+      "teacher_kl": 0.00014919906364715038,
+      "token_top1": 498,
+      "token_top1_rate": 1.0,
+      "tokens": 498
+    },
+    "reference": {
+      "cases": 4,
+      "passed": true,
+      "passed_cases": 4,
+      "rows": [
+        {
+          "id": "tool_weather",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        },
+        {
+          "id": "tool_calculator",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        },
+        {
+          "id": "tool_web_search",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        },
+        {
+          "id": "tool_get_time",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        }
+      ]
+    }
+  },
+  "artifact_id": 10121745514,
+  "tests_passed": 63,
+  "mechanism_coverage": {
+    "changed_refresh_examples": 1,
+    "unclosed_refresh_examples": 0,
+    "total_refresh_examples": 64,
+    "rejected_refresh_examples": 0,
+    "limitation": "Repair of unclosed candidate-generated argument bodies was not exercised."
+  }
+}
