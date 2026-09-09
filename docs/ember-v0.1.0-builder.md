@@ -50,6 +50,12 @@ stay in the same split. An additional SQL check rejects source groups appearing
 in both splits. This prevents exact source-group leakage; it does not establish
 that every concept or related repository is unseen in validation.
 
+Collection and actual-token selection both require at least two independent
+source groups per category. One long recovery trace must not consume a small
+category's entire budget and leave no separate validation example. Whole-group
+splits can therefore overshoot a small token target; measured totals and split
+sizes are reported explicitly, and the full 250M–350M gate remains enforced.
+
 ## Token counts and evidence
 
 Independent SentencePiece calls each add an initial prefix. Summing those calls
@@ -57,6 +63,11 @@ overstates the size of a concatenated corpus. The builder carries an EOT plus
 newline boundary into each subsequent count and gives an initial prefix only to
 the first document in each output file. Tests compare this streaming count with
 encoding the entire final file in one call.
+
+Source line endings are normalized before hashing or tokenization, matching
+Python's text-file reader. A real-source run caught 28 tokens of drift from CRLF
+terminal output in three OpenHands trajectories. The integration fixture now
+includes both CR and CRLF and independently checks whole-file counts.
 
 `corpus_stats.json` records actual tokens per category and split, final artifact
 hashes, exact source revisions, tokenizer seed coverage, dedup counts, finite

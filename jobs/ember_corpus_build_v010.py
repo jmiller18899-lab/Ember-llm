@@ -212,7 +212,10 @@ class CandidateStore:
             raise ValueError(f"unknown category: {category}")
         if self.full(category):
             return False
-        text = doc["text"]
+        # Match the universal-newline behavior of Ember's text-file reader
+        # before hashing, tokenizing, splitting, or serializing source text.
+        text = doc["text"].replace("\r\n", "\n").replace("\r", "\n")
+        doc = {**doc, "text": text}
         try:
             validate_document(doc)
         except (ValueError, KeyError, TypeError):

@@ -270,7 +270,11 @@ def test_real_sentencepiece_pipeline_reloads_and_recounts_all_nine_categories(cf
                     "envelope_copy": {**cfg["sources"]["envelope_copy"], "candidate_documents": 1000}}})
             else:
                 for index in range(1000):
-                    yield fixture_doc(category, index)
+                    doc = fixture_doc(category, index)
+                    # Real OpenHands terminal output contains CR and CRLF.
+                    # The persisted corpus must match Python's text-file reader.
+                    doc["text"] = doc["text"].replace("<|tool_result|>\n", "<|tool_result|>\nprogress\rworking\r\nfinished\n")
+                    yield doc
     output = tmp_path / "corpus"
     report = builder.build(cfg, output, smoke=True, target_total=target, document_source=documents(),
                            revisions={"test-fixtures": "local"})
