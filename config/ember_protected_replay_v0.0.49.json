@@ -4,7 +4,7 @@
   "seed": 2026090949,
   "source_version": "0.0.31",
   "generation_budget": 96,
-  "template_values_per_subtype": 2,
+  "template_values_per_subtype": 4,
   "train_values_per_subtype": 6,
   "development_values_per_subtype": 6,
   "replay_values_per_variant": 2,
