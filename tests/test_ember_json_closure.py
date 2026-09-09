@@ -79,19 +79,23 @@ def test_fresh_holdout_failure_cannot_pass_the_endpoint():
     assert not checks['protected_closing_tokens_still_top1']
 
 
-def test_norm_matched_control_keeps_direction_and_takes_the_projection_magnitude():
+def test_norm_matched_control_keeps_the_basis_component_the_projection_removes():
     model = torch.nn.Linear(3,1,bias=False)
     before = closure.diag.flat_parameters(model,torch)
     raw = torch.tensor([.01,-.02,.03])
     basis = [torch.tensor([1.,0.,0.]),torch.tensor([0.,1.,0.])]
     stats = closure.apply_norm_matched_proposal(model,before,raw,basis,torch)
     actual = closure.diag.flat_parameters(model,torch)-before
-    assert stats['direction_cosine'] > 1-1e-6
     torch.testing.assert_close(actual/actual.norm(),raw/raw.norm(),rtol=1e-5,atol=1e-6)
     assert actual[0] != 0 and actual[1] != 0
     projected = closure.apply_projected_proposal(torch.nn.Linear(3,1,bias=False),before,raw,basis,torch)
     assert abs(stats['actual_l2']-projected['projected_l2']) <= 1e-5*float(raw.norm())
     assert abs(stats['retained_norm_fraction']-projected['retained_norm_fraction']) <= 1e-9
+    # the discriminating quantity: the projection keeps none of the basis component,
+    # the control keeps all of it, and cosine cannot tell the two apart at this scale
+    assert projected['actual_residual_fraction'] <= closure.MAX_RESIDUAL
+    assert stats['actual_residual_fraction'] >= .5*stats['expected_residual_fraction'] > 0
+    assert stats['actual_residual_fraction'] > 100*projected['actual_residual_fraction']
 
 
 @pytest.mark.parametrize('raw', [torch.zeros(3),torch.tensor([float('nan'),0.,0.])])
@@ -106,12 +110,39 @@ def test_control_endpoint_check_rejects_a_run_that_altered_direction_or_magnitud
     fresh = {'anchors':{'all_retained':True},'holdout':{'all_retained':True}}
     margins = [{'source_token_still_top1':True}]
     good = [{'projection':{'actual_l2':.01,'direction_cosine':1.,'realized_norm_fraction':.995,
-                           'retained_norm_fraction':.995}} for _ in range(40)]
+                           'retained_norm_fraction':.995,'actual_residual_fraction':.0958,
+                           'expected_residual_fraction':.0999}} for _ in range(40)]
     checks = closure.final_checks(full,fresh,margins,good,closure.NORM_MATCHED_MODE)
     assert checks['all_40_nonzero_norm_matched_updates']
     assert 'all_40_nonzero_projected_updates' not in checks
-    turned = [dict(u,projection=dict(u['projection'],direction_cosine=.9)) for u in good]
+    turned = [dict(u,projection=dict(u['projection'],actual_residual_fraction=1e-6)) for u in good]
     assert not closure.final_checks(full,fresh,margins,turned,closure.NORM_MATCHED_MODE)['all_40_nonzero_norm_matched_updates']
     shrunk = [dict(u,projection=dict(u['projection'],realized_norm_fraction=.5)) for u in good]
     assert not closure.final_checks(full,fresh,margins,shrunk,closure.NORM_MATCHED_MODE)['all_40_nonzero_norm_matched_updates']
     assert len(closure.final_checks(full,fresh,margins,good[:39],closure.NORM_MATCHED_MODE)) == len(checks)
+
+
+def test_control_survives_the_float32_rounding_this_learning_rate_produces():
+    """A tiny update on float32 parameters loses about a percent to assignment
+    rounding, in both arms. The endpoint gate must tolerate that and still reject
+    an update whose basis component was removed."""
+    torch.manual_seed(0)
+    model = torch.nn.Linear(500,500,bias=False)
+    with torch.no_grad():
+        model.weight.copy_(torch.empty(500,500).uniform_(-1,1))
+    before = closure.diag.flat_parameters(model,torch)
+    basis = []
+    for _ in range(8):
+        v = torch.randn(250_000)
+        for q in basis:
+            v -= torch.dot(q,v)*q
+        basis.append(v/v.norm())
+    raw = torch.randn(250_000)
+    raw = raw/raw.norm() + .0958*basis[0]
+    raw = raw/raw.norm()*4.69e-4
+    control = closure.apply_norm_matched_proposal(model,before,raw,basis,torch)
+    projected = closure.apply_projected_proposal(torch.nn.Linear(500,500,bias=False),before,raw,basis,torch)
+    assert abs(control['realized_norm_fraction']-control['retained_norm_fraction']) <= closure.MAX_NORM_MATCH_ERROR*control['retained_norm_fraction']
+    assert control['actual_residual_fraction'] >= closure.MIN_RETAINED_BASIS_FRACTION*control['expected_residual_fraction']
+    assert control['actual_residual_fraction'] > 100*projected['actual_residual_fraction']
+    assert abs(control['direction_cosine']-projected['direction_cosine']) < .02

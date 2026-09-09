@@ -35,10 +35,22 @@ realized fractions are recorded so the two magnitude profiles can be compared
 against that published range.
 
 The arms therefore differ in exactly one thing: whether the closure directions
-are removed. Direction retention is asserted per step (cosine to the raw proposal
-within 1e-5 of 1) and magnitude match is asserted per step (realized fraction
-within 1e-5 of the intended one). A run that quietly turned or shrank the update
-fails its endpoint check rather than reporting a number.
+are removed, and the endpoint gate checks exactly that. Each step records the
+fraction of the applied update lying inside the basis: the projection retains
+none of it (its own bound is 1e-3, and it measured 9.2e-5), while the control
+must retain it, so the gate requires at least half of the `sqrt(1 - scale^2)`
+that the raw proposal carried. Magnitude is gated separately, within 10% of the
+intended fraction.
+
+Both tolerances sit above a noise floor worth recording. At a learning rate of
+1e-7 the per-element update is near float32 resolution, so assigning it to the
+parameters rounds away on the order of a percent of the update — in both arms
+alike. The first version of this control gated on the cosine between the applied
+and proposed updates and aborted at step 1 with cosine 0.9921. That guard was
+unusable in principle, not merely too tight: removing 8 directions out of
+millions leaves a cosine of about 0.995, so rounding noise and the intervention
+are indistinguishable in that quantity. The basis fraction separates them by
+three orders of magnitude.
 
 ## Reading the outcome
 
