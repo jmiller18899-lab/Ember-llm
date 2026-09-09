@@ -78,6 +78,7 @@ jobs:
           python -m json.tool config/ember_multi_position_v0.0.31.json >/dev/null
           python -m json.tool config/ember_envelope_copy_v0.0.33.json >/dev/null
           python -m json.tool config/ember_semantic_quality_v0.0.32.json >/dev/null
+          python -m json.tool config/corpus_v0.1.0.json >/dev/null
           python -m json.tool .cursor/environment.json >/dev/null
           bash -n .cursor/install.sh
 
@@ -87,6 +88,13 @@ jobs:
             --data jobs/ember_sft_data_v026.py \
             --diagnostics jobs/ember_sft_data_v026.py \
             --assert-parity
+
+      - name: Audit v0.1.0 envelope-copy corpus slice (no network, no model)
+        run: |
+          python jobs/ember_corpus_envelope_copy_v010.py \
+            --config config/corpus_v0.1.0.json \
+            --assert-coverage \
+            --audit-out /tmp/ember-v010-envelope-copy-audit.json
 
       - name: Install CPU-only Ember dependencies
         working-directory: /tmp/ember-src/ember

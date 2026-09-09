@@ -1,0 +1,207 @@
+{
+  "version": "0.1.0",
+  "phase": "re-pretraining-corpus",
+  "status": "draft; no corpus build, tokenizer training, GPU training, promotion, or deployment is authorized by this file",
+  "seed": 20260909,
+  "supersedes": "config/corpus_v0.0.7.json",
+  "rationale": [
+    "Ember v0.0.31 copies 43/90 held-out literals but grounds 0/36 semantic-v1 cases; every fine-tune from v0.0.33 to v0.0.51 hit the same learning/preservation trade-off at LR 1e-7.",
+    "The base was pretrained on 15,005,553 tokens for a 27,662,848-parameter model (0.54 tokens per parameter, validation loss 4.33). A copy circuit robust enough to fill a JSON argument slot has to be learned during pretraining, not grafted on afterwards.",
+    "v0.1.0 therefore rebuilds the corpus at 300M tokens (10.8 tokens per parameter per epoch; two epochs reach the ~20 tokens-per-parameter band) and folds a synthetic envelope-copy slice into pretraining from step 0 so tool routing and value copying are learned together."
+  ],
+  "model_reference": {
+    "config": "ember-src/ember/config/ember_agent_t4.json",
+    "n_layer": 6,
+    "n_head": 8,
+    "n_embd": 512,
+    "vocab_size": 16384,
+    "parameters": 27662848,
+    "architecture_change": "none; the same 27.66M EmberGPT is re-pretrained so INT4 export, generate paths, and CPU gates remain valid"
+  },
+  "target_total_tokens": 300000000,
+  "min_total_tokens": 250000000,
+  "max_total_tokens": 350000000,
+  "recommended_epochs": 2,
+  "validation_ratio": 0.005,
+  "candidate_chars_per_token": 4.8,
+  "candidate_headroom": 1.30,
+  "tokenizer_seed_max_chars": 60000000,
+  "min_document_chars": 200,
+  "max_document_chars": 24000,
+  "near_dedup_threshold": 0.90,
+  "near_dedup_num_perm": 64,
+  "near_dedup_max_shingles": 256,
+  "progress_chars_interval": 50000000,
+  "stream_shuffle_buffers": {
+    "general_english": 64,
+    "code": 8,
+    "instruction_following": 256,
+    "function_calling": 512,
+    "agent_trajectories": 16
+  },
+  "tokenizer": {
+    "type": "sentencepiece_bpe",
+    "vocab_size": 16384,
+    "character_coverage": 1.0,
+    "seed_policy": "balanced by mix share; the envelope_copy slice must be present in the seed sample so JSON scaffolding such as {\"arguments\":{\" and \"},\"name\":\" is segmented consistently"
+  },
+  "mix": {
+    "general_english": 0.40,
+    "code": 0.25,
+    "instruction_following": 0.11,
+    "instruction_following_human": 0.01,
+    "function_calling": 0.06,
+    "tool_result_interpretation": 0.03,
+    "agent_trajectories": 0.07,
+    "error_recovery": 0.02,
+    "envelope_copy": 0.05
+  },
+  "sources": {
+    "general_english": {
+      "dataset": "HuggingFaceFW/fineweb-edu",
+      "config": "sample-10BT",
+      "license": "ODC-By-1.0",
+      "terms_note": "Also subject to Common Crawl Terms of Use.",
+      "loader": "existing (v0.0.7)",
+      "capacity_note": "sample-10BT holds roughly 10B tokens; 120M is well inside the streamed prefix"
+    },
+    "code": {
+      "dataset": "HuggingFaceCode/stack-v3-train",
+      "license": "ODC-By-1.0 + per-file repository licenses",
+      "filter": "license_type=permissive and detected_licenses present",
+      "loader": "existing (v0.0.7)"
+    },
+    "instruction_following": {
+      "dataset": "HuggingFaceTB/smoltalk",
+      "config": "all",
+      "license": "Apache-2.0",
+      "filter": "multi-turn messages rows; exclude source=apigen-80k so tool calling is learned only from Ember-formatted envelopes; render with render_openai_messages",
+      "loader": "new; OpenAI-style messages column, no tool_calls",
+      "synthetic_note": "SmolTalk is model-generated instruction data released for small-model pretraining/SFT. It replaces OASST1 as the scalable instruction source because OASST1 is finite at roughly 3M usable English tokens."
+    },
+    "instruction_following_human": {
+      "dataset": "OpenAssistant/oasst1",
+      "license": "Apache-2.0",
+      "filter": "English, non-deleted assistant replies with their parent prompt",
+      "loader": "existing (v0.0.7)",
+      "finite_source": true,
+      "capacity_note": "3M tokens is the same absolute demand v0.0.7 met with the headroom-shortfall rule"
+    },
+    "function_calling": {
+      "dataset": "glaiveai/glaive-function-calling-v2",
+      "license": "Apache-2.0",
+      "loader": "existing (v0.0.7)",
+      "finite_source": true,
+      "capacity_note": "112,960 rows; 18M + 9M tokens across both Glaive categories is about 40% of the source, so the finite-source shortfall rule must apply to both categories"
+    },
+    "tool_result_interpretation": {
+      "dataset": "glaiveai/glaive-function-calling-v2",
+      "license": "Apache-2.0",
+      "filter": "real function response followed by assistant interpretation",
+      "loader": "existing (v0.0.7)",
+      "finite_source": true
+    },
+    "agent_trajectories": {
+      "dataset": "nebius/SWE-rebench-openhands-trajectories",
+      "license": "CC-BY-4.0 + underlying repository license",
+      "license_join_dataset": "nebius/SWE-rebench",
+      "filter": "resolved trajectories from permissively licensed repositories",
+      "loader": "existing (v0.0.7)"
+    },
+    "error_recovery": {
+      "dataset": "nebius/SWE-rebench-openhands-trajectories",
+      "license": "CC-BY-4.0 + underlying repository license",
+      "license_join_dataset": "nebius/SWE-rebench",
+      "filter": "resolved trajectory with a real error result followed by another tool attempt",
+      "loader": "existing (v0.0.7)"
+    },
+    "envelope_copy": {
+      "dataset": null,
+      "generator": "jobs/ember_corpus_envelope_copy_v010.py",
+      "license": "synthetic; generated deterministically by this repository from no external data",
+      "loader": "new; call iter_documents(config) and feed CorpusDocument rows with category envelope_copy",
+      "dedup": "exact_only",
+      "dedup_note": "Documents share templates by design; MinHash near-dedup on five-word shingles at 0.90 would reject valid rows that differ only in the copied value. Exact-hash dedup still applies.",
+      "candidate_documents": 180000,
+      "candidate_note": "About 110 tokens per document at 4.8 chars/token, so 180k documents give roughly 20M candidate tokens for the 15M-token share (1.3x headroom, matching candidate_headroom)",
+      "seed": 20260909,
+      "shapes": [
+        "tool_call",
+        "tool_call_choice",
+        "tool_call_multi_arg",
+        "tool_call_with_result",
+        "two_turn",
+        "direct_extract",
+        "direct_sentence"
+      ],
+      "shape_weights": {
+        "tool_call": 0.30,
+        "tool_call_choice": 0.12,
+        "tool_call_multi_arg": 0.10,
+        "tool_call_with_result": 0.20,
+        "two_turn": 0.08,
+        "direct_extract": 0.10,
+        "direct_sentence": 0.10
+      },
+      "tools": {
+        "weather": {"location": ["city"]},
+        "calculator": {"expression": ["expression"]},
+        "web_search": {"query": ["query", "entity", "model_id"]},
+        "get_time": {"timezone": ["timezone"]},
+        "service_status": {"service": ["service"]},
+        "lookup_ticket": {"ticket_id": ["short_code", "long_code", "mixed"]},
+        "open_path": {"path": ["path"]},
+        "fetch_url": {"url": ["url"]},
+        "get_model_info": {"model_id": ["model_id"]},
+        "check_order": {"order_number": ["digits"]},
+        "send_message": {"recipient": ["entity"], "text": ["query"]},
+        "compare_models": {"left": ["model_id"], "right": ["model_id"]}
+      },
+      "value_kinds": [
+        "short_code", "long_code", "digits", "model_id", "url", "path",
+        "entity", "expression", "mixed", "city", "timezone", "query", "service"
+      ],
+      "system_prompt_styles": ["sentence", "schema", "available_tools"],
+      "distractor_fraction": 0.5,
+      "held_out_exclusions": {
+        "sources": [
+          "config/ember_semantic_v1.json argument_variants and quoted prompt literals",
+          "jobs/ember_sft_data_v026.py HELD_OUT_VALUES (90-case copy battery plus corrupted twins)"
+        ],
+        "exact_values": [
+          "Detroit", "Tokyo", "Asia/Tokyo", "Marquette", "Marquette, Michigan", "Benton Harbor",
+          "Pacific/Chatham", "America/Toronto", "347*28", "347 * 28", "83-27", "(46+18)*7", "5/2",
+          "latest published release of Python", "Ember semantic gate report 9037",
+          "ticket ZV82 closed status", "project status", "gateway", "Morgan", "ZV82", "9716"
+        ],
+        "substrings": ["ZV82", "9037", "Detroit", "Marquette", "Benton Harbor", "Tokyo", "Chatham", "Toronto"]
+      },
+      "coverage_requirements": {
+        "min_documents_per_tool": 200,
+        "min_documents_per_shape": 200,
+        "min_documents_per_kind": 200,
+        "every_tool_in_every_tool_shape": true,
+        "min_distinct_values_per_kind": 500
+      }
+    }
+  },
+  "hard_gates": {
+    "status": "PASS",
+    "actual_ember_tokens": [250000000, 350000000],
+    "vocab_size": 16384,
+    "required_special_tokens": ["<|system|>", "<|user|>", "<|assistant|>", "<|tool|>", "<|tool_result|>", "<|endoftext|>"],
+    "function_calling_docs_all_contain_tool_call": true,
+    "error_recovery_docs_all_real": true,
+    "envelope_copy_docs_all_pass_audit": true,
+    "held_out_leakage": false
+  },
+  "builder_requirements": [
+    "Add a smoltalk loader (messages column, OpenAI roles) for instruction_following and keep the OASST1 loader for instruction_following_human.",
+    "Add an envelope_copy loader that imports jobs/ember_corpus_envelope_copy_v010.py, streams iter_documents, and skips MinHash near-dedup for that category only.",
+    "Apply the finite-source shortfall rule (hard minimum 1.0x, preferred 1.3x) to every source marked finite_source, not only OASST1.",
+    "Render assistant turns that contain only a tool call as <|assistant|>\\n<|tool|>\\n{...} with no empty content line, matching the semantic-v1 prompts; v0.0.7's render_agent_record emits an extra blank line.",
+    "Selection and split must stream per category to disk instead of holding every candidate string in memory: 300M tokens is roughly 1.9 GB of candidate text before headroom, above what the 7 GiB GitHub runner can hold alongside the MinHash index.",
+    "Write corpus_stats.json with category_selected_tokens for all nine categories and an envelope_copy_audit block copied from the generator's audit output."
+  ],
+  "hardware_note": "Build on a CPU job with at least 16 GiB RAM and 20 GB scratch (HF Jobs cpu-upgrade or a self-hosted runner). The build never launches GPU training."
+}
