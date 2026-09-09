@@ -77,3 +77,41 @@ def test_fresh_holdout_failure_cannot_pass_the_endpoint():
     fresh['holdout']['all_retained']=True
     checks = closure.final_checks(full,fresh,[{'source_token_still_top1':False}],updates)
     assert not checks['protected_closing_tokens_still_top1']
+
+
+def test_norm_matched_control_keeps_direction_and_takes_the_projection_magnitude():
+    model = torch.nn.Linear(3,1,bias=False)
+    before = closure.diag.flat_parameters(model,torch)
+    raw = torch.tensor([.01,-.02,.03])
+    basis = [torch.tensor([1.,0.,0.]),torch.tensor([0.,1.,0.])]
+    stats = closure.apply_norm_matched_proposal(model,before,raw,basis,torch)
+    actual = closure.diag.flat_parameters(model,torch)-before
+    assert stats['direction_cosine'] > 1-1e-6
+    torch.testing.assert_close(actual/actual.norm(),raw/raw.norm(),rtol=1e-5,atol=1e-6)
+    assert actual[0] != 0 and actual[1] != 0
+    projected = closure.apply_projected_proposal(torch.nn.Linear(3,1,bias=False),before,raw,basis,torch)
+    assert abs(stats['actual_l2']-projected['projected_l2']) <= 1e-5*float(raw.norm())
+    assert abs(stats['retained_norm_fraction']-projected['retained_norm_fraction']) <= 1e-9
+
+
+@pytest.mark.parametrize('raw', [torch.zeros(3),torch.tensor([float('nan'),0.,0.])])
+def test_norm_matched_control_fails_closed_on_invalid_proposals(raw):
+    model = torch.nn.Linear(3,1,bias=False)
+    with pytest.raises(ValueError,match='finite nonzero'):
+        closure.apply_norm_matched_proposal(model,closure.diag.flat_parameters(model,torch),raw,[],torch)
+
+
+def test_control_endpoint_check_rejects_a_run_that_altered_direction_or_magnitude():
+    full = {'checks':{'placement_learning':True,'copy':True,'familiar_floors':True}}
+    fresh = {'anchors':{'all_retained':True},'holdout':{'all_retained':True}}
+    margins = [{'source_token_still_top1':True}]
+    good = [{'projection':{'actual_l2':.01,'direction_cosine':1.,'realized_norm_fraction':.995,
+                           'retained_norm_fraction':.995}} for _ in range(40)]
+    checks = closure.final_checks(full,fresh,margins,good,closure.NORM_MATCHED_MODE)
+    assert checks['all_40_nonzero_norm_matched_updates']
+    assert 'all_40_nonzero_projected_updates' not in checks
+    turned = [dict(u,projection=dict(u['projection'],direction_cosine=.9)) for u in good]
+    assert not closure.final_checks(full,fresh,margins,turned,closure.NORM_MATCHED_MODE)['all_40_nonzero_norm_matched_updates']
+    shrunk = [dict(u,projection=dict(u['projection'],realized_norm_fraction=.5)) for u in good]
+    assert not closure.final_checks(full,fresh,margins,shrunk,closure.NORM_MATCHED_MODE)['all_40_nonzero_norm_matched_updates']
+    assert len(closure.final_checks(full,fresh,margins,good[:39],closure.NORM_MATCHED_MODE)) == len(checks)

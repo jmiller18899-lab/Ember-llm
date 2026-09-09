@@ -27,6 +27,8 @@ MAX_ATTEMPTS = 48
 WALL_SECONDS = 1800
 MAX_RESIDUAL = .001
 PRIOR_VALUES = ROOT / "config/ember_json_closure_prior_values.json"
+PROJECTION_MODE = "projection"
+NORM_MATCHED_MODE = "norm-matched"
 
 
 def closure_position(tokenizer, ids, field="query"):
@@ -152,7 +154,42 @@ def apply_projected_proposal(student, before, raw, basis, torch):
         raise ValueError(f"actual float32 projection failed: norm={norm}, residual={residual}")
     return {"raw_l2": raw_norm, "projected_l2": projected_norm, "actual_l2": norm,
             "retained_norm_fraction": projected_norm/raw_norm,
-            "actual_residual_fraction": residual, "mathematical_residual_fraction": mathematical}
+            "actual_residual_fraction": residual, "mathematical_residual_fraction": mathematical,
+            "direction_cosine": float(torch.dot(actual, raw))/max(norm*raw_norm, 1e-30)}
+
+
+def apply_norm_matched_proposal(student, before, raw, basis, torch):
+    """The control arm: the projection's magnitude schedule, its direction removal dropped.
+
+    The scale is the fraction the projection would have retained on this same
+    proposal, so the two arms shrink each step identically and differ only in
+    whether the closure directions are removed. It is recomputed here rather than
+    replayed from the projection run, whose per-step fractions were not published;
+    the realized fractions are reported so the two magnitude profiles can be
+    compared.
+    """
+    projected = diag.project_update(raw, basis, torch)
+    raw_norm = float(raw.norm())
+    projected_norm = float(projected.norm())
+    del projected
+    if not all(math.isfinite(n) for n in (raw_norm, projected_norm)) or raw_norm == 0:
+        raise ValueError("finite nonzero optimizer proposal required")
+    if projected_norm > raw_norm * (1+1e-5):
+        raise ValueError("projected norm exceeded the proposal it came from")
+    scale = projected_norm/raw_norm
+    diag.assign_vector(student, before + raw*scale, torch)
+    actual = diag.flat_parameters(student, torch) - before
+    norm = float(actual.norm())
+    if not math.isfinite(norm) or norm == 0:
+        raise ValueError(f"norm-matched update failed: norm={norm}")
+    cosine = float(torch.dot(actual, raw))/max(norm*raw_norm, 1e-30)
+    residual = sum(float(torch.dot(q, actual))**2 for q in basis)**.5 / max(norm, 1e-30)
+    if abs(norm - projected_norm) > max(1e-5*raw_norm, 1e-12) or cosine < 1-1e-5:
+        raise ValueError(f"norm-matched update missed its target: norm={norm}, cosine={cosine}")
+    return {"raw_l2": raw_norm, "projected_l2": projected_norm, "actual_l2": norm,
+            "retained_norm_fraction": scale, "realized_norm_fraction": norm/raw_norm,
+            "actual_residual_fraction": residual, "mathematical_residual_fraction": None,
+            "direction_cosine": cosine}
 
 
 def fresh_probe(student, tokenizer, torch, rows):
@@ -166,17 +203,24 @@ def fresh_probe(student, tokenizer, torch, rows):
             "all_retained": passed == len(output), "exact_arguments": sum(r["score"]["slot_exact"] for r in output)}
 
 
-def final_checks(full, fresh, anchor_margins, updates):
+def final_checks(full, fresh, anchor_margins, updates, mode=PROJECTION_MODE):
     checks = dict(full["checks"])
     checks.update(fresh_anchors_retained=fresh["anchors"]["all_retained"],
                   fresh_holdout_retained=fresh["holdout"]["all_retained"],
-                  protected_closing_tokens_still_top1=all(r["source_token_still_top1"] for r in anchor_margins),
-                  all_40_nonzero_projected_updates=len(updates)==40 and all(r["projection"]["actual_l2"]>0 and r["projection"]["actual_residual_fraction"]<=MAX_RESIDUAL for r in updates))
+                  protected_closing_tokens_still_top1=all(r["source_token_still_top1"] for r in anchor_margins))
+    stats = [r["projection"] for r in updates]
+    if mode == PROJECTION_MODE:
+        checks["all_40_nonzero_projected_updates"] = len(updates)==40 and all(
+            r["actual_l2"]>0 and r["actual_residual_fraction"]<=MAX_RESIDUAL for r in stats)
+    else:
+        checks["all_40_nonzero_norm_matched_updates"] = len(updates)==40 and all(
+            r["actual_l2"]>0 and r["direction_cosine"]>=1-1e-5
+            and abs(r["realized_norm_fraction"]-r["retained_norm_fraction"])<=1e-5 for r in stats)
     return checks
 
 
 def summary(report):
-    lines = ["# Ember JSON-closing protection CPU result", "", f"Execution: {report['status']}",
+    lines = [f"# Ember JSON-closing CPU result ({report.get('mode', PROJECTION_MODE)} arm)", "", f"Execution: {report['status']}",
              f"Steps: {len(report['updates'])}/40", f"Endpoint passed: {report.get('endpoint_passed', False)}", "",
              "| Observed step | Short-code cases retained | Exact placement | Placement tokens | Learning gate |",
              "| ---: | ---: | ---: | ---: | --- |"]
@@ -185,7 +229,9 @@ def summary(report):
     if "checks" in report:
         lines += ["", "Failed endpoint checks: " + ", ".join(k for k,v in report["checks"].items() if not v)]
     lines += ["", "Only steps 1, 12, 13, 23 and 40 were probed; full familiar/copy/reference/KL guards were run on the source and step 40.",
-              "Fixed source-derived closing-token directions from eight fresh examples; six other fresh examples never supply gradients.",
+              "Fixed source-derived closing-token directions from eight fresh examples; six other fresh examples never supply gradients."
+              if report.get("mode", PROJECTION_MODE) == PROJECTION_MODE else
+              "Control arm: the same per-step shrinkage as the projection, with its direction removal dropped.",
               "This is an endpoint experiment, not an exhaustive timing search or promotion evaluation. No checkpoint was exported or integrated."]
     if "error" in report:
         lines.append(f"Error: {report['error']}")
@@ -195,6 +241,9 @@ def summary(report):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=Path("json-closure-results"))
+    parser.add_argument("--mode", choices=(PROJECTION_MODE, NORM_MATCHED_MODE), default=PROJECTION_MODE,
+                        help="projection removes the closure directions; norm-matched keeps them and "
+                             "applies only the same per-step shrinkage, isolating direction from magnitude")
     args = parser.parse_args()
     cfg = trace.load_config()
     import torch
@@ -208,7 +257,7 @@ def main():
         raise TimeoutError("JSON closure experiment exceeded its 30-minute CPU bound")
     signal.signal(signal.SIGALRM, timeout)
     signal.alarm(WALL_SECONDS)
-    report = {"status": "ERROR", "experiment": "ember-json-closure-v1", "created_at": datetime.now(timezone.utc).isoformat(),
+    report = {"status": "ERROR", "experiment": "ember-json-closure-v1", "mode": args.mode, "created_at": datetime.now(timezone.utc).isoformat(),
               "code_commit": os.environ.get("GITHUB_SHA"), "original_recipe": cfg, "updates": [], "probes": [],
               "gpu_training_authorized": False, "promotion_authorized": False, "production_authorized": False,
               "comparison_run_id": 34369464055, "probe_steps": sorted(PROBE_STEPS)}
@@ -227,7 +276,8 @@ def main():
             del source, splits
             cohorts, attempts, excluded_count = prepare_rows(teacher, tokenizer, torch)
             basis, anchors = build_basis(student, tokenizer, torch, cohorts["anchors"])
-            report["projection"] = {"rank": len(basis), "anchors": anchors, "fixed_at_source": True}
+            report["projection"] = {"rank": len(basis), "anchors": anchors, "fixed_at_source": True,
+                                    "mode": args.mode, "directions_removed": args.mode == PROJECTION_MODE}
             values = data.target_values(cfg)
             template, template_report = data.v048d.discover_template(student, tokenizer, torch, cfg, values["template"])
             make = lambda phase, tag: data.v048d.build_cases({k:values[phase][k] for k in sorted(data.PLACEMENT_SUBTYPES)}, tag)
@@ -258,7 +308,8 @@ def main():
                 theta = diag.flat_parameters(student,torch)
                 losses = trace.optimizer_step(student,teacher,tokenizer,torch,cfg,examples,tools,copies,batch,optimizer)
                 raw = diag.flat_parameters(student,torch)-theta
-                stats = apply_projected_proposal(student,theta,raw,basis,torch)
+                apply = apply_projected_proposal if args.mode == PROJECTION_MODE else apply_norm_matched_proposal
+                stats = apply(student,theta,raw,basis,torch)
                 del theta,raw
                 report["updates"].append({"step":step,"losses":losses,"projection":stats})
                 if step==1 and abs(losses["placement_loss"]-1.8641787767410278)>1e-5:
@@ -282,7 +333,7 @@ def main():
             with trace.observation(student,torch):
                 final = trace.full_evaluation(student,teacher,tokenizer,torch,cfg,tools,copies,before,report["probes"][-1]["placement"])
             report["final"] = final
-            report["checks"] = final_checks(final,fresh,margins,report["updates"])
+            report["checks"] = final_checks(final,fresh,margins,report["updates"],args.mode)
             report["endpoint_passed"] = all(report["checks"].values())
             report["status"] = "COMPLETE"
     except Exception as exc:
