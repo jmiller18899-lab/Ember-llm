@@ -1,0 +1,52 @@
+name: Ember v0.0.47 Safe Prefix Diagnostic
+
+on:
+  push:
+    branches: [codex/ember-v047-envelope-template-diagnostic]
+    paths: [.github/ember-v047-compat.run]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+      - name: Resolve mode
+        id: mode
+        run: |
+          mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-v047-compat.run)"
+          case "$mode" in bootstrap|diagnostic) ;; *) exit 1 ;; esac
+          echo "value=$mode" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v6
+        if: steps.mode.outputs.value == 'diagnostic'
+        with:
+          python-version: '3.11'
+      - name: Install CPU dependencies
+        if: steps.mode.outputs.value == 'diagnostic'
+        run: |
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          python -m pip install huggingface-hub==1.30.0 sentencepiece==0.2.0 jsonschema==4.23.0 pytest==8.3.5 numpy==2.2.6
+      - name: Test diagnostic guards
+        if: steps.mode.outputs.value == 'diagnostic'
+        run: |
+          python -m py_compile jobs/ember_envelope_template_v047.py jobs/ember_envelope_template_v047_compat.py jobs/ember_structural_prefix_v046.py jobs/ember_residual_logit_v045.py jobs/ember_envelope_preflight_v041.py
+          python -m pytest -q tests/test_ember_v047_envelope_template.py tests/test_ember_v046_structural_prefix.py tests/test_ember_v045_residual_logit.py tests/test_ember_v044_envelope_preflight.py tests/test_ember_v043_envelope_preflight.py tests/test_ember_v042_envelope_preflight.py tests/test_ember_v041_envelope_preflight.py tests/test_ember_v040_envelope_preflight.py tests/test_ember_v039_envelope_preflight.py tests/test_ember_v038_envelope_preflight.py tests/test_ember_v037_envelope_preflight.py tests/test_ember_v036_envelope_preflight.py tests/test_ember_v035_envelope_preflight.py tests/test_ember_v034_envelope_preflight.py
+      - name: Run CPU diagnostic
+        if: steps.mode.outputs.value == 'diagnostic'
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+          CUDA_VISIBLE_DEVICES: ''
+        run: python jobs/ember_envelope_template_v047_compat.py --output-dir v047-results
+      - name: Preserve evidence
+        if: always() && steps.mode.outputs.value == 'diagnostic'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v047-safe-prefix-${{ github.run_id }}
+          path: |
+            v047-results/report.json
+            v047-results/summary.md
+          if-no-files-found: warn
+          retention-days: 90
