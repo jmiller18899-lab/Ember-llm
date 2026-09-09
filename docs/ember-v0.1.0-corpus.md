@@ -1,6 +1,7 @@
-# Ember v0.1.0 re-pretraining corpus — draft
+# Ember v0.1.0 re-pretraining corpus
 
-Status: **draft configuration only.** `config/corpus_v0.1.0.json` authorizes no
+Status: **configuration and CPU builder available; full corpus not yet verified.**
+See the [builder runbook](ember-v0.1.0-builder.md). `config/corpus_v0.1.0.json` authorizes no
 corpus build, tokenizer training, GPU training, promotion, or deployment.
 `ember-v0.0.7-hf-ready.zip` remains the authoritative package and
 `ember-v0.0.31-t4` step 479 remains the best checkpoint.
@@ -11,19 +12,16 @@ corpus build, tokenizer training, GPU training, promotion, or deployment.
   passes the legacy routing evaluator at 84/90, but scores **0/36** on
   semantic-v1: every tool call has the right envelope, tool name, and argument
   key with the wrong value (`reports/ember-v0.0.31-semantic-verdict.json`).
-- v0.0.33 through v0.0.51, plus the rung-0 trajectory, first-update, JSON-closure,
-  norm-matched control, generated-prefix closure, and training-balance
-  diagnostics, all reproduce one trade-off at LR 1e-7: an update large enough to
-  move in-slot placement (+1 exact case of 24, +3 to +7 tokens of 170) loses
-  familiar routing (84/90 to 79–82/90) by step 13–23, and an update small enough
-  to preserve routing moves nothing.
+- The tested fine-tuning trajectories showed a learning/preservation trade-off:
+  placement gains came with losses in familiar routing. The separate training-
+  balance branch recommends punctuation weight 0.05 from local loss measurements;
+  its full 40-step trajectory has not been run. These results do not establish
+  that every further fine-tuning recipe must fail.
 - The base model has 27,662,848 parameters (`n_layer=6`, `n_embd=512`, tied
   16,384-piece embedding) and was pretrained on 15,005,553 tokens: 0.54 tokens
-  per parameter, validation loss 4.33. A copy circuit that can fill a JSON
-  argument slot from context is an induction behavior that forms during
-  pretraining with enough data. Fine-tuning at 1e-7 can only rebalance circuits
-  the model already has, which is exactly what a zero-sum learning/preservation
-  trade-off looks like.
+  per parameter, validation loss 4.33. Learning copying and tool routing together
+  on more data is a hypothesis worth testing, not a demonstrated explanation of
+  the prior failures or a guarantee that pretraining will fix them.
 
 v0.1.0 therefore changes the base, not the recipe: same architecture, a real
 token budget, and the envelope-copy curriculum present from step 0.
@@ -133,11 +131,13 @@ Verified on this draft (`python jobs/ember_corpus_envelope_copy_v010.py
 false`, 0 failures. `tests/test_ember_corpus_v010.py` pins the config
 arithmetic and the slice properties.
 
-## What the v0.1.0 builder must add
+## Builder implementation
 
-`scripts/build_training_corpus.py` in the v0.0.7 package cannot build this
-config as-is. The config's `builder_requirements` list is authoritative; in
-summary:
+`jobs/ember_corpus_build_v010.py` implements the six requirements below using
+the unchanged v0.0.7 package's corpus utilities and tokenizer wrapper. The old
+package's `scripts/build_training_corpus.py` remains the v0.0.7 entry point.
+Details and measured evidence belong in the [builder runbook](ember-v0.1.0-builder.md).
+The requirements are:
 
 1. A SmolTalk loader (OpenAI-style `messages`, rendered with
    `render_openai_messages`, `apigen-80k` excluded).
