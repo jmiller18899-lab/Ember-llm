@@ -1,0 +1,280 @@
+{
+  "artifact_and_embedded_data_hashes_verified": true,
+  "artifact_id": 10118782801,
+  "artifact_sha256": "761c84e17e69de7855be8c8a4816e747adaea7cc05576fd785bfd6ca9884b23f",
+  "checkpoint_exported": false,
+  "checks": {
+    "all_40_nonzero_projected_updates": true,
+    "all_source_cases_retained": false,
+    "copy": false,
+    "copy_kl_budget": true,
+    "familiar_floors": false,
+    "fresh_anchors_retained": false,
+    "fresh_holdout_retained": true,
+    "placement_learning": false,
+    "protected_closing_tokens_still_top1": true,
+    "reference": true,
+    "tool_kl_budget": true
+  },
+  "clawagent_integration": false,
+  "code_commit": "69a73fcd5c0811c1a6ed0a79a54e7ab1e0269c48",
+  "comparison_run_id": 34369464055,
+  "copy_gained_expanded_values": [
+    "acct_ulq7-2291"
+  ],
+  "copy_lost_expanded_values": [
+    "12+33+18"
+  ],
+  "data_sha256": "8a4782a134ac9dffdbb600d786229694cff0900e00dc5346a285ce404205541f",
+  "elapsed_seconds": 735.9530202540001,
+  "endpoint_passed": false,
+  "experiment": "ember-json-closure-v1",
+  "final": {
+    "copy_guard": {
+      "checks": {
+        "clean_stop_rate_non_regression": true,
+        "continuation_top1_rate_non_regression": true,
+        "exact_copy_rate_non_regression": true,
+        "existing_copy_gate": true,
+        "expanded_cases_retained": false,
+        "expanded_clean_stop_rate_non_regression": true,
+        "expanded_continuation_top1_rate_non_regression": true,
+        "expanded_exact_copy_rate_non_regression": true,
+        "legacy_cases_retained": true
+      },
+      "passed": false
+    },
+    "copy_teacher_kl": 0.00023916219288366847,
+    "exact_argument_counts_on_fresh": {
+      "anchors": 0,
+      "holdout": 0
+    },
+    "familiar_correct_tool": 82,
+    "familiar_json": 82,
+    "familiar_retention": {
+      "gained_ids": [],
+      "lost_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "passed": false,
+      "retained": 82,
+      "source_passed": 84
+    },
+    "reference": 4,
+    "tool_teacher_kl": 0.0006691217636484105
+  },
+  "final_anchor_margins": [
+    {
+      "id": "json_anchors_0_00",
+      "margin": 5.352038383483887,
+      "margin_change": 0.011318206787109375,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_0_01",
+      "margin": 5.972438335418701,
+      "margin_change": 0.0006022453308105469,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_0_03",
+      "margin": 8.45894718170166,
+      "margin_change": -0.0022344589233398438,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_0_04",
+      "margin": 4.872986793518066,
+      "margin_change": 0.005007743835449219,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_0_06",
+      "margin": 5.579636573791504,
+      "margin_change": 0.007550239562988281,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_0_07",
+      "margin": 4.225921630859375,
+      "margin_change": -0.044051170349121094,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_1_02",
+      "margin": 6.910020351409912,
+      "margin_change": -0.004001140594482422,
+      "source_token_still_top1": true
+    },
+    {
+      "id": "json_anchors_1_03",
+      "margin": 6.481808662414551,
+      "margin_change": -0.006672859191894531,
+      "source_token_still_top1": true
+    }
+  ],
+  "gpu_training_launched": false,
+  "job_id": 102587468998,
+  "optimizer_steps": 40,
+  "original_data_and_batch_schedule_verified": true,
+  "prefix_failures": [
+    {
+      "candidate_completion": "<|tool|>\n{\"arguments\":{\"query\":\"RSDU\n<|endoftext|>",
+      "first_changed_response_position": 7,
+      "id": "json_anchors_0_04",
+      "protected_closing_position": 13,
+      "protected_prefix_was_reached": false,
+      "source_completion": "<|tool|>\n{\"arguments\":{\"query\":\"the newest stable Rust release\"},\"name\":\"web_search\"}\n<|endoftext|>",
+      "target": "RPCU"
+    },
+    {
+      "candidate_completion": "<|tool|>\n{\"arguments\":{\"query\":\"P7R5R\n<|endoftext|>",
+      "first_changed_response_position": 7,
+      "id": "json_anchors_0_06",
+      "protected_closing_position": 13,
+      "protected_prefix_was_reached": false,
+      "source_completion": "<|tool|>\n{\"arguments\":{\"query\":\"the newest stable Rust release\"},\"name\":\"web_search\"}\n<|endoftext|>",
+      "target": "PB7R"
+    }
+  ],
+  "pristine_restore_verified": true,
+  "probes": [
+    {
+      "closing_tokens_top1": 8,
+      "fresh_anchors_structurally_correct": 8,
+      "fresh_holdout_structurally_correct": 6,
+      "learning_gate": {
+        "checks": {
+          "exact_gain": false,
+          "token_gain": false
+        },
+        "passed": false
+      },
+      "placement_exact": 1,
+      "placement_tokens": 88,
+      "short_code_retention": {
+        "gained_ids": [],
+        "lost_ids": [],
+        "passed": true,
+        "retained": 8,
+        "source_passed": 8
+      },
+      "step": 1
+    },
+    {
+      "closing_tokens_top1": 8,
+      "fresh_anchors_structurally_correct": 8,
+      "fresh_holdout_structurally_correct": 6,
+      "learning_gate": {
+        "checks": {
+          "exact_gain": false,
+          "token_gain": false
+        },
+        "passed": false
+      },
+      "placement_exact": 1,
+      "placement_tokens": 90,
+      "short_code_retention": {
+        "gained_ids": [],
+        "lost_ids": [],
+        "passed": true,
+        "retained": 8,
+        "source_passed": 8
+      },
+      "step": 12
+    },
+    {
+      "closing_tokens_top1": 8,
+      "fresh_anchors_structurally_correct": 8,
+      "fresh_holdout_structurally_correct": 6,
+      "learning_gate": {
+        "checks": {
+          "exact_gain": false,
+          "token_gain": false
+        },
+        "passed": false
+      },
+      "placement_exact": 1,
+      "placement_tokens": 90,
+      "short_code_retention": {
+        "gained_ids": [],
+        "lost_ids": [],
+        "passed": true,
+        "retained": 8,
+        "source_passed": 8
+      },
+      "step": 13
+    },
+    {
+      "closing_tokens_top1": 8,
+      "fresh_anchors_structurally_correct": 7,
+      "fresh_holdout_structurally_correct": 6,
+      "learning_gate": {
+        "checks": {
+          "exact_gain": false,
+          "token_gain": false
+        },
+        "passed": false
+      },
+      "placement_exact": 1,
+      "placement_tokens": 91,
+      "short_code_retention": {
+        "gained_ids": [],
+        "lost_ids": [],
+        "passed": true,
+        "retained": 8,
+        "source_passed": 8
+      },
+      "step": 23
+    },
+    {
+      "closing_tokens_top1": 8,
+      "fresh_anchors_structurally_correct": 6,
+      "fresh_holdout_structurally_correct": 6,
+      "learning_gate": {
+        "checks": {
+          "exact_gain": false,
+          "token_gain": false
+        },
+        "passed": false
+      },
+      "placement_exact": 1,
+      "placement_tokens": 93,
+      "short_code_retention": {
+        "gained_ids": [],
+        "lost_ids": [
+          "system_target_short_code_01",
+          "system_target_short_code_09"
+        ],
+        "passed": false,
+        "retained": 6,
+        "source_passed": 8
+      },
+      "step": 40
+    }
+  ],
+  "projection": {
+    "maximum_actual_residual_fraction": 9.182760857653106e-05,
+    "rank": 8,
+    "retained_proposal_norm_max": 0.9965078848572347,
+    "retained_proposal_norm_mean": 0.9954206667139686,
+    "retained_proposal_norm_min": 0.9919167127316866,
+    "source_closing_margin_max": 8.461181640625,
+    "source_closing_margin_min": 4.269972801208496
+  },
+  "promoted": false,
+  "run_id": 34387531160,
+  "source": {
+    "checkpoint_path": "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.pt",
+    "checkpoint_sha256": "e957802185072f174563b4bc2813059c2cbdfc479aea9a8d25b815aa6ecba03b",
+    "repo_id": "Jmiller18899/ember-v0.0.31-t4",
+    "revision": "353b538e4ce35679cd7e1e8e7c10bf2807916a7a",
+    "step": 479,
+    "version": "0.0.31"
+  },
+  "source_state_sha256": "e698b539613f00cdd2c3e1485efa72311c49d550aab49c35170b1e0ada276d01",
+  "status": "COMPLETE",
+  "teacher_unchanged": true,
+  "tests_passed": 37
+}
