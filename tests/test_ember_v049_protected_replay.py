@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from jobs import ember_v049_replay_compat as v049
+from jobs import ember_v049_replay as v049
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -60,6 +60,13 @@ def test_replay_spans_every_kind_and_variant():
         pairs = {(r["kind"], r["variant"]) for r in rows}
         expected = {(kind, variant) for kind in v049.copy_data.KINDS for variant in range(v049.copy_data.VARIANTS[kind])}
         assert pairs == expected
+
+
+def test_v049_source_uses_family_specific_replay_counts_directly():
+    cfg = v049.load_config()
+    variants = sum(v049.copy_data.VARIANTS.values())
+    assert len(v049.replay_value_rows(cfg, "tool")) == variants * cfg["tool_replay_values_per_variant"]
+    assert len(v049.replay_value_rows(cfg, "copy")) == variants * cfg["copy_replay_values_per_variant"]
 
 
 def test_canary_has_no_gpu_or_checkpoint_write_path():
