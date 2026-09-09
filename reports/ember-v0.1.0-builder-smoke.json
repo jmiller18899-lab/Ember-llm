@@ -1,0 +1,569 @@
+{
+  "report_version": "ember-v0.1.0-builder-smoke-v1",
+  "verified_at_utc": "2026-09-09T21:32:20.011797+00:00",
+  "code_commit": "a354265191b2772c7c8a16b219525f93ea3e2b32",
+  "pull_request": "https://github.com/jmiller18899-lab/Ember-llm/pull/27",
+  "smoke_workflow": {
+    "url": "https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34407024936",
+    "run_id": 34407024936,
+    "job_id": 102652343971,
+    "conclusion": "success",
+    "artifact_id": 10125811620,
+    "artifact_zip_sha256": "60a216b63f7a51b85f11b175fe1a911cdc76a9f4a51c38a70dd88c5139b30408",
+    "artifact_expires_at_utc": "2026-10-09T21:30:24Z",
+    "command": "python jobs/ember_corpus_build_v010.py --smoke --target-total-tokens 1000000 --output-dir \"$RUNNER_TEMP/ember-v010-corpus\"",
+    "focused_builder_and_generator_tests_passed": 38
+  },
+  "repository_cpu_workflow": {
+    "url": "https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34407028933",
+    "run_id": 34407028933,
+    "job_id": 102652356883,
+    "conclusion": "success",
+    "repository_tests_passed": 506,
+    "authoritative_package_tests_passed": 22
+  },
+  "independent_artifact_verification": {
+    "status": "PASS",
+    "method": "Independent SentencePieceProcessor encoding of each entire saved file in one call; no builder counting functions imported.",
+    "whole_file_token_counts": {
+      "train": 996744,
+      "val": 65982
+    },
+    "total_tokens": 1062726,
+    "all_reported_artifact_hashes_verified": true,
+    "all_provenance_document_hashes_verified": true,
+    "provenance_token_sums_match_whole_files": true,
+    "source_groups_disjoint": true,
+    "global_exact_document_duplicates": 0,
+    "all_nine_categories_in_both_splits": true,
+    "normalized_line_endings": true,
+    "documents": {
+      "train": 1477,
+      "val": 21
+    },
+    "category_selected_tokens": {
+      "function_calling": 60054,
+      "general_english": 401848,
+      "tool_result_interpretation": 30026,
+      "code": 256008,
+      "instruction_following": 110096,
+      "envelope_copy": 50008,
+      "instruction_following_human": 10457,
+      "agent_trajectories": 79026,
+      "error_recovery": 65203
+    }
+  },
+  "corpus_stats": {
+    "status": "SMOKE_PASS",
+    "production_ready": false,
+    "ember_version": "0.1.0",
+    "scope": "small CPU pipeline smoke",
+    "actual_ember_tokens": 1062726,
+    "train_tokens": 996744,
+    "val_tokens": 65982,
+    "vocab_size": 16384,
+    "tokenizer_model": "ember_tokenizer.model",
+    "token_count_method": "saved SentencePiece model; EOT context carried across documents; final files re-read",
+    "target_total_tokens": 1000000,
+    "production_token_gate": [
+      250000000,
+      350000000
+    ],
+    "category_target_tokens": {
+      "general_english": 400000,
+      "code": 250000,
+      "instruction_following": 110000,
+      "instruction_following_human": 10000,
+      "function_calling": 60000,
+      "tool_result_interpretation": 30000,
+      "agent_trajectories": 70000,
+      "error_recovery": 20000,
+      "envelope_copy": 50000
+    },
+    "category_selected_tokens": {
+      "general_english": 401848,
+      "code": 256008,
+      "instruction_following": 110096,
+      "instruction_following_human": 10457,
+      "function_calling": 60054,
+      "tool_result_interpretation": 30026,
+      "agent_trajectories": 79026,
+      "error_recovery": 65203,
+      "envelope_copy": 50008
+    },
+    "split_by_category": {
+      "general_english": {
+        "val_docs": 5,
+        "val_tokens": 2020,
+        "train_docs": 323,
+        "train_tokens": 399828
+      },
+      "code": {
+        "val_docs": 6,
+        "val_tokens": 1573,
+        "train_docs": 273,
+        "train_tokens": 254435
+      },
+      "instruction_following": {
+        "val_docs": 2,
+        "val_tokens": 957,
+        "train_docs": 101,
+        "train_tokens": 109139
+      },
+      "instruction_following_human": {
+        "val_docs": 1,
+        "val_tokens": 95,
+        "train_docs": 38,
+        "train_tokens": 10362
+      },
+      "function_calling": {
+        "val_docs": 1,
+        "val_tokens": 393,
+        "train_docs": 240,
+        "train_tokens": 59661
+      },
+      "tool_result_interpretation": {
+        "val_docs": 1,
+        "val_tokens": 241,
+        "train_docs": 122,
+        "train_tokens": 29785
+      },
+      "agent_trajectories": {
+        "val_docs": 1,
+        "val_tokens": 27246,
+        "train_docs": 2,
+        "train_tokens": 51780
+      },
+      "error_recovery": {
+        "val_docs": 1,
+        "val_tokens": 33074,
+        "train_docs": 1,
+        "train_tokens": 32129
+      },
+      "envelope_copy": {
+        "val_docs": 3,
+        "val_tokens": 383,
+        "train_docs": 377,
+        "train_tokens": 49625
+      }
+    },
+    "source_groups_disjoint": true,
+    "documents": {
+      "train": 1477,
+      "val": 21
+    },
+    "candidate_documents": {
+      "general_english": 482,
+      "code": 656,
+      "instruction_following": 157,
+      "instruction_following_human": 57,
+      "tool_result_interpretation": 185,
+      "function_calling": 356,
+      "error_recovery": 2,
+      "agent_trajectories": 4,
+      "envelope_copy": 568
+    },
+    "candidate_characters": {
+      "general_english": 2507830,
+      "code": 1579595,
+      "instruction_following": 694514,
+      "instruction_following_human": 62456,
+      "tool_result_interpretation": 187325,
+      "function_calling": 374635,
+      "error_recovery": 264831,
+      "agent_trajectories": 500302,
+      "envelope_copy": 312390
+    },
+    "rejected_invalid_or_benchmark": {
+      "tool_result_interpretation": 5692,
+      "function_calling": 11102
+    },
+    "special_tokens_present": {
+      "<|system|>": true,
+      "<|user|>": true,
+      "<|assistant|>": true,
+      "<|tool|>": true,
+      "<|tool_result|>": true,
+      "<|endoftext|>": true
+    },
+    "tokenizer_seed_characters": {
+      "general_english": 1604138,
+      "code": 1000516,
+      "instruction_following": 442539,
+      "instruction_following_human": 40353,
+      "function_calling": 241020,
+      "tool_result_interpretation": 120203,
+      "agent_trajectories": 378248,
+      "error_recovery": 131614,
+      "envelope_copy": 200053
+    },
+    "dedup": {
+      "accepted": 1899,
+      "exact_duplicates_rejected": 3,
+      "near_duplicates_rejected": 28,
+      "near_threshold": 0.9,
+      "minhash_permutations": 64,
+      "max_shingles_per_document": 256,
+      "global_exact_duplicates_rejected": 91,
+      "envelope_copy": "case-sensitive exact-only; no MinHash"
+    },
+    "finite_source_headroom_shortfalls": {},
+    "envelope_copy_audit": {
+      "version": "ember-corpus-envelope-copy-v0.1.0",
+      "status": "FAIL",
+      "documents": 380,
+      "characters": 208784,
+      "approx_tokens_at_4.8_chars_per_token": 43496,
+      "approx_tokens_per_document": 114.5,
+      "documents_per_tool": {
+        "calculator": 27,
+        "check_order": 25,
+        "compare_models": 24,
+        "fetch_url": 41,
+        "get_model_info": 27,
+        "get_time": 28,
+        "lookup_ticket": 26,
+        "open_path": 30,
+        "send_message": 17,
+        "service_status": 43,
+        "weather": 30,
+        "web_search": 21
+      },
+      "documents_per_shape": {
+        "direct_extract": 47,
+        "direct_sentence": 28,
+        "tool_call": 98,
+        "tool_call_choice": 43,
+        "tool_call_multi_arg": 41,
+        "tool_call_with_result": 89,
+        "two_turn": 34
+      },
+      "documents_per_kind": {
+        "city": 40,
+        "digits": 31,
+        "entity": 33,
+        "expression": 34,
+        "long_code": 10,
+        "mixed": 15,
+        "model_id": 81,
+        "path": 36,
+        "query": 32,
+        "service": 47,
+        "short_code": 17,
+        "timezone": 33,
+        "url": 46
+      },
+      "documents_per_system_style": {
+        "available_tools": 136,
+        "direct": 75,
+        "schema": 85,
+        "sentence": 84
+      },
+      "distinct_values_per_kind": {
+        "city": 38,
+        "digits": 31,
+        "entity": 33,
+        "expression": 34,
+        "long_code": 10,
+        "mixed": 15,
+        "model_id": 81,
+        "path": 36,
+        "query": 32,
+        "service": 47,
+        "short_code": 17,
+        "timezone": 22,
+        "url": 46
+      },
+      "tools_by_shape": {
+        "tool_call": [
+          "calculator",
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ],
+        "tool_call_choice": [
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ],
+        "tool_call_multi_arg": [
+          "compare_models",
+          "send_message"
+        ],
+        "tool_call_with_result": [
+          "calculator",
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ],
+        "two_turn": [
+          "calculator",
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ]
+      },
+      "exclusion_exact_values": 207,
+      "exclusion_substrings": [
+        "9037",
+        "benton harbor",
+        "chatham",
+        "detroit",
+        "marquette",
+        "tokyo",
+        "toronto",
+        "zv82"
+      ],
+      "held_out_leakage": false,
+      "failures": [
+        "tool weather has 30 documents (< 200)",
+        "tool calculator has 27 documents (< 200)",
+        "tool web_search has 21 documents (< 200)",
+        "tool get_time has 28 documents (< 200)",
+        "tool service_status has 43 documents (< 200)",
+        "tool lookup_ticket has 26 documents (< 200)",
+        "tool open_path has 30 documents (< 200)",
+        "tool fetch_url has 41 documents (< 200)",
+        "tool get_model_info has 27 documents (< 200)",
+        "tool check_order has 25 documents (< 200)",
+        "tool send_message has 17 documents (< 200)",
+        "tool compare_models has 24 documents (< 200)",
+        "shape tool_call has 98 documents (< 200)",
+        "shape tool_call_choice has 43 documents (< 200)",
+        "shape tool_call_multi_arg has 41 documents (< 200)",
+        "shape tool_call_with_result has 89 documents (< 200)",
+        "shape two_turn has 34 documents (< 200)",
+        "shape direct_extract has 47 documents (< 200)",
+        "shape direct_sentence has 28 documents (< 200)",
+        "kind short_code has 17 documents (< 200)",
+        "kind short_code has 17 distinct values (< 500)",
+        "kind long_code has 10 documents (< 200)",
+        "kind long_code has 10 distinct values (< 500)",
+        "kind digits has 31 documents (< 200)",
+        "kind digits has 31 distinct values (< 500)",
+        "kind model_id has 81 documents (< 200)",
+        "kind model_id has 81 distinct values (< 500)",
+        "kind url has 46 documents (< 200)",
+        "kind url has 46 distinct values (< 500)",
+        "kind path has 36 documents (< 200)",
+        "kind path has 36 distinct values (< 500)",
+        "kind entity has 33 documents (< 200)",
+        "kind entity has 33 distinct values (< 500)",
+        "kind expression has 34 documents (< 200)",
+        "kind expression has 34 distinct values (< 500)",
+        "kind mixed has 15 documents (< 200)",
+        "kind mixed has 15 distinct values (< 500)",
+        "kind city has 40 documents (< 200)",
+        "kind timezone has 33 documents (< 200)",
+        "kind query has 32 documents (< 200)",
+        "kind query has 32 distinct values (< 500)",
+        "kind service has 47 documents (< 200)",
+        "kind service has 47 distinct values (< 500)",
+        "shape tool_call_choice never uses tools ['calculator']"
+      ],
+      "failure_count": 44
+    },
+    "envelope_copy_document_audit": {
+      "version": "ember-corpus-envelope-copy-v0.1.0",
+      "status": "PASS",
+      "documents": 380,
+      "characters": 208784,
+      "approx_tokens_at_4.8_chars_per_token": 43496,
+      "approx_tokens_per_document": 114.5,
+      "documents_per_tool": {
+        "calculator": 27,
+        "check_order": 25,
+        "compare_models": 24,
+        "fetch_url": 41,
+        "get_model_info": 27,
+        "get_time": 28,
+        "lookup_ticket": 26,
+        "open_path": 30,
+        "send_message": 17,
+        "service_status": 43,
+        "weather": 30,
+        "web_search": 21
+      },
+      "documents_per_shape": {
+        "direct_extract": 47,
+        "direct_sentence": 28,
+        "tool_call": 98,
+        "tool_call_choice": 43,
+        "tool_call_multi_arg": 41,
+        "tool_call_with_result": 89,
+        "two_turn": 34
+      },
+      "documents_per_kind": {
+        "city": 40,
+        "digits": 31,
+        "entity": 33,
+        "expression": 34,
+        "long_code": 10,
+        "mixed": 15,
+        "model_id": 81,
+        "path": 36,
+        "query": 32,
+        "service": 47,
+        "short_code": 17,
+        "timezone": 33,
+        "url": 46
+      },
+      "documents_per_system_style": {
+        "available_tools": 136,
+        "direct": 75,
+        "schema": 85,
+        "sentence": 84
+      },
+      "distinct_values_per_kind": {
+        "city": 38,
+        "digits": 31,
+        "entity": 33,
+        "expression": 34,
+        "long_code": 10,
+        "mixed": 15,
+        "model_id": 81,
+        "path": 36,
+        "query": 32,
+        "service": 47,
+        "short_code": 17,
+        "timezone": 22,
+        "url": 46
+      },
+      "tools_by_shape": {
+        "tool_call": [
+          "calculator",
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ],
+        "tool_call_choice": [
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ],
+        "tool_call_multi_arg": [
+          "compare_models",
+          "send_message"
+        ],
+        "tool_call_with_result": [
+          "calculator",
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ],
+        "two_turn": [
+          "calculator",
+          "check_order",
+          "fetch_url",
+          "get_model_info",
+          "get_time",
+          "lookup_ticket",
+          "open_path",
+          "service_status",
+          "weather",
+          "web_search"
+        ]
+      },
+      "exclusion_exact_values": 207,
+      "exclusion_substrings": [
+        "9037",
+        "benton harbor",
+        "chatham",
+        "detroit",
+        "marquette",
+        "tokyo",
+        "toronto",
+        "zv82"
+      ],
+      "held_out_leakage": false,
+      "failures": [],
+      "failure_count": 0
+    },
+    "held_out_leakage": false,
+    "held_out_leakage_scope": "synthetic target values; exact frozen semantic prompts filtered from external sources",
+    "dataset_revisions": {
+      "HuggingFaceCode/stack-v3-train": "8f3f25d86e44fd691428131efd17af75d4716499",
+      "HuggingFaceFW/fineweb-edu": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+      "HuggingFaceTB/smoltalk": "5feaf2fd3ffca7c237fc38d1861bc30365d48ffa",
+      "OpenAssistant/oasst1": "fdf72ae0827c1cda404aff25b6603abec9e3399b",
+      "glaiveai/glaive-function-calling-v2": "e7f4b6456019f5d8bcb991ef0dd67d8ff23221ac",
+      "nebius/SWE-rebench": "89cdfbab4ab1bd8f5a658bb212d1b63624f4f881",
+      "nebius/SWE-rebench-openhands-trajectories": "35455389ab51bf5e2306bfd436ef72d0f98bf882"
+    },
+    "artifacts": {
+      "train.txt": {
+        "sha256": "531037e193db960393cbc321e01c53783e741a0dfa38804b9750e0303e3c1c7e",
+        "bytes": 3963250
+      },
+      "val.txt": {
+        "sha256": "38044d0c161b99173c4f0bad6ccd40cd2af19ea0355cf9d66cdc995dd26c06ef",
+        "bytes": 301657
+      },
+      "ember_tokenizer.model": {
+        "sha256": "e6c7c9ee2233cbb426f46e2fcdad8afbb5519410cbd67dcf0496df0787a0a3a3",
+        "bytes": 258921
+      },
+      "provenance.json": {
+        "sha256": "f740d207057784ca617f50cedc7a7cb63736359725995646358e60d1a0d576b7",
+        "bytes": 912921
+      }
+    },
+    "package_sha256": "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a289",
+    "gpu_training_launched": false
+  },
+  "issues_caught_and_fixed": [
+    "Summing independent SentencePiece encodings added an initial prefix for every document. Counts now carry EOT boundary context and are checked against whole-file encoding.",
+    "A single long recovery trace could fill a small category quota and prevent separate train/validation examples. Collection and selection require at least two source groups.",
+    "CRLF terminal output changed token counts when saved files were read with universal newlines. Source line endings are normalized before validation, hashing, and tokenization."
+  ],
+  "limitations": [
+    "This is a 1M-target pipeline smoke, not a completed 300M-token production corpus. Its status is SMOKE_PASS and production_ready is false.",
+    "The unchanged full synthetic coverage audit reports 44 failures at this small sample size. The selected-document audit passes; production mode still requires the full coverage audit to pass.",
+    "Whole source groups overshoot small category and validation targets. Validation contains only 21 documents, and several categories have one validation example.",
+    "Full-corpus runtime, peak memory, and 250M-350M token readiness remain unmeasured.",
+    "Disjoint source groups and synthetic reserved-value checks do not prove semantic independence or removal of every benchmark-related concept.",
+    "No Ember model training, GPU job, checkpoint export, promotion, or ClawAgent integration was performed."
+  ]
+}

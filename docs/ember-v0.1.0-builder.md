@@ -88,5 +88,39 @@ fixture build with a real saved/reloaded SentencePiece model. Fixture data and
 its 512-piece test tokenizer validate the implementation; they are not evidence
 that the 300M-token production corpus has been built.
 
+## Verified live-source smoke
+
+On September 9, 2026, commit `a354265191b2772c7c8a16b219525f93ea3e2b32`
+passed the [1M-target CPU smoke](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34407024936)
+using all nine real/synthetic source categories and the 16,384-piece tokenizer.
+The [repository CPU workflow](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34407028933)
+passed 506 repository tests and 22 authoritative-package tests. The smoke workflow
+also passed its 38 focused builder/generator tests (a subset of the repository suite).
+
+| Saved split | Documents | Actual Ember tokens |
+| --- | ---: | ---: |
+| Training | 1,477 | 996,744 |
+| Validation | 21 | 65,982 |
+| Total | 1,498 | 1,062,726 |
+
+The downloaded artifact ZIP, each reported output hash, and every document's
+provenance hash were independently verified. Encoding each entire saved file in
+one SentencePiece call reproduced the reported counts exactly. All nine
+categories appear in both splits, with zero exact duplicate documents and no
+shared source groups.
+
+The selected 380 synthetic documents pass their document audit. They do **not**
+meet the unchanged full-corpus coverage requirements: that audit records 44
+failures, including sparse tool/shape/value coverage. Long source groups also
+make the small validation split exceed its target, with several categories
+represented by just one validation document. This confirms pipeline operation;
+it does not establish production dataset readiness or model quality. The full
+300M-target build and its resource usage remain unverified.
+
+Exact source revisions, artifact hashes, category totals, audit results, and the
+independent verification are preserved in
+[`reports/ember-v0.1.0-builder-smoke.json`](../reports/ember-v0.1.0-builder-smoke.json).
+The raw GitHub Actions artifact expires on October 9, 2026.
+
 Source API references: [SmolTalk schema and subsets](https://huggingface.co/datasets/HuggingFaceTB/smoltalk)
 and [Hugging Face streaming](https://huggingface.co/docs/datasets/stream).
