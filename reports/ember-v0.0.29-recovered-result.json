@@ -1,0 +1,65 @@
+{
+  "project": "Ember",
+  "version": "0.0.29",
+  "phase": "multi-position-repair",
+  "status": "training_completed_reporting_failed",
+  "hf_job": "Jmiller18899/6a9f78a8259f8e97255edb0a",
+  "source_checkpoint_repo": "Jmiller18899/ember-v0.0.28-t4",
+  "source_checkpoint": "checkpoints/ember-agent-v0.0.28-boundary-focus-repair-20260908T022648Z/best.pt",
+  "source_sha256": "2d09554553b1a47ea9d7f2e81858e2c3e317c76c6c5472c6fe1ffdf447896da4",
+  "selected_best_step": 479,
+  "promotion": "FAIL",
+  "progress": "ADVANCED",
+  "reporting_error": {
+    "type": "KeyError",
+    "key": "gate_distance",
+    "location": "final reporting after checkpoint upload",
+    "impact": "training and checkpoint uploads completed; only final gate-distance/band-flow printing failed"
+  },
+  "baseline": {
+    "legacy_exact_copy": "5/9",
+    "legacy_continuation": "62/69",
+    "expanded_exact_copy": "28/90",
+    "expanded_continuation": "632/730",
+    "expanded_first_token_top1": "85/90",
+    "expanded_sequence_margin_health": -0.5259762816958957,
+    "expanded_full_sequence_margin_health": -0.5864567534128825,
+    "expanded_sequences_within_reach": "21/90"
+  },
+  "final": {
+    "legacy_exact_copy": "6/9",
+    "legacy_exact_copy_rate": 0.6666666666666666,
+    "legacy_continuation": "65/69",
+    "legacy_continuation_rate": 0.9420289855072463,
+    "expanded_exact_copy": "32/90",
+    "expanded_exact_copy_rate": 0.35555555555555557,
+    "expanded_continuation": "642/730",
+    "expanded_continuation_rate": 0.8794520547945206,
+    "expanded_first_token_top1": "87/90",
+    "expanded_first_token_top1_rate": 0.9666666666666667,
+    "expanded_sequence_margin_health": -0.3833099211586847,
+    "expanded_full_sequence_margin_health": -0.43613078488243956,
+    "expanded_sequences_within_reach": "18/90",
+    "clean_stop_rate": 1.0
+  },
+  "gains": {
+    "legacy_exact_copy_cases": 1,
+    "legacy_continuation_tokens": 3,
+    "expanded_exact_copy_cases": 4,
+    "expanded_continuation_tokens": 10,
+    "expanded_first_token_top1_cases": 2,
+    "expanded_sequence_margin_health": 0.14266636053721105,
+    "expanded_full_sequence_margin_health": 0.15032596853044294
+  },
+  "gate_distance_recovered": {
+    "legacy_exact_copy": {"measured": "6/9", "needs": "5/9", "short_by": 0, "unit": "cases"},
+    "legacy_continuation": {"measured": "65/69", "needs": "63/69", "short_by": 0, "unit": "tokens"},
+    "expanded_exact_copy": {"measured": "32/90", "needs": "36/90", "short_by": 4, "unit": "cases"},
+    "expanded_continuation": {"measured": "642/730", "needs": "657/730", "short_by": 15, "unit": "tokens"}
+  },
+  "notes": [
+    "best.pt and latest.pt were uploaded before the reporting exception",
+    "do not rerun the paid T4 solely because the job status is ERROR",
+    "v0.0.29 is the strongest recovered checkpoint so far and should be treated as the next source candidate after validating the saved best.pt"
+  ]
+}

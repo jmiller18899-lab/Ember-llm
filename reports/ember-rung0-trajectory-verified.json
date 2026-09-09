@@ -1,0 +1,630 @@
+{
+  "artifact_downloaded_and_inspected": true,
+  "artifact_id": 10112186697,
+  "artifact_sha256": "faeb2aafa046bb5938669c34e37eed0888f3457d16cfacde693732b87805c5b3",
+  "baseline": {
+    "familiar_correct_tool": 84,
+    "placement_exact": 1,
+    "placement_token_top1": 88,
+    "short_code_correct_tool": 8
+  },
+  "checkpoint_exported": false,
+  "clawagent_integration": false,
+  "code_commit": "06d8d02322f51404aaed2f27b8481fee6a954b2d",
+  "config_sha256": "17374128222b2e00024c8522a7097ec37fdc0697ccbcc7f624907af8e70e0d62",
+  "copy_retention": {
+    "gained_expanded_values": [
+      "acct_ulq7-2291"
+    ],
+    "lost_expanded_values": [
+      "12+33+18"
+    ]
+  },
+  "data_sha256": "65a951aabdb8e5c249642615033ff72ff98da4f64dedfff899786acfc53f631d",
+  "diagnostic": "ember-rung0-trajectory-v1",
+  "distillation_coverage": {
+    "copy": {
+      "kept": 48,
+      "kept_by_kind": {
+        "digits": 8,
+        "entity": 4,
+        "expression": 4,
+        "long_code": 4,
+        "mixed": 6,
+        "model_id": 6,
+        "path": 6,
+        "short_code": 4,
+        "url": 6
+      }
+    },
+    "tool": {
+      "attempted": {
+        "digits": 24,
+        "entity": 12,
+        "expression": 12,
+        "long_code": 12,
+        "mixed": 18,
+        "model_id": 18,
+        "path": 18,
+        "short_code": 12,
+        "url": 18
+      },
+      "kept": 130,
+      "kept_by_kind": {
+        "digits": 23,
+        "entity": 12,
+        "expression": 12,
+        "long_code": 12,
+        "mixed": 16,
+        "model_id": 18,
+        "path": 14,
+        "short_code": 7,
+        "url": 16
+      }
+    },
+    "tool_by_subtype": {
+      "digits/default": 23,
+      "entity/default": 12,
+      "expression/default": 12,
+      "long_code/3x5": 6,
+      "long_code/4x4": 6,
+      "mixed/lower": 4,
+      "mixed/mixedcase": 4,
+      "mixed/upper": 8,
+      "model_id/default": 18,
+      "path/leaf_numeric": 4,
+      "path/plain_leaf": 5,
+      "path/result_code": 5,
+      "short_code/len4": 5,
+      "short_code/len5": 2,
+      "url/one_mixed": 5,
+      "url/one_upper": 6,
+      "url/two_segment": 5
+    }
+  },
+  "elapsed_seconds": 1221.1837013949998,
+  "endpoint_reproduction": {
+    "copy_failure": true,
+    "copy_kl": true,
+    "familiar_json": true,
+    "familiar_tool": true,
+    "placement_exact": true,
+    "placement_tokens": true,
+    "tool_kl": true
+  },
+  "exact_placement_denominator": 24,
+  "first_case_failures": [
+    {
+      "candidate_margin_at_divergence": -0.010976791381835938,
+      "candidate_token": "\n",
+      "candidate_token_id": 17,
+      "first_changed_position": 12,
+      "id": "system_target_short_code_01",
+      "lost_case": true,
+      "source_margin_at_divergence": 0.14045333862304688,
+      "source_token": "\"},\"",
+      "source_token_id": 1949,
+      "step": 13
+    },
+    {
+      "candidate_margin_at_divergence": -0.011694908142089844,
+      "candidate_token": "C",
+      "candidate_token_id": 14317,
+      "first_changed_position": 7,
+      "id": "system_target_short_code_09",
+      "lost_case": true,
+      "source_margin_at_divergence": 0.8648252487182617,
+      "source_token": "the",
+      "source_token_id": 1853,
+      "step": 23
+    }
+  ],
+  "full_evaluations": {
+    "1": {
+      "checks": {
+        "all_source_cases_retained": true,
+        "copy": true,
+        "copy_kl_budget": true,
+        "familiar_floors": true,
+        "placement_learning": false,
+        "reference": true,
+        "tool_kl_budget": true
+      },
+      "copy_guard": {
+        "checks": {
+          "clean_stop_rate_non_regression": true,
+          "continuation_top1_rate_non_regression": true,
+          "exact_copy_rate_non_regression": true,
+          "existing_copy_gate": true,
+          "expanded_cases_retained": true,
+          "expanded_clean_stop_rate_non_regression": true,
+          "expanded_continuation_top1_rate_non_regression": true,
+          "expanded_exact_copy_rate_non_regression": true,
+          "legacy_cases_retained": true
+        },
+        "passed": true
+      },
+      "copy_teacher_kl": 1.49408965199882e-07,
+      "familiar_correct_tool": 84,
+      "familiar_json_valid": 84,
+      "reference_passed_cases": 4,
+      "retention": {
+        "gained_ids": [],
+        "lost_ids": [],
+        "passed": true,
+        "retained": 84,
+        "source_passed": 84
+      },
+      "tool_teacher_kl": 6.67415424051315e-07
+    },
+    "40": {
+      "checks": {
+        "all_source_cases_retained": false,
+        "copy": false,
+        "copy_kl_budget": true,
+        "familiar_floors": false,
+        "placement_learning": true,
+        "reference": true,
+        "tool_kl_budget": true
+      },
+      "copy_guard": {
+        "checks": {
+          "clean_stop_rate_non_regression": true,
+          "continuation_top1_rate_non_regression": true,
+          "exact_copy_rate_non_regression": true,
+          "existing_copy_gate": true,
+          "expanded_cases_retained": false,
+          "expanded_clean_stop_rate_non_regression": true,
+          "expanded_continuation_top1_rate_non_regression": true,
+          "expanded_exact_copy_rate_non_regression": true,
+          "legacy_cases_retained": true
+        },
+        "passed": false
+      },
+      "copy_teacher_kl": 0.00025023536363733,
+      "familiar_correct_tool": 82,
+      "familiar_json_valid": 82,
+      "reference_passed_cases": 4,
+      "retention": {
+        "gained_ids": [],
+        "lost_ids": [
+          "system_target_short_code_01",
+          "system_target_short_code_09"
+        ],
+        "passed": false,
+        "retained": 82,
+        "source_passed": 84
+      },
+      "tool_teacher_kl": 0.0007525200498468406
+    }
+  },
+  "gpu_training_launched": false,
+  "job_id": 102526632057,
+  "optimizer_steps_executed": 40,
+  "original_training_metrics_equal_at_steps": [
+    1,
+    20,
+    40
+  ],
+  "placement_token_denominator": 170,
+  "pristine_restore_verified": true,
+  "promoted": false,
+  "run_id": 34369464055,
+  "source": {
+    "checkpoint_path": "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.pt",
+    "checkpoint_sha256": "e957802185072f174563b4bc2813059c2cbdfc479aea9a8d25b815aa6ecba03b",
+    "repo_id": "Jmiller18899/ember-v0.0.31-t4",
+    "revision": "353b538e4ce35679cd7e1e8e7c10bf2807916a7a",
+    "step": 479,
+    "version": "0.0.31"
+  },
+  "source_state_sha256": "e698b539613f00cdd2c3e1485efa72311c49d550aab49c35170b1e0ada276d01",
+  "status": "COMPLETE",
+  "teacher_unchanged": true,
+  "tests_passed": 25,
+  "timing": {
+    "all_potential_windows_evaluated": true,
+    "first_placement_learning_step": 40,
+    "first_short_code_loss_step": 13,
+    "fully_passing_steps": [],
+    "learning_and_short_code_retention_steps": [],
+    "operating_point_found": false,
+    "overlap_steps_without_full_evaluation": []
+  },
+  "trajectory": [
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 88,
+      "retained_short_code_cases": 8,
+      "step": 1
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 88,
+      "retained_short_code_cases": 8,
+      "step": 2
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 88,
+      "retained_short_code_cases": 8,
+      "step": 3
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 88,
+      "retained_short_code_cases": 8,
+      "step": 4
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 88,
+      "retained_short_code_cases": 8,
+      "step": 5
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 88,
+      "retained_short_code_cases": 8,
+      "step": 6
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 89,
+      "retained_short_code_cases": 8,
+      "step": 7
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 89,
+      "retained_short_code_cases": 8,
+      "step": 8
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 89,
+      "retained_short_code_cases": 8,
+      "step": 9
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 89,
+      "retained_short_code_cases": 8,
+      "step": 10
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 89,
+      "retained_short_code_cases": 8,
+      "step": 11
+    },
+    {
+      "lost_short_code_ids": [],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 8,
+      "step": 12
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 13
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 14
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 15
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 16
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 17
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 18
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 90,
+      "retained_short_code_cases": 7,
+      "step": 19
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 7,
+      "step": 20
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 7,
+      "step": 21
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 7,
+      "step": 22
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 23
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 24
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 25
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 26
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 27
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 28
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 29
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 30
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 31
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 32
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 91,
+      "retained_short_code_cases": 6,
+      "step": 33
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 92,
+      "retained_short_code_cases": 6,
+      "step": 34
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 92,
+      "retained_short_code_cases": 6,
+      "step": 35
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 92,
+      "retained_short_code_cases": 6,
+      "step": 36
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 92,
+      "retained_short_code_cases": 6,
+      "step": 37
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 94,
+      "retained_short_code_cases": 6,
+      "step": 38
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 1,
+      "placement_learning_passed": false,
+      "placement_token_top1": 94,
+      "retained_short_code_cases": 6,
+      "step": 39
+    },
+    {
+      "lost_short_code_ids": [
+        "system_target_short_code_01",
+        "system_target_short_code_09"
+      ],
+      "placement_exact": 2,
+      "placement_learning_passed": true,
+      "placement_token_top1": 95,
+      "retained_short_code_cases": 6,
+      "step": 40
+    }
+  ]
+}

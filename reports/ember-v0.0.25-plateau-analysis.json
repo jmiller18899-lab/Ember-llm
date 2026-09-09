@@ -1,0 +1,113 @@
+{
+  "version": "0.0.25",
+  "phase": "post-run-plateau-analysis",
+  "analysis_date": "2026-09-08",
+  "inputs": {
+    "run_config": "config/ember_position_coverage_v0.0.25.json",
+    "trainer": "jobs/ember_hf_sft_v025.py",
+    "scaffold": "jobs/ember_hf_sft_v016.py",
+    "curriculum": "jobs/ember_sft_data_v015.py",
+    "reported_final": {
+      "exact_copy_rate": 0.4444444444444444,
+      "continuation_top1_rate": 0.8405797101449275,
+      "copy_position_top1_rate": 0.8405797101449275,
+      "first_token_top5_rate": 1.0,
+      "first_token_top20_rate": 1.0,
+      "clean_stop_rate": 1.0,
+      "promotion": "FAIL"
+    },
+    "reported_history": "step 0 continuation 0.8406; steps 11-419 continuation 0.8261, exact copy 0.4444; validation loss 0.914 -> 0.936"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "blocking",
+      "claim": "v0.0.25's published best.pt contains the unmodified v0.0.20 weights, so a v0.0.25-vs-v0.0.20 comparison has nothing to compare.",
+      "evidence": [
+        "jobs/ember_hf_sft_v025.py seeds best_score with score(baseline, -1e9) and immediately writes best.pt at step=-1 from the freshly loaded v0.0.20 model.",
+        "score() orders (exact_copy, continuation_top1, clean_stop, teacher_forced, top5, top20, -mean_rank, -val_loss); the baseline's -val_loss term is +1e9, so a tie on every diagnostic loses.",
+        "Continuation fell to 0.8261 at step 11 and never recovered, and exact copy never rose, so no evaluated checkpoint ever beat the seeded baseline.",
+        "The reported final metrics are bit-identical to the step-0 baseline metrics, which is what re-loading that step=-1 checkpoint produces."
+      ],
+      "consequence": "The proposed case-by-case CPU diff between the v0.0.25 final model and v0.0.20 would report zero differences on all nine cases. It cannot produce a finding."
+    },
+    {
+      "id": "F2",
+      "severity": "blocking",
+      "claim": "The v0.0.15 training curriculum cannot emit the character-level template of four of the five failing held-out values, so no amount of coverage repair drawn from it could fix them.",
+      "evidence": [
+        "jobs/ember_curriculum_audit_v026.py reports FORMAT_GAP: 5 of 9 held-out templates have zero supporting rows in the 3600-row curriculum.",
+        "model_id: held out openai/gpt-6-astra has field signature [6a]/[3a]-[1d]-[5a]; every training model_id is vendor/ember-xxxx-NNb, i.e. [Na]/[5a]-[4ad]-[3ad]. First unsupported character is index 10.",
+        "url: held out https://example.test/a7Q9 is a single mixed-case segment; every training url has two segments.",
+        "path: held out /tmp/ember/Q7M4/result.json has no -xxxx leaf suffix; every training path does.",
+        "mixed: held out acct_Q7m4-5831 has an uppercase character in the account stem; every training stem is lower-cased.",
+        "The v0.0.25 trigger record confirms the dead end directly: 320 selected model_id coverage rows produced only 6 distinct target token ids and 7 distinct previous-token pairs."
+      ],
+      "consequence": "v0.0.21 through v0.0.25 added volume and loss shaping inside a template space that excludes the answer. The v0.0.24 'support_sparse' label was correct but under-read: the support is not sparse, it is absent, and it is absent by construction."
+    },
+    {
+      "id": "F3",
+      "severity": "blocking",
+      "claim": "The learning rate has been annealed across versions until training became a no-op, which is why every metric froze for 400 steps.",
+      "evidence": [
+        "learning_rate by version: 0.0.13 5e-6, 0.0.14 4e-6, 0.0.15 6e-6, 0.0.16 2.5e-6, 0.0.17 1.5e-6, 0.0.18 8e-7, 0.0.19 5e-7, 0.0.20 3.2e-7, 0.0.21 2.4e-7, 0.0.22 1.8e-7, 0.0.23 1.6e-7, 0.0.25 1.8e-7.",
+        "At 1.8e-7 an AdamW step moves each weight by at most about the learning rate, so 420 steps bound total displacement near 7.6e-5 against typical weight magnitudes of 2e-2 to 5e-2.",
+        "Identical diagnostics at every evaluated step from 11 to 419 and a validation-loss drift of only 0.022 are the signature of that regime."
+      ],
+      "consequence": "v0.0.25 did not test its own hypothesis. Reading its flat result as 'filling coverage was not enough' is not supported; the run could not have shown a difference either way."
+    },
+    {
+      "id": "F4",
+      "severity": "blocking",
+      "claim": "A nine-case battery cannot resolve the differences these runs are chasing, and it is also the checkpoint-selection objective rather than a held-out measurement.",
+      "evidence": [
+        "exact_copy_rate is quantised to 1/9 = 11.1 points; the promotion gate at 0.5556 is one case above the current 0.4444.",
+        "The reported 0.8406 -> 0.8261 continuation change is 58/69 -> 57/69, a single token.",
+        "score() in jobs/ember_hf_sft_v016.py selects the saved checkpoint by exact_copy_rate on the same nine values that are reported as the held-out result."
+      ],
+      "consequence": "Ten runs were steered by a signal whose 95% interval on 4/9 spans roughly 0.19 to 0.73. Both the plateau and the apparent regressions are inside that interval."
+    },
+    {
+      "id": "F5",
+      "severity": "contributing",
+      "claim": "The evaluation prompt itself is off-distribution in both distractor slots.",
+      "evidence": [
+        "prompt_for() in jobs/ember_hf_sft_v015.py hard-codes 'Ignore old=K2P8 and fallback=77291'.",
+        "K is reserved for the validation prefix alphabet, so no training target begins with it, and every training digits value has eight digits rather than five.",
+        "Training prompts draw both distractors from the same generator as the target."
+      ],
+      "consequence": "All nine evaluation prompts carry a slot pattern the model never saw during v0.0.15 through v0.0.25."
+    },
+    {
+      "id": "F6",
+      "severity": "open",
+      "claim": "Exactly one failing case, digits, is a genuine representation problem rather than a curriculum gap.",
+      "evidence": [
+        "The audit reports the digits template as fully supported with 400 rows.",
+        "v0.0.24 independently labelled it deep_context_miss_with_support, with expected_rank 59 and support_same_kind_offset 7, against support_sparse for the other four.",
+        "The model predicted piece '84' where '4' was expected: a segmentation choice, not a missing structure."
+      ],
+      "consequence": "Tokenizer or representation work is warranted for digits, and only for digits. It is worth at most 1 of the 9 legacy cases, so it is not the reason the other four fail."
+    }
+  ],
+  "failure_cross_tabulation": {
+    "template_unsupported_and_exact_copy_fails": ["model_id", "url", "path", "mixed"],
+    "template_unsupported_and_exact_copy_passes": ["entity"],
+    "template_supported_and_exact_copy_fails": ["digits"],
+    "template_supported_and_exact_copy_passes": ["short_code", "long_code", "expression"]
+  },
+  "recommended_next_phase": {
+    "version": "0.0.26",
+    "strategy": "format-parity curriculum, restored learning rate, 90-case battery",
+    "notes": [
+      "Do not run the v0.0.25-vs-v0.0.20 case diff; finding F1 shows the two checkpoints are the same weights.",
+      "Do not change the tokenizer or the model size yet; findings F2 and F3 are cheaper and are not ruled out.",
+      "Give every held-out template supporting rows in training, verified by jobs/ember_curriculum_audit_v026.py --assert-parity in CPU CI.",
+      "Restore the learning rate to a value that can move the model; 1.2e-6 sits between the last effective run (v0.0.16 at 2.5e-6) and the frozen regime.",
+      "Grow the battery to 90 cases so a real change is distinguishable from a single string, and keep the legacy nine verbatim as the v0.0.20 protection metric.",
+      "Draw the evaluation prompt's distractors from the training distribution, and keep the legacy prompt for the protected comparison.",
+      "Drop the neighbour and hard-kind mining fractions for one run. They were added to compensate for the missing structure; with parity restored, a simpler run is interpretable.",
+      "Treat digits as a separate representation experiment after v0.0.26 reports."
+    ]
+  }
+}

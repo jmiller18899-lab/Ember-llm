@@ -1,0 +1,13 @@
+{
+  "diagnostic": "ember-first-update-v1",
+  "seed": 2026090952,
+  "optimizer_steps": 1,
+  "arms": ["unrestricted", "projected"],
+  "learning_rate": 0.0000001,
+  "wall_time_limit_seconds": 1500,
+  "max_attempts_per_quota": 32,
+  "maximum_actual_projection_residual_fraction": 0.001,
+  "source_code_commit": "50064f0e07b035538b053b316bc3fff1cba0696e",
+  "source_version": "0.0.31",
+  "source_step": 479
+}

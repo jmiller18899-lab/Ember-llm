@@ -1,0 +1,77 @@
+{
+  "version": "0.0.51",
+  "phase": "placement-focused-teacher-kl-cpu-canary",
+  "seed": 2026090951,
+  "source_version": "0.0.31",
+  "generation_budget": 96,
+  "template_values_per_subtype": 4,
+  "train_values_per_subtype": 6,
+  "development_values_per_subtype": 6,
+  "tool_distill_values_per_variant": 6,
+  "copy_distill_values_per_variant": 2,
+  "minimum_tool_distill_examples": 60,
+  "minimum_tool_distill_per_kind": 3,
+  "minimum_copy_distill_examples": 36,
+  "max_optimizer_steps": 60,
+  "checkpoint_interval": 10,
+  "entry_batch_size": 4,
+  "placement_batch_size": 8,
+  "tool_distill_batch_size": 8,
+  "copy_distill_batch_size": 8,
+  "learning_rate": 0.00000015,
+  "weight_decay": 0.01,
+  "gradient_clip": 0.25,
+  "distill_temperature": 1.0,
+  "entry_loss_weight": 0.05,
+  "placement_loss_weight": 0.20,
+  "tool_kl_loss_weight": 0.50,
+  "copy_kl_loss_weight": 0.25,
+  "entry_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/4x4",
+    "long_code/3x5"
+  ],
+  "placement_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/3x5",
+    "path/plain_leaf"
+  ],
+  "template_minimum_successes": 6,
+  "template_dominance_minimum": 0.8,
+  "selection_gate": {
+    "minimum_entry_top1_gain": 1,
+    "minimum_placement_exact_gain": 1,
+    "minimum_placement_token_top1_gain": 0.02,
+    "minimum_tool_distill_token_top1": 0.99,
+    "minimum_copy_distill_token_top1": 0.99,
+    "maximum_tool_teacher_kl": 0.04,
+    "maximum_copy_teacher_kl": 0.04
+  },
+  "final_gate": {
+    "minimum_familiar_envelope_json": 84,
+    "minimum_familiar_correct_tool": 84
+  },
+  "historical_kind_floor": {
+    "short_code": 8,
+    "long_code": 7,
+    "url": 10,
+    "path": 9,
+    "mixed": 10
+  },
+  "historical_subtype_floor": {
+    "short_code/len4": 5,
+    "short_code/len5": 3,
+    "long_code/4x4": 5,
+    "long_code/3x5": 2,
+    "url/one_mixed": 4,
+    "url/two_segment": 3,
+    "path/plain_leaf": 3,
+    "mixed/upper": 3
+  },
+  "cpu_learning_authorized": true,
+  "gpu_training_authorized": false,
+  "production_authorized": false,
+  "promotion_authorized": false
+}

@@ -1,0 +1,80 @@
+{
+  "version": "0.0.27",
+  "phase": "sequence-completion-repair",
+  "status": "completed",
+  "promotion": "FAIL",
+  "progress": "FLAT",
+  "source_checkpoint_repo": "Jmiller18899/ember-v0.0.26-t4",
+  "metrics": {
+    "expanded_sequence_margin_health": {"baseline": -0.8871, "final": -0.6846, "gain": 0.2025},
+    "expanded_exact_copy_rate": {"baseline": 0.2222, "final": 0.2222, "gain": 0.0},
+    "expanded_continuation_top1_rate": {"baseline": 0.8151, "final": 0.8205, "gain": 0.0054},
+    "expanded_mean_first_token_rank": {"baseline": 23.74, "final": 16.18, "gain": -7.56},
+    "legacy_exact_copy_rate": {"baseline": 0.4444, "final": 0.4444, "gain": 0.0},
+    "legacy_continuation_top1_rate": {"baseline": 0.8696, "final": 0.8696, "gain": 0.0},
+    "clean_stop_rate": 1.0
+  },
+  "findings": [
+    {
+      "id": "S1",
+      "claim": "The worst-position objective moved the quantity it was built to move, by a lot, without moving the discrete count.",
+      "evidence": [
+        "sequence_margin_health -0.8871 -> -0.6846 is a gain of 0.2025 on a statistic clamped to [-2.0, +1.2].",
+        "Continuation rose only 0.0054 and exact copy not at all, so the gain is concentrated in each sequence's weakest position rather than spread across tokens.",
+        "Expanded mean first-token rank fell 23.74 -> 16.18 over the same run."
+      ],
+      "consequence": "The mechanism works. It is an allocation problem now, not a mechanism problem, which is a different situation from every run before v0.0.26."
+    },
+    {
+      "id": "S2",
+      "claim": "The failing sequences are still roughly a full logit short of the decision boundary, so uniform pressure will not flip them soon.",
+      "evidence": [
+        "health = mean over 90 cases of clamp(min_gap, -2.0, +1.2); 20 cases are exact so their min_gap is positive and their clamped sum lies in (0, 24].",
+        "Baseline sum -79.84 bounds the 70 failing cases' mean worst margin to [-1.483, -1.141).",
+        "Final sum -61.61 bounds it to [-1.223, -0.880).",
+        "The whole +18.23 of clamped-margin gain, if it all landed on failing cases, is +0.260 each."
+      ],
+      "consequence": "At the observed rate the average failing sequence needs roughly four more identical runs to reach zero, and that reading is optimistic because it assumes the trend stays linear."
+    },
+    {
+      "id": "S3",
+      "claim": "The clamped mean cannot say how many sequences are near the boundary, which is the only number that decides whether boundary focus can work.",
+      "evidence": [
+        "A mean of -0.88 is consistent with 70 cases tightly grouped at -0.88 and with a spread containing several cases just below zero.",
+        "The two situations call for opposite decisions, and the run report's per-case min_margin values distinguish them."
+      ],
+      "consequence": "v0.0.28's CPU preflight must report the worst-margin distribution before any paid session is considered."
+    },
+    {
+      "id": "S4",
+      "claim": "Hard mining is systematically selecting the sequences least likely to flip.",
+      "evidence": [
+        "sample_sequence_hard_indices ranks candidates by relu(sequence_margin - worst_gap), which increases without bound as a sequence gets worse.",
+        "A row at gap -3.0 therefore outranks a row at gap -0.05 for every one of the mined slots, which are half of each batch."
+      ],
+      "consequence": "The cheapest sequences to convert are the ones the mining step is least likely to show the model."
+    },
+    {
+      "id": "S5",
+      "claim": "The objective and the continuation metric both exclude two of the decisions an exact copy requires.",
+      "evidence": [
+        "encode_row assigns copy_token_weight over [first, eos_target), then overwrites w[first] with first_token_weight and w[eos_target] with eos_token_weight.",
+        "The loss and diagnostic masks both select positions at copy_token_weight, so they span first+1 .. eos_target-1 and omit the first token and the EOS decision.",
+        "Greedy exact copy requires all three."
+      ],
+      "consequence": "A sequence whose weakest decision is its first token is invisible to the sequence hinge and to sequence_margin_health. Independence arithmetic suggests the current magnitude is small (continuation-only independence at 0.8205 over 7.67 tokens predicts 0.2194 against a measured 0.2222, leaving little room for a separate first-token failure), but it is unmeasured, and expanded first-token top-1 is not currently reported at all."
+    }
+  ],
+  "recommended_next_phase": {
+    "version": "0.0.28",
+    "strategy": "boundary focus, from the v0.0.27 checkpoint",
+    "notes": [
+      "Do not add steps or raise the learning rate; v0.0.27 shows the signal is present and misallocated, not absent.",
+      "Rank mined candidates by proximity to the decision boundary rather than by depth of failure, and give out-of-reach rows a constant low priority instead of the highest one.",
+      "Weight the sequence hinge down outside the reachable band so hopeless rows keep learning slowly instead of dominating the batch.",
+      "Lower the sequence margin so pressure is not spent widening margins on sequences that are already correct.",
+      "Extend the sequence span to every supervised decision, so the objective matches the conjunction exact copy actually tests, and report expanded first-token top-1.",
+      "Report the per-case worst-margin distribution from the free CPU preflight, and treat a near-empty reachable band as evidence that the next lever is capacity or representation rather than objective shaping."
+    ]
+  }
+}

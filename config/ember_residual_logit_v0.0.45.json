@@ -1,0 +1,36 @@
+{
+  "version": "0.0.45",
+  "phase": "residual-envelope-logit-diagnostic",
+  "seed": 2026090845,
+  "source_version": "0.0.31",
+  "generation_budget": 96,
+  "expected_target_cases": 24,
+  "expected_failures": 6,
+  "target_subtypes": [
+    "short_code/len4",
+    "short_code/len5",
+    "long_code/4x4",
+    "long_code/3x5",
+    "path/plain_leaf"
+  ],
+  "expected_failure_ids": [
+    "system_target_short_code_02",
+    "system_target_short_code_03",
+    "system_target_long_code_02",
+    "system_target_long_code_05",
+    "system_target_long_code_08",
+    "system_target_path_05"
+  ],
+  "top_k_tokens": 8,
+  "interpretation": {
+    "near_boundary_tool_rank_max": 3,
+    "near_boundary_logit_deficit_max": 1.0,
+    "competitive_tool_rank_max": 10,
+    "competitive_logit_deficit_max": 3.0,
+    "downstream_rescue_rate_minimum": 0.8
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false,
+  "placement_learning_authorized": false
+}

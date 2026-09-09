@@ -1,0 +1,84 @@
+{
+  "version": "0.0.26",
+  "phase": "format-parity-copy-repair",
+  "hf_job": "6a9f5cbde686246ca69a9a49",
+  "status": "completed",
+  "promotion": "FAIL",
+  "progress": "ADVANCED",
+  "source_checkpoint_repo": "Jmiller18899/ember-v0.0.20-t4",
+  "best_step_reported": 219,
+  "metrics": {
+    "expanded_exact_copy_rate": {"baseline": 0.1889, "final": 0.2222, "gain": 0.0333},
+    "expanded_continuation_top1_rate": {"baseline": 0.7534, "final": 0.8151, "gain": 0.0616},
+    "legacy_continuation_top1_rate": {"baseline": 0.8406, "final": 0.8696, "gain": 0.0290},
+    "legacy_exact_copy_rate": {"baseline": 0.4444, "final": 0.4444, "gain": 0.0},
+    "clean_stop_rate": 1.0,
+    "teacher_forced_expected_win_rate": 1.0
+  },
+  "gates_missed": [
+    "expanded exact-copy gain needed +0.05, measured +0.0333",
+    "legacy exact copy needed 0.5556, stayed 0.4444",
+    "legacy continuation needed 0.90, reached 0.8696"
+  ],
+  "findings": [
+    {
+      "id": "R1",
+      "claim": "The plateau diagnosed in reports/ember-v0.0.25-plateau-analysis.json is broken. This is the first run since v0.0.16 in which the model measurably learned.",
+      "evidence": [
+        "Expanded continuation rose 0.7534 -> 0.8151 and legacy continuation 0.8406 -> 0.8696, against v0.0.21-v0.0.25 which were flat or negative.",
+        "The three changes were made together: format parity in the curriculum, learning rate restored 1.8e-7 -> 1.2e-6, and removal of the failure-neighbour oversampling."
+      ]
+    },
+    {
+      "id": "R2",
+      "claim": "Copy errors are now approximately independent across token positions, so there is no single systematic failure mode left to remove.",
+      "evidence": [
+        "Mean continuation length is 69/9 = 7.67 tokens on the legacy battery.",
+        "Independent per-token errors at 0.8151 predict an exact-copy rate of 0.2086; the measured rate is 0.2222.",
+        "At the v0.0.20 baseline the same model predicted 0.1141 against a measured 0.1889, i.e. errors were clustered then and are scattered now."
+      ],
+      "consequence": "Exact copy is now limited multiplicatively by sequence length rather than by one broken structure. Per-token accuracy of 0.9262 is required for the legacy 0.5556 gate, up from 0.8151."
+    },
+    {
+      "id": "R3",
+      "claim": "The checkpoint selector very likely chose the worse of the two candidates.",
+      "evidence": [
+        "Step 219: continuation 0.8151, exact copy 0.2222 (20/90). Independence predicts 18.8/90.",
+        "Later checkpoint: continuation 0.8300, exact copy 0.2111 (19/90). Independence predicts 21.6/90.",
+        "The standard deviation of a 90-case exact-copy rate near 0.22 is about 3.9 cases, so both observations sit inside noise around their predictions, and the higher-continuation checkpoint is the better estimate of the underlying model."
+      ],
+      "consequence": "Leading the selection key with a 90-case count re-creates the v0.0.25 resolution problem one order of magnitude down. Selection needs a continuous statistic."
+    },
+    {
+      "id": "R4",
+      "claim": "No higher-resolution discrete signal exists, because teacher-forced completion and greedy exact copy are the same event.",
+      "evidence": [
+        "If the argmax is correct at every target position given the correct prefix, greedy decoding follows exactly that path and reproduces the string; the converse holds too.",
+        "Clean-stop is 1.0, so EOS handling does not separate the two."
+      ],
+      "consequence": "A lower-variance selector must be continuous: margins or sequence log-probabilities, not another pass/fail count."
+    },
+    {
+      "id": "R5",
+      "claim": "The loss has never applied sequence-level pressure, which is the specific reason continuation gains do not convert into exact copies.",
+      "evidence": [
+        "v0.0.20's margin term, carried into v0.0.26, averages the hinge over every copy token in the batch.",
+        "A sequence with one bad position and seven good ones therefore receives one eighth of the gradient pressure that its single failing position needs.",
+        "Under independence the marginal value of repairing each sequence's worst position is far higher than that of improving already-correct positions."
+      ],
+      "consequence": "A worst-position (min-margin) sequence term is the single best-aimed next change, and it is orthogonal to everything v0.0.26 changed."
+    }
+  ],
+  "recommended_next_phase": {
+    "version": "0.0.27",
+    "strategy": "sequence-completion repair from the v0.0.26 best checkpoint",
+    "notes": [
+      "Keep the v0.0.26 curriculum and the 1.2e-6 learning rate unchanged; change the objective only.",
+      "Add a worst-position hinge so each sequence's weakest copy token carries the gradient.",
+      "Reinstate hard mining, now scored by whole-sequence failure rather than mean token error; it was removed for v0.0.26 because it oversampled the wrong templates, which no longer applies.",
+      "Select checkpoints on a continuous sequence-margin statistic, with exact copy as a tiebreak, so a one-case fluctuation cannot pick the worse model.",
+      "Report exact copy bucketed by continuation length, so v0.0.28 knows whether the remaining failures are long sequences or specific kinds.",
+      "Separate promotion from progress in the report. v0.0.26 was a clear advance that reported only FAIL."
+    ]
+  }
+}

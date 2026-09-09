@@ -1,0 +1,24 @@
+{
+  "version": "0.0.38",
+  "phase": "code-shaped-agent-envelope-calibration",
+  "seed": 2026090838,
+  "source_version": "0.0.31",
+  "expected_cases": 90,
+  "expected_reference_cases": 4,
+  "generation_budget": 96,
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "parent_result": "docs/ember-v037-schema-envelope-preflight.md",
+  "calibration_kinds": ["short_code", "long_code"],
+  "code_user_template": "Search the web for this exact identifier: \"{value}\".",
+  "reference_gate": {
+    "minimum_envelope_json_valid_rate": 1.0,
+    "minimum_envelope_tool_name_rate": 1.0
+  },
+  "baseline_gate": {
+    "minimum_envelope_json_valid_rate": 0.95,
+    "minimum_envelope_tool_name_rate": 0.95
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false
+}

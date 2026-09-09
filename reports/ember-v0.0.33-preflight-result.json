@@ -1,0 +1,86 @@
+{
+  "version": "0.0.33",
+  "phase": "envelope-placed-copy",
+  "stage": "CPU preflight",
+  "source_checkpoint": "Jmiller18899/ember-v0.0.31-t4 best step 479 (promotion PASS)",
+  "report": "preflight/v0.0.33-preflight-latest.json",
+  "trained": false,
+  "promoted": false,
+
+  "answers": {
+    "encoding_success_rate": {
+      "train": "3600/3600 = 1.000",
+      "validation": "450/450 = 1.000",
+      "note": "After absorbing the merged boundary. The first preflight measured 3175/3600 = 0.8819 and 417/450 = 0.9267 and stopped at the 0.90 floor."
+    },
+    "rejection_breakdown": {
+      "rejected": {},
+      "rejected_by_kind": {},
+      "merged_boundary_rows": {"train": 425, "validation": 33},
+      "note": "The 425 and 33 rows now absorbed are exactly the counts previously rejected as head_value_boundary, so the fix addresses the same rows rather than masking a different loss. No format is under-represented."
+    },
+    "baseline_argument_copy": {
+      "envelope_slot_exact_rate": 0.0,
+      "envelope_slot_margin_health": -1.9767106175422668,
+      "envelope_json_valid_rate": 0.0,
+      "envelope_tool_name_rate": 0.0,
+      "envelope_slot_present_rate": 0.0,
+      "envelope_envelope_exact_rate": 0.0,
+      "envelope_clean_stop_rate": 1.0
+    },
+    "baseline_bare_value": {
+      "expanded_exact_copy_rate": 0.4777777777777778,
+      "expanded_exact_copy_counts": "43/90",
+      "expanded_continuation_top1_rate": 0.9068493150684932,
+      "expanded_continuation_counts": "662/730",
+      "legacy_exact_copy": "6/9",
+      "legacy_continuation": "65/69",
+      "expanded_full_sequence_margin_health": -0.2448482990264893,
+      "expanded_first_token_top1_rate": 0.9888888888888889,
+      "note": "Identical to the promoted v0.0.31 result, so the protected capability is intact and the baseline is the right checkpoint."
+    }
+  },
+
+  "format_parity": {"held_out_cases": 90, "templates_supported": 90,
+                    "min_train_rows_for_a_held_out_template": 3},
+
+  "findings": [
+    {
+      "id": "P1",
+      "severity": "blocking for the experiment as designed",
+      "claim": "The envelope baseline is not the v0.0.32 phenomenon. On these prompts the model emits no tool call at all, rather than a correct envelope with a wrong value.",
+      "evidence": [
+        "envelope_json_valid_rate is 0.0 and envelope_tool_name_rate is 0.0 across all 90 cases.",
+        "In the v0.0.32 gate, on the v0.0.8 battery's prompts, the same checkpoint produced valid JSON and the correct tool name on 4 of 4, failing only arguments_grounded.",
+        "The v0.0.33 prompt is written in the copy curriculum's style -- 'Ignore old=... and fallback=... TARGET=... Call lookup for TARGET' -- not the agent style the model was tool-SFT'd on."
+      ],
+      "consequence": "Training from this baseline would teach two things at once: emit a tool call for an unfamiliar prompt shape, and place the copied value in the slot. slot_exact rising could be explained entirely by the first, so the run cannot measure what it was built to measure. This is a sharper version of the confound already recorded in the runbook, and it is not a small one."
+    },
+    {
+      "id": "P2",
+      "claim": "The slot margin health is at the clamp floor, so the model is not near producing these completions.",
+      "evidence": [
+        "envelope_slot_margin_health is -1.977 against a floor of -2.0.",
+        "The bare-value full-span health on the same checkpoint is -0.245."
+      ],
+      "consequence": "Whatever the prompt design, one 600-step run at 1.2e-6 is unlikely to flip cases. The health statistic is the leading indicator to watch, and it is saturated at baseline, so it can only move up."
+    },
+    {
+      "id": "P3",
+      "claim": "The tokenizer does merge the JSON opening quote into the value, on about one row in eight, and it is now handled rather than avoided.",
+      "evidence": [
+        "425 of 3600 train rows and 33 of 450 validation rows require the merged path.",
+        "Every earlier rejection had this single cause; none had value_tail_boundary or prompt_head_boundary."
+      ],
+      "consequence": "The merged token is what the model must emit at that position, so treating it as the value's first token is correct. This was the one assumption the phase could not test offline, and the CPU preflight settled it for the cost of a CPU job."
+    }
+  ],
+
+  "recommendation": {
+    "launch_t4_now": false,
+    "reason": "P1. The experiment would not isolate what it claims to isolate, and a T4 run producing an uninterpretable result is worse than no run.",
+    "proposed_fix": "Rewrite the envelope prompt in the agent style the checkpoint already responds to, matching config/ember_v0.0.8_eval.json -- a task-shaped system line and a natural user request -- so the baseline starts where v0.0.32 found the model: correct envelope, correct tool name, wrong value. Then slot_exact measures placement rather than format acquisition.",
+    "how_to_verify_cheaply": "Rerun the CPU preflight after the prompt change and require envelope_json_valid_rate and envelope_tool_name_rate to be high at baseline. If they are, the baseline reproduces the v0.0.32 finding on 90 cases instead of 4 and the experiment is interpretable. If they are not, the prompt is still wrong and no T4 should be spent.",
+    "also_worth_adding": "A gate on baseline envelope_json_valid_rate, so a future phase cannot start from a baseline where the metric it optimises is undefined."
+  }
+}

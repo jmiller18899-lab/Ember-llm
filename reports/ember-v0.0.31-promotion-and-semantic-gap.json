@@ -1,0 +1,105 @@
+{
+  "version": "0.0.31",
+  "status": "PROMOTED",
+  "promotion": "PASS",
+  "promotion_eligible": true,
+  "run_id": "ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z",
+  "best_step": 479,
+  "source_checkpoint_repo": "Jmiller18899/ember-v0.0.30-t4",
+  "headline": "Ember cleared every copy gate and the legacy ClawAgent promotion evaluator. This is the milestone the project has been chasing since v0.0.7, and v0.0.20 is no longer the best available checkpoint.",
+  "promoted_metrics": {
+    "expanded_exact_copy_rate": {
+      "counts": "34/90 -> 43/90",
+      "gate": "36/90",
+      "cleared_by_cases": 7
+    },
+    "expanded_continuation_top1_rate": {
+      "counts": "651/730 -> 662/730",
+      "gate": "657/730",
+      "cleared_by_tokens": 5
+    },
+    "legacy_exact_copy_rate": {
+      "counts": "6/9",
+      "gate": "5/9",
+      "status": "PASS"
+    },
+    "legacy_continuation_top1_rate": {
+      "counts": "65/69",
+      "gate": "0.90",
+      "status": "PASS"
+    },
+    "expanded_first_token_top1_rate": {
+      "counts": "88/90 -> 89/90"
+    },
+    "sequence_margin_health": {
+      "continuation_only": -0.1983129014,
+      "full_sequence": -0.2448485268
+    },
+    "clean_stop_rate": 1.0,
+    "band_flow": "9 within-reach cases crossed into correct; 0 correct cases fell out"
+  },
+  "downstream": {
+    "int4_export": "PASS",
+    "int4_path": "checkpoints/ember-agent-v0.0.31-multi-position-consolidation-20260908T042320Z/best.int4.pt",
+    "legacy_tool_routing_evaluation": {
+      "valid_tool_call_rate": 1.0,
+      "direct_response_rate": 1.0,
+      "tool_result_response_rate": 1.0,
+      "fixed_validation_loss": 3.5808298587799072,
+      "baseline_fixed_validation_loss": 4.457988262176514,
+      "relative_validation_loss_improvement": 0.19676103924247512
+    }
+  },
+  "carried_forward_from_v0_0_30": {
+    "note": "The v0.0.30 analysis was written before the promoted v0.0.31 landed. Its finding C1 still stands and still matters for reading any copy metric.",
+    "C1": {
+      "id": "C1",
+      "severity": "correction",
+      "claim": "My v0.0.26 statement that teacher-forced completion and greedy exact copy are the same event was too strong. They agree on the token sequence; the exact-copy metric does not compare token sequences.",
+      "evidence": [
+        "The battery computes visible = text.split(EOT, 1)[0].strip() and scores exact as visible == value.",
+        "The supervised completion is value + '\\n' + EOT + '\\n', so the decision that predicts the trailing newline sits inside the copy span.",
+        "An error confined to that newline decision still strips to an exact copy, while span_min_gap requires every supervised decision to be argmax-correct."
+      ],
+      "consequence": "exact_copy_rate >= sequences_all_positions_positive by construction. 34/90 against 33/90 is that inequality, not a numerical anomaly, and both should keep being tracked."
+    }
+  },
+  "open_gap": {
+    "id": "Q1",
+    "severity": "blocking for deployment",
+    "claim": "The evaluator that returned promotion_eligible scores the first structural element of each completion and ignores everything after it, so a perfect score is compatible with completions that are wrong and noisy.",
+    "evidence": [
+      "score_case in jobs/ember_hf_eval.py accepts a tool call when a <|tool|> marker exists, the first balanced JSON object parses, the name matches, and arguments is any non-empty dict or string.",
+      "No check inspects argument keys or whether the values name anything from the prompt.",
+      "No check inspects the text after the closing brace.",
+      "A direct or tool-result response passes on 'no <|tool|> anywhere' plus three visible characters.",
+      "Nothing requires the generation to terminate at EOS rather than run out of budget."
+    ],
+    "worked_example": {
+      "completion": "<|tool|>{\"name\": \"weather\", \"arguments\": {\"x\": 1}}\\n<|user|> what about tomorrow <|assistant|> the weather in the weather in",
+      "legacy_verdict": "PASS",
+      "strict_verdict": "FAIL",
+      "strict_failing_checks": [
+        "required_keys_present",
+        "arguments_grounded",
+        "clean_stop",
+        "no_trailing_noise",
+        "no_extra_turn_markers"
+      ]
+    },
+    "consequence": "This is exactly the semantic_quality_note recorded on the promotion trigger. Grounding is also the capability the whole v0.0.15 to v0.0.31 arc was built for, and the legacy rubric never tests it."
+  },
+  "recommended_next_phase": {
+    "version": "0.0.32",
+    "strategy": "a semantic quality gate, scored offline before anything is paid for",
+    "notes": [
+      "Grade argument grounding: the values must carry the entity the prompt asked about, which is what the copy work was for.",
+      "Grade argument shape: required keys, not merely a non-empty object.",
+      "Grade termination: EOS inside the budget rather than truncation at max_new_tokens.",
+      "Grade what follows: no trailing visible text after a tool call, no invented conversation turns, no degenerate repetition, at most one tool marker.",
+      "Report both rubrics side by side and name every case where they disagree, so the gap is measured rather than described.",
+      "Do not weaken the legacy evaluator or the copy gates. This is an additional bar for deployment, not a replacement for the one v0.0.31 already cleared.",
+      "Run the rubric offline first. A gate that cannot fail on a known-bad completion is not a gate, so the test suite drives eleven completions the legacy rubric accepts and asserts the exact checks the strict rubric fails on."
+    ]
+  }
+}

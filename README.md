@@ -3,7 +3,20 @@
 Ember is a compact GPT-style model built from scratch in PyTorch and designed
 to grow into a native tool-using model for ClawAgent.
 
+Latest experimental milestone: **v0.0.31 step 479 passed copy promotion and the
+legacy ClawAgent promotion contract**. Production integration remains deferred.
+The next check is the separate [semantic-v1 CPU gate](docs/ember-semantic-gate.md),
+which requires exact tool arguments and complete, factually correct fixture
+answers on both full and INT4 weights. Its result is separate from the older
+promotion result. The version history below describes earlier milestones.
+
 Current authoritative package: `ember-v0.0.7-hf-ready.zip`
+
+> **Status, 2026-09-08.** The sections below describe the v0.0.7–v0.0.14 era and
+> have not been rewritten. The current copy-conditioning work is at v0.0.26;
+> `ember-v0.0.20-t4` is the protected best checkpoint. Start from
+> [`reports/ember-v0.0.25-plateau-analysis.json`](reports/ember-v0.0.25-plateau-analysis.json)
+> and [`docs/ember-v0.0.26-plateau-breakout.md`](docs/ember-v0.0.26-plateau-breakout.md).
 
 Ember v0.0.7 keeps the memory-bounded 15M-token corpus pipeline and adds
 finite-source corpus safety, a 500-step NVIDIA T4 validation configuration,

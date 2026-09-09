@@ -1,0 +1,29 @@
+{
+  "version": "0.0.39",
+  "phase": "targeted-agent-envelope-matrix",
+  "seed": 2026090839,
+  "source_version": "0.0.31",
+  "expected_cases": 90,
+  "expected_reference_cases": 4,
+  "generation_budget": 96,
+  "prompt_reference": "config/ember_v0.0.8_eval.json",
+  "calibration_kinds": ["short_code", "long_code", "url", "path", "mixed"],
+  "calibration_values_per_kind": 4,
+  "prompt_variants": {
+    "current_exact": "Search the web for this exact {label}: \"{value}\".",
+    "tool_named": "Use web_search to find current information about this exact {label}: \"{value}\".",
+    "lookup_exact": "Look up this exact {label} on the web: \"{value}\"."
+  },
+  "variant_priority": ["current_exact", "tool_named", "lookup_exact"],
+  "reference_gate": {
+    "minimum_envelope_json_valid_rate": 1.0,
+    "minimum_envelope_tool_name_rate": 1.0
+  },
+  "baseline_gate": {
+    "minimum_envelope_json_valid_rate": 0.95,
+    "minimum_envelope_tool_name_rate": 0.95
+  },
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false
+}

@@ -1,0 +1,89 @@
+{
+  "version": "0.0.29",
+  "defect": "KeyError: 'gate_distance' in the final reporter",
+  "severity": "reporting only",
+  "training_outcome": "unaffected",
+  "root_cause": {
+    "summary": "v029_progress() never attached band_flow or gate_distance to its return value, while the final-report transform printed report['progress']['gate_distance'] and ['band_flow'].",
+    "how_it_got_there": [
+      "Both helper functions were defined and both print statements were installed.",
+      "The edit that would have attached them to v029_progress()'s return dict lived in the same patch script as a second edit whose assertion failed ('promotion print transform not found').",
+      "That assertion aborted the script before it wrote the file, so the return-value edit was discarded along with it.",
+      "The follow-up patch fixed only the assertion that had errored and did not re-apply the discarded edit.",
+      "This is my error, not a defect in the scaffold."
+    ],
+    "why_the_tests_missed_it": [
+      "test_v029_band_flow_reconstructs_the_v028_transitions and test_v029_gate_distance_... call the helpers directly.",
+      "test_v029_transform_targets_exist_and_runtime_compiles asserts the print strings appear in the runtime source.",
+      "No test connected the two: nothing asserted that the dict v029_progress returns contains the keys the reporter reads from it."
+    ]
+  },
+  "artifact_safety": {
+    "verdict": "all artifacts complete",
+    "evidence": [
+      "In the transformed runtime, best.pt, latest.pt, the evaluation report and run-state.json upload at lines 1003-1015.",
+      "The failing print is at line 1020, after every upload.",
+      "run-state.json therefore carries status evaluation_complete and the run_id, so v0.0.30 resolves the v0.0.29 source normally."
+    ],
+    "rerun_required": false
+  },
+  "recovered_result": {
+    "best_step": 479,
+    "progress": "ADVANCED",
+    "expanded_exact_copy_rate": {"baseline": 0.3111, "final": 0.3556, "counts": "28/90 -> 32/90"},
+    "expanded_continuation_top1_rate": {"baseline": 0.8658, "final": 0.8795, "counts": "632/730 -> 642/730"},
+    "expanded_first_token_top1_rate": {"counts": "85/90 -> 87/90"},
+    "legacy_exact_copy_rate": {"counts": "5/9 -> 6/9", "gate": "PASSES 0.5556"},
+    "legacy_continuation_top1_rate": {"counts": "62/69 -> 65/69 = 0.9420", "gate": "PASSES 0.90"},
+    "expanded_full_sequence_margin_health": {"baseline": -0.5865, "final": -0.4361, "gain": 0.1504},
+    "expanded_sequence_margin_health": {"baseline": -0.5260, "final": -0.3833, "gain": 0.1427}
+  },
+  "findings": [
+    {
+      "id": "M1",
+      "claim": "Both legacy gates now pass, and the remaining promotion distance is about one and a half runs at the observed rate.",
+      "evidence": [
+        "Legacy exact copy 6/9 clears 0.5556; legacy continuation 65/69 = 0.9420 clears 0.90.",
+        "Expanded exact copy needs 36/90 and stands at 32/90: four cases.",
+        "Expanded continuation needs 657/730 and stands at 642/730: fifteen tokens.",
+        "v0.0.28 delivered +33 continuation tokens, v0.0.29 delivered +10."
+      ]
+    },
+    {
+      "id": "M2",
+      "claim": "The two remaining gates are consistent rather than competing, so one improvement satisfies both.",
+      "evidence": [
+        "Mean continuation is 730/90 = 8.111 tokens.",
+        "0.40 exact copy under independent errors needs per-token 0.89318, which is 652/730.",
+        "The 0.90 continuation gate is 657/730, five tokens beyond that."
+      ]
+    },
+    {
+      "id": "M3",
+      "claim": "The k = 2 worst-position statistic still matches the data, so the objective does not need changing.",
+      "evidence": [
+        "730 x (1 - 0.8795) = 88.0 wrong continuation decisions over 58 failing rows is 1.52 each.",
+        "Adding the three first-token failures gives 1.57 wrong decisions per failing row, against 1.66 when k = 2 was chosen."
+      ]
+    },
+    {
+      "id": "M4",
+      "claim": "More steps at this schedule would not have helped; the run had already peaked.",
+      "evidence": [
+        "The selected best checkpoint was step 479 of 600, so the final 120 steps produced nothing better.",
+        "The cosine schedule is near its floor by then."
+      ],
+      "consequence": "The gain has to come from continuing at a fresh schedule from the new checkpoint, which is exactly what v0.0.30 does. Step count stays at 600."
+    }
+  ],
+  "recommended_next_phase": {
+    "version": "0.0.30",
+    "strategy": "same objective, v0.0.29 source, reporter repaired",
+    "notes": [
+      "Attach band_flow and gate_distance to the progress result, which is the one-line fix.",
+      "Read the trailing diagnostic prints defensively, so a reporting defect can never again fail a run whose artifacts are already uploaded.",
+      "Add a contract test that derives the required keys from the transform text itself and checks the producing functions supply them, so this class of drift cannot recur silently.",
+      "Change nothing else. k = 2 still matches the measured failure count, both legacy gates pass, and the remaining distance is fifteen token decisions."
+    ]
+  }
+}

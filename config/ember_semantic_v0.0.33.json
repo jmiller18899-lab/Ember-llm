@@ -1,0 +1,52 @@
+{
+  "version": "0.0.33",
+  "phase": "semantic-copy-replay",
+  "seed": 2026090832,
+  "training_authorized": true,
+  "production_authorized": false,
+  "block_size": 256,
+  "generation_budget": 96,
+  "learning_rate": 1e-05,
+  "copy_loss_fraction": 0.75,
+  "dtype": "float32",
+  "pinned_files": {
+    "config/ember_semantic_data_v1.json": "71a27ae6e2466eed0695f3f14b409a911bfcca30f92ab7e39c8e461679841c51",
+    "config/ember_semantic_v1.json": "4d7dbf9896631b41c993171a7a55a37dfd7dd8476edfcc036579fe1131c8383e",
+    "jobs/ember_semantic_gate.py": "2f5c1c440c37530702c97f0e12df85978021cbb8307f21d60f50b02f8c73e96e",
+    "jobs/ember_semantic_data_preflight.py": "852373b0403481b778803c5f1568702538bc8078c3e955b835fde53b7d471363",
+    "jobs/ember_sft_data_semantic_v1.py": "cc755b00c258433647bf5fc20f9b2c04205c410e2526878f2b9354c259c27dda",
+    "jobs/ember_sft_data_v026.py": "6003da72263769d1fa8530854794d494158311c584d80f87aefe7df9ac503876",
+    "jobs/ember_hf_sft_v015.py": "25f0033a1366b7b08d057120ced8ce6e5301308d1ecdf7e35348523e94416e12",
+    "jobs/ember_hf_sft_v016.py": "15252f2138d39f8afac741ee8e9e34702cc491f26f9295333899d8b00661bd1c",
+    "jobs/ember_hf_sft_v030.py": "6e938635b1d63d30ce5542327f116f6819b38f8bbdae7bb06e10ffbc67ffd2ea",
+    "config/ember_multi_position_v0.0.31.json": "e5a7e786cab3e18df294e4288624f302e99cc02d1889b262d0e303d260fe4328",
+    "config/ember_semantic_v0.0.32.json": "f909b81f6473c0bd3a1a0dab1e23109caa1d3f66c31b601983e34d83a6e686c1",
+    "jobs/ember_semantic_train_v032.py": "963a019948056eca83fc50ee6162ca3bb0f3893a16b23ee99795f50a27f36a9c"
+  },
+  "dataset": {
+    "repo_id": "Jmiller18899/ember-semantic-data-v1",
+    "revision": "dd99fb5df322ffc8716fa8050ccb33f578239454",
+    "prefix": "ember-semantic-data-v1/776c565486efc36d5bd535cf144a4348b163ac63cfa760cf4adc2bd95a654e74",
+    "files": {
+      "train": "fc66cb1e116861fbc5f13499d56d63a8e4d6db3d43262a888df1907251b1d100",
+      "validation": "a51623cea837deda0131dd7fa8f0fc05e61ee8aae60b6e404ccc59c476df2761"
+    }
+  },
+  "canary": {
+    "output_repo": "Jmiller18899/ember-v0.0.33-canary",
+    "pairs_per_family": 2,
+    "max_steps": 120,
+    "warmup_steps": 10,
+    "eval_interval": 40,
+    "semantic_batch_size": 6,
+    "copy_batch_size": 6,
+    "training_time_limit_seconds": 1200,
+    "gate": {
+      "minimum_train_loss_reduction": 0.1,
+      "minimum_train_exact_gain": 3,
+      "minimum_development_exact_gain": 1
+    },
+    "copy_replay_per_kind": 40
+  },
+  "gpu_training_authorized": false
+}

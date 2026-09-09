@@ -1,0 +1,20 @@
+{
+  "version": "0.0.47",
+  "phase": "serialization-neutral-envelope-template-diagnostic",
+  "seed": 2026090847,
+  "source_version": "0.0.31",
+  "generation_budget": 96,
+  "expected_reference_cases": 4,
+  "expected_residual_cases": 24,
+  "expected_residual_failures": 6,
+  "expected_template_sources": 18,
+  "expected_structural_cases": 17,
+  "expected_nonrescued_failures": 4,
+  "expected_structural_passes": 13,
+  "expected_entry_suppression_cases": 2,
+  "matched_pass_leave_one_out_complete_rate_minimum": 0.8,
+  "training_authorized": false,
+  "gpu_training_authorized": false,
+  "production_authorized": false,
+  "placement_learning_authorized": false
+}

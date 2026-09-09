@@ -1,0 +1,115 @@
+name: Ember v0.0.29 Jobs
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "v0.0.29 action"
+        required: true
+        default: audit
+        type: choice
+        options:
+          - audit
+          - preflight
+          - train
+          - bootstrap
+  push:
+    branches:
+      - main
+      - claude/ember-v0025-plateau-tnxpua
+    paths:
+      - ".github/ember-v029.trigger"
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Ember
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Resolve mode
+        id: request
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            mode="${{ inputs.mode }}"
+          else
+            mode="$(awk -F: '/^mode:/ {gsub(/[[:space:]]/, "", $2); print $2}' .github/ember-v029.trigger)"
+          fi
+          case "$mode" in
+            audit|preflight|train|bootstrap) ;;
+            *) echo "::error::Unsupported v0.0.29 mode: $mode"; exit 1 ;;
+          esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Resolved Ember v0.0.29 mode: $mode"
+
+      # Free, dependency-free, and a hard gate on every other mode: the
+      # v0.0.21..v0.0.25 runs each spent a paid session on a curriculum that
+      # could not emit four of the held-out templates.
+      - name: Assert curriculum format parity
+        run: |
+          python jobs/ember_curriculum_audit_v026.py \
+            --data jobs/ember_sft_data_v026.py \
+            --diagnostics jobs/ember_sft_data_v026.py \
+            --train 3600 --validation 450 \
+            --assert-parity
+          echo "---- regression guard: the v0.0.15 curriculum must still report FORMAT_GAP ----"
+          if python jobs/ember_curriculum_audit_v026.py \
+               --data jobs/ember_sft_data_v015.py \
+               --diagnostics jobs/ember_hf_sft_v015.py \
+               --train 3600 --validation 450 \
+               --assert-parity; then
+            echo "::error::the v0.0.15 format gap no longer reproduces; the audit is not measuring what it claims"
+            exit 1
+          fi
+
+      - name: Install Hugging Face Jobs client
+        if: ${{ steps.request.outputs.mode != 'audit' }}
+        run: python -m pip install --upgrade "huggingface-hub>=1.4"
+
+      - name: Verify H_F2 Hugging Face token
+        if: ${{ steps.request.outputs.mode != 'audit' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: python jobs/ember_hf_bootstrap.py
+
+      - name: Submit v0.0.29 CPU preflight
+        if: ${{ steps.request.outputs.mode == 'preflight' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-29-multi-position-preflight \
+            --flavor cpu-upgrade \
+            --timeout 1h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v029.py -- \
+            --preflight-only
+
+      - name: Submit one approved v0.0.29 T4 training session
+        if: ${{ steps.request.outputs.mode == 'train' }}
+        env:
+          HF_TOKEN: ${{ secrets.H_F2 }}
+        run: |
+          hf jobs uv run --detach \
+            --name ember-v0-0-29-multi-position-repair \
+            --flavor t4-small \
+            --timeout 3h \
+            --secrets HF_TOKEN \
+            jobs/ember_hf_sft_v029.py
+
+      - name: Safety summary
+        run: |
+          case "${{ steps.request.outputs.mode }}" in
+            train) echo "One explicitly approved Ember v0.0.29 paid T4 session was submitted." ;;
+            *) echo "No paid GPU training was submitted by this run." ;;
+          esac
