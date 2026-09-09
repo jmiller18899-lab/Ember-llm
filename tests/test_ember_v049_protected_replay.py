@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from jobs import ember_v049_replay as v049
+from jobs import ember_v049_replay_compat as v049
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -47,8 +47,10 @@ def test_target_and_replay_values_do_not_touch_familiar_90():
     assert not (target_values & held)
     assert not (tool_values & held)
     assert not (copy_values & held)
-    assert len(tool_values) == sum(v049.copy_data.VARIANTS.values()) * cfg["replay_values_per_variant"]
-    assert len(copy_values) == len(tool_values)
+    variants = sum(v049.copy_data.VARIANTS.values())
+    assert len(tool_values) == variants * cfg["tool_replay_values_per_variant"]
+    assert len(copy_values) == variants * cfg["copy_replay_values_per_variant"]
+    assert len(tool_values) > len(copy_values)
 
 
 def test_replay_spans_every_kind_and_variant():
@@ -63,6 +65,7 @@ def test_replay_spans_every_kind_and_variant():
 def test_canary_has_no_gpu_or_checkpoint_write_path():
     text = "\n".join([
         (ROOT / "jobs/ember_v049_replay.py").read_text(encoding="utf-8"),
+        (ROOT / "jobs/ember_v049_replay_compat.py").read_text(encoding="utf-8"),
         (ROOT / "jobs/ember_v049_canary.py").read_text(encoding="utf-8"),
     ])
     forbidden = [".cuda(", 'device="cuda"', 'to("cuda")', "save_checkpoint(", "push_to_hub("]
@@ -71,7 +74,9 @@ def test_canary_has_no_gpu_or_checkpoint_write_path():
 
 def test_familiar_battery_is_evaluation_only_in_canary():
     replay_source = (ROOT / "jobs/ember_v049_replay.py").read_text(encoding="utf-8")
+    compat_source = (ROOT / "jobs/ember_v049_replay_compat.py").read_text(encoding="utf-8")
     canary_source = (ROOT / "jobs/ember_v049_canary.py").read_text(encoding="utf-8")
     assert "familiar_90" not in replay_source
+    assert "familiar_90" not in compat_source
     assert canary_source.count("regression.familiar_90") == 2
     assert "copy_data.HELD_OUT_VALUES" in replay_source
