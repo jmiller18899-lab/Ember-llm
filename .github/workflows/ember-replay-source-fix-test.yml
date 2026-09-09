@@ -1,0 +1,25 @@
+name: Ember replay source fix verification
+
+on:
+  push:
+    branches: [codex/ember-v051-placement-teacher-kl]
+    paths: [.github/ember-replay-source-fix.test]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        run: python -m pip install pytest==8.3.5 jsonschema==4.23.0 numpy==2.2.6
+      - name: Verify source module without compat import order
+        run: |
+          python -m py_compile jobs/ember_v049_replay.py jobs/ember_v050_data.py
+          python -m pytest -q tests/test_ember_v049_protected_replay.py tests/test_ember_v050_teacher_kl.py
