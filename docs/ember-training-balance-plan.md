@@ -68,3 +68,10 @@ for diagnostic scalars. Preserve the original float32 optimizer and clipping
 behavior, recording its reported clip norm separately. Actual loss measurements
 and the recommendation rule are unchanged. The initial run is superseded for
 vector geometry; compare its measured losses with the corrected repeat.
+
+The first corrected repeat (34399992177) stopped after its first update because
+runner numerical variation shifted the norm by 0.00002861 at a norm near 31.53.
+Use the larger of 2e-5 absolute and 1e-6 relative tolerance for gradient norms only; retain
+2e-5 absolute for losses and exact refreshed token records. This corrects a
+scale-insensitive instrumentation check, not the recommendation or evaluation
+criteria. Report actual cross-run differences and do not claim bitwise replay.

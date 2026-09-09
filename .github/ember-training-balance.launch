@@ -1,1 +1,1 @@
-Repeat identical diagnostic after correcting scalar direction measurements to float64 chunk accumulation. Optimizer and selection rule unchanged.
+Repeat corrected diagnostic with gradient-norm replay tolerance max(2e-5 absolute, 1e-6 relative). Loss tolerances and recommendation unchanged.

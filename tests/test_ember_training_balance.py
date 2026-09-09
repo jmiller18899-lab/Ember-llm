@@ -67,3 +67,10 @@ def test_direction_measurements_remain_accurate_for_millions_of_tiny_updates():
     a[::7]=-1e-7
     assert b.cosine(a,a,torch)==pytest.approx(1.,abs=1e-12)
     assert b.stable_norm(a,torch)==pytest.approx(float(a.double().norm()),rel=1e-10)
+
+
+def test_replay_tolerance_scales_norm_only_and_rejects_material_changes():
+    expected={'placement_loss':2.,'gradient_norm':30.}
+    assert b.replay_matches({'placement_loss':2.000001,'gradient_norm':30.00003},expected)
+    assert not b.replay_matches({'placement_loss':2.0001,'gradient_norm':30.},expected)
+    assert not b.replay_matches({'placement_loss':2.,'gradient_norm':30.001},expected)

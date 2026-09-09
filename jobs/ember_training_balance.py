@@ -154,6 +154,13 @@ def inspect_state(student,optimizer,teacher,tokenizer,torch,cfg,examples,snapsho
     return row
 
 
+def replay_matches(actual,expected):
+    # Gradient norms (~20-30) need a relative allowance across runner CPU kernels;
+    # loss values retain the original 2e-5 absolute check.
+    return all(math.isclose(v,expected[k],abs_tol=2e-5,rel_tol=1e-6 if k=='gradient_norm' else 0.)
+               for k,v in actual.items())
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output-dir',type=Path,default=Path('training-balance-results'))
@@ -196,7 +203,7 @@ def main():
                 losses=g.optimizer_step(student,teacher,tokenizer,torch,cfg,examples,snapshot['tools'],snapshot['copies'],batch,optimizer,structural)
                 expected=snapshot['expected_updates'][step-1]['losses']
                 errors={k:abs(v-expected[k]) for k,v in losses.items()}
-                if any(v>2e-5 for v in errors.values()):raise ValueError(f'original optimization replay mismatch at {step}: {errors}')
+                if not replay_matches(losses,expected):raise ValueError(f'original optimization replay mismatch at {step}: {errors}')
                 report['updates'].append({'step':step,'losses':losses,'maximum_replay_error':max(errors.values())})
                 diag.write_json(output/'report.json',report)
             report['recommendation']=recommend(report['observations']);report['status']='COMPLETE'
