@@ -1,0 +1,11 @@
+launch: ember-v054-int4-extractive-executor
+source: ember-v0.0.53-step9-int4
+router: training-selected-multilayer-int4
+prior_router_gate: 170/170
+resolver: extractive-deterministic
+validation_arguments: fourth40
+fresh_decision_set: fifth50
+fresh_arguments: fifth40
+ember_weight_updates: 0
+checkpoint_save: false
+production: false
