@@ -1,6 +1,7 @@
 """Patch only nested f-string display formatting in third router confirmation."""
 from pathlib import Path
 
+# Report-only patch. This comment is also the deterministic workflow trigger.
 path = Path("jobs/ember_v054_router_third_confirmation.py")
 lines = path.read_text(encoding="utf-8").splitlines()
 out = []
