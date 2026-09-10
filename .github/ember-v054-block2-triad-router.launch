@@ -1,0 +1,9 @@
+launch: ember-v054-block2-triad-router
+binary-representation: block_04
+family-representation: block_02+block_03
+triad-representation: block_02
+triad: weather+web_search+get_time
+selection: training-cv-only
+known-development: 20+50+100
+failed-finals-imported: false
+ember-weights-changed: false
