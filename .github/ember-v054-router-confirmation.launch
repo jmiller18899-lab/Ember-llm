@@ -1,0 +1,11 @@
+launch: ember-v054-router-confirmation
+source: ember-v0.0.53-step9
+mode: frozen-block3-router-second-confirmation
+training: 80-balanced
+old_heldout: 20
+fresh_confirmation: 50
+models: full,int4
+shared_head_crosscheck: true
+ember_weight_updates: 0
+checkpoint_save: false
+promotion: false
