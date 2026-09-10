@@ -1,0 +1,7 @@
+launch: ember-v054-family-token-anchor
+source: ember-v0.0.53-step9
+mode: single-family-token-margin
+trainable_groups: block_03,block_04,block_05
+copy_floor: 22/35
+checkpoint_save: false
+promotion: false
