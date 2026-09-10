@@ -1,0 +1,6 @@
+launch: ember-v054-schema-key-logits
+source: ember-v053-step9-20260910T165742Z
+compare: v053-vs-reproduced-v054-best
+mode: cpu-diagnostic
+checkpoint_save: false
+promotion: false
