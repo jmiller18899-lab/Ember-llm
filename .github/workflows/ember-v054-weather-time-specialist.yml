@@ -1,0 +1,55 @@
+name: Ember v0.0.54 Weather-Time Specialist
+
+on:
+  push:
+    branches:
+      - codex/ember-v054-weather-time-specialist
+    paths:
+      - jobs/ember_v054_weather_time_specialist.py
+      - .github/workflows/ember-v054-weather-time-specialist.yml
+      - .github/ember-v054-weather-time-specialist.launch
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: .
+    steps:
+      - name: Checkout specialist branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install "huggingface-hub>=1.4,<2" sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Apply inherited report-only patches
+        run: |
+          python jobs/patch_v054_hierarchical_router_summary.py
+          python jobs/patch_v054_router_third_summary.py
+      - name: Validate specialist router
+        run: |
+          python -m py_compile jobs/ember_v054_weather_time_specialist.py jobs/ember_v054_expanded_router.py jobs/ember_v054_hierarchical_router.py
+          pytest -q tests/test_ember_v051_placement_teacher_kl.py tests/test_ember_rung0_trajectory.py
+      - name: Run weather-time specialist router
+        run: python jobs/ember_v054_weather_time_specialist.py | tee v054-weather-time-specialist.log
+      - name: Write summary
+        if: always()
+        run: |
+          if [ -f v054-weather-time-specialist/summary.md ]; then cat v054-weather-time-specialist/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v054-weather-time-specialist-${{ github.run_id }}
+          path: |
+            v054-weather-time-specialist/
+            v054-weather-time-specialist.log
+          retention-days: 90
