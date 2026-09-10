@@ -1,0 +1,5 @@
+launch: ember-v054-tool-family-diagnostic
+checkpoint: ember-v053-step9-20260910T165742Z
+mode: read-only-family-classifier
+splits: development,heldout
+models: full,int4
