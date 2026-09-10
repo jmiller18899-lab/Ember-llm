@@ -1,0 +1,57 @@
+name: Ember v0.0.54 Extractive Executor v2
+
+on:
+  push:
+    branches:
+      - codex/ember-v054-extractive-v2
+    paths:
+      - jobs/ember_v054_extractive_v2.py
+      - jobs/patch_v054_hierarchical_router_summary.py
+      - .github/workflows/ember-v054-extractive-v2.yml
+      - .github/ember-v054-extractive-v2.launch
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: .
+    steps:
+      - name: Checkout executor-v2 branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install "huggingface-hub>=1.4,<2" sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Apply deterministic hierarchical summary patch
+        run: python jobs/patch_v054_hierarchical_router_summary.py
+      - name: Validate executor v2
+        run: |
+          python -m py_compile jobs/ember_v054_hierarchical_router.py
+          python -m py_compile jobs/ember_v054_multilayer_router.py
+          python -m py_compile jobs/ember_v054_int4_extractive_executor.py
+          python -m py_compile jobs/ember_v054_extractive_v2.py
+          pytest -q tests/test_ember_v051_placement_teacher_kl.py tests/test_ember_rung0_trajectory.py
+      - name: Run extractive executor v2
+        run: python jobs/ember_v054_extractive_v2.py | tee v054-extractive-v2.log
+      - name: Write summary
+        if: always()
+        run: |
+          if [ -f v054-extractive-v2/summary.md ]; then cat v054-extractive-v2/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v054-extractive-v2-${{ github.run_id }}
+          path: |
+            v054-extractive-v2/
+            v054-extractive-v2.log
+          retention-days: 90
