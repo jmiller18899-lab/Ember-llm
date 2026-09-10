@@ -1,0 +1,12 @@
+launch: ember-v053-step9-save
+source: saved ember-v0.0.52-t4
+anchor_lr: 6.4e-7
+anchor_steps: 9
+require_direct_first_token: 4/4
+require_tool_first_token: 4/4
+require_direct_generation: 4/4
+require_tool_generation: 4/4
+require_copy_tokens: 22/35
+require_structure: 8/8
+promotion: false
+production: false
