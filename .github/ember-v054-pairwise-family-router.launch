@@ -1,0 +1,8 @@
+launch: ember-v054-pairwise-family-router
+source: ember-v053-step9-20260910T165742Z
+binary-gate: expanded-frozen
+family-routing: six-pairwise-heads
+training-cv-only: true
+known-development: 20+50+100
+failed-prior-final-imported: false
+ember-weights-changed: false
