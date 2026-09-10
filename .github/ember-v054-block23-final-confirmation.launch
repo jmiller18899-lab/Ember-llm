@@ -1,0 +1,11 @@
+launch: ember-v054-block23-final-confirmation
+representation: block_02+block_03
+architecture: expanded-hierarchical-plus-weather-time-specialist
+precision: full,int4-separate-heads
+training-and-cv: frozen-before-test
+final-cases: 200
+balance: 40-per-class
+prior-failed-final-imported: false
+ember-weights-changed: false
+router-integration: false
+promotion: false
