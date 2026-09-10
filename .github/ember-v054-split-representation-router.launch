@@ -1,0 +1,8 @@
+launch: ember-v054-split-representation-router
+binary-representation: block_04
+family-representation: block_02+block_03
+selection-source: training-cv-plus-established-development-only
+failed-final-150-imported: false
+failed-final-200-imported: false
+ember-weights-changed: false
+router-integration: false
