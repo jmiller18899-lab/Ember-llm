@@ -1,0 +1,13 @@
+launch: ember-v054-direct-quality
+source: ember-v0.0.53-step9-int4
+router: training-selected-multilayer-int4
+mode: strict-first-turn-direct-quality
+cases: 24
+families: writing,rewrite,explain,summarize,classify,plan_compare
+control_markers: masked
+stop: endoftext
+semantic_judge: deterministic
+promotion_gate: 21/24-combined-and-24/24-routing
+ember_weight_updates: 0
+checkpoint_save: false
+production: false
