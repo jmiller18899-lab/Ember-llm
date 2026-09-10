@@ -1,0 +1,9 @@
+launch: ember-v054-text-family-router
+binary-representation: block_04
+family-signal: user-request-text-tfidf
+family-methods: word-char-hybrid-linear-kernel-ridge
+selection: stratified-training-cv-only
+known-development: 20+50+100
+sealed-finals-imported: false
+ember-weights-changed: false
+router-integration: false
