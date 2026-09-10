@@ -1,0 +1,5 @@
+launch: ember-v054-family-token-localize
+checkpoint: ember-v053-step9-20260910T165742Z
+objective: first-distinguishing-tool-family-token
+optimizer_steps: 0
+mode: read-only-gradient-localization
