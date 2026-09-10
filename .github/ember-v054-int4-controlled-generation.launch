@@ -1,0 +1,11 @@
+launch: ember-v054-int4-controlled-generation
+source: ember-v0.0.53-step9-int4
+router: training-selected-multilayer-int4
+router_verification: require-170-of-170
+controlled_set: fourth50
+direct_mode: mask-tool-control-markers-stop-eot
+tool_mode: force-family-json-scaffold-generate-argument-value
+ember_weight_updates: 0
+router_saved: false
+checkpoint_save: false
+promotion: false
