@@ -1,0 +1,59 @@
+name: Ember v0.0.53 Held-Out Routing Robustness
+
+on:
+  push:
+    branches:
+      - codex/ember-v053-heldout-routing
+    paths:
+      - jobs/ember_v053_heldout_routing.py
+      - .github/workflows/ember-v053-heldout-routing.yml
+      - .github/ember-v053-heldout-routing.launch
+  workflow_dispatch:
+
+jobs:
+  challenge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: .
+    steps:
+      - name: Checkout challenge branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install "huggingface-hub>=1.4,<2" sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+
+      - name: Validate challenge
+        run: |
+          python -m py_compile jobs/ember_v053_heldout_routing.py
+          pytest -q tests/test_ember_v051_placement_teacher_kl.py tests/test_ember_rung0_trajectory.py
+
+      - name: Run held-out routing robustness challenge
+        run: python jobs/ember_v053_heldout_routing.py | tee v053-heldout-routing.log
+
+      - name: Write summary
+        if: always()
+        run: |
+          if [ -f v053-heldout-routing/summary.md ]; then
+            cat v053-heldout-routing/summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v053-heldout-routing-${{ github.run_id }}
+          path: |
+            v053-heldout-routing/
+            v053-heldout-routing.log
+          retention-days: 90
