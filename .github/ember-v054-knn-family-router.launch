@@ -1,0 +1,8 @@
+launch: ember-v054-knn-family-router
+binary-representation: block_04
+family-representation: block_02+block_03
+family-methods: cosine-and-zscore-euclidean-knn
+selection: leave-one-out-training-cv-only
+known-development: 20+50+100
+sealed-finals-imported: false
+ember-weights-changed: false
