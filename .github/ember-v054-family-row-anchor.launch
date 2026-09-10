@@ -1,0 +1,6 @@
+launch: ember-v054-family-row-anchor
+checkpoint: ember-v053-step9-20260910T165742Z
+trainable: four-family-vocabulary-rows-only
+heldout_trigger: 6/8
+copy_floor: 22/35
+mode: cpu-diagnostic-no-save
