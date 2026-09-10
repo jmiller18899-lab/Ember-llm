@@ -1,0 +1,12 @@
+launch: ember-v054-router-calibration
+source: ember-v0.0.53-step9
+mode: frozen-block3-hierarchical-calibration
+stage1: direct-vs-tool-80-80
+stage2: four-tool-families-20-each
+regression_sets: old20,second50
+fresh_decision_set: third50
+models: full,int4
+shared_head_crosscheck: true
+ember_weight_updates: 0
+checkpoint_save: false
+promotion: false
