@@ -1,0 +1,8 @@
+launch: ember-v054-schema-key-anchor
+source: reproduced-v054-best-from-ember-v053-step9
+objective: args-first-schema-key-family
+trainable: block_03,block_04,block_05
+copy_floor: 22/35
+checkpoint_save: false
+promotion: false
+fresh_confirmation_required: true
