@@ -1,0 +1,48 @@
+name: Ember v0.0.52 First Token Logits
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - codex/ember-v052-first-token-logits
+    paths:
+      - .github/ember-v052-first-token-logits.launch
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: "."
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install "huggingface-hub>=1.4,<2" sentencepiece==0.2.0
+      - name: Validate diagnostic
+        run: python -m py_compile jobs/ember_v052_first_token_logits.py
+      - name: Run first-token logits diagnostic
+        run: python jobs/ember_v052_first_token_logits.py
+      - name: Write summary
+        if: always()
+        run: |
+          if [ -f v052-first-token-logits/summary.md ]; then cat v052-first-token-logits/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v052-first-token-logits-${{ github.run_id }}
+          path: v052-first-token-logits/
+          retention-days: 90
