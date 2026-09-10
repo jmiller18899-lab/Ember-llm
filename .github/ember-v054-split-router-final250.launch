@@ -1,0 +1,11 @@
+launch: ember-v054-split-router-final250
+binary-representation: block_04
+family-representation: block_02+block_03
+precision: full,int4-separate-heads
+training-and-cv: frozen-before-test
+final-cases: 250
+balance: 50-per-class
+failed-final-150-imported: false
+failed-final-200-imported: false
+ember-weights-changed: false
+router-integration: false
