@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "analysis": "ember-v052-direct-response-breakdown",
+  "source": {
+    "model_repo": "Jmiller18899/ember-v0.0.52-t4",
+    "evaluation_file": "evaluations/latest.json",
+    "evaluation_created_at": "2026-09-10T16:11:40.556024+00:00",
+    "evaluation_spec": "config/ember_v0.0.8_eval.json",
+    "evaluation_spec_sha256": "e006aa0f7c50797e0466a87fa3f1e35a1f00a63baf1f5113cf6e574844079bd4",
+    "run_id": "ember-v052-trust-20260910T160958Z",
+    "method": "read from the saved evaluation artifact; no model was run"
+  },
+  "direct_response_cases": 4,
+  "direct_response_rate": 0.5,
+  "failures": [
+    {"id": "direct_greeting", "prompt": "Say hello in a friendly sentence.",
+     "no_extra_tool_call": false, "nonempty": true,
+     "emitted": "<|tool|>\n{\"arguments\":{\"location\":\"Austin\"},\"name\":\"weather\"}"},
+    {"id": "direct_rewrite", "prompt": "Rewrite this title clearly: website thing not working.",
+     "no_extra_tool_call": false, "nonempty": true,
+     "emitted": "<|tool|>\n{\"arguments\":{\"location\":\"Austin\"},\"name\":\"weather\"}"}
+  ],
+  "passes": [
+    {"id": "direct_explain", "answer": "A checkpoint is a practical mechanism used to make a system easier to operate reliably."},
+    {"id": "direct_plan", "answer": "1. Prepare a controlled example and validate a broken link."}
+  ],
+  "findings": {
+    "failure_mode": "spurious_tool_call_emission",
+    "empty_generation_failures": 0,
+    "both_failures_emit_identical_bytes": true,
+    "identical_to_tool_weather_case_completion": true,
+    "failing_tool_call_is_at_position_zero": true,
+    "not_a_regression_against_baseline": true,
+    "failed_check": "absolute_direct_response_gate",
+    "absolute_threshold": 0.75,
+    "baseline_model_name": "ember-v0.0.7-t4",
+    "evaluator_truncates_at_endoftext": false,
+    "passing_answers_are_template_filler": true
+  }
+}
