@@ -1,0 +1,7 @@
+launch: ember-v054-block45-repair
+source: ember-v0.0.53-step9
+mode: surgical-block4-5-cpu
+trainable_groups: block_04,block_05
+copy_floor: 22/35
+checkpoint_save: false
+promotion: false
