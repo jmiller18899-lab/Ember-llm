@@ -1,0 +1,6 @@
+launch: ember-v054-gradient-localize
+source: ember-v0.0.53-step9
+mode: gradient-only-read-only
+optimizer_steps: 0
+objectives: direct-routing,tool-name,protected-copy
+promotion: false
