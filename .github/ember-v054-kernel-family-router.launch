@@ -1,0 +1,8 @@
+launch: ember-v054-kernel-family-router
+binary-representation: block_04
+family-representation: block_02+block_03
+family-classifier: rbf-kernel-ridge
+selection: stratified-training-cv-only
+known-development: 20+50+100
+sealed-finals-imported: false
+ember-weights-changed: false
