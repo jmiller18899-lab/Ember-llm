@@ -1,16 +1,18 @@
 {
-  "status": "proposed_next_full_test_not_run",
+  "status": "full_test_failed",
   "evidence_run_id": 34399461056,
   "source_version": "0.0.31",
   "source_step": 479,
-  "placement_loss_weight": 0.20,
+  "placement_loss_weight": 0.2,
   "tool_kl_loss_weight": 0.55,
   "copy_kl_loss_weight": 0.25,
   "closing_loss_weight": 0.05,
-  "learning_rate": 1e-7,
+  "learning_rate": 1e-07,
   "optimizer_steps": 40,
   "reason": "Smallest positive tested punctuation weight meeting the unchanged local loss screen at all four states.",
   "requires_original_full_learning_and_preservation_gates": true,
   "validated_training_balance": false,
-  "automatically_loaded_by_training": false
+  "automatically_loaded_by_training": false,
+  "full_test_run_id": 34431553570,
+  "full_test_endpoint_passed": false
 }

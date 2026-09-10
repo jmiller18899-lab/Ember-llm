@@ -1,0 +1,308 @@
+{
+  "run_id": 34431553570,
+  "evaluated_commit": "d8aa88575c1ff5bf9c588c32f3fc20738daa2f7b",
+  "zip_sha256": "fb25716843f45bd3237c14a5cd24511f34915595e2161e8a129cd4a922723391",
+  "elapsed_seconds": 367.3984074,
+  "verification": {
+    "status": true,
+    "weight": true,
+    "source": true,
+    "code": true,
+    "source_state": true,
+    "data_digest": true,
+    "restored": true,
+    "teacher": true,
+    "40_updates": true,
+    "original_recipe": true,
+    "same_values": true,
+    "same_template": true,
+    "same_tools": true,
+    "same_copies": true,
+    "same_schedule": true,
+    "same_anchors": true,
+    "same_holdout": true,
+    "fresh_disjoint": true,
+    "training_only_refreshes": true,
+    "endpoint_recomputed": true,
+    "artifact_service_digest": true
+  },
+  "endpoint_passed": false,
+  "endpoint_checks": {
+    "all_40_nonzero_updates": true,
+    "all_source_cases_retained": false,
+    "copy": true,
+    "copy_kl_budget": true,
+    "familiar_floors": false,
+    "fresh_holdout_retained": true,
+    "fresh_training_structure_retained": true,
+    "new_fresh_holdout_retained": false,
+    "placement_learning": false,
+    "reference": true,
+    "tool_kl_budget": true
+  },
+  "observations": [
+    {
+      "step": 1,
+      "familiar_short_retained": 8,
+      "exact": 1,
+      "tokens": 88,
+      "cohorts": {
+        "anchors": {
+          "structural": 8,
+          "cases": 8,
+          "exact_arguments": 0
+        },
+        "fresh_holdout": {
+          "structural": 6,
+          "cases": 6,
+          "exact_arguments": 0
+        },
+        "holdout": {
+          "structural": 6,
+          "cases": 6,
+          "exact_arguments": 0
+        }
+      }
+    },
+    {
+      "step": 12,
+      "familiar_short_retained": 8,
+      "exact": 1,
+      "tokens": 89,
+      "cohorts": {
+        "anchors": {
+          "structural": 8,
+          "cases": 8,
+          "exact_arguments": 0
+        },
+        "fresh_holdout": {
+          "structural": 5,
+          "cases": 6,
+          "exact_arguments": 0
+        },
+        "holdout": {
+          "structural": 6,
+          "cases": 6,
+          "exact_arguments": 0
+        }
+      }
+    },
+    {
+      "step": 13,
+      "familiar_short_retained": 8,
+      "exact": 1,
+      "tokens": 89,
+      "cohorts": {
+        "anchors": {
+          "structural": 8,
+          "cases": 8,
+          "exact_arguments": 0
+        },
+        "fresh_holdout": {
+          "structural": 5,
+          "cases": 6,
+          "exact_arguments": 0
+        },
+        "holdout": {
+          "structural": 6,
+          "cases": 6,
+          "exact_arguments": 0
+        }
+      }
+    },
+    {
+      "step": 23,
+      "familiar_short_retained": 8,
+      "exact": 1,
+      "tokens": 90,
+      "cohorts": {
+        "anchors": {
+          "structural": 8,
+          "cases": 8,
+          "exact_arguments": 0
+        },
+        "fresh_holdout": {
+          "structural": 5,
+          "cases": 6,
+          "exact_arguments": 0
+        },
+        "holdout": {
+          "structural": 6,
+          "cases": 6,
+          "exact_arguments": 0
+        }
+      }
+    },
+    {
+      "step": 40,
+      "familiar_short_retained": 7,
+      "exact": 1,
+      "tokens": 90,
+      "cohorts": {
+        "anchors": {
+          "structural": 8,
+          "cases": 8,
+          "exact_arguments": 0
+        },
+        "fresh_holdout": {
+          "structural": 5,
+          "cases": 6,
+          "exact_arguments": 0
+        },
+        "holdout": {
+          "structural": 6,
+          "cases": 6,
+          "exact_arguments": 0
+        }
+      }
+    }
+  ],
+  "refreshes": [
+    {
+      "step": 1,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 6,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 11,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 16,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 21,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 0,
+      "unclosed": 0
+    },
+    {
+      "step": 26,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 1,
+      "unclosed": 0
+    },
+    {
+      "step": 31,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 1,
+      "unclosed": 0
+    },
+    {
+      "step": 36,
+      "accepted": 8,
+      "rejected": 0,
+      "changed": 1,
+      "unclosed": 0
+    }
+  ],
+  "final": {
+    "retention": {
+      "gained_ids": [],
+      "lost_ids": [
+        "system_target_short_code_09"
+      ],
+      "passed": false,
+      "retained": 83,
+      "source_passed": 84
+    },
+    "learning_gate": {
+      "checks": {
+        "exact_gain": false,
+        "token_gain": false
+      },
+      "passed": false
+    },
+    "copy_guard": {
+      "checks": {
+        "clean_stop_rate_non_regression": true,
+        "continuation_top1_rate_non_regression": true,
+        "exact_copy_rate_non_regression": true,
+        "existing_copy_gate": true,
+        "expanded_cases_retained": true,
+        "expanded_clean_stop_rate_non_regression": true,
+        "expanded_continuation_top1_rate_non_regression": true,
+        "expanded_exact_copy_rate_non_regression": true,
+        "legacy_cases_retained": true
+      },
+      "passed": true
+    },
+    "reference": {
+      "cases": 4,
+      "passed": true,
+      "passed_cases": 4,
+      "rows": [
+        {
+          "id": "tool_weather",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        },
+        {
+          "id": "tool_calculator",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        },
+        {
+          "id": "tool_web_search",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        },
+        {
+          "id": "tool_get_time",
+          "score": {
+            "clean_stop": true,
+            "envelope_json_valid": true,
+            "json_error": null,
+            "tool_name_correct": true
+          }
+        }
+      ]
+    },
+    "tool_distill": {
+      "examples": 130,
+      "teacher_kl": 0.0006939250477658146,
+      "token_top1": 2702,
+      "token_top1_rate": 0.9915596330275229,
+      "tokens": 2725
+    },
+    "copy_distill": {
+      "examples": 48,
+      "teacher_kl": 0.0002262607219260341,
+      "token_top1": 497,
+      "token_top1_rate": 0.9979919678714859,
+      "tokens": 498
+    }
+  },
+  "artifact_id": 10134807731
+}
