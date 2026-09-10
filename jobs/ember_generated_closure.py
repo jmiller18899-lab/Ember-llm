@@ -139,14 +139,14 @@ def refresh_examples(student, tokenizer, torch, rows, step):
     return examples, audit
 
 
-def optimizer_step(student, teacher, tokenizer, torch, cfg, examples, tools, copies, batch, optimizer, structural):
+def optimizer_step(student, teacher, tokenizer, torch, cfg, examples, tools, copies, batch, optimizer, structural, closing_weight=CLOSURE_WEIGHT):
     student.train()
     optimizer.zero_grad(set_to_none=True)
     place = objectives.batch_loss(student, torch, examples, batch['placement'])
     tool = trace.distill.batch_teacher_kl(student, teacher, tokenizer, torch, tools, batch['tool'], cfg['distill_temperature'])
     copied = trace.distill.batch_teacher_kl(student, teacher, tokenizer, torch, copies, batch['copy'], cfg['distill_temperature'])
     closing = objectives.batch_loss(student, torch, structural, list(range(len(structural))))
-    total = cfg['placement_loss_weight']*place + cfg['tool_kl_loss_weight']*tool + cfg['copy_kl_loss_weight']*copied + CLOSURE_WEIGHT*closing
+    total = cfg['placement_loss_weight']*place + cfg['tool_kl_loss_weight']*tool + cfg['copy_kl_loss_weight']*copied + closing_weight*closing
     if not bool(torch.isfinite(total)):
         raise ValueError('non-finite generated-prefix objective')
     total.backward()
@@ -157,6 +157,36 @@ def optimizer_step(student, teacher, tokenizer, torch, cfg, examples, tools, cop
     return {'placement_loss':float(place.detach()), 'tool_kl_loss':float(tool.detach()),
             'copy_kl_loss':float(copied.detach()), 'closing_loss':float(closing.detach()),
             'combined_loss':float(total.detach()), 'gradient_norm':float(norm)}
+
+
+def prepare_new_holdout(teacher, tokenizer, torch, previous_attempts):
+    used = diag.historical_values() | set(json.loads(PRIOR_VALUES.read_text())["excluded_values"])
+    used.update(r["target"] for r in previous_attempts)
+    rows, attempts = [], []
+    for variant, quota in enumerate((4, 2)):
+        kept = 0
+        for i in range(48):
+            for nonce in range(10000):
+                digest = data.copy_data._digest("closure005-fresh-holdout-20260910", variant, i, nonce)
+                target = data.copy_data._render("short_code", variant, digest)
+                if target not in used:
+                    used.add(target)
+                    break
+            else:
+                raise ValueError("new holdout namespace exhausted")
+            case = {"id": f"closure005_holdout_{variant}_{i:02d}", **data.tool_prompt("short_code", target)}
+            gen = base.semantic_gate.generate_completion(teacher, tokenizer, torch, case["prompt"], 96)
+            score = regression.control.score_case(case, gen["completion"])
+            accepted = bool(score["envelope_json_valid"] and score["tool_name_correct"])
+            attempts.append({"phase":"fresh_holdout", "variant":variant, "target":target, "accepted":accepted})
+            if accepted:
+                rows.append({**case, "source_score":score, "source_completion":gen["completion"], "source_ids":gen["generated_ids"]})
+                kept += 1
+            if kept == quota:
+                break
+        if kept != quota:
+            raise ValueError("new source-valid holdout quota failed")
+    return rows, attempts
 
 
 def fresh_probe(student, tokenizer, torch, rows):
@@ -175,12 +205,14 @@ def final_checks(full, fresh, updates):
     checks.update(fresh_training_structure_retained=fresh["anchors"]["all_retained"],
                   fresh_holdout_retained=fresh["holdout"]["all_retained"],
                   all_40_nonzero_updates=len(updates)==40 and all(math.isfinite(r["actual_l2"]) and r["actual_l2"]>0 for r in updates))
+    if "fresh_holdout" in fresh:
+        checks["new_fresh_holdout_retained"] = fresh["fresh_holdout"]["all_retained"]
     return checks
 
 
 def summary(report):
     lines = ["# Ember generated-prefix JSON closure CPU result", "", f"Execution: {report['status']}",
-             f"Steps: {len(report['updates'])}/40", f"Endpoint passed: {report.get('endpoint_passed', False)}", "",
+             f"Steps: {len(report['updates'])}/40", f"Punctuation weight: {report['closing_weight']}", f"Endpoint passed: {report.get('endpoint_passed', False)}", "",
              "| Observed step | Short-code cases retained | Exact placement | Placement tokens | Learning gate |",
              "| ---: | ---: | ---: | ---: | --- |"]
     for r in report["probes"]:
@@ -198,6 +230,8 @@ def summary(report):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=Path("generated-closure-results"))
+    parser.add_argument("--closing-weight", type=float, choices=(.05, .20), default=.20)
+    parser.add_argument("--new-holdout", action="store_true")
     args = parser.parse_args()
     cfg = trace.load_config()
     import torch
@@ -215,7 +249,7 @@ def main():
               "code_commit": os.environ.get("GITHUB_SHA"), "original_recipe": cfg, "updates": [], "probes": [],
               "gpu_training_authorized": False, "promotion_authorized": False, "production_authorized": False,
               "comparison_run_ids": [34369464055,34387531160], "probe_steps": sorted(PROBE_STEPS),
-              "closing_weight": CLOSURE_WEIGHT, "refresh_steps": sorted(REFRESH_STEPS), "refreshes": []}
+              "closing_weight": args.closing_weight, "new_holdout": args.new_holdout, "refresh_steps": sorted(REFRESH_STEPS), "refreshes": []}
     student = teacher = pristine = None
     try:
         with tempfile.TemporaryDirectory(prefix="ember-generated-closure-") as td:
@@ -230,6 +264,9 @@ def main():
                 p.requires_grad_(False)
             del source, splits
             cohorts, attempts, excluded_count = prepare_rows(teacher, tokenizer, torch)
+            if args.new_holdout:
+                cohorts["fresh_holdout"], new_attempts = prepare_new_holdout(teacher, tokenizer, torch, attempts)
+                attempts.extend(new_attempts)
             values = data.target_values(cfg)
             template, template_report = data.v048d.discover_template(student, tokenizer, torch, cfg, values["template"])
             make = lambda phase, tag: data.v048d.build_cases({k:values[phase][k] for k in sorted(data.PLACEMENT_SUBTYPES)}, tag)
@@ -255,13 +292,13 @@ def main():
             optimizer = torch.optim.AdamW(student.parameters(),lr=cfg["control_learning_rate"],weight_decay=cfg["weight_decay"])
             if optimizer.state:
                 raise ValueError("optimizer must start empty")
-            diag.event("baseline", familiar=84, placement_exact=1, placement_tokens=88, closing_weight=CLOSURE_WEIGHT)
+            diag.event("baseline", familiar=84, placement_exact=1, placement_tokens=88, closing_weight=args.closing_weight)
             for step,batch in enumerate(schedule,1):
                 if step in REFRESH_STEPS:
                     structural, audit = refresh_examples(student, tokenizer, torch, cohorts["anchors"], step)
                     report["refreshes"].append(audit)
                 theta = diag.flat_parameters(student,torch)
-                losses = optimizer_step(student,teacher,tokenizer,torch,cfg,examples,tools,copies,batch,optimizer,structural)
+                losses = optimizer_step(student,teacher,tokenizer,torch,cfg,examples,tools,copies,batch,optimizer,structural,closing_weight=args.closing_weight)
                 actual_norm = float((diag.flat_parameters(student,torch)-theta).norm())
                 if not math.isfinite(actual_norm) or actual_norm <= 0:
                     raise ValueError("finite nonzero update required")

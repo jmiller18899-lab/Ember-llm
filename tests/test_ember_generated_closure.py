@@ -75,3 +75,9 @@ def test_structural_batch_loss_has_no_gradient_on_argument_prediction():
     g.objectives.batch_loss(model,torch,[([0,1,6],[-100,-100,3])],[0]).backward()
     assert torch.count_nonzero(model.logits.grad[:,:2])==0
     assert torch.count_nonzero(model.logits.grad[:,2])>0
+
+
+def test_additional_fresh_holdout_failure_blocks_endpoint():
+    fresh={'anchors':{'all_retained':True},'holdout':{'all_retained':True},'fresh_holdout':{'all_retained':False}}
+    checks=g.final_checks({'checks':{'placement_learning':True}},fresh,[{'actual_l2':.01} for _ in range(40)])
+    assert not checks['new_fresh_holdout_retained']
