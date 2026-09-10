@@ -1,0 +1,8 @@
+launch: ember-v054-representation-sweep
+source: ember-v053-step9-20260910T165742Z
+candidate-features: individual-and-concatenated-blocks-2-through-5-plus-final-hidden
+selection: training-cv-only
+known-development: 20+50+100
+failed-prior-final-imported: false
+ember-weights-changed: false
+fresh-confirmation: not-consumed
