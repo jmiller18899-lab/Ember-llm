@@ -1,0 +1,4 @@
+Two-stage plan:
+1) block_00/block_01 direct-vs-tool routing repair with protected copy gradient;
+2) block_03/block_04/block_05 name-first tool-prefix/schema repair;
+3) unchanged v0.0.53 challenge is development only; fresh confirmation required before save.
