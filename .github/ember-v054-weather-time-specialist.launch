@@ -1,0 +1,7 @@
+launch: ember-v054-weather-time-specialist
+source: ember-v053-step9-20260910T165742Z
+architecture: expanded-hierarchical-plus-weather-time-specialist
+precision: full,int4-separate-heads
+known-development: 20+50+100
+fresh-final-confirmation: not-consumed
+ember-weights-changed: false
