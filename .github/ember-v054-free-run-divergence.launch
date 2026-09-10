@@ -1,0 +1,7 @@
+launch: ember-v054-free-run-divergence
+source: ember-v0.0.53-step9
+comparison: block3-5-lr3.2e-6-step9
+mode: read-only-saved-state
+trace: actual-greedy-first-mismatch
+checkpoint_save: false
+promotion: false
