@@ -1,0 +1,12 @@
+launch: ember-v054-extractive-v2
+source: ember-v0.0.53-step9-int4
+router: training-selected-multilayer-int4
+prior_router_gate: 170/170
+fifth_router_regression: require-50/50
+sixth_fresh_routing: require-50/50
+resolver: extractive-v2
+argument_gates: fourth40,fifth40,sixth40
+strict_argument_total: 120/120
+ember_weight_updates: 0
+checkpoint_save: false
+production: false
