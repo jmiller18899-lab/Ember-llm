@@ -1,0 +1,12 @@
+launch: ember-v054-hierarchical-router
+source: ember-v0.0.53-step9
+mode: frozen-block3-hierarchical-router
+stage1: direct-vs-tool-64-64
+stage2: four-tool-families-16-each
+old_heldout: 20
+fresh_confirmation: 50
+models: full,int4
+shared_head_crosscheck: true
+ember_weight_updates: 0
+checkpoint_save: false
+promotion: false
