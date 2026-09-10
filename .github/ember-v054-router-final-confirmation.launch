@@ -1,0 +1,8 @@
+launch: ember-v054-router-final-confirmation
+architecture: precision-specific-expanded-hierarchical-plus-weather-time-specialist
+training: frozen-before-test
+final-cases: 150
+balance: 30-per-class
+ember-weights-changed: false
+router-integration: false
+promotion: false
