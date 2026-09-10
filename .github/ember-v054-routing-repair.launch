@@ -1,0 +1,7 @@
+launch: ember-v054-routing-repair
+source: ember-v0.0.53-step9
+mode: bounded-cpu-diagnostic
+training_prompts: 32
+heldout_validation: unchanged-v053-20-case
+checkpoint_save: false
+promotion: false
