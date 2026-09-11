@@ -56,6 +56,12 @@ It includes every request, expected result, actual call, margin, and failure.
 
 ## Next repair priorities
 
+The first two items are implemented in the separate
+[argument parser v3](ember-argument-parser-v3.md). Its frozen parser-only check
+passed 60/60 requests with supplied routes. The five failures above are retained
+as development regressions. The original combined source lock and report remain
+unchanged; routing and a new combined confirmation are still outstanding.
+
 1. Preserve grouping and unary signs in arithmetic; reject unsupported syntax
    before producing a call. Use development tests for the grammar itself.
 2. Tighten location extraction so it returns an unambiguous location or asks

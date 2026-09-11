@@ -8,6 +8,11 @@ cross-validation, network access, or access to evaluation answers.
 See the [measured results and repair priorities](ember-tool-assistant-results.md).
 No passing prototype is available.
 
+An opt-in [arithmetic and location parser v3](ember-argument-parser-v3.md) now
+repairs the known argument failures and passed 60/60 parser-only requests with
+supplied routes. The frozen v2 candidate and its failed combined result below
+are preserved; v3 has not yet passed a new full-model confirmation.
+
 This is a candidate until its combined confirmation passes. The workflow packages
 a prototype only after all 100 new requests pass in both precisions, including
 all 80 exact argument checks and fixture dispatches. A failed run preserves
