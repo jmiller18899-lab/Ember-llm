@@ -1,5 +1,6 @@
 """Unchanged v054 direct-quality checks; old 24 cases are development evidence."""
 import re
+from jobs import ember_hf_eval as ev
 
 SYSTEM = (
     "You are Ember. Answer the user's request directly and concisely. The request does not need a tool. "

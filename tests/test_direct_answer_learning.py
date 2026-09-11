@@ -8,7 +8,8 @@ import pytest
 import torch
 import torch.nn.functional as F
 
-from direct_answers.learn import batch, configure_training, encode_row, frozen_hash, validate_data
+from direct_answers import quality
+from direct_answers.learn import batch, configure_training, encode_row, frozen_hash, quality_for_case, validate_data
 
 
 def small_model(tmp_path):
@@ -74,3 +75,12 @@ def test_data_splits_exclude_router_and_old_quality_requests():
     data["confirmation"][0]["user"] = data["train"][0]["user"]
     with pytest.raises(ValueError, match="leakage"):
         validate_data(data, router)
+
+
+def test_real_quality_helpers_and_one_word_classification():
+    assert quality.semantic_check("negative", {"label": "negative", "forbidden_labels": ["positive", "neutral"]})["passed"]
+    legacy = quality.generic_quality("negative")
+    assert not legacy["passed"]
+    assert quality_for_case("negative", {"label": "negative"}, legacy)
+    assert not quality_for_case("negative", {"label": "neutral"}, legacy)
+    assert quality.generic_quality("Welcome to our reading club!")["passed"]

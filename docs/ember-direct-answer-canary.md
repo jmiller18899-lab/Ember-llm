@@ -25,6 +25,11 @@ the old quality score improves by at least three cases. New confirmation
 requests never enter gradient updates or checkpoint selection. Failing the
 learning gate leaves that confirmation unconsumed.
 
+The historical generic-quality check rejects every one-word response. The new
+canary uses an explicit exception when the entire response is exactly the
+required classification label. It also records the unchanged historical score
+as `legacy_passed`, so comparisons do not silently redefine past results.
+
 The workflow completing successfully means the learning diagnostic ran, not
 that the model passed a quality gate. Check `development_progress_gate` and
 the raw answers in the report. Deterministic lexical checks are limited and

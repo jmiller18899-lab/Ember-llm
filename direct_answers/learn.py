@@ -98,10 +98,20 @@ def evaluate(model, tokenizer, rows):
         generation = generate(model, tokenizer, row["user"])
         semantic = quality.semantic_check(generation["text"], row["check"])
         generic = quality.generic_quality(generation["text"])
-        passed = generation["stopped_at_eot"] and semantic["passed"] and generic["passed"]
+        task_quality = quality_for_case(generation["text"], row["check"], generic)
+        passed = generation["stopped_at_eot"] and semantic["passed"] and task_quality
         output.append({"id": row["id"], "family": row["family"], "user": row["user"], **generation,
-                       "semantic": semantic, "quality": generic, "passed": passed})
-    return {"passed": sum(r["passed"] for r in output), "total": len(output), "rows": output}
+                       "semantic": semantic, "legacy_quality": generic, "task_quality_passed": task_quality,
+                       "legacy_passed": generation["stopped_at_eot"] and semantic["passed"] and generic["passed"], "passed": passed})
+    return {"passed": sum(r["passed"] for r in output), "legacy_passed": sum(r["legacy_passed"] for r in output), "total": len(output), "rows": output}
+
+
+def quality_for_case(text, spec, generic):
+    # A required one-word classification label is a complete answer. Keep the
+    # historical >=2-word score alongside this explicit task-aware exception.
+    if "label" in spec and quality.normalized(text) == quality.normalized(spec["label"]):
+        return True
+    return generic["passed"]
 
 
 def validate_data(data, tool_training):
@@ -215,6 +225,7 @@ def main():
         "selected_step": best_step, "selected_development_loss": best_dev, "checkpoints": records,
         "training_examples_seen": len(set(used_ids)), "training_example_order": used_ids,
         "baseline_quality": baseline_quality, "candidate_quality": candidate_quality,
+        "quality_rule": "Original semantic/generic checks with exact single-label exception; unchanged scores retained as legacy_passed",
         "development_progress_gate": progress, "confirmation_consumed": progress, "confirmation": confirmation,
         "selected_adapter_sha256": sha256(selected_path), "production_ready": False,
         "int4_candidate_tested": False, "elapsed_training_and_final_eval_seconds": time.monotonic() - started,
@@ -223,6 +234,7 @@ def main():
     (args.out / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
     summary = ["# Independent Ember direct-answer canary", "",
                f"Old 24 development task checks: {baseline_quality['passed']}/24 → {candidate_quality['passed']}/24.",
+               f"Unchanged historical quality rule: {baseline_quality['legacy_passed']}/24 → {candidate_quality['legacy_passed']}/24.",
                f"Development answer-token loss: {baseline_dev:.4f} → {best_dev:.4f}; selected step {best_step}.",
                f"Development progress gate: **{progress}**. Fresh direct confirmation consumed: **{progress}**.",
                "Routing-layer parameters and observed block_04 features remained byte-for-byte unchanged.",
