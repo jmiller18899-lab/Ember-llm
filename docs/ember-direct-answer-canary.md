@@ -6,6 +6,11 @@ Only the final transformer block (`blocks.5`) and output normalization (`ln_f`)
 can learn. Token embeddings, the tied language-model output weights, and
 blocks 0–4 remain frozen. The runtime's saved heads are not changed.
 
+**Completed result: insufficient improvement.** Development loss fell, but
+task-aware quality reached only 2/24 and the unchanged historical score 1/24.
+The fresh confirmation was not consumed. See the
+[measured results and raw-answer assessment](ember-direct-answer-results.md).
+
 The CPU trial uses 72 short instruction/answer examples across writing,
 rewriting, explaining, summarizing, classification, and planning/comparison.
 Twelve separate development examples select the checkpoint by answer-token

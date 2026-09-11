@@ -4,6 +4,10 @@ This combines the strongest observed direct/tool router and text-family classifi
 with extraction helper v2. The runtime loads saved weights without fitting,
 cross-validation, network access, or access to evaluation answers.
 
+**Current result: FAIL — 82/100 full precision and 85/100 INT4.**
+See the [measured results and repair priorities](ember-tool-assistant-results.md).
+No passing prototype is available.
+
 This is a candidate until its combined confirmation passes. The workflow packages
 a prototype only after all 100 new requests pass in both precisions, including
 all 80 exact argument checks and fixture dispatches. A failed run preserves
