@@ -9,6 +9,7 @@ import torch
 from tool_assistant import binary, family
 from tool_assistant.evaluate import arithmetic, score, validate_cases
 from tool_assistant.runtime import Runtime, hidden
+from tool_assistant.release import require_pass
 
 
 def test_binary_roundtrip(tmp_path):
@@ -94,3 +95,13 @@ def test_confirmation_source_lock_is_unchanged():
         assert hashlib.sha256((Path("tool_assistant") / name).read_bytes()).hexdigest() == expected
     suite = json.loads(Path("tool_assistant/data/confirmation-100.json").read_text())
     assert suite["source_lock_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+@pytest.mark.parametrize("report", [
+    {"status": "FAIL", "strict_pass": False},
+    {"status": "PASS", "strict_pass": True, "candidate_manifest_sha256": "other"},
+    {"status": "PASS", "strict_pass": True, "candidate_manifest_sha256": "abc", "results": {}},
+])
+def test_release_rejects_failed_or_incomplete_evidence(report):
+    with pytest.raises(ValueError):
+        require_pass(report, "abc")

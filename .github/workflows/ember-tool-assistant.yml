@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   confirm:
     runs-on: ubuntu-24.04
@@ -41,14 +45,12 @@ jobs:
         run: python -m tool_assistant.evaluate --bundle frozen-candidate --cases tool_assistant/data/confirmation-100.json --report evidence/combined-confirmation.json | tee confirmation.log
       - name: Package passing prototype
         if: steps.confirmation.outcome == 'success'
-        run: |
-          cp docs/ember-tool-assistant.md frozen-candidate/README.md
-          cp tool_assistant/requirements.txt frozen-candidate/requirements.txt
-          python -c "import shutil; shutil.make_archive('ember-tool-assistant-prototype', 'zip', 'frozen-candidate')"
+        run: python -m tool_assistant.release --bundle frozen-candidate --report evidence/combined-confirmation.json --out ember-tool-assistant-prototype
       - name: Write measured summary
         if: always()
         run: |
           if [ -f evidence/combined-confirmation.md ]; then cat evidence/combined-confirmation.md >> "$GITHUB_STEP_SUMMARY"; fi
+          if [ -f evidence/combined-confirmation.json ]; then cat evidence/combined-confirmation.json; fi
       - name: Preserve frozen state and all measured evidence
         if: always()
         uses: actions/upload-artifact@v4
