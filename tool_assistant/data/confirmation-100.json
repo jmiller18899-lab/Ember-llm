@@ -1,0 +1,708 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-11T05:07:48.665347+00:00",
+  "source_lock_sha256": "6a0782c94f633f75a41f8dcb0117a7c2d1f3d7b18ce85cd5c4da206a68d7cf05",
+  "gate": "100/100 combined and 80/80 exact arguments in both precisions; no refitting after scoring",
+  "cases": [
+    {
+      "id": "combined_new_001",
+      "route": "weather",
+      "user": "Could you check whether it is raining in Baku right now?",
+      "arguments": {
+        "location": "Baku"
+      }
+    },
+    {
+      "id": "combined_new_002",
+      "route": "weather",
+      "user": "I am stepping outside; what is the current temperature in Nuuk?",
+      "arguments": {
+        "location": "Nuuk"
+      }
+    },
+    {
+      "id": "combined_new_003",
+      "route": "weather",
+      "user": "Please get the live weather for Paramaribo.",
+      "arguments": {
+        "location": "Paramaribo"
+      }
+    },
+    {
+      "id": "combined_new_004",
+      "route": "weather",
+      "user": "Are there clear skies in Gaborone at the moment?",
+      "arguments": {
+        "location": "Gaborone"
+      }
+    },
+    {
+      "id": "combined_new_005",
+      "route": "weather",
+      "user": "Tell me the current wind conditions in Valparaiso.",
+      "arguments": {
+        "location": "Valparaiso"
+      }
+    },
+    {
+      "id": "combined_new_006",
+      "route": "weather",
+      "user": "I need a current weather reading for Tromso.",
+      "arguments": {
+        "location": "Tromso"
+      }
+    },
+    {
+      "id": "combined_new_007",
+      "route": "weather",
+      "user": "How cold is it in Sapporo right now?",
+      "arguments": {
+        "location": "Sapporo"
+      }
+    },
+    {
+      "id": "combined_new_008",
+      "route": "weather",
+      "user": "Could you report the weather in Muscat currently?",
+      "arguments": {
+        "location": "Muscat"
+      }
+    },
+    {
+      "id": "combined_new_009",
+      "route": "weather",
+      "user": "Is the sun out in Kigali at this moment?",
+      "arguments": {
+        "location": "Kigali"
+      }
+    },
+    {
+      "id": "combined_new_010",
+      "route": "weather",
+      "user": "Please look at the live temperature in Hobart.",
+      "arguments": {
+        "location": "Hobart"
+      }
+    },
+    {
+      "id": "combined_new_011",
+      "route": "weather",
+      "user": "What are the outdoor conditions in Cuenca right now?",
+      "arguments": {
+        "location": "Cuenca"
+      }
+    },
+    {
+      "id": "combined_new_012",
+      "route": "weather",
+      "user": "I need to know whether it is wet in Bergen at the moment.",
+      "arguments": {
+        "location": "Bergen"
+      }
+    },
+    {
+      "id": "combined_new_013",
+      "route": "weather",
+      "user": "Can you fetch current weather observations for Windhoek?",
+      "arguments": {
+        "location": "Windhoek"
+      }
+    },
+    {
+      "id": "combined_new_014",
+      "route": "weather",
+      "user": "Please tell me how warm it is in Tbilisi right now.",
+      "arguments": {
+        "location": "Tbilisi"
+      }
+    },
+    {
+      "id": "combined_new_015",
+      "route": "weather",
+      "user": "Any rainfall in Noumea currently?",
+      "arguments": {
+        "location": "Noumea"
+      }
+    },
+    {
+      "id": "combined_new_016",
+      "route": "weather",
+      "user": "Could you get the present weather in Saint-Pierre, Reunion?",
+      "arguments": {
+        "location": "Saint-Pierre, Reunion"
+      }
+    },
+    {
+      "id": "combined_new_017",
+      "route": "weather",
+      "user": "What is the live air temperature in St. Moritz?",
+      "arguments": {
+        "location": "St. Moritz"
+      }
+    },
+    {
+      "id": "combined_new_018",
+      "route": "weather",
+      "user": "Is it cloudy in L'Aquila right now?",
+      "arguments": {
+        "location": "L'Aquila"
+      }
+    },
+    {
+      "id": "combined_new_019",
+      "route": "weather",
+      "user": "I am packing a jacket; check the current temperature in Ulaanbaatar.",
+      "arguments": {
+        "location": "Ulaanbaatar"
+      }
+    },
+    {
+      "id": "combined_new_020",
+      "route": "weather",
+      "user": "Give me a weather observation for Ushuaia at the moment.",
+      "arguments": {
+        "location": "Ushuaia"
+      }
+    },
+    {
+      "id": "combined_new_021",
+      "route": "get_time",
+      "user": "Could you fetch the local clock time in Thimphu right now?",
+      "arguments": {
+        "timezone": "Thimphu"
+      }
+    },
+    {
+      "id": "combined_new_022",
+      "route": "get_time",
+      "user": "I need the current time in Dushanbe, please.",
+      "arguments": {
+        "timezone": "Dushanbe"
+      }
+    },
+    {
+      "id": "combined_new_023",
+      "route": "get_time",
+      "user": "What would a clock in Praia show at this moment?",
+      "arguments": {
+        "timezone": "Praia"
+      }
+    },
+    {
+      "id": "combined_new_024",
+      "route": "get_time",
+      "user": "Please check what time it currently is in Port Vila.",
+      "arguments": {
+        "timezone": "Port Vila"
+      }
+    },
+    {
+      "id": "combined_new_025",
+      "route": "get_time",
+      "user": "Tell me the local wall-clock time in Yerevan right now.",
+      "arguments": {
+        "timezone": "Yerevan"
+      }
+    },
+    {
+      "id": "combined_new_026",
+      "route": "get_time",
+      "user": "Could you read out the current local time for Bishkek?",
+      "arguments": {
+        "timezone": "Bishkek"
+      }
+    },
+    {
+      "id": "combined_new_027",
+      "route": "get_time",
+      "user": "I am about to call someone in Apia; what time is it there now?",
+      "arguments": {
+        "timezone": "Apia"
+      }
+    },
+    {
+      "id": "combined_new_028",
+      "route": "get_time",
+      "user": "How late is it in Asmara right now?",
+      "arguments": {
+        "timezone": "Asmara"
+      }
+    },
+    {
+      "id": "combined_new_029",
+      "route": "get_time",
+      "user": "Please give the current local clock reading in Malabo.",
+      "arguments": {
+        "timezone": "Malabo"
+      }
+    },
+    {
+      "id": "combined_new_030",
+      "route": "get_time",
+      "user": "I need a present-time lookup for Banjul.",
+      "arguments": {
+        "timezone": "Banjul"
+      }
+    },
+    {
+      "id": "combined_new_031",
+      "route": "get_time",
+      "user": "Show the current time in Europe/Vilnius.",
+      "arguments": {
+        "timezone": "Europe/Vilnius"
+      }
+    },
+    {
+      "id": "combined_new_032",
+      "route": "get_time",
+      "user": "Please tell me the time in Asia/Kathmandu right now.",
+      "arguments": {
+        "timezone": "Asia/Kathmandu"
+      }
+    },
+    {
+      "id": "combined_new_033",
+      "route": "get_time",
+      "user": "What time is it currently in Pacific/Chatham?",
+      "arguments": {
+        "timezone": "Pacific/Chatham"
+      }
+    },
+    {
+      "id": "combined_new_034",
+      "route": "get_time",
+      "user": "Can you check the clock in Africa/Lusaka at the moment?",
+      "arguments": {
+        "timezone": "Africa/Lusaka"
+      }
+    },
+    {
+      "id": "combined_new_035",
+      "route": "get_time",
+      "user": "Give me the present local time for Indian/Mauritius.",
+      "arguments": {
+        "timezone": "Indian/Mauritius"
+      }
+    },
+    {
+      "id": "combined_new_036",
+      "route": "get_time",
+      "user": "What is the time on the clock in Surabaya right now?",
+      "arguments": {
+        "timezone": "Surabaya"
+      }
+    },
+    {
+      "id": "combined_new_037",
+      "route": "get_time",
+      "user": "Please get a local-time reading for Maputo.",
+      "arguments": {
+        "timezone": "Maputo"
+      }
+    },
+    {
+      "id": "combined_new_038",
+      "route": "get_time",
+      "user": "Could you tell me the current hour and minute in Belize City?",
+      "arguments": {
+        "timezone": "Belize City"
+      }
+    },
+    {
+      "id": "combined_new_039",
+      "route": "get_time",
+      "user": "What time is it in Nuku'alofa at this moment?",
+      "arguments": {
+        "timezone": "Nuku'alofa"
+      }
+    },
+    {
+      "id": "combined_new_040",
+      "route": "get_time",
+      "user": "Look up the local time in Papeete right now.",
+      "arguments": {
+        "timezone": "Papeete"
+      }
+    },
+    {
+      "id": "combined_new_041",
+      "route": "calculator",
+      "user": "Please work out 7843 plus 2869.",
+      "result": 10712
+    },
+    {
+      "id": "combined_new_042",
+      "route": "calculator",
+      "user": "I need the product of 73 times 58.",
+      "result": 4234
+    },
+    {
+      "id": "combined_new_043",
+      "route": "calculator",
+      "user": "Can you compute 9360 divided by 45?",
+      "result": 208
+    },
+    {
+      "id": "combined_new_044",
+      "route": "calculator",
+      "user": "Please calculate 6.5 percent of 280.",
+      "result": 18.2
+    },
+    {
+      "id": "combined_new_045",
+      "route": "calculator",
+      "user": "How much is 123.75 minus 48.5?",
+      "result": 75.25
+    },
+    {
+      "id": "combined_new_046",
+      "route": "calculator",
+      "user": "Work out 46 squared for me.",
+      "result": 2116
+    },
+    {
+      "id": "combined_new_047",
+      "route": "calculator",
+      "user": "Calculate 2 to the power of 11.",
+      "result": 2048
+    },
+    {
+      "id": "combined_new_048",
+      "route": "calculator",
+      "user": "Please find 16.25 multiplied by 3.2.",
+      "result": 52
+    },
+    {
+      "id": "combined_new_049",
+      "route": "calculator",
+      "user": "What do 845 plus 129 plus 76 add up to?",
+      "result": 1050
+    },
+    {
+      "id": "combined_new_050",
+      "route": "calculator",
+      "user": "Compute 4321 minus 987.",
+      "result": 3334
+    },
+    {
+      "id": "combined_new_051",
+      "route": "calculator",
+      "user": "Could you calculate 18*(7+3)?",
+      "result": 180
+    },
+    {
+      "id": "combined_new_052",
+      "route": "calculator",
+      "user": "Evaluate (96-24)/6.",
+      "result": 12
+    },
+    {
+      "id": "combined_new_053",
+      "route": "calculator",
+      "user": "Please calculate -17 plus 42.",
+      "result": 25
+    },
+    {
+      "id": "combined_new_054",
+      "route": "calculator",
+      "user": "How much is 9.5 percent of 640?",
+      "result": 60.8
+    },
+    {
+      "id": "combined_new_055",
+      "route": "calculator",
+      "user": "Please compute 2.75 times 16 minus 9.",
+      "result": 35
+    },
+    {
+      "id": "combined_new_056",
+      "route": "calculator",
+      "user": "Calculate 14 + 6 / 3.",
+      "result": 16
+    },
+    {
+      "id": "combined_new_057",
+      "route": "calculator",
+      "user": "Find the value of 0.6 multiplied by 0.25.",
+      "result": 0.15
+    },
+    {
+      "id": "combined_new_058",
+      "route": "calculator",
+      "user": "I need 1001 divided by 13.",
+      "result": 77
+    },
+    {
+      "id": "combined_new_059",
+      "route": "calculator",
+      "user": "Compute 3 to the power of 5.",
+      "result": 243
+    },
+    {
+      "id": "combined_new_060",
+      "route": "calculator",
+      "user": "Calculate 508 minus 219 plus 37.",
+      "result": 326
+    },
+    {
+      "id": "combined_new_061",
+      "route": "web_search",
+      "user": "Find the currently supported releases of the Gleam programming language.",
+      "arguments": {
+        "query": "Find the currently supported releases of the Gleam programming language."
+      }
+    },
+    {
+      "id": "combined_new_062",
+      "route": "web_search",
+      "user": "Look up the latest official Zed editor release notes.",
+      "arguments": {
+        "query": "Look up the latest official Zed editor release notes."
+      }
+    },
+    {
+      "id": "combined_new_063",
+      "route": "web_search",
+      "user": "Please find the newest security bulletin published by the FreeBSD project.",
+      "arguments": {
+        "query": "Please find the newest security bulletin published by the FreeBSD project."
+      }
+    },
+    {
+      "id": "combined_new_064",
+      "route": "web_search",
+      "user": "Search for the current opening hours of the National Museum of Iceland.",
+      "arguments": {
+        "query": "Search for the current opening hours of the National Museum of Iceland."
+      }
+    },
+    {
+      "id": "combined_new_065",
+      "route": "web_search",
+      "user": "Find the latest public mission update from the European Space Agency.",
+      "arguments": {
+        "query": "Find the latest public mission update from the European Space Agency."
+      }
+    },
+    {
+      "id": "combined_new_066",
+      "route": "web_search",
+      "user": "Look up the current ticket prices for the Vasa Museum.",
+      "arguments": {
+        "query": "Look up the current ticket prices for the Vasa Museum."
+      }
+    },
+    {
+      "id": "combined_new_067",
+      "route": "web_search",
+      "user": "Please search for the newest stable DuckDB release.",
+      "arguments": {
+        "query": "Please search for the newest stable DuckDB release."
+      }
+    },
+    {
+      "id": "combined_new_068",
+      "route": "web_search",
+      "user": "Find the most recent official Krita development announcement.",
+      "arguments": {
+        "query": "Find the most recent official Krita development announcement."
+      }
+    },
+    {
+      "id": "combined_new_069",
+      "route": "web_search",
+      "user": "Check the web for current ferry timetables between Tallinn and Helsinki.",
+      "arguments": {
+        "query": "Check the web for current ferry timetables between Tallinn and Helsinki."
+      }
+    },
+    {
+      "id": "combined_new_070",
+      "route": "web_search",
+      "user": "Search for the latest official Mastodon server release.",
+      "arguments": {
+        "query": "Search for the latest official Mastodon server release."
+      }
+    },
+    {
+      "id": "combined_new_071",
+      "route": "web_search",
+      "user": "Please look up the current application deadline for the next Google Summer of Code.",
+      "arguments": {
+        "query": "Please look up the current application deadline for the next Google Summer of Code."
+      }
+    },
+    {
+      "id": "combined_new_072",
+      "route": "web_search",
+      "user": "Find a recent official announcement about the Vera Rubin Observatory.",
+      "arguments": {
+        "query": "Find a recent official announcement about the Vera Rubin Observatory."
+      }
+    },
+    {
+      "id": "combined_new_073",
+      "route": "web_search",
+      "user": "Search the web for the latest stable Nushell version.",
+      "arguments": {
+        "query": "Search the web for the latest stable Nushell version."
+      }
+    },
+    {
+      "id": "combined_new_074",
+      "route": "web_search",
+      "user": "Look up the newest official release of the Godot game engine.",
+      "arguments": {
+        "query": "Look up the newest official release of the Godot game engine."
+      }
+    },
+    {
+      "id": "combined_new_075",
+      "route": "web_search",
+      "user": "Find the current schedule for the next FOSDEM conference.",
+      "arguments": {
+        "query": "Find the current schedule for the next FOSDEM conference."
+      }
+    },
+    {
+      "id": "combined_new_076",
+      "route": "web_search",
+      "user": "Please search for the newest public OpenStreetMap Foundation board announcement.",
+      "arguments": {
+        "query": "Please search for the newest public OpenStreetMap Foundation board announcement."
+      }
+    },
+    {
+      "id": "combined_new_077",
+      "route": "web_search",
+      "user": "Look up recent changes to the official Deno release notes.",
+      "arguments": {
+        "query": "Look up recent changes to the official Deno release notes."
+      }
+    },
+    {
+      "id": "combined_new_078",
+      "route": "web_search",
+      "user": "Search for current train service disruptions at Zurich Hauptbahnhof.",
+      "arguments": {
+        "query": "Search for current train service disruptions at Zurich Hauptbahnhof."
+      }
+    },
+    {
+      "id": "combined_new_079",
+      "route": "web_search",
+      "user": "Find the latest stable KiCad release on its official website.",
+      "arguments": {
+        "query": "Find the latest stable KiCad release on its official website."
+      }
+    },
+    {
+      "id": "combined_new_080",
+      "route": "web_search",
+      "user": "Please find the current visitor information for the Rijksmuseum.",
+      "arguments": {
+        "query": "Please find the current visitor information for the Rijksmuseum."
+      }
+    },
+    {
+      "id": "combined_new_081",
+      "route": "direct",
+      "user": "Write a kind one-sentence note thanking a neighbor for returning a parcel."
+    },
+    {
+      "id": "combined_new_082",
+      "route": "direct",
+      "user": "Rewrite this as a clear button label: make the old stuff come back."
+    },
+    {
+      "id": "combined_new_083",
+      "route": "direct",
+      "user": "Summarize: The ferry arrived early. Mara boarded safely. Her suitcase stayed dry."
+    },
+    {
+      "id": "combined_new_084",
+      "route": "direct",
+      "user": "Explain in one sentence why multiplying two negative numbers gives a positive result."
+    },
+    {
+      "id": "combined_new_085",
+      "route": "direct",
+      "user": "Classify this message as polite or rude: Could you please lower the volume?"
+    },
+    {
+      "id": "combined_new_086",
+      "route": "direct",
+      "user": "Give three simple steps for organizing an untidy desk."
+    },
+    {
+      "id": "combined_new_087",
+      "route": "direct",
+      "user": "Explain the difference between a forecast and an observation without checking the weather."
+    },
+    {
+      "id": "combined_new_088",
+      "route": "direct",
+      "user": "Rewrite this courteously: Your current timetable makes no sense."
+    },
+    {
+      "id": "combined_new_089",
+      "route": "direct",
+      "user": "Create a short story title containing the words midnight and calculator."
+    },
+    {
+      "id": "combined_new_090",
+      "route": "direct",
+      "user": "Summarize: Noor planted basil on Monday and watered it on Tuesday."
+    },
+    {
+      "id": "combined_new_091",
+      "route": "direct",
+      "user": "Explain what a web search query is using everyday language."
+    },
+    {
+      "id": "combined_new_092",
+      "route": "direct",
+      "user": "Give two reasons someone might choose a printed map over a phone map."
+    },
+    {
+      "id": "combined_new_093",
+      "route": "direct",
+      "user": "Write a short welcome for volunteers joining a beach cleanup."
+    },
+    {
+      "id": "combined_new_094",
+      "route": "direct",
+      "user": "Label the sentiment as positive, negative, or neutral: The replacement arrived damaged."
+    },
+    {
+      "id": "combined_new_095",
+      "route": "direct",
+      "user": "Rewrite this bug report title clearly: clock thing shows odd letters."
+    },
+    {
+      "id": "combined_new_096",
+      "route": "direct",
+      "user": "Explain why a cached webpage can show old information."
+    },
+    {
+      "id": "combined_new_097",
+      "route": "direct",
+      "user": "Make this shorter: At the present moment we are unable to determine the answer."
+    },
+    {
+      "id": "combined_new_098",
+      "route": "direct",
+      "user": "List three practical ways to make a long paragraph easier to read."
+    },
+    {
+      "id": "combined_new_099",
+      "route": "direct",
+      "user": "Summarize: The cafe ran out of tea, ordered more, and reopened on Thursday."
+    },
+    {
+      "id": "combined_new_100",
+      "route": "direct",
+      "user": "Write a friendly reminder asking a teammate to review a draft tomorrow."
+    }
+  ]
+}

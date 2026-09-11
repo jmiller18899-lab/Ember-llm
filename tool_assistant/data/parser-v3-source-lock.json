@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-09-11T05:55:09.281719+00:00",
+  "files": {
+    "tests/test_parser_evaluation.py": "b62ff55a92ef1b05ccd0def8f94f1d0836fd8edc806d14ad40cd82b2a0cf941e",
+    "tests/test_resolver_v3.py": "9c8ec1b6cbb8dce5c0f68c16fa07734244fd1aaf9f8f42b3721adba08d3d2b71",
+    "tool_assistant/data/candidate-source-lock.json": "6a0782c94f633f75a41f8dcb0117a7c2d1f3d7b18ce85cd5c4da206a68d7cf05",
+    "tool_assistant/evaluate.py": "0bf1c527ab2413fec7b5e009e89146cfe97a6b1e0c1899a14278b0ce249e6471",
+    "tool_assistant/evaluate_parser.py": "d6483322b8ffa521d1743c083ab7dddf216bf3f4018118857fe7c0e370e08843",
+    "tool_assistant/resolver_v3.py": "73d72e676ed350517bba384b1c2dad3021a308faec1cf5c6ccc0b94a94046aba",
+    "tool_assistant/runtime_v3.py": "4daa850642178fb6845595831ea6b74833ac10bf1f8cf8acf15dd7a6fe290281"
+  },
+  "note": "Frozen after development checks and before authoring the 60-request parser confirmation. Original combined candidate is preserved.",
+  "original_remote_parent": "9261a3d330622eca89da851eb76e35618797d589",
+  "parser_revision": "argument-parser-v3",
+  "schema_version": 1,
+  "scope": "parser_only_supplied_route"
+}

@@ -1,0 +1,1345 @@
+{
+  "schema_version": 1,
+  "description": "Small learning canary, not a broad instruction corpus. Training, development, and held-out prompts are disjoint.",
+  "train": [
+    {
+      "id": "train_001",
+      "family": "writing",
+      "user": "Write a short sentence thanking Asha for testing the form.",
+      "answer": "Thank you, Asha, for testing the form.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_002",
+      "family": "writing",
+      "user": "Write a short sentence thanking Ben for fixing the link.",
+      "answer": "Thank you, Ben, for fixing the link.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_003",
+      "family": "writing",
+      "user": "Write a short sentence thanking Cleo for reviewing the draft.",
+      "answer": "Thank you, Cleo, for reviewing the draft.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_004",
+      "family": "writing",
+      "user": "Write a short sentence thanking Diego for organizing the notes.",
+      "answer": "Thank you, Diego, for organizing the notes.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_005",
+      "family": "writing",
+      "user": "Write a short sentence thanking Eleni for sharing the slides.",
+      "answer": "Thank you, Eleni, for sharing the slides.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_006",
+      "family": "writing",
+      "user": "Write a short sentence thanking Farah for checking the labels.",
+      "answer": "Thank you, Farah, for checking the labels.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_007",
+      "family": "writing",
+      "user": "Write a friendly welcome for Gita joining the reading club.",
+      "answer": "Welcome to the reading club, Gita!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_008",
+      "family": "writing",
+      "user": "Write a friendly welcome for Hugo joining the design team.",
+      "answer": "Welcome to the design team, Hugo!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_009",
+      "family": "writing",
+      "user": "Write a friendly welcome for Inez joining the garden project.",
+      "answer": "Welcome to the garden project, Inez!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_010",
+      "family": "writing",
+      "user": "Write a friendly welcome for Jamal joining the volunteer group.",
+      "answer": "Welcome to the volunteer group, Jamal!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_011",
+      "family": "writing",
+      "user": "Write a friendly welcome for Kira joining the support team.",
+      "answer": "Welcome to the support team, Kira!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_012",
+      "family": "writing",
+      "user": "Write a friendly welcome for Leon joining the study group.",
+      "answer": "Welcome to the study group, Leon!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_013",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: save thing broke.",
+      "answer": "Saving does not work.",
+      "check": {
+        "all_terms": [
+          "Saving",
+          "does"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_014",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: button goes nowhere.",
+      "answer": "The button does not open a page.",
+      "check": {
+        "all_terms": [
+          "The",
+          "button"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_015",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: words too tiny.",
+      "answer": "The text is too small.",
+      "check": {
+        "all_terms": [
+          "The",
+          "text"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_016",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: file wont come down.",
+      "answer": "The file cannot be downloaded.",
+      "check": {
+        "all_terms": [
+          "The",
+          "file"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_017",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: page taking ages.",
+      "answer": "The page loads slowly.",
+      "check": {
+        "all_terms": [
+          "The",
+          "page"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_018",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: box hides the words.",
+      "answer": "The box covers the text.",
+      "check": {
+        "all_terms": [
+          "The",
+          "box"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_019",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: pic looks stretched.",
+      "answer": "The image appears stretched.",
+      "check": {
+        "all_terms": [
+          "The",
+          "image"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_020",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: menu disappears fast.",
+      "answer": "The menu closes too quickly.",
+      "check": {
+        "all_terms": [
+          "The",
+          "menu"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_021",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: link opens bad place.",
+      "answer": "The link opens the wrong page.",
+      "check": {
+        "all_terms": [
+          "The",
+          "link"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_022",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: message sent twice.",
+      "answer": "The message was sent twice.",
+      "check": {
+        "all_terms": [
+          "The",
+          "message"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_023",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: search finds no stuff.",
+      "answer": "The search returns no results.",
+      "check": {
+        "all_terms": [
+          "The",
+          "search"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_024",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: sound way too quiet.",
+      "answer": "The volume is too low.",
+      "check": {
+        "all_terms": [
+          "The",
+          "volume"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_025",
+      "family": "explain",
+      "user": "Explain a backup in one short sentence.",
+      "answer": "A backup is a saved copy used to restore lost information.",
+      "check": {
+        "all_terms": [
+          "A",
+          "backup"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_026",
+      "family": "explain",
+      "user": "Explain a password in one short sentence.",
+      "answer": "A password is a secret used to protect access to an account.",
+      "check": {
+        "all_terms": [
+          "A",
+          "password"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_027",
+      "family": "explain",
+      "user": "Explain a printer in one short sentence.",
+      "answer": "A printer makes a paper copy of a digital document.",
+      "check": {
+        "all_terms": [
+          "A",
+          "printer"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_028",
+      "family": "explain",
+      "user": "Explain a draft in one short sentence.",
+      "answer": "A draft is an unfinished version that can still be revised.",
+      "check": {
+        "all_terms": [
+          "A",
+          "draft"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_029",
+      "family": "explain",
+      "user": "Explain a folder in one short sentence.",
+      "answer": "A folder groups files so they are easier to organize.",
+      "check": {
+        "all_terms": [
+          "A",
+          "folder"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_030",
+      "family": "explain",
+      "user": "Explain a hyperlink in one short sentence.",
+      "answer": "A hyperlink opens another page or resource when selected.",
+      "check": {
+        "all_terms": [
+          "A",
+          "hyperlink"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_031",
+      "family": "explain",
+      "user": "Explain a checklist in one short sentence.",
+      "answer": "A checklist lists tasks so you can track what is finished.",
+      "check": {
+        "all_terms": [
+          "A",
+          "checklist"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_032",
+      "family": "explain",
+      "user": "Explain a prototype in one short sentence.",
+      "answer": "A prototype is an early version used to test an idea.",
+      "check": {
+        "all_terms": [
+          "A",
+          "prototype"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_033",
+      "family": "explain",
+      "user": "Explain a browser in one short sentence.",
+      "answer": "A browser displays websites and lets you use the web.",
+      "check": {
+        "all_terms": [
+          "A",
+          "browser"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_034",
+      "family": "explain",
+      "user": "Explain a spreadsheet in one short sentence.",
+      "answer": "A spreadsheet organizes information in rows and columns.",
+      "check": {
+        "all_terms": [
+          "A",
+          "spreadsheet"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_035",
+      "family": "explain",
+      "user": "Explain an attachment in one short sentence.",
+      "answer": "An attachment is a file included with a message.",
+      "check": {
+        "all_terms": [
+          "An",
+          "attachment"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_036",
+      "family": "explain",
+      "user": "Explain a bookmark in one short sentence.",
+      "answer": "A bookmark saves a page so you can find it again.",
+      "check": {
+        "all_terms": [
+          "A",
+          "bookmark"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_037",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Mira bought a lantern. Later, Mira tested it.",
+      "answer": "Mira bought a lantern and tested it.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_038",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Nico bought a chair. Later, Nico painted it.",
+      "answer": "Nico bought a chair and painted it.",
+      "check": {
+        "all_terms": [
+          "Nico",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_039",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Ola bought a bicycle. Later, Ola repaired it.",
+      "answer": "Ola bought a bicycle and repaired it.",
+      "check": {
+        "all_terms": [
+          "Ola",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_040",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Pia bought a notebook. Later, Pia labeled it.",
+      "answer": "Pia bought a notebook and labeled it.",
+      "check": {
+        "all_terms": [
+          "Pia",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_041",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Quinn bought a tent. Later, Quinn cleaned it.",
+      "answer": "Quinn bought a tent and cleaned it.",
+      "check": {
+        "all_terms": [
+          "Quinn",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_042",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Rafi bought a camera. Later, Rafi charged it.",
+      "answer": "Rafi bought a camera and charged it.",
+      "check": {
+        "all_terms": [
+          "Rafi",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_043",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Sara bought a shelf. Later, Sara installed it.",
+      "answer": "Sara bought a shelf and installed it.",
+      "check": {
+        "all_terms": [
+          "Sara",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_044",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Tao bought a jacket. Later, Tao washed it.",
+      "answer": "Tao bought a jacket and washed it.",
+      "check": {
+        "all_terms": [
+          "Tao",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_045",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Uma bought a parcel. Later, Uma posted it.",
+      "answer": "Uma bought a parcel and posted it.",
+      "check": {
+        "all_terms": [
+          "Uma",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_046",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Vera bought a plant. Later, Vera watered it.",
+      "answer": "Vera bought a plant and watered it.",
+      "check": {
+        "all_terms": [
+          "Vera",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_047",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Wes bought a loaf. Later, Wes sliced it.",
+      "answer": "Wes bought a loaf and sliced it.",
+      "check": {
+        "all_terms": [
+          "Wes",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_048",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Yara bought a frame. Later, Yara hung it.",
+      "answer": "Yara bought a frame and hung it.",
+      "check": {
+        "all_terms": [
+          "Yara",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_049",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The new display is wonderful.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_050",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I loved the helpful explanation.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_051",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The repair worked perfectly.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_052",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I am delighted with the result.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_053",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The screen arrived cracked.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_054",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: This delay is frustrating.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_055",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I hated the confusing instructions.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_056",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The service was disappointing.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_057",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The folder contains three files.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_058",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The meeting starts at noon.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_059",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The package weighs two kilograms.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_060",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The desk is beside the window.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_061",
+      "family": "plan_compare",
+      "user": "Give three short steps to prepare a short presentation.",
+      "answer": "1. Choose the main message. 2. Draft the slides. 3. Practice speaking.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Choose"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_062",
+      "family": "plan_compare",
+      "user": "Give three short steps to organize a shared folder.",
+      "answer": "1. Review the files. 2. Create clear folders. 3. Move and label each file.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Review"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_063",
+      "family": "plan_compare",
+      "user": "Give three short steps to check a broken button.",
+      "answer": "1. Reproduce the problem. 2. Inspect the click handler. 3. Test the fix.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Reproduce"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_064",
+      "family": "plan_compare",
+      "user": "Give three short steps to write a clear email.",
+      "answer": "1. State the purpose. 2. Add the needed details. 3. Check the wording.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "State"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_065",
+      "family": "plan_compare",
+      "user": "Give three short steps to tidy a small kitchen.",
+      "answer": "1. Clear the surfaces. 2. Wash the dishes. 3. Put everything away.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Clear"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_066",
+      "family": "plan_compare",
+      "user": "Give three short steps to review a short document.",
+      "answer": "1. Read the full draft. 2. Mark unclear passages. 3. Check the revisions.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Read"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_067",
+      "family": "plan_compare",
+      "user": "Explain the difference between a file and a folder in two short sentences.",
+      "answer": "A file stores information. A folder groups files.",
+      "check": {
+        "all_terms": [
+          "A",
+          "file"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_068",
+      "family": "plan_compare",
+      "user": "Explain the difference between a draft and a final version in two short sentences.",
+      "answer": "A draft can still change. A final version is ready to use.",
+      "check": {
+        "all_terms": [
+          "A",
+          "draft"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_069",
+      "family": "plan_compare",
+      "user": "Explain the difference between saving and printing in two short sentences.",
+      "answer": "Saving keeps a digital copy. Printing creates a paper copy.",
+      "check": {
+        "all_terms": [
+          "Saving",
+          "keeps"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_070",
+      "family": "plan_compare",
+      "user": "Explain the difference between copying and moving a file in two short sentences.",
+      "answer": "Copying creates another copy. Moving changes the original location.",
+      "check": {
+        "all_terms": [
+          "Copying",
+          "creates"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_071",
+      "family": "plan_compare",
+      "user": "Explain the difference between a title and a summary in two short sentences.",
+      "answer": "A title names the topic. A summary briefly describes the main points.",
+      "check": {
+        "all_terms": [
+          "A",
+          "title"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_072",
+      "family": "plan_compare",
+      "user": "Explain the difference between a question and an instruction in two short sentences.",
+      "answer": "A question asks for information. An instruction tells someone what to do.",
+      "check": {
+        "all_terms": [
+          "A",
+          "question"
+        ],
+        "max_words": 50
+      }
+    }
+  ],
+  "development": [
+    {
+      "id": "development_001",
+      "family": "writing",
+      "user": "Thank Lila for bringing the supplies in one sentence.",
+      "answer": "Thank you, Lila, for bringing the supplies.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_002",
+      "family": "writing",
+      "user": "Write a friendly welcome for Omar joining the hiking club.",
+      "answer": "Welcome to the hiking club, Omar!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_003",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: app keeps shutting itself.",
+      "answer": "The app keeps closing unexpectedly.",
+      "check": {
+        "all_terms": [
+          "The",
+          "app"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_004",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: letters overlap in the heading.",
+      "answer": "The heading text overlaps.",
+      "check": {
+        "all_terms": [
+          "The",
+          "heading"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_005",
+      "family": "explain",
+      "user": "Explain a username in one short sentence.",
+      "answer": "A username is a name that identifies an account.",
+      "check": {
+        "all_terms": [
+          "A",
+          "username"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_006",
+      "family": "explain",
+      "user": "Explain an icon in one short sentence.",
+      "answer": "An icon is a small picture representing an action or item.",
+      "check": {
+        "all_terms": [
+          "An",
+          "icon"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_007",
+      "family": "summarize",
+      "user": "Summarize: Zane found a wallet. Zane returned it to its owner.",
+      "answer": "Zane found a wallet and returned it to its owner.",
+      "check": {
+        "all_terms": [
+          "Zane",
+          "found"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_008",
+      "family": "summarize",
+      "user": "Summarize: Ayla baked a cake. Ayla shared it with friends.",
+      "answer": "Ayla baked a cake and shared it with friends.",
+      "check": {
+        "all_terms": [
+          "Ayla",
+          "baked"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_009",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I am thrilled with this gift.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_010",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The parcel is on the table.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_011",
+      "family": "plan_compare",
+      "user": "Give three short steps to plan a picnic.",
+      "answer": "1. Choose a place. 2. Pack food and drinks. 3. Arrange transport.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Choose"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "development_012",
+      "family": "plan_compare",
+      "user": "Explain the difference between reading and editing in two short sentences.",
+      "answer": "Reading helps you understand the text. Editing changes the text.",
+      "check": {
+        "all_terms": [
+          "Reading",
+          "helps"
+        ],
+        "max_words": 50
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "id": "confirmation_001",
+      "family": "writing",
+      "user": "Write one sentence thanking Sora for repairing the fence.",
+      "answer": "Thank you, Sora, for repairing the fence.",
+      "check": {
+        "all_terms": [
+          "Sora",
+          "fence"
+        ],
+        "any_terms": [
+          [
+            "thank",
+            "appreciate"
+          ]
+        ],
+        "max_words": 25
+      }
+    },
+    {
+      "id": "confirmation_002",
+      "family": "writing",
+      "user": "Welcome Teo to the pottery club in one friendly sentence.",
+      "answer": "Welcome to the pottery club, Teo!",
+      "check": {
+        "all_terms": [
+          "Teo",
+          "pottery"
+        ],
+        "any_terms": [
+          [
+            "welcome",
+            "glad"
+          ]
+        ],
+        "max_words": 25
+      }
+    },
+    {
+      "id": "confirmation_003",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: download gets stuck halfway through.",
+      "answer": "The download stops halfway through.",
+      "check": {
+        "all_terms": [
+          "download"
+        ],
+        "any_terms": [
+          [
+            "stops",
+            "stuck",
+            "freezes"
+          ]
+        ],
+        "max_words": 20
+      }
+    },
+    {
+      "id": "confirmation_004",
+      "family": "rewrite",
+      "user": "Make this clearer: photo is turned the wrong way.",
+      "answer": "The photo has the wrong orientation.",
+      "check": {
+        "any_terms": [
+          [
+            "photo",
+            "image"
+          ],
+          [
+            "orientation",
+            "rotated",
+            "wrong way",
+            "rotation"
+          ]
+        ],
+        "max_words": 20
+      }
+    },
+    {
+      "id": "confirmation_005",
+      "family": "explain",
+      "user": "Explain a notification in one short sentence.",
+      "answer": "A notification is a message that alerts you to an event.",
+      "check": {
+        "any_terms": [
+          [
+            "message",
+            "alert"
+          ],
+          [
+            "event",
+            "happened",
+            "update"
+          ]
+        ],
+        "max_words": 30
+      }
+    },
+    {
+      "id": "confirmation_006",
+      "family": "explain",
+      "user": "Explain what a progress bar shows in one short sentence.",
+      "answer": "A progress bar shows how much of a task is complete.",
+      "check": {
+        "any_terms": [
+          [
+            "task",
+            "work",
+            "process"
+          ],
+          [
+            "complete",
+            "finished",
+            "progress"
+          ]
+        ],
+        "max_words": 30
+      }
+    },
+    {
+      "id": "confirmation_007",
+      "family": "summarize",
+      "user": "Summarize: Bea borrowed a ladder. Bea returned it on Saturday.",
+      "answer": "Bea borrowed a ladder and returned it on Saturday.",
+      "check": {
+        "all_terms": [
+          "Bea",
+          "ladder",
+          "Saturday"
+        ],
+        "any_terms": [
+          [
+            "return"
+          ]
+        ],
+        "max_words": 25
+      }
+    },
+    {
+      "id": "confirmation_008",
+      "family": "summarize",
+      "user": "Summarize: Idris repaired a lamp. Idris gave it to a neighbor.",
+      "answer": "Idris repaired a lamp and gave it to a neighbor.",
+      "check": {
+        "all_terms": [
+          "Idris",
+          "lamp",
+          "neighbor"
+        ],
+        "any_terms": [
+          [
+            "repair",
+            "fixed"
+          ],
+          [
+            "gave",
+            "given"
+          ]
+        ],
+        "max_words": 25
+      }
+    },
+    {
+      "id": "confirmation_009",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I regret buying this useless gadget.",
+      "answer": "negative",
+      "check": {
+        "label": "negative",
+        "forbidden_labels": [
+          "positive",
+          "neutral"
+        ],
+        "max_words": 1
+      }
+    },
+    {
+      "id": "confirmation_010",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The notebook has a green cover.",
+      "answer": "neutral",
+      "check": {
+        "label": "neutral",
+        "forbidden_labels": [
+          "positive",
+          "negative"
+        ],
+        "max_words": 1
+      }
+    },
+    {
+      "id": "confirmation_011",
+      "family": "plan_compare",
+      "user": "Give three short steps to prepare a guest room.",
+      "answer": "1. Clean the room. 2. Make the bed. 3. Set out fresh towels.",
+      "check": {
+        "any_terms": [
+          [
+            "clean",
+            "tidy"
+          ],
+          [
+            "bed",
+            "bedding"
+          ],
+          [
+            "towel",
+            "supplies"
+          ]
+        ],
+        "min_steps": 3,
+        "max_words": 45
+      }
+    },
+    {
+      "id": "confirmation_012",
+      "family": "plan_compare",
+      "user": "Explain the difference between renaming and deleting a file in two short sentences.",
+      "answer": "Renaming changes the file name. Deleting removes the file.",
+      "check": {
+        "any_terms": [
+          [
+            "name"
+          ],
+          [
+            "delete",
+            "deleting",
+            "removes",
+            "remove"
+          ]
+        ],
+        "all_terms": [
+          "file"
+        ],
+        "max_words": 40
+      }
+    }
+  ],
+  "training_config": {
+    "steps": 120,
+    "batch_size": 2,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.01,
+    "clip_norm": 1.0,
+    "checkpoints": [
+      40,
+      80,
+      120
+    ],
+    "maximum_training_seconds": 1200,
+    "trainable": [
+      "blocks.5.*",
+      "ln_f.*"
+    ],
+    "selection": "lowest development answer-token NLL including unchanged baseline",
+    "consume_confirmation_only_if": "development NLL improves at least 10% and old24 task-check score improves by at least 3",
+    "production_ready": false
+  }
+}
