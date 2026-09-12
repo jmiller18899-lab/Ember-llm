@@ -1,6 +1,8 @@
 mode: train
-run: ember-direct-live-600-20260912
+run: ember-direct-live-600-20260912-retry1
 steps: 600
 flavor: cpu-upgrade
 timeout_seconds: 3600
-purpose: independent direct-answer learning
+retry_reason: include unchanged evaluator module in isolated source package
+previous_job: 6aa58f4321047bf1b037dffe
+previous_training_steps: 0
