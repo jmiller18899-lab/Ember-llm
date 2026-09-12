@@ -1,0 +1,38 @@
+name: Ember Routing Evidence Readback
+
+on:
+  push:
+    branches: [codex/ember-routing-v4]
+    paths: [.github/workflows/ember-routing-evidence-readback.yml]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read the already measured routing artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/10297810403/zip" > artifact.zip
+          python - <<'PY'
+          import base64, hashlib, json, zipfile, zlib
+          from pathlib import Path
+          raw = Path('artifact.zip').read_bytes()
+          assert hashlib.sha256(raw).hexdigest() == '56a5adc22bb5e261ea6c9c0d1a58874581e780f24103b8ff33df6acabdb91b74'
+          with zipfile.ZipFile('artifact.zip') as archive:
+              for name in ('evidence/routing-v4-development.json', 'routing-candidate/manifest.json', 'routing-candidate/routing-development-report.json'):
+                  value = archive.read(name)
+                  json.loads(value)
+                  encoded = base64.b64encode(zlib.compress(value)).decode()
+                  chunks = [encoded[i:i+4000] for i in range(0, len(encoded), 4000)]
+                  for index, chunk in enumerate(chunks):
+                      print(json.dumps({'event': 'ember_evidence_chunk', 'name': name,
+                                        'sha256': hashlib.sha256(value).hexdigest(),
+                                        'index': index, 'count': len(chunks), 'data': chunk}))
+          PY
