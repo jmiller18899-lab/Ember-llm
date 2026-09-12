@@ -151,3 +151,11 @@ on the measured source passed **851 repository tests**, **22 packaged Ember
 tests**, and the separate supplied-route parser check at **60/60**. The
 experiment's **128 focused tests** also passed. These checks and live success
 do not override the failed overall routing confirmation.
+
+## Subsequent six-failure repair
+
+The separately frozen [v7 revision](ember-routing-v7.md) repairs all six
+failures listed above, retains all 300 consumed requests, and passes 40/40 live
+checks. Its own new confirmation scores 99/100, with a basic definition question
+still misrouted to the calculator. The historical v6 source and 94/100 report
+remain unchanged; the suites contain different requests.
