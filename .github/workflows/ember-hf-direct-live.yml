@@ -26,7 +26,7 @@ jobs:
       PYTHONDONTWRITEBYTECODE: "1"
       PYTHONPATH: .
       HF_JOB_REPO: Jmiller18899/ember-direct-live-600-20260912
-      HF_RUN_NAME: ember-direct-live-600-20260912
+      HF_RUN_NAME: ember-direct-live-600-20260912-retry1
       HF_TOKEN: ${{ secrets.H_F2 || secrets.HF_TOKEN || secrets.HF_2 }}
     steps:
       - uses: actions/checkout@v4
