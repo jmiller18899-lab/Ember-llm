@@ -165,3 +165,8 @@ override the 99/100 confirmation failure.
 
 Generated-answer quality remains outside this test, and `production_ready`
 remains false. This is an opt-in helper revision in a draft PR.
+
+The later [definition-routing v8 repair](ember-routing-v8.md) fixes the
+photosynthesis failure and preserves this frozen source and its measured report.
+V8 passes all 400 consumed requests and 20/20 new definition questions; its
+broader fresh suite records two separate location-context failures.
