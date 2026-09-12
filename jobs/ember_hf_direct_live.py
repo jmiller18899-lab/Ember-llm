@@ -26,6 +26,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import tempfile
 
@@ -34,6 +35,7 @@ SOURCE_FILES = (
     "direct_answers/__init__.py",
     "direct_answers/learn.py",
     "direct_answers/quality.py",
+    "jobs/ember_hf_eval.py",
     "direct_answers/canary-data.json",
     "tool_assistant/__init__.py",
     "tool_assistant/runtime.py",
@@ -110,6 +112,17 @@ def prepare(args):
         dest = output / "source" / relative
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(root / relative, dest)
+    subprocess.run(
+        [sys.executable, "-I", "-c",
+         "import sys; from pathlib import Path; "
+         "sys.path.insert(0, sys.argv[1]); "
+         "from direct_answers import learn; from jobs import ember_hf_eval; "
+         "assert Path(learn.__file__).resolve().is_relative_to(Path(sys.argv[1]).resolve()); "
+         "assert Path(ember_hf_eval.__file__).resolve().is_relative_to(Path(sys.argv[1]).resolve()); "
+         "assert callable(learn.main); print('Isolated packaged learner import: PASS')",
+         str(output / "source")],
+        check=True, cwd=str(output),
+    )
     shutil.copyfile(__file__, output / "runner.py")
     original_rows = {key: data[key] for key in ("train", "development", "confirmation")}
     data["training_config"] = {**data["training_config"], **OVERRIDES}
