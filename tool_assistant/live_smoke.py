@@ -163,7 +163,9 @@ def main():
         "routing_confirmation_changed": False, "routing_confirmation_status": "FAIL",
         "known_routing_failures": sum(r["outcome"] != "PASS" for rows in results.values() for r in rows if r["kind"] == "known_routing_failure"),
         "source_sha256": {name: sha256(root / name) for name in (
-            "tool_assistant/live_services.py", "tool_assistant/live_smoke.py", "tests/test_live_services.py")},
+            "tool_assistant/live_services.py", "tool_assistant/live_smoke.py", "tests/test_live_services.py",
+            "tool_assistant/restore_live_candidate.py", "tests/test_restore_live_candidate.py",
+            ".github/workflows/ember-live-services.yml")},
         "interpretation": "Live HTTP and local calculator execution through the frozen helper. Deliberate error injection is covered separately by offline tests. This small smoke suite is not a new routing confirmation or uptime guarantee."}
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")

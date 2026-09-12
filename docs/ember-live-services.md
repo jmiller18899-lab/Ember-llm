@@ -40,8 +40,13 @@ python -m tool_assistant.live_smoke --bundle routing-v5-candidate \
   --report evidence/live-services-smoke.json
 ```
 
-The GitHub Actions workflow rebuilds the candidate with the same pinned CPU
-dependencies and existing `HF_TOKEN` secret. It uses `BRAVE_SEARCH_API_KEY` from
+The GitHub Actions workflow rebuilds the preserved assets with the same pinned
+CPU dependencies and existing `HF_TOKEN` secret. It retrieves the original fitted
+helpers from the retained base, v4, and v5 evaluation artifacts, checks every
+archived helper against the freeze, and restores those exact bytes before live
+measurement. All other candidate files must already match. The original
+manifest is restored after validation; model weights and the freeze are
+unchanged. The workflow uses `BRAVE_SEARCH_API_KEY` from
 repository secrets if available. No account, subscription, or paid compute is
 provisioned. At most one search is requested per checkpoint integration.
 
@@ -76,4 +81,15 @@ uptime over time, and production deployment are outside this test.
 
 ## Measurement status
 
-Local contract tests: **46 passed**. Live measurements are in progress.
+Local service contracts: **46 passed**. Archive restoration has three additional
+checks for exact restoration, a mismatched archive, and changed model weights.
+
+The [first hosted attempt](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34695406601)
+stopped before any service calls because six rebuilt fitted files had different
+checksums. All 32 other candidate files matched, including the original model
+weights. The local text-helper rebuild also failed the same fitted-file check.
+The mismatch does not establish changed model behavior; it prevents claiming an
+identical candidate. The archive restoration step preserves the original freeze.
+The initial manifest and blocked-run details are retained under
+`reports/ember-live-rebuild-*.json`. The hosted repository check passed 769 tests.
+Live measurements with the archived fitted files are pending.
