@@ -145,3 +145,46 @@ parser-v3 **60/60** check. The live workflow separately passed **49** service an
 restoration tests. The remaining live-test work is to configure a Brave Search
 key and verify search, and to address intermittent geocoding availability while
 preserving explicit failures. No production deployment is qualified by this run.
+
+## Credential follow-up, 2026-09-12
+
+The [follow-up run](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34696749620)
+measured source `00a38d987440746ff2915a46aa461e46270bb416` after the user reported
+adding the Brave key. The workflow still received an empty
+`BRAVE_SEARCH_API_KEY`. Both search checks returned `missing_credentials`, and
+neither made an HTTP request. This establishes that the key was unavailable to
+this job; it does not establish the name or scope of the saved secret. The
+workflow binds the environment variable to `secrets.BRAVE_SEARCH_API_KEY` and
+does not select a GitHub environment.
+
+The service/guard result was again **21 passed, one failed, and two blocked**:
+weather 3/4, current time 6/6, local calculator 4/4, search 0/2 verified, and
+guards 8/8. The INT4 Tromsø weather request succeeded on this run. The INT4
+Reykjavík weather request instead timed out at the forecast endpoint after
+about 12.17 seconds, following successful geocoding. Its route and parsed
+location were correct; the adapter returned an explicit `tool_error`. There
+were 19 HTTP 200 responses (ten geocoding, three weather, six clock) and one
+weather attempt without a response. The two known routing failures were
+reproduced separately. The overall result remains **FAIL**.
+
+All 30 frozen source files and 38 candidate files were verified before and after
+measurement. All six rebuilt helper hashes also matched their archived hashes
+on this run; the restoration step still verified the archived bytes and restored
+the original manifest. Earlier mismatched rebuilds and measured failures remain
+preserved. Artifact names now include the run attempt so a retry can retain its
+own evidence.
+
+The exact [follow-up report](../reports/ember-live-services-34696749620.json)
+has SHA-256 `b4b32f8ad7e96d70f55699dfacfa13944c9f669c89d8268ef5ca6cd360de83fa`.
+The [restoration record](../reports/ember-live-restore-34696749620.json) has
+SHA-256 `b6671acba211db4e8dd731b60eddc9e3df7f323c3d66b4dd2f5e509e72bb31ac`.
+Both were recovered from log chunks and checksum-verified. The measured
+candidate manifest still matches the original `df8a6bb0…4703b4` manifest above.
+Artifact `10299580023`, named `ember-live-services-34696749620-attempt-1`, has
+SHA-256 `66b3360f1cf6d7537d2d217ed7a837bca21715483b63cebd9fa18a78004a9b28`.
+
+[Source validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34696751001)
+passed 772 repository tests, 22 packaged tests, and historical parser-v3 60/60.
+The live workflow passed all 49 service/restoration tests. Completing search
+verification requires resolving the saved secret's exact name and scope so
+this job can receive it. No key value is recorded in the evidence.
