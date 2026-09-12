@@ -1,0 +1,6 @@
+mode: train
+run: ember-direct-live-600-20260912
+steps: 600
+flavor: cpu-upgrade
+timeout_seconds: 3600
+purpose: independent direct-answer learning
