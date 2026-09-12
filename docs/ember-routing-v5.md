@@ -169,3 +169,8 @@ The next bounded experiment can address weather versus time routing after a
 contact context. Any revised helper must preserve this failed report, treat
 these 100 requests as consumed regressions, and freeze a new candidate before
 authoring another confirmation.
+
+A subsequent [live service smoke test](ember-live-services.md) exercised the same
+archived helper against real weather and clock providers. It records a geocoding
+timeout and unavailable search credentials separately from this historical
+routing confirmation; the 99/100 result and its failure remain unchanged.

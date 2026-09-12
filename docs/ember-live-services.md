@@ -92,4 +92,56 @@ The mismatch does not establish changed model behavior; it prevents claiming an
 identical candidate. The archive restoration step preserves the original freeze.
 The initial manifest and blocked-run details are retained under
 `reports/ember-live-rebuild-*.json`. The hosted repository check passed 769 tests.
-Live measurements with the archived fitted files are pending.
+
+The [completed live run](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34695925118)
+measured source `db7161091eb1974acc1cf412572101e21d4dfec2` after restoring all six
+archived helper files. All 30 frozen source hashes and all 38 candidate file
+hashes matched before and after live testing.
+
+| Check | Full precision | INT4 integration | Result |
+| --- | ---: | ---: | --- |
+| Weather | 2/2 | 1/2 | Three real weather responses; one geocoding timeout |
+| Current time | 3/3 | 3/3 | Six real clock responses, including city lookup and a 45-minute offset |
+| Calculator | 2/2 | 2/2 | Four correct local executions |
+| Web search | 1 blocked | 1 blocked | No `BRAVE_SEARCH_API_KEY` was configured; no search HTTP request was made |
+| Ambiguous/unknown city, future weather, direct dispatch guards | 4/4 | 4/4 | Expected clarification or no-dispatch behavior |
+
+Of 24 service/guard checks, **21 passed, one failed, and two were blocked**.
+The report and workflow correctly record **FAIL**. The trace contains 18 HTTP
+200 responses (nine geocoding, three weather, six clock) and one geocoding
+attempt without a response. Both checkpoint integrations use the same archived
+text helper; these are separate requests, not independent LLM capability tests.
+
+The failed live request was `weather_unicode` on the INT4 integration:
+
+> What is the current weather in "Tromsø, Norway"?
+
+The helper correctly selected `weather` and extracted `Tromsø, Norway`. The
+geocoding request timed out after about 12.19 seconds, and the adapter returned
+`tool_error` with `code: timeout`. It did not call the weather endpoint or invent
+conditions. The same request succeeded earlier in the full-precision run. This
+single-run difference is a service-call failure, not evidence of an INT4 routing
+error. No retry result is substituted for this failure.
+
+The prior “contacting a friend in Tromsø” weather-to-time error was also
+reproduced on both integrations. Those two known failures are reported separately
+from the 24 service/guard checks and remain a release blocker. Generated answers
+remain untested.
+
+The [live report](../reports/ember-live-services-smoke.json) has SHA-256
+`55f8bba75adf8988348142239785a227fc5c260285053a30b70ea79560a76799`.
+The [restoration record](../reports/ember-live-candidate-restore.json) has SHA-256
+`5107a3c55fdcd4382091dc2bd1edb3c0db278fff1027aa51eb110c4f9a3bd5a4`.
+The measured [candidate manifest](../reports/ember-routing-v5-manifest.json) is
+byte-identical to the pre-confirmation freeze, SHA-256
+`df8a6bb074e157403f1c4142ce8c8eae4448ee72a94b7876d661ffc4364703b4`.
+All were recovered from exact log chunks and checksum-verified. Run artifact
+`10299210462` has SHA-256
+`95e2156a3f78086382fd0d99cb0463804da6fd62fe7fd5279dd2abe39acf7c3b`.
+
+The [final source validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34695926852)
+passed **772 repository tests**, **22 packaged Ember tests**, and the historical
+parser-v3 **60/60** check. The live workflow separately passed **49** service and
+restoration tests. The remaining live-test work is to configure a Brave Search
+key and verify search, and to address intermittent geocoding availability while
+preserving explicit failures. No production deployment is qualified by this run.
