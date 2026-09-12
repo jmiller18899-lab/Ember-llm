@@ -1,0 +1,135 @@
+name: Ember Live Direct Answer Training
+
+on:
+  push:
+    branches: [codex/ember-hf-direct-live-20260912]
+    paths: [.github/ember-direct-live.launch]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-hf-direct-live-600-20260912
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  prepare-and-launch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: .
+      HF_JOB_REPO: Jmiller18899/ember-direct-live-600-20260912
+      HF_RUN_NAME: ember-direct-live-600-20260912
+      HF_TOKEN: ${{ secrets.H_F2 || secrets.HF_TOKEN || secrets.HF_2 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the validated CPU training dependencies
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install huggingface-hub==1.31.0 sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Check account and avoid a duplicate training submission
+        id: existing
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from huggingface_hub import HfApi
+          token = os.environ.get("HF_TOKEN", "").strip()
+          if not token:
+              raise RuntimeError("No existing H_F2, HF_TOKEN, or HF_2 secret is available")
+          api = HfApi(token=token)
+          owner = api.whoami()["name"]
+          if owner.casefold() != "Jmiller18899".casefold():
+              raise RuntimeError("The saved credential belongs to an unexpected account")
+          matches = [j for j in api.list_jobs()
+                     if (j.labels or {}).get("name") == os.environ["HF_RUN_NAME"]]
+          found = bool(matches)
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"already_submitted={str(found).lower()}\n")
+          if found:
+              job = matches[0]
+              receipt = {"job_id": job.id, "url": f"https://huggingface.co/jobs/{owner}/{job.id}",
+                         "existing_submission": True}
+              Path("hf-direct-launch.json").write_text(json.dumps(receipt, indent=2) + "\n")
+              print(json.dumps(receipt))
+          else:
+              print("Correct Hugging Face account verified; no duplicate trial found.")
+          PY
+      - name: Verify optimizer isolation and unchanged data boundaries
+        if: steps.existing.outputs.already_submitted != 'true'
+        run: |
+          python -m py_compile jobs/ember_hf_direct_live.py
+          python -m pytest -q tests/test_direct_answer_learning.py
+      - name: Prepare, validate and persist the exact training inputs
+        if: steps.existing.outputs.already_submitted != 'true'
+        run: |
+          python jobs/ember_hf_direct_live.py --mode prepare \
+            --repo "$HF_JOB_REPO" --run-name "$HF_RUN_NAME" \
+            --prepared hf-direct-prepared
+      - name: Submit the single authorized 600-step Hugging Face training trial
+        if: steps.existing.outputs.already_submitted != 'true'
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          repo = os.environ["HF_JOB_REPO"]
+          revision = api.model_info(repo).sha
+          job = api.run_uv_job(
+              "jobs/ember_hf_direct_live.py",
+              script_args=["--mode", "train", "--repo", repo,
+                           "--run-name", os.environ["HF_RUN_NAME"],
+                           "--input-revision", revision],
+              flavor="cpu-upgrade", timeout=3600,
+              secrets={"HF_TOKEN": os.environ["HF_TOKEN"]},
+              labels={"name": os.environ["HF_RUN_NAME"], "project": "ember",
+                      "purpose": "direct-answer-learning", "max-steps": "600"},
+          )
+          owner = repo.split("/")[0]
+          receipt = {
+              "job_id": job.id, "url": f"https://huggingface.co/jobs/{owner}/{job.id}",
+              "input_revision": revision, "result_repo": repo,
+              "flavor": "cpu-upgrade", "timeout_seconds": 3600, "steps": 600,
+          }
+          print(json.dumps(receipt), flush=True)
+          Path("hf-direct-launch.json").write_text(json.dumps(receipt, indent=2) + "\n")
+          api.upload_file(path_or_fileobj="hf-direct-launch.json",
+                          path_in_repo="launch/job.json", repo_id=repo,
+                          commit_message="Record the one authorized live training job")
+          PY
+      - name: Record the live job link
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path("hf-direct-launch.json")
+          if p.exists():
+              r = json.loads(p.read_text())
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+                  f.write(f"[Open live Ember training]({r['url']})\n\n")
+                  f.write("600 learning steps; CPU Upgrade; one-hour hard limit.\n")
+                  f.write("Separate private candidate; model routing layers remain frozen.\n")
+              print(json.dumps(r))
+          PY
+      - name: Preserve launch and preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-live-training-launch-${{ github.run_id }}
+          path: |
+            hf-direct-launch.json
+            hf-direct-prepared/preflight.json
+          if-no-files-found: ignore
+          retention-days: 90
