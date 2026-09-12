@@ -106,8 +106,8 @@ Starting with schema 2, the service result may pass after a bounded timeout retr
 attempts. The scorer validates the complete attempt sequence: consecutive
 attempt numbers, the same URL and request ID, only eligible timeout retries,
 the allowed attempt limit, and a final complete HTTP 200 response with a body
-checksum. Failed attempts, missing receipts, or extra requests cannot be dropped
-to obtain a pass. Schema-1 reports remain unchanged and retain their original
+checksum. It rejects skipped attempt numbers, altered retry URLs, retries of
+permanent errors, and additional completed requests. Schema-1 reports retain their original
 single-attempt outcomes.
 
 ## Measurement status
@@ -324,5 +324,49 @@ Local verification passed **77 service/restoration tests**, including timeout
 recovery, exhaustion, partial-body timeouts, one tool dispatch, one successful
 geocoding call despite forecast retries, unchanged clock/search behavior, stale
 data and ambiguity after recovery, and rejection of incomplete or misleading
-HTTP traces. Live measurement will record first-attempt and recovered results
+HTTP traces. Live measurement records first-attempt and recovered results
 separately.
+
+The [live recovery run](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34699255050)
+measured source `db7f4dfc512dbb76fa46699f78297583086db318` and passed all
+**24 service/guard checks**. Before retries, **23 passed and one failed**.
+Weather passed **4/4 after recovery**, compared with **3/4 on the first attempt**.
+
+| Check | Full precision | INT4 integration |
+| --- | ---: | ---: |
+| Weather | 2/2 | 2/2, one recovered request |
+| Current time | 3/3 | 3/3 |
+| Local calculator | 2/2 | 2/2 |
+| Brave web search | 1/1 | 1/1 |
+| Ambiguity, unknown city, future weather, direct dispatch guards | 4/4 | 4/4 |
+
+The INT4 Reykjavík weather request hit a real geocoding timeout after 12.127
+seconds while opening the response. After the configured 0.5-second pause,
+the same GET returned HTTP 200 in 0.428 seconds. The forecast then returned
+HTTP 200 in 0.407 seconds, with current conditions for the correctly resolved
+Reykjavík location. The original timeout remains in the report. The tool was
+dispatched once, and the successful forecast was requested once. This run
+demonstrates recovery from an actual external timeout, alongside the injected
+offline tests; it does not establish uninterrupted provider availability.
+
+The trace contains **22 complete HTTP 200 responses** (ten geocoding, four
+weather, six clock, two search) and the one failed geocoding attempt. There
+were no blocked checks. The live-service workflow is **PASS** under the
+documented retry policy. The two known weather-to-time routing failures remain
+separate, the frozen 99/100 routing confirmation still fails, and
+`production_ready` remains false.
+
+All 30 frozen source and 38 candidate hashes matched before and after testing.
+The exact [live report](../reports/ember-live-services-34699255050.json) has
+SHA-256 `3d40438368cd6178969469e6cc582a6611ed700e4a014dff82c85c0401ec36c1`;
+the [restoration record](../reports/ember-live-restore-34699255050.json) has
+SHA-256 `11c4e3de3d371c7dba7c27f07e892e9530777460672bac7613e17579d8a829a6`.
+Both were recovered from exact log chunks and checksum-verified, including
+independent recounts of first-attempt outcomes and recovery counts. The measured
+manifest still matches the original freeze byte for byte. Artifact `10300305546`,
+named `ember-live-services-34699255050-attempt-1`, has SHA-256
+`aecb513ad0e2df6ac65d5c0ac08e07403cabddc8a9efcb6c9d55df8e75039c5b`.
+
+[Source validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34699256827)
+passed **800 repository tests**, **22 packaged tests**, and historical parser-v3
+**60/60**. The live workflow passed all **77 service/restoration tests**.
