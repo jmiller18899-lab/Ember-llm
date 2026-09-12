@@ -1,0 +1,42 @@
+{
+  "scope": "consumed_context_routing_development",
+  "positive": [
+    {"user": "I am contacting a friend in Tromsø; is it cold there currently?", "route": "weather", "arguments": {"location": "Tromsø"}},
+    {"user": "I am contacting a friend in Tromsø; what time is it there currently?", "route": "get_time", "arguments": {"timezone": "Tromsø"}},
+    {"user": "We're visiting my family in Cusco; is it snowing there right now?", "route": "weather", "arguments": {"location": "Cusco"}},
+    {"user": "I’m phoning my colleague in Accra. Is it warm there at the moment?", "route": "weather", "arguments": {"location": "Accra"}},
+    {"user": "We are calling a customer in \"Cold Lake, Canada\"; is it evening there?", "route": "get_time", "arguments": {"timezone": "Cold Lake, Canada"}},
+    {"user": "I am calling a friend in \"Time\"; is it raining there now?", "route": "weather", "arguments": {"location": "Time"}},
+    {"user": "We are planning to contact someone in Asia/Kathmandu; what's the local time there now?", "route": "get_time", "arguments": {"timezone": "Asia/Kathmandu"}},
+    {"user": "I am visiting a relative in \"Washington, D.C.\"; what is the weather there today?", "route": "weather", "arguments": {"location": "Washington, D.C."}},
+    {"user": "I am contacting my friend in \"Saint-Pierre and Miquelon\"; is it cloudy there, please?", "route": "weather", "arguments": {"location": "Saint-Pierre and Miquelon"}}
+  ],
+  "fallback": [
+    "I am contacting a friend in Oslo; is it cold there tomorrow?",
+    "I am contacting a friend in Oslo tomorrow; is it cold there currently?",
+    "I am contacting a friend in Oslo; is it not cold there currently?",
+    "I am contacting a friend in Oslo; is it cold there and what time is it?",
+    "I am contacting a friend in Oslo; is it cold there? Search for hotels.",
+    "I am contacting a friend in Oslo; is it cold there; what time is it there?",
+    "I am not contacting a friend in Oslo; is it cold there?",
+    "I am contacting a friend in Oslo and Bergen; is it cold there?",
+    "I am contacting a friend in my office; is it cold there?",
+    "I am contacting a friend in \"Oslo; is it cold there?",
+    "I am contacting a friend in \"Oslo; is it cold there?\"",
+    "I am contacting a friend in \"Oslo; Bergen\"; is it cold there?",
+    "I am contacting a friend in Europe/Oslo; is it cold there?",
+    "I am contacting a friend in Mars/Olympus; what time is it there?",
+    "I am contacting a friend in Oslo; explain why it gets cold there.",
+    "I am contacting a friend in Oslo; search for cold weather clothing.",
+    "I am contacting a friend in Oslo; calculate 8 times 9.",
+    "I am contacting a friend in Oslo; what does 'is it cold there' mean?",
+    "I am contacting a friend in Oslo; do not check whether it is cold there.",
+    "Search for the phrase 'I am contacting a friend in Oslo; is it cold there?'",
+    "My weather app says I am contacting a friend in Oslo; is it cold there?",
+    "I am stepping outside; what is the current weather in Tromsø?",
+    "What is the current weather in Tromsø?",
+    "Explain how a clock works.",
+    "Calculate 15 / 3.",
+    "Search the web for Norway's rail timetable."
+  ]
+}

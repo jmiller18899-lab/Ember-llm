@@ -1,0 +1,711 @@
+{
+  "cases": [
+    {
+      "arguments": {
+        "location": "Narvik"
+      },
+      "id": "v6-new-weather-01",
+      "route": "weather",
+      "user": "I am contacting my colleague in Narvik; is it cold there at the moment?"
+    },
+    {
+      "arguments": {
+        "location": "Punta Arenas"
+      },
+      "id": "v6-new-weather-02",
+      "route": "weather",
+      "user": "We are visiting a relative in Punta Arenas; is it windy there today?"
+    },
+    {
+      "arguments": {
+        "location": "Invercargill"
+      },
+      "id": "v6-new-weather-03",
+      "route": "weather",
+      "user": "I'm phoning a customer in Invercargill. Is it raining there right now?"
+    },
+    {
+      "arguments": {
+        "location": "Whitehorse"
+      },
+      "id": "v6-new-weather-04",
+      "route": "weather",
+      "user": "We’re calling my family in Whitehorse; is it snowing there currently?"
+    },
+    {
+      "arguments": {
+        "location": "Umeå"
+      },
+      "id": "v6-new-weather-05",
+      "route": "weather",
+      "user": "I am going to contact someone in Umeå; is it cloudy there now?"
+    },
+    {
+      "arguments": {
+        "location": "Gdańsk, Poland"
+      },
+      "id": "v6-new-weather-06",
+      "route": "weather",
+      "user": "I am about to call a friend in “Gdańsk, Poland”; what's the current temperature there?"
+    },
+    {
+      "arguments": {
+        "location": "Cold Lake, Canada"
+      },
+      "id": "v6-new-weather-07",
+      "route": "weather",
+      "user": "We are contacting a colleague in \"Cold Lake, Canada\"; is it cold there currently?"
+    },
+    {
+      "arguments": {
+        "location": "Naha"
+      },
+      "id": "v6-new-weather-08",
+      "route": "weather",
+      "user": "I am visiting my friend in Naha. Is it warm there at this moment?"
+    },
+    {
+      "arguments": {
+        "location": "Šibenik"
+      },
+      "id": "v6-new-weather-09",
+      "route": "weather",
+      "user": "I'm calling a relative in Šibenik; what is the weather there currently?"
+    },
+    {
+      "arguments": {
+        "location": "Saint-Denis"
+      },
+      "id": "v6-new-weather-10",
+      "route": "weather",
+      "user": "We are phoning someone in Saint-Denis; is it sunny there today?"
+    },
+    {
+      "arguments": {
+        "location": "Puerto Montt, Chile"
+      },
+      "id": "v6-new-weather-11",
+      "route": "weather",
+      "user": "What is the current temperature in “Puerto Montt, Chile”?"
+    },
+    {
+      "arguments": {
+        "location": "Kuopio"
+      },
+      "id": "v6-new-weather-12",
+      "route": "weather",
+      "user": "Is it wet in Kuopio right now?"
+    },
+    {
+      "arguments": {
+        "location": "Joensuu, Finland"
+      },
+      "id": "v6-new-weather-13",
+      "route": "weather",
+      "user": "Weather in \"Joensuu, Finland\" at the moment?"
+    },
+    {
+      "arguments": {
+        "location": "Ensenada"
+      },
+      "id": "v6-new-weather-14",
+      "route": "weather",
+      "user": "Tell me the current weather in Ensenada."
+    },
+    {
+      "arguments": {
+        "location": "Oranjestad"
+      },
+      "id": "v6-new-weather-15",
+      "route": "weather",
+      "user": "Check the temperature in Oranjestad now."
+    },
+    {
+      "arguments": {
+        "location": "Takamatsu"
+      },
+      "id": "v6-new-weather-16",
+      "route": "weather",
+      "user": "Is it raining in Takamatsu today?"
+    },
+    {
+      "arguments": {
+        "location": "George Town, Malaysia"
+      },
+      "id": "v6-new-weather-17",
+      "route": "weather",
+      "user": "I am packing an umbrella; what is the weather in \"George Town, Malaysia\" now?"
+    },
+    {
+      "arguments": {
+        "location": "Rovaniemi"
+      },
+      "id": "v6-new-weather-18",
+      "route": "weather",
+      "user": "What's the weather in Rovaniemi currently?"
+    },
+    {
+      "arguments": {
+        "location": "Île-aux-Moines"
+      },
+      "id": "v6-new-weather-19",
+      "route": "weather",
+      "user": "What is the weather in Île-aux-Moines right now?"
+    },
+    {
+      "arguments": {
+        "location": "La Paz"
+      },
+      "id": "v6-new-weather-20",
+      "route": "weather",
+      "user": "I am getting ready to head outside; what is the current temperature in La Paz?"
+    },
+    {
+      "arguments": {
+        "timezone": "Nuuk"
+      },
+      "id": "v6-new-get_time-01",
+      "route": "get_time",
+      "user": "We are contacting someone in Nuuk; what time is it there right now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Rainham"
+      },
+      "id": "v6-new-get_time-02",
+      "route": "get_time",
+      "user": "I'm phoning a friend in Rainham; is it morning there currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "Sunshine Coast, Australia"
+      },
+      "id": "v6-new-get_time-03",
+      "route": "get_time",
+      "user": "I am visiting a colleague in “Sunshine Coast, Australia”; is it evening there now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Port Louis"
+      },
+      "id": "v6-new-get_time-04",
+      "route": "get_time",
+      "user": "We’re calling a customer in Port Louis; what is the local time there at the moment?"
+    },
+    {
+      "arguments": {
+        "timezone": "Asia/Colombo"
+      },
+      "id": "v6-new-get_time-05",
+      "route": "get_time",
+      "user": "I am planning to phone my family in Asia/Colombo; what time is it there currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "America/St_Johns"
+      },
+      "id": "v6-new-get_time-06",
+      "route": "get_time",
+      "user": "We are about to contact a relative in America/St_Johns; what is the current time there?"
+    },
+    {
+      "arguments": {
+        "timezone": "Sapporo"
+      },
+      "id": "v6-new-get_time-07",
+      "route": "get_time",
+      "user": "I am visiting someone in Sapporo. Is it afternoon there today?"
+    },
+    {
+      "arguments": {
+        "timezone": "Lund"
+      },
+      "id": "v6-new-get_time-08",
+      "route": "get_time",
+      "user": "I'm contacting my friend in Lund; what's the local time there right now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Nîmes"
+      },
+      "id": "v6-new-get_time-09",
+      "route": "get_time",
+      "user": "We are going to call my colleague in Nîmes; what would be the time there currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "Cold Lake, Alberta"
+      },
+      "id": "v6-new-get_time-10",
+      "route": "get_time",
+      "user": "I am phoning a customer in \"Cold Lake, Alberta\"; what time is it there now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Asia/Yangon"
+      },
+      "id": "v6-new-get_time-11",
+      "route": "get_time",
+      "user": "What is the current local time in Asia/Yangon?"
+    },
+    {
+      "arguments": {
+        "timezone": "Pacific/Chatham"
+      },
+      "id": "v6-new-get_time-12",
+      "route": "get_time",
+      "user": "What time is it in Pacific/Chatham right now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Ponta Delgada"
+      },
+      "id": "v6-new-get_time-13",
+      "route": "get_time",
+      "user": "Check the local time in Ponta Delgada."
+    },
+    {
+      "arguments": {
+        "timezone": "Tórshavn"
+      },
+      "id": "v6-new-get_time-14",
+      "route": "get_time",
+      "user": "Tell me the current time in Tórshavn."
+    },
+    {
+      "arguments": {
+        "timezone": "Kingston, Jamaica"
+      },
+      "id": "v6-new-get_time-15",
+      "route": "get_time",
+      "user": "What time does the clock in \"Kingston, Jamaica\" show?"
+    },
+    {
+      "arguments": {
+        "timezone": "Africa/Windhoek"
+      },
+      "id": "v6-new-get_time-16",
+      "route": "get_time",
+      "user": "What is the time in Africa/Windhoek currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "St. George’s, Grenada"
+      },
+      "id": "v6-new-get_time-17",
+      "route": "get_time",
+      "user": "What time is it in “St. George’s, Grenada” now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Europe/Zurich"
+      },
+      "id": "v6-new-get_time-18",
+      "route": "get_time",
+      "user": "What time is it in Europe/Zurich at this moment?"
+    },
+    {
+      "arguments": {
+        "timezone": "Valdivia"
+      },
+      "id": "v6-new-get_time-19",
+      "route": "get_time",
+      "user": "Please show the local time in Valdivia."
+    },
+    {
+      "arguments": {
+        "timezone": "Hobart, Australia"
+      },
+      "id": "v6-new-get_time-20",
+      "route": "get_time",
+      "user": "What is the current time in Hobart, Australia?"
+    },
+    {
+      "id": "v6-new-calculator-01",
+      "result": 22,
+      "route": "calculator",
+      "user": "Calculate (312 - 48) / 12."
+    },
+    {
+      "id": "v6-new-calculator-02",
+      "result": 66,
+      "route": "calculator",
+      "user": "What is 7.5 percent of 880?"
+    },
+    {
+      "id": "v6-new-calculator-03",
+      "result": 55,
+      "route": "calculator",
+      "user": "Calculate -6 squared plus 19."
+    },
+    {
+      "id": "v6-new-calculator-04",
+      "result": 50,
+      "route": "calculator",
+      "user": "Compute 1,250 divided by 25."
+    },
+    {
+      "id": "v6-new-calculator-05",
+      "result": 414,
+      "route": "calculator",
+      "user": "What is 18 multiplied by 23?"
+    },
+    {
+      "id": "v6-new-calculator-06",
+      "result": 10.875,
+      "route": "calculator",
+      "user": "Calculate 2.75 plus 8.125."
+    },
+    {
+      "id": "v6-new-calculator-07",
+      "result": 216,
+      "route": "calculator",
+      "user": "Evaluate (19 + 17) * 6."
+    },
+    {
+      "id": "v6-new-calculator-08",
+      "result": 1331,
+      "route": "calculator",
+      "user": "What is 11 cubed?"
+    },
+    {
+      "id": "v6-new-calculator-09",
+      "result": 243,
+      "route": "calculator",
+      "user": "Calculate 3 ** 5."
+    },
+    {
+      "id": "v6-new-calculator-10",
+      "result": 12,
+      "route": "calculator",
+      "user": "What is 9.6 divided by 0.8?"
+    },
+    {
+      "id": "v6-new-calculator-11",
+      "result": 8,
+      "route": "calculator",
+      "user": "Compute (81 - 9) / (4 + 5)."
+    },
+    {
+      "id": "v6-new-calculator-12",
+      "result": 105,
+      "route": "calculator",
+      "user": "What is 14 percent of 750?"
+    },
+    {
+      "id": "v6-new-calculator-13",
+      "result": 100,
+      "route": "calculator",
+      "user": "Calculate 6.25 times 16."
+    },
+    {
+      "id": "v6-new-calculator-14",
+      "result": 8.65,
+      "route": "calculator",
+      "user": "What is 22.4 minus 13.75?"
+    },
+    {
+      "id": "v6-new-calculator-15",
+      "result": 12,
+      "route": "calculator",
+      "user": "Evaluate (5**3 - 17) / 9."
+    },
+    {
+      "id": "v6-new-calculator-16",
+      "result": 25,
+      "route": "calculator",
+      "user": "Calculate 3 squared plus 4 squared."
+    },
+    {
+      "id": "v6-new-calculator-17",
+      "result": 12,
+      "route": "calculator",
+      "user": "What is 0.125 multiplied by 96?"
+    },
+    {
+      "id": "v6-new-calculator-18",
+      "result": 135,
+      "route": "calculator",
+      "user": "Compute (1024 / 8) + 7."
+    },
+    {
+      "id": "v6-new-calculator-19",
+      "result": 15.625,
+      "route": "calculator",
+      "user": "Calculate 2.5 to the power of 3."
+    },
+    {
+      "id": "v6-new-calculator-20",
+      "result": 7,
+      "route": "calculator",
+      "user": "Evaluate -27 / 3 + 16."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for the official Narvik public library opening hours."
+      },
+      "id": "v6-new-web_search-01",
+      "route": "web_search",
+      "user": "Search the web for the official Narvik public library opening hours."
+    },
+    {
+      "arguments": {
+        "query": "Find the latest ferry timetable from Oban to Craignure online."
+      },
+      "id": "v6-new-web_search-02",
+      "route": "web_search",
+      "user": "Find the latest ferry timetable from Oban to Craignure online."
+    },
+    {
+      "arguments": {
+        "query": "Look up current rail disruptions around Utrecht."
+      },
+      "id": "v6-new-web_search-03",
+      "route": "web_search",
+      "user": "Look up current rail disruptions around Utrecht."
+    },
+    {
+      "arguments": {
+        "query": "Search online for the official Blender release notes."
+      },
+      "id": "v6-new-web_search-04",
+      "route": "web_search",
+      "user": "Search online for the official Blender release notes."
+    },
+    {
+      "arguments": {
+        "query": "Find recent news about the Port of Rotterdam."
+      },
+      "id": "v6-new-web_search-05",
+      "route": "web_search",
+      "user": "Find recent news about the Port of Rotterdam."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for current museum ticket prices in Aarhus."
+      },
+      "id": "v6-new-web_search-06",
+      "route": "web_search",
+      "user": "Search the web for current museum ticket prices in Aarhus."
+    },
+    {
+      "arguments": {
+        "query": "Look up the latest flight arrival information for Keflavík airport."
+      },
+      "id": "v6-new-web_search-07",
+      "route": "web_search",
+      "user": "Look up the latest flight arrival information for Keflavík airport."
+    },
+    {
+      "arguments": {
+        "query": "Find the official bus timetable for the route from Inverness to Fort William online."
+      },
+      "id": "v6-new-web_search-08",
+      "route": "web_search",
+      "user": "Find the official bus timetable for the route from Inverness to Fort William online."
+    },
+    {
+      "arguments": {
+        "query": "Search online for recent reviews of the Fujifilm X-T50."
+      },
+      "id": "v6-new-web_search-09",
+      "route": "web_search",
+      "user": "Search online for recent reviews of the Fujifilm X-T50."
+    },
+    {
+      "arguments": {
+        "query": "Find current road closures in Dunedin on the web."
+      },
+      "id": "v6-new-web_search-10",
+      "route": "web_search",
+      "user": "Find current road closures in Dunedin on the web."
+    },
+    {
+      "arguments": {
+        "query": "Look up the official opening hours for the Vasa Museum."
+      },
+      "id": "v6-new-web_search-11",
+      "route": "web_search",
+      "user": "Look up the official opening hours for the Vasa Museum."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for this week’s events at the Barbican Centre."
+      },
+      "id": "v6-new-web_search-12",
+      "route": "web_search",
+      "user": "Search the web for this week’s events at the Barbican Centre."
+    },
+    {
+      "arguments": {
+        "query": "Find the latest news about the European Space Agency online."
+      },
+      "id": "v6-new-web_search-13",
+      "route": "web_search",
+      "user": "Find the latest news about the European Space Agency online."
+    },
+    {
+      "arguments": {
+        "query": "Search online for the current Stockholm to Turku ferry schedule."
+      },
+      "id": "v6-new-web_search-14",
+      "route": "web_search",
+      "user": "Search online for the current Stockholm to Turku ferry schedule."
+    },
+    {
+      "arguments": {
+        "query": "Look up recent announcements from the city of Adelaide."
+      },
+      "id": "v6-new-web_search-15",
+      "route": "web_search",
+      "user": "Look up recent announcements from the city of Adelaide."
+    },
+    {
+      "arguments": {
+        "query": "Find the official support page for LibreOffice on the web."
+      },
+      "id": "v6-new-web_search-16",
+      "route": "web_search",
+      "user": "Find the official support page for LibreOffice on the web."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for the latest Reykjavík airport construction updates."
+      },
+      "id": "v6-new-web_search-17",
+      "route": "web_search",
+      "user": "Search the web for the latest Reykjavík airport construction updates."
+    },
+    {
+      "arguments": {
+        "query": "Find current guided tour availability at Edinburgh Castle online."
+      },
+      "id": "v6-new-web_search-18",
+      "route": "web_search",
+      "user": "Find current guided tour availability at Edinburgh Castle online."
+    },
+    {
+      "arguments": {
+        "query": "Look up the most recent Python Software Foundation news."
+      },
+      "id": "v6-new-web_search-19",
+      "route": "web_search",
+      "user": "Look up the most recent Python Software Foundation news."
+    },
+    {
+      "arguments": {
+        "query": "Search online for the official visitor information for Plitvice Lakes."
+      },
+      "id": "v6-new-web_search-20",
+      "route": "web_search",
+      "user": "Search online for the official visitor information for Plitvice Lakes."
+    },
+    {
+      "id": "v6-new-direct-01",
+      "route": "direct",
+      "user": "Explain why salt lowers the freezing point of water."
+    },
+    {
+      "id": "v6-new-direct-02",
+      "route": "direct",
+      "user": "What is the difference between a planet and a dwarf planet?"
+    },
+    {
+      "id": "v6-new-direct-03",
+      "route": "direct",
+      "user": "Why does metal feel colder than wood in the same room?"
+    },
+    {
+      "id": "v6-new-direct-04",
+      "route": "direct",
+      "user": "Explain how a pendulum clock keeps time."
+    },
+    {
+      "id": "v6-new-direct-05",
+      "route": "direct",
+      "user": "What does a metaphor add to a poem?"
+    },
+    {
+      "id": "v6-new-direct-06",
+      "route": "direct",
+      "user": "How does a bicycle gear change the effort needed to pedal?"
+    },
+    {
+      "id": "v6-new-direct-07",
+      "route": "direct",
+      "user": "Explain the difference between evaporation and boiling."
+    },
+    {
+      "id": "v6-new-direct-08",
+      "route": "direct",
+      "user": "Why do some leaves change colour in autumn?"
+    },
+    {
+      "id": "v6-new-direct-09",
+      "route": "direct",
+      "user": "What is the purpose of a database index?"
+    },
+    {
+      "id": "v6-new-direct-10",
+      "route": "direct",
+      "user": "Explain what a computer cache does in plain language."
+    },
+    {
+      "id": "v6-new-direct-11",
+      "route": "direct",
+      "user": "Why can a clear winter night be colder than a cloudy one?"
+    },
+    {
+      "id": "v6-new-direct-12",
+      "route": "direct",
+      "user": "What makes an argument logically valid?"
+    },
+    {
+      "id": "v6-new-direct-13",
+      "route": "direct",
+      "user": "Explain why time zones exist."
+    },
+    {
+      "id": "v6-new-direct-14",
+      "route": "direct",
+      "user": "How do roots help a plant absorb water?"
+    },
+    {
+      "id": "v6-new-direct-15",
+      "route": "direct",
+      "user": "What is the difference between a compiler and an interpreter?"
+    },
+    {
+      "id": "v6-new-direct-16",
+      "route": "direct",
+      "user": "Explain why a rainbow has different colours."
+    },
+    {
+      "id": "v6-new-direct-17",
+      "route": "direct",
+      "user": "How does insulation reduce heat loss?"
+    },
+    {
+      "id": "v6-new-direct-18",
+      "route": "direct",
+      "user": "What is the role of yeast in bread dough?"
+    },
+    {
+      "id": "v6-new-direct-19",
+      "route": "direct",
+      "user": "Explain the difference between a simile and an analogy."
+    },
+    {
+      "id": "v6-new-direct-20",
+      "route": "direct",
+      "user": "Why do ocean tides happen?"
+    }
+  ],
+  "created_at": "2026-09-12T14:54:33.908418+00:00",
+  "freeze_commit": "5eb35772824ab48f691abe9e772a0c5bc1296f60",
+  "interpretation": "Authored after the v6 freeze. Exact normalized text novelty; no claim of blind human testing or semantic independence from existing templates. Direct requests score routing only. No inference was used to select these requests.",
+  "routing_revision": "context-routing-v6",
+  "schema_version": 1,
+  "scope": "assistant_authored_new_request_confirmation",
+  "source_lock_sha256": "25bad5f0334f355ce25fa5075534bd5cbb669f3f958ab948c10d2e6211467b94"
+}

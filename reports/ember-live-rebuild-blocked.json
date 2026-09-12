@@ -1,0 +1,44 @@
+{
+  "artifact_id": 10298394719,
+  "artifact_sha256": "806296668d713302be604745c4476b210396e7494a91c86c143fbd0af554d2f6",
+  "created_at": "2026-09-12T13:14:33.195068+00:00",
+  "differing_files": {
+    "family.pt": {
+      "expected_sha256": "437f202297f27367ef45b58e5617d0e338d2456cad47e2929b32441d52c570dd",
+      "rebuilt_sha256": "df526b65bba99361bd719237e2c1dc5f9f9247866d65c557ed36f0a3d3345e17"
+    },
+    "router-full.pt": {
+      "expected_sha256": "8639ff9db361255d4b3fbde87b5bea0c41ba6723ba3b7ae86fe1b5fbaf78fbc2",
+      "rebuilt_sha256": "25e2f3c85edf3a646c29c6ac21b500aff35d0814fa85daca46228febeaa7c096"
+    },
+    "router-int4.pt": {
+      "expected_sha256": "cf2c2078ece971a2c3ecc144312b193e044aac0f96b8d7424eeb7d4485f075e1",
+      "rebuilt_sha256": "b224f73742ead16e6acc46cc5c37edfa4e6b199b516cfc29c1ae5b717c7e5c20"
+    },
+    "routing-v4-full.pt": {
+      "expected_sha256": "aaf6505ca71ee70b53052a897d338912ea4f09dc9842750f8ef25a0f18260255",
+      "rebuilt_sha256": "6c5f4b262fb989cd8edcdc65479a15836db91f6ecc163a9de0973d1afb390af6"
+    },
+    "routing-v4-int4.pt": {
+      "expected_sha256": "15b3e46296030631103a2d1dd453497cab84d67d412836f09124f42d28d121f9",
+      "rebuilt_sha256": "d18615b3a35e2b410f2ebafb9b10e5916e0cf988c28321b914a82b8da5f4783b"
+    },
+    "routing-v5.pt": {
+      "expected_sha256": "c9736c79f4c8234f1ef3fe0a1e9b002d44cdd3e554b3ccffa0b78cebc497f16a",
+      "rebuilt_sha256": "c560c6fca09362a8193744406c18164c2793a9160664707eefba9a9a3b19a45e"
+    }
+  },
+  "error": "The candidate differs from the v5 freeze",
+  "frozen_manifest_sha256": "df8a6bb074e157403f1c4142ce8c8eae4448ee72a94b7876d661ffc4364703b4",
+  "interpretation": "The cause of fitted-file byte differences was not determined. Model weights, source, selection JSON, and other candidate files matched. Original archived fitted bytes must be restored and verified before measuring this candidate.",
+  "kind": "candidate_verification_diagnostic",
+  "live_cases_executed": 0,
+  "matching_candidate_files": 32,
+  "rebuild_manifest_sha256": "f28e1226c3dc237b91badaa7bf3a7ad88ed316abaa408437b967de8593f28f9a",
+  "run_id": 34695406601,
+  "schema_version": 1,
+  "source": "Derived from checksum-verified builder manifest and hosted job log; no live report was produced because candidate verification stopped the run.",
+  "source_commit": "a1d19453377ccb0b5708d0152069479d55de567c",
+  "status": "BLOCKED_BEFORE_SERVICE_CALLS",
+  "verified_source_files": 30
+}
