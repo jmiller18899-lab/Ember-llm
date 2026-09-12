@@ -1,0 +1,22 @@
+name: Ember Context Routing V6
+
+on:
+  push:
+    branches: [codex/ember-routing-v4]
+    paths:
+      # The source freeze is committed first. Only the subsequent request suite
+      # starts the bounded integrated experiment, avoiding duplicate rebuilds.
+      - tool_assistant/data/routing-v6-confirmation.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  routing:
+    uses: ./.github/workflows/ember-routing-v6-run.yml
+    secrets:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      # Workflow secrets mask values even when a repository variable is used.
+      BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY || vars.BRAVE_SEARCH_API_KEY || secrets.BRAVE_API_KEY || vars.BRAVE_API_KEY || secrets.BRAVE_SEARCH_KEY || vars.BRAVE_SEARCH_KEY }}
