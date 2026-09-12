@@ -46,8 +46,14 @@ helpers from the retained base, v4, and v5 evaluation artifacts, checks every
 archived helper against the freeze, and restores those exact bytes before live
 measurement. All other candidate files must already match. The original
 manifest is restored after validation; model weights and the freeze are
-unchanged. The workflow uses `BRAVE_SEARCH_API_KEY` from
-repository secrets if available. No account, subscription, or paid compute is
+unchanged. The workflow uses `BRAVE_SEARCH_API_KEY` from repository secrets,
+falling back to the repository variable with the same name when the secret is
+empty. The caller passes the selected value as a secret to the local reusable
+workflow, so it is masked before the runner logs step environments. Both
+workflow files are included in the report's source checksums. This follows
+GitHub's [reusable workflow secret mapping](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows)
+and [allowed expression contexts](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability).
+No account, subscription, or paid compute is
 provisioned. At most one search is requested per checkpoint integration.
 
 The local `--head` option checks the fitted text-helper hash and all frozen source
