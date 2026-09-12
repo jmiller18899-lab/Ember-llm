@@ -58,5 +58,96 @@ false. This revision is an opt-in helper experiment, not a production deployment
 
 ## Results
 
-Integrated confirmation and live measurements are pending. The frozen v5
-99/100 failure and the earlier live-service evidence remain unchanged.
+The [48-file source freeze](../tool_assistant/data/routing-v6-source-lock.json)
+was committed as `5eb35772824ab48f691abe9e772a0c5bc1296f60` before authoring
+the [100 confirmation requests](../tool_assistant/data/routing-v6-confirmation.json),
+committed in its child `6961f3776de59415e6179c740a0f6b85a84dcfb1`.
+The lock SHA-256 is
+`25bad5f0334f355ce25fa5075534bd5cbb669f3f958ab948c10d2e6211467b94`;
+the suite SHA-256 is
+`4800a783c3c95cdca4bc32cfcb5a02d1f35eb8d430b94c54f29a152a1cf8dd30`.
+All 20 arithmetic gold values were checked independently with exact fractions
+before inference. Local focused validation passed 128 tests.
+
+The [integrated CPU run](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34700726146)
+on `6961f3776de59415e6179c740a0f6b85a84dcfb1` verified the original 38 candidate
+files and all 48 source files before and after measurement. It repaired the
+target weather/time confusion, passed the live suite, and **failed the overall
+new-request confirmation at 94/100**. The strict gate correctly leaves the run
+unsuccessful. No code, labels, or fitted bytes were changed after scoring.
+
+Both checkpoint integrations produced these same paired results:
+
+| Suite | Frozen v5 combined | Context v6 combined |
+| --- | ---: | ---: |
+| Original consumed 100 | 100/100 | 100/100 |
+| Consumed v5 confirmation | 99/100 | 100/100 |
+| New v6 confirmation | 91/100 | 94/100 |
+
+On the new suite, v6 routes 95/100 correctly and passes exact arguments plus
+fixture dispatch for 78/80 tool requests. It passes **20/20 weather and 20/20
+time** cases. Three weather cases that fail in the paired v5 control now pass,
+and no previously passing case becomes a failure. Historical parser coverage
+remains 60/60. The six remaining failures also occur unchanged in the paired
+v5 control:
+
+| Request | Expected | Observed |
+| --- | --- | --- |
+| Calculate 3 squared plus 4 squared. | Calculator, result 25 | Correct route; parser rejects the expression |
+| Search the web for this week’s events at the Barbican Centre. | Web search | Direct route |
+| Why do some leaves change colour in autumn? | Direct | Time route with `autumn` as argument |
+| How do roots help a plant absorb water? | Direct | Weather route; missing-location clarification |
+| How does insulation reduce heat loss? | Direct | Weather route; missing-location clarification |
+| What is the role of yeast in bread dough? | Direct | Time route with `bread dough` as argument |
+
+These are newly measured limitations of the retained general classifier/parser,
+not repaired by this bounded context rule. Direct-answer generation remains
+untested. The new suite is now consumed regression evidence for any later
+revision; a further confirmation needs a new freeze and new requests.
+
+The [development report](../reports/ember-routing-v6-development.json) has SHA-256
+`dc370ced5a1ecbb83876ab2b9bfdc163b8d9c7b4dd215f2487ae0865c5f33154`.
+The [confirmation report](../reports/ember-routing-v6-confirmation.json) has SHA-256
+`217eda9c5fb7768281f1bc1d40c1f30ec30b51fa1cfe3119e1952c91d448c760`.
+Both were recovered losslessly from bounded log chunks, matched to their emitted
+checksums, and independently recounted. The frozen v5 99/100 failure and all
+earlier evidence remain preserved.
+
+## Live result
+
+The [live report](../reports/ember-live-services-v6-34700726146.json) records
+**28/28 final passes**, with 26 first-attempt passes and two recovered timeouts.
+All cases count toward the result, including the repaired request.
+
+| Check | Final result |
+| --- | ---: |
+| Weather, including the exact Tromsø regression | 6/6 |
+| Time, including the matching contact-context question | 8/8 |
+| Local arithmetic | 4/4 |
+| Brave Search | 2/2 |
+| Ambiguous/unknown/future/direct guards | 8/8 |
+
+The exact failing request now dispatches weather once for Tromsø on both
+integrations and obtains valid current conditions. The full-checkpoint run
+recovers a 12.193-second geocoding timeout with one retry; the INT4 run succeeds
+on its first attempt. The paired time request geocodes the same place and
+obtains the external current time for `Europe/Oslo` on both integrations.
+The other retry recovers the INT4 ambiguous-London geocoding check, which then
+correctly asks for clarification. Both failures remain visible in the trace.
+
+The run records 30 successful HTTP responses and two geocoding timeouts. The
+live report SHA-256 is
+`e3723b9581706376c67afc0c324de02db7066f584c68b2812b8ca064ce0f12eb`.
+The [restoration report](../reports/ember-live-restore-v6-34700726146.json) has SHA-256
+`9fac6f394dd68673e57b4868ba59703a62af30cb8140f8938f86c62b977a094c`.
+The restored manifest matches the original
+`df8a6bb074e157403f1c4142ce8c8eae4448ee72a94b7876d661ffc4364703b4`.
+The evidence artifact is `10299653847`, named
+`ember-routing-v6-34700726146-attempt-1`, with SHA-256
+`25c1c175af1d81f76b77124004eafcea345006b5515307a5603134a70f73291d`.
+
+The [repository validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34700727650)
+on the measured source passed **851 repository tests**, **22 packaged Ember
+tests**, and the separate supplied-route parser check at **60/60**. The
+experiment's **128 focused tests** also passed. These checks and live success
+do not override the failed overall routing confirmation.

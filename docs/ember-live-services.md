@@ -370,3 +370,14 @@ named `ember-live-services-34699255050-attempt-1`, has SHA-256
 [Source validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34699256827)
 passed **800 repository tests**, **22 packaged tests**, and historical parser-v3
 **60/60**. The live workflow passed all **77 service/restoration tests**.
+
+## Context routing follow-up
+
+The optional [v6 routing revision](ember-routing-v6.md) repairs the Tromsø
+weather/time mix-up and passes 28/28 live checks on source
+`6961f3776de59415e6179c740a0f6b85a84dcfb1`, including the exact previously failing
+request and its matching time question. Two geocoding timeouts recover through
+the existing bounded retry policy; first-attempt results are 26/28. All 40 new
+weather/time requests pass, while six other cases leave the broader confirmation
+at 94/100 and its strict gate failed. The frozen v5 measurements above remain
+historical evidence for that unchanged helper.
