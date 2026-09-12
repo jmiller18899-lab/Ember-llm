@@ -231,3 +231,55 @@ passed 772 repository tests, 22 packaged tests, and historical parser-v3 60/60;
 all 49 service/restoration tests also passed. The follow-up adds a quick
 availability check for the three supported Brave credential names before
 another checkpoint rebuild. It inspects only booleans, never the key values.
+
+## Brave verified, 2026-09-12
+
+The [credential-name check](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34698068507/job/103564886205)
+found `vars.BRAVE_API_KEY`. The canonical `BRAVE_SEARCH_API_KEY` name was
+unavailable in both Secrets and Variables. The supported alias resolved this
+name mismatch and was passed as a workflow secret; the live job's environment
+log shows `BRAVE_SEARCH_API_KEY: ***`.
+
+The [live run](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34698068507)
+measured source `cddf9e147576d36a7aaa65575064f1585089faf8` on both frozen
+checkpoint integrations. Brave returned **HTTP 200 on both requests**, with
+three URLs per response, including `https://docs.python.org/3/` and
+`https://www.python.org/doc/`. The calls took about 1.04 and 0.39 seconds.
+No key value is included in the report or credential-name record.
+
+| Check | Full precision | INT4 integration |
+| --- | ---: | ---: |
+| Weather | 1/2 | 0/2 |
+| Current time | 3/3 | 3/3 |
+| Local calculator | 2/2 | 2/2 |
+| Brave web search | 1/1 | 1/1 |
+| Ambiguity, unknown city, future weather, direct dispatch guards | 4/4 | 4/4 |
+
+The 24 service/guard checks recorded **21 passed, three failed, and none
+blocked**. All three failures were correctly routed weather requests that
+timed out: full-precision Tromsø at the forecast endpoint (12.23 seconds),
+INT4 Tromsø at geocoding (12.13 seconds), and INT4 Reykjavík at the forecast
+endpoint (12.05 seconds). Each returned an explicit `tool_error`. The trace
+contains 18 HTTP 200 responses (nine geocoding, one weather, six clock, two
+search) and three attempts without a response. The two known weather-to-time
+routing failures remain separate. The overall result remains **FAIL**, and
+`production_ready` remains false. No retry replaces any measured failure.
+
+All 30 frozen source and 38 candidate hashes matched before and after testing.
+The exact [live report](../reports/ember-live-services-34698068507.json) has
+SHA-256 `3f29ebcc7dd7f6729b14177c53dd62dba5768b7bd69fe01fd80b0e31d63801ad`;
+the [restoration record](../reports/ember-live-restore-34698068507.json) has
+SHA-256 `3f9b663b534983b17e40fc32b125781efe59ace8ce84df863ea3adad2164caf4`.
+Both were recovered from exact log chunks and checksum-verified. The measured
+manifest remains byte-identical to the original freeze. The separate
+[credential-name record](../reports/ember-brave-credential-34698068507.json)
+is explicitly derived from the availability event and has SHA-256
+`b38ce0e575ef5bc540b441aeed26f02ea3a65b9567a8957b06d7cb743953e25d`.
+Artifact `10299461662`, named `ember-live-services-34698068507-attempt-1`, has
+SHA-256 `fb9a041c5b510522a8390cee55cbe440aeedf7e2c45fec2a7d002239f49e9063`.
+
+[Validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34698070777)
+passed 772 repository tests, 22 packaged tests, and historical parser-v3 60/60.
+The live job passed all 49 service/restoration tests. Brave search is now
+verified on this bounded smoke check; weather availability and the preserved
+routing error remain unresolved. Generated-answer quality remains untested.
