@@ -48,7 +48,11 @@ measurement. All other candidate files must already match. The original
 manifest is restored after validation; model weights and the freeze are
 unchanged. The workflow uses `BRAVE_SEARCH_API_KEY` from repository secrets,
 falling back to the repository variable with the same name when the secret is
-empty. The caller passes the selected value as a secret to the local reusable
+empty. It also accepts `BRAVE_API_KEY` and `BRAVE_SEARCH_KEY`, in that order,
+checking each name's secret before its variable. A short prerequisite job
+reports only name availability and the selected source. If none is available,
+it exits unsuccessfully with `BLOCKED` and skips checkpoint preparation.
+The caller passes the selected value as a secret to the local reusable
 workflow, so it is masked before the runner logs step environments. Both
 workflow files are included in the report's source checksums. This follows
 GitHub's [reusable workflow secret mapping](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows)
@@ -194,3 +198,36 @@ passed 772 repository tests, 22 packaged tests, and historical parser-v3 60/60.
 The live workflow passed all 49 service/restoration tests. Completing search
 verification requires resolving the saved secret's exact name and scope so
 this job can receive it. No key value is recorded in the evidence.
+
+## Repository-variable follow-up, 2026-09-12
+
+The [variable-enabled run](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34697672365)
+measured source `e6d86ceeee4780fa63c6c3f427f361cdd07ceeb1` after adding a
+`vars.BRAVE_SEARCH_API_KEY` fallback through a local reusable workflow secret.
+The runner still received an empty key. Both search checks remain **BLOCKED**
+with no Brave HTTP requests. This does not determine the saved variable's name
+or scope.
+
+The result was **21 passed, one failed, and two blocked** service/guard checks:
+weather 4/4, current time 5/6, local calculator 4/4, and guards 8/8. The INT4
+Reykjavík time request timed out during geocoding after about 12.15 seconds;
+the clock endpoint was not called for that request. The trace contains 18
+HTTP 200 responses (nine geocoding, four weather, five clock) and one geocoding
+attempt without a response. The two preserved routing failures remain separate,
+and the overall result remains **FAIL**.
+
+All 30 frozen source and 38 candidate checksums matched before and after testing.
+The exact [report](../reports/ember-live-services-34697672365.json) has SHA-256
+`284cde7bc959c3bea37ac8b5255a1c7dfb8b1fd37e9441162bcb173a57e64529`;
+the [restoration record](../reports/ember-live-restore-34697672365.json) has
+SHA-256 `af6f1c6a90812f8f6c170f265704de1761846d861dea8fc903c4e507be50397f`.
+Both were recovered exactly from log chunks and checksum-verified. The original
+candidate manifest still matches. Artifact `10299077135`, named
+`ember-live-services-34697672365-attempt-1`, has SHA-256
+`0fa5bf5794cd6bbb6eb52fa42986052def4bebc21e2249d6ffe86ce7b92ac097`.
+
+[Validation](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34697673858)
+passed 772 repository tests, 22 packaged tests, and historical parser-v3 60/60;
+all 49 service/restoration tests also passed. The follow-up adds a quick
+availability check for the three supported Brave credential names before
+another checkpoint rebuild. It inspects only booleans, never the key values.

@@ -18,9 +18,36 @@ permissions:
   actions: read
 
 jobs:
+  brave_configuration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Check Brave credential names without logging values
+        env:
+          SECRET_BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY != '' }}
+          VARIABLE_BRAVE_SEARCH_API_KEY: ${{ vars.BRAVE_SEARCH_API_KEY != '' }}
+          SECRET_BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY != '' }}
+          VARIABLE_BRAVE_API_KEY: ${{ vars.BRAVE_API_KEY != '' }}
+          SECRET_BRAVE_SEARCH_KEY: ${{ secrets.BRAVE_SEARCH_KEY != '' }}
+          VARIABLE_BRAVE_SEARCH_KEY: ${{ vars.BRAVE_SEARCH_KEY != '' }}
+        run: |
+          python - <<'PY'
+          import json, os
+          names = ('BRAVE_SEARCH_API_KEY', 'BRAVE_API_KEY', 'BRAVE_SEARCH_KEY')
+          present = {f'{scope}.{name}': os.environ[f'{prefix}_{name}'] == 'true'
+                     for name in names
+                     for scope, prefix in (('secrets', 'SECRET'), ('vars', 'VARIABLE'))}
+          selected = next((name for name, available in present.items() if available), None)
+          print(json.dumps({'event': 'brave_credential_availability',
+                            'status': 'READY' if selected else 'BLOCKED',
+                            'present': present, 'selected': selected}), flush=True)
+          if not selected:
+              raise SystemExit(2)
+          PY
   live:
+    needs: brave_configuration
     uses: ./.github/workflows/ember-live-services-run.yml
     secrets:
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
       # Pass the variable as a workflow secret so the runner masks its value.
-      BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY || vars.BRAVE_SEARCH_API_KEY }}
+      BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY || vars.BRAVE_SEARCH_API_KEY || secrets.BRAVE_API_KEY || vars.BRAVE_API_KEY || secrets.BRAVE_SEARCH_KEY || vars.BRAVE_SEARCH_KEY }}

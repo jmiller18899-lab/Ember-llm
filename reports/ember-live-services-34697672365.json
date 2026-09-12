@@ -1,0 +1,1380 @@
+{
+  "all_services_live_verified": false,
+  "base_model_trained": false,
+  "counts": {
+    "BLOCKED": 2,
+    "FAIL": 1,
+    "PASS": 21
+  },
+  "created_at": "2026-09-12T13:56:53.424507+00:00",
+  "direct_answer_quality_tested": false,
+  "freeze": {
+    "candidate_files_verified": 38,
+    "candidate_manifest_sha256": "df8a6bb074e157403f1c4142ce8c8eae4448ee72a94b7876d661ffc4364703b4",
+    "source_files_verified": 30,
+    "source_lock_sha256": "2a6bd995f55c5c1c34afb7477df5ab3d54826e5d7e8132105eb7519778413579"
+  },
+  "interpretation": "Live HTTP and local calculator execution through the frozen helper. Deliberate error injection is covered separately by offline tests. This small smoke suite is not a new routing confirmation or uptime guarantee.",
+  "known_routing_failures": 2,
+  "production_ready": false,
+  "results": {
+    "full": [
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_place": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "2a96653f26f1987408324b3b1e87d4c1d8c8fc451e2815da42d78d132549b973",
+            "elapsed_ms": 624.69,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:29.984905+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Troms%C3%B8%2C+Norway&count=100&language=en&format=json"
+          },
+          {
+            "body_sha256": "18733f0c925a2faa392e38b996cd3440233ebfbd09e89b0136c38136a21e57b7",
+            "elapsed_ms": 563.91,
+            "http_status": 200,
+            "service": "weather",
+            "started_at": "2026-09-12T13:56:30.609950+00:00",
+            "url": "https://api.open-meteo.com/v1/forecast?latitude=69.6489&longitude=18.95508&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cweather_code&timezone=UTC&timeformat=unixtime&forecast_days=1"
+          }
+        ],
+        "id": "weather_unicode",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "Troms\u00f8, Norway"
+            },
+            "name": "weather"
+          },
+          "margin": 0.9243231553979933,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "age_seconds": 691.17,
+            "attribution_url": "https://open-meteo.com/",
+            "current": {
+              "interval": 900,
+              "precipitation": 0.0,
+              "relative_humidity_2m": 62,
+              "temperature_2m": 13.9,
+              "time": 1789220700,
+              "weather_code": 1
+            },
+            "data_kind": "current_weather_model_conditions",
+            "fetched_at": "2026-09-12T13:56:31.173929+00:00",
+            "location": {
+              "admin1": "Troms",
+              "country": "Norway",
+              "id": 3133895,
+              "latitude": 69.6489,
+              "longitude": 18.95508,
+              "name": "Troms\u00f8",
+              "timezone": "Europe/Oslo"
+            },
+            "provider": "Open-Meteo",
+            "units": {
+              "interval": "seconds",
+              "precipitation": "mm",
+              "relative_humidity_2m": "%",
+              "temperature_2m": "\u00b0C",
+              "time": "unixtime",
+              "weather_code": "wmo code"
+            },
+            "valid_at": "2026-09-12T13:45:00+00:00"
+          },
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "Troms\u00f8, Norway"
+              },
+              "name": "weather"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "place_id": 3133895,
+        "route": "weather",
+        "user": "What is the current weather in \"Troms\u00f8, Norway\"?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_place": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "a76936fd0cee4658e10c47fe584370f4674c44e37918e5c3543bdcb714750116",
+            "elapsed_ms": 581.06,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:31.176675+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Reykjav%C3%ADk%2C+Iceland&count=100&language=en&format=json"
+          },
+          {
+            "body_sha256": "ad7f77e6370f743750bf93a844d67c0a870fb814ad1158a1350a18f69c66eb0e",
+            "elapsed_ms": 510.12,
+            "http_status": 200,
+            "service": "weather",
+            "started_at": "2026-09-12T13:56:31.758405+00:00",
+            "url": "https://api.open-meteo.com/v1/forecast?latitude=64.13548&longitude=-21.89541&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cweather_code&timezone=UTC&timeformat=unixtime&forecast_days=1"
+          }
+        ],
+        "id": "weather_context",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "Reykjav\u00edk, Iceland"
+            },
+            "name": "weather"
+          },
+          "margin": 1.0747097260870055,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "age_seconds": 692.27,
+            "attribution_url": "https://open-meteo.com/",
+            "current": {
+              "interval": 900,
+              "precipitation": 0.0,
+              "relative_humidity_2m": 53,
+              "temperature_2m": 9.9,
+              "time": 1789220700,
+              "weather_code": 0
+            },
+            "data_kind": "current_weather_model_conditions",
+            "fetched_at": "2026-09-12T13:56:32.268588+00:00",
+            "location": {
+              "admin1": "Capital Region",
+              "country": "Iceland",
+              "id": 3413829,
+              "latitude": 64.13548,
+              "longitude": -21.89541,
+              "name": "Reykjavik",
+              "timezone": "Atlantic/Reykjavik"
+            },
+            "provider": "Open-Meteo",
+            "units": {
+              "interval": "seconds",
+              "precipitation": "mm",
+              "relative_humidity_2m": "%",
+              "temperature_2m": "\u00b0C",
+              "time": "unixtime",
+              "weather_code": "wmo code"
+            },
+            "valid_at": "2026-09-12T13:45:00+00:00"
+          },
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "Reykjav\u00edk, Iceland"
+              },
+              "name": "weather"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "place_id": 3413829,
+        "route": "weather",
+        "user": "I am stepping outside; what is the current temperature in \"Reykjav\u00edk, Iceland\"?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_timezone": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "1cfe42d92e81f391e0e86d9b936a24c3559fc60c965b5f61becd389389821ee4",
+            "elapsed_ms": 721.92,
+            "http_status": 200,
+            "service": "clock",
+            "started_at": "2026-09-12T13:56:32.270504+00:00",
+            "url": "https://timeapi.io/api/v1/time/current/zone?timezone=UTC"
+          }
+        ],
+        "id": "time_utc",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "timezone": "UTC"
+            },
+            "name": "get_time"
+          },
+          "margin": 1.3261430393338194,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "attribution_url": "https://timeapi.io/",
+            "clock_difference_seconds": 0.062,
+            "datetime": "2026-09-12T13:56:32.930268+00:00",
+            "dst_active": false,
+            "fetched_at": "2026-09-12T13:56:32.992521+00:00",
+            "location": null,
+            "provider": "TimeAPI.io",
+            "timezone": "UTC",
+            "utc_offset_seconds": 0
+          },
+          "route": "get_time",
+          "service_calls": [
+            {
+              "arguments": {
+                "timezone": "UTC"
+              },
+              "name": "get_time"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "get_time",
+        "timezone": "UTC",
+        "user": "What time is it in UTC now?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_timezone": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "d95b124567e7e7c4f9be0559e35828fd412501b792c47c201503ff0e4dedc309",
+            "elapsed_ms": 535.76,
+            "http_status": 200,
+            "service": "clock",
+            "started_at": "2026-09-12T13:56:32.994627+00:00",
+            "url": "https://timeapi.io/api/v1/time/current/zone?timezone=Asia%2FKathmandu"
+          }
+        ],
+        "id": "time_fractional_offset",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "timezone": "Asia/Kathmandu"
+            },
+            "name": "get_time"
+          },
+          "margin": 1.0047228195264062,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "attribution_url": "https://timeapi.io/",
+            "clock_difference_seconds": 0.062,
+            "datetime": "2026-09-12T19:41:33.468386+05:45",
+            "dst_active": false,
+            "fetched_at": "2026-09-12T13:56:33.530476+00:00",
+            "location": null,
+            "provider": "TimeAPI.io",
+            "timezone": "Asia/Kathmandu",
+            "utc_offset_seconds": 20700
+          },
+          "route": "get_time",
+          "service_calls": [
+            {
+              "arguments": {
+                "timezone": "Asia/Kathmandu"
+              },
+              "name": "get_time"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "get_time",
+        "timezone": "Asia/Kathmandu",
+        "user": "What time is it in Asia/Kathmandu right now?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_timezone": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "c38f0e68ce0487e11d3128ed9eda8633bc15c32b2ccc3b9d360796535bd2fa76",
+            "elapsed_ms": 511.22,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:33.532508+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Reykjav%C3%ADk%2C+Iceland&count=100&language=en&format=json"
+          },
+          {
+            "body_sha256": "8f3de584577416ce68bd65e9b544f09f164ed3b24a4b781c57d965d3b6d18f67",
+            "elapsed_ms": 668.37,
+            "http_status": 200,
+            "service": "clock",
+            "started_at": "2026-09-12T13:56:34.043886+00:00",
+            "url": "https://timeapi.io/api/v1/time/current/zone?timezone=Atlantic%2FReykjavik"
+          }
+        ],
+        "id": "time_geocoded",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "timezone": "Reykjav\u00edk, Iceland"
+            },
+            "name": "get_time"
+          },
+          "margin": 1.131183034824938,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "attribution_url": "https://timeapi.io/",
+            "clock_difference_seconds": 0.064,
+            "datetime": "2026-09-12T13:56:34.648247+00:00",
+            "dst_active": false,
+            "fetched_at": "2026-09-12T13:56:34.712323+00:00",
+            "location": {
+              "admin1": "Capital Region",
+              "country": "Iceland",
+              "id": 3413829,
+              "latitude": 64.13548,
+              "longitude": -21.89541,
+              "name": "Reykjavik",
+              "timezone": "Atlantic/Reykjavik"
+            },
+            "provider": "TimeAPI.io",
+            "timezone": "Atlantic/Reykjavik",
+            "utc_offset_seconds": 0
+          },
+          "route": "get_time",
+          "service_calls": [
+            {
+              "arguments": {
+                "timezone": "Reykjav\u00edk, Iceland"
+              },
+              "name": "get_time"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "get_time",
+        "timezone": "Atlantic/Reykjavik",
+        "user": "What time is it in \"Reykjav\u00edk, Iceland\" now?"
+      },
+      {
+        "checks": {
+          "correct_value": true,
+          "exactly_one_dispatch": true,
+          "executes_locally": true,
+          "expected_route": true,
+          "tool_result": true
+        },
+        "http": [],
+        "id": "calculator_parentheses",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "expression": "(144-24)/8"
+            },
+            "name": "calculator"
+          },
+          "margin": 0.8009161007056341,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "expression": "(144-24)/8",
+            "provider": "local_bounded_arithmetic",
+            "value": 15.0
+          },
+          "route": "calculator",
+          "service_calls": [
+            {
+              "arguments": {
+                "expression": "(144-24)/8"
+              },
+              "name": "calculator"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "calculator",
+        "user": "Calculate (144 - 24) / 8.",
+        "value": 15
+      },
+      {
+        "checks": {
+          "correct_value": true,
+          "exactly_one_dispatch": true,
+          "executes_locally": true,
+          "expected_route": true,
+          "tool_result": true
+        },
+        "http": [],
+        "id": "calculator_percentage",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "expression": "(12.5/100)*640"
+            },
+            "name": "calculator"
+          },
+          "margin": 1.0283965724061028,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "expression": "(12.5/100)*640",
+            "provider": "local_bounded_arithmetic",
+            "value": 80.0
+          },
+          "route": "calculator",
+          "service_calls": [
+            {
+              "arguments": {
+                "expression": "(12.5/100)*640"
+              },
+              "name": "calculator"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "calculator",
+        "user": "What is 12.5 percent of 640?",
+        "value": 80
+      },
+      {
+        "checks": {
+          "expected_route": true,
+          "live_search_executed": false
+        },
+        "http": [],
+        "id": "web_search",
+        "kind": "service",
+        "outcome": "BLOCKED",
+        "output": {
+          "call": {
+            "arguments": {
+              "query": "Search the web for the official Python documentation."
+            },
+            "name": "web_search"
+          },
+          "error_type": "ServiceError",
+          "margin": 0.33562740821213444,
+          "message": "Web search needs BRAVE_SEARCH_API_KEY to be configured.",
+          "parser_revision": "argument-parser-v4",
+          "route": "web_search",
+          "service_calls": [
+            {
+              "arguments": {
+                "query": "Search the web for the official Python documentation."
+              },
+              "name": "web_search"
+            }
+          ],
+          "service_error": {
+            "code": "missing_credentials",
+            "message": "Web search needs BRAVE_SEARCH_API_KEY to be configured."
+          },
+          "status": "tool_unavailable"
+        },
+        "route": "web_search",
+        "user": "Search the web for the official Python documentation."
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_reason": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 1,
+        "error": "ambiguous_location",
+        "http": [
+          {
+            "body_sha256": "3379f506dc41e2927af9dc0e2e2b71cb8b9996896841c33a3145122fad1e862f",
+            "elapsed_ms": 644.0,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:34.721029+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=London&count=100&language=en&format=json"
+          }
+        ],
+        "id": "ambiguous_place",
+        "kind": "guard",
+        "network_services": [
+          "geocoding"
+        ],
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "London"
+            },
+            "name": "weather"
+          },
+          "error_type": "ServiceError",
+          "margin": 1.071792832288803,
+          "message": "Several places match. Please include the country or full region name.",
+          "parser_revision": "argument-parser-v4",
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "London"
+              },
+              "name": "weather"
+            }
+          ],
+          "service_error": {
+            "choices": [
+              "London, England, United Kingdom",
+              "London, Ontario, Canada",
+              "London, Ohio, United States",
+              "London, Kentucky, United States",
+              "London, Arkansas, United States"
+            ],
+            "code": "ambiguous_location",
+            "message": "Several places match. Please include the country or full region name."
+          },
+          "status": "needs_clarification"
+        },
+        "route": "weather",
+        "status": "needs_clarification",
+        "user": "What is the weather in London now?"
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_reason": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 1,
+        "error": "location_not_found",
+        "http": [
+          {
+            "body_sha256": "193517198031c512418723dffe20aa0a6f07bd229c8ef4f36fd9a9d99c367d62",
+            "elapsed_ms": 532.45,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:35.367052+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Qzxvplon&count=100&language=en&format=json"
+          }
+        ],
+        "id": "unknown_place",
+        "kind": "guard",
+        "network_services": [
+          "geocoding"
+        ],
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "Qzxvplon"
+            },
+            "name": "weather"
+          },
+          "error_type": "ServiceError",
+          "margin": 1.0921794652116432,
+          "message": "I could not resolve that city exactly. Please give its full name and country.",
+          "parser_revision": "argument-parser-v4",
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "Qzxvplon"
+              },
+              "name": "weather"
+            }
+          ],
+          "service_error": {
+            "code": "location_not_found",
+            "message": "I could not resolve that city exactly. Please give its full name and country."
+          },
+          "status": "needs_clarification"
+        },
+        "route": "weather",
+        "status": "needs_clarification",
+        "user": "What is the weather in Qzxvplon now?"
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_reason": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 0,
+        "error": "unsupported_time",
+        "http": [],
+        "id": "future_weather",
+        "kind": "guard",
+        "network_services": [],
+        "outcome": "PASS",
+        "output": {
+          "call": null,
+          "margin": 0.5742902537892236,
+          "message": "This tool handles current weather or time. Please request the current conditions.",
+          "parser_revision": "argument-parser-v4",
+          "reason": "unsupported_time",
+          "route": "weather",
+          "service_calls": [],
+          "status": "needs_clarification"
+        },
+        "route": "weather",
+        "status": "needs_clarification",
+        "user": "What will the weather in Oslo be tomorrow?"
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 0,
+        "http": [],
+        "id": "direct_no_dispatch",
+        "kind": "guard",
+        "network_services": [],
+        "outcome": "PASS",
+        "output": {
+          "call": null,
+          "margin": 0.7492248446584647,
+          "parser_revision": "argument-parser-v4",
+          "route": "direct",
+          "service_calls": [],
+          "status": "direct_answer_unavailable"
+        },
+        "route": "direct",
+        "status": "direct_answer_unavailable",
+        "user": "Explain why rainbows form."
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": false,
+          "expected_route": false,
+          "live_http": false,
+          "provider": false,
+          "requested_place": false,
+          "tool_result": false
+        },
+        "http": [],
+        "id": "preserved_v5_routing_failure",
+        "kind": "known_routing_failure",
+        "outcome": "FAIL",
+        "output": {
+          "call": null,
+          "margin": 0.10986375842651153,
+          "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+          "parser_revision": "argument-parser-v4",
+          "reason": "ambiguous_location",
+          "route": "get_time",
+          "service_calls": [],
+          "status": "needs_clarification"
+        },
+        "place_id": 3133895,
+        "route": "weather",
+        "user": "I am contacting a friend in Troms\u00f8; is it cold there currently?"
+      }
+    ],
+    "int4": [
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_place": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "dee015f9d94ec570a5b8f2b179ab66926e6680bbec0886d55352be737fda94e4",
+            "elapsed_ms": 491.81,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:36.521122+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Troms%C3%B8%2C+Norway&count=100&language=en&format=json"
+          },
+          {
+            "body_sha256": "1ca59fb4f3139e7b02199bfe77a7f15ab29f72e9766fbf2082a36b6462ae05a3",
+            "elapsed_ms": 549.5,
+            "http_status": 200,
+            "service": "weather",
+            "started_at": "2026-09-12T13:56:37.013072+00:00",
+            "url": "https://api.open-meteo.com/v1/forecast?latitude=69.6489&longitude=18.95508&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cweather_code&timezone=UTC&timeformat=unixtime&forecast_days=1"
+          }
+        ],
+        "id": "weather_unicode",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "Troms\u00f8, Norway"
+            },
+            "name": "weather"
+          },
+          "margin": 0.9243231553979933,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "age_seconds": 697.56,
+            "attribution_url": "https://open-meteo.com/",
+            "current": {
+              "interval": 900,
+              "precipitation": 0.0,
+              "relative_humidity_2m": 62,
+              "temperature_2m": 13.9,
+              "time": 1789220700,
+              "weather_code": 1
+            },
+            "data_kind": "current_weather_model_conditions",
+            "fetched_at": "2026-09-12T13:56:37.562632+00:00",
+            "location": {
+              "admin1": "Troms",
+              "country": "Norway",
+              "id": 3133895,
+              "latitude": 69.6489,
+              "longitude": 18.95508,
+              "name": "Troms\u00f8",
+              "timezone": "Europe/Oslo"
+            },
+            "provider": "Open-Meteo",
+            "units": {
+              "interval": "seconds",
+              "precipitation": "mm",
+              "relative_humidity_2m": "%",
+              "temperature_2m": "\u00b0C",
+              "time": "unixtime",
+              "weather_code": "wmo code"
+            },
+            "valid_at": "2026-09-12T13:45:00+00:00"
+          },
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "Troms\u00f8, Norway"
+              },
+              "name": "weather"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "place_id": 3133895,
+        "route": "weather",
+        "user": "What is the current weather in \"Troms\u00f8, Norway\"?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_place": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "1cba734042b6ba74fa8c08c56e93b96dfc0352098b7861d42c80d2e22b30e190",
+            "elapsed_ms": 531.08,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:37.565350+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Reykjav%C3%ADk%2C+Iceland&count=100&language=en&format=json"
+          },
+          {
+            "body_sha256": "c2100a3f0d3fa3b79b2eccde7d46bbc0bf27c9e5b54af335a27759d5f2457783",
+            "elapsed_ms": 660.3,
+            "http_status": 200,
+            "service": "weather",
+            "started_at": "2026-09-12T13:56:38.096597+00:00",
+            "url": "https://api.open-meteo.com/v1/forecast?latitude=64.13548&longitude=-21.89541&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cweather_code&timezone=UTC&timeformat=unixtime&forecast_days=1"
+          }
+        ],
+        "id": "weather_context",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "Reykjav\u00edk, Iceland"
+            },
+            "name": "weather"
+          },
+          "margin": 1.0747097260870055,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "age_seconds": 698.76,
+            "attribution_url": "https://open-meteo.com/",
+            "current": {
+              "interval": 900,
+              "precipitation": 0.0,
+              "relative_humidity_2m": 53,
+              "temperature_2m": 9.9,
+              "time": 1789220700,
+              "weather_code": 0
+            },
+            "data_kind": "current_weather_model_conditions",
+            "fetched_at": "2026-09-12T13:56:38.756955+00:00",
+            "location": {
+              "admin1": "Capital Region",
+              "country": "Iceland",
+              "id": 3413829,
+              "latitude": 64.13548,
+              "longitude": -21.89541,
+              "name": "Reykjavik",
+              "timezone": "Atlantic/Reykjavik"
+            },
+            "provider": "Open-Meteo",
+            "units": {
+              "interval": "seconds",
+              "precipitation": "mm",
+              "relative_humidity_2m": "%",
+              "temperature_2m": "\u00b0C",
+              "time": "unixtime",
+              "weather_code": "wmo code"
+            },
+            "valid_at": "2026-09-12T13:45:00+00:00"
+          },
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "Reykjav\u00edk, Iceland"
+              },
+              "name": "weather"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "place_id": 3413829,
+        "route": "weather",
+        "user": "I am stepping outside; what is the current temperature in \"Reykjav\u00edk, Iceland\"?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_timezone": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "27e07230e1f0fb0c74853fa8c77d9c65991d1bb819a926814ca10fafb3439c5c",
+            "elapsed_ms": 547.25,
+            "http_status": 200,
+            "service": "clock",
+            "started_at": "2026-09-12T13:56:38.758566+00:00",
+            "url": "https://timeapi.io/api/v1/time/current/zone?timezone=UTC"
+          }
+        ],
+        "id": "time_utc",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "timezone": "UTC"
+            },
+            "name": "get_time"
+          },
+          "margin": 1.3261430393338194,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "attribution_url": "https://timeapi.io/",
+            "clock_difference_seconds": 0.067,
+            "datetime": "2026-09-12T13:56:39.238523+00:00",
+            "dst_active": false,
+            "fetched_at": "2026-09-12T13:56:39.305873+00:00",
+            "location": null,
+            "provider": "TimeAPI.io",
+            "timezone": "UTC",
+            "utc_offset_seconds": 0
+          },
+          "route": "get_time",
+          "service_calls": [
+            {
+              "arguments": {
+                "timezone": "UTC"
+              },
+              "name": "get_time"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "get_time",
+        "timezone": "UTC",
+        "user": "What time is it in UTC now?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": true,
+          "provider": true,
+          "requested_timezone": true,
+          "tool_result": true
+        },
+        "http": [
+          {
+            "body_sha256": "5426c707bcbb7a5943540c4175b19dcf56e6382d17ab1aa13bb9ac357d8f81af",
+            "elapsed_ms": 536.13,
+            "http_status": 200,
+            "service": "clock",
+            "started_at": "2026-09-12T13:56:39.307786+00:00",
+            "url": "https://timeapi.io/api/v1/time/current/zone?timezone=Asia%2FKathmandu"
+          }
+        ],
+        "id": "time_fractional_offset",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "timezone": "Asia/Kathmandu"
+            },
+            "name": "get_time"
+          },
+          "margin": 1.0047228195264062,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "attribution_url": "https://timeapi.io/",
+            "clock_difference_seconds": 0.062,
+            "datetime": "2026-09-12T19:41:39.781601+05:45",
+            "dst_active": false,
+            "fetched_at": "2026-09-12T13:56:39.843981+00:00",
+            "location": null,
+            "provider": "TimeAPI.io",
+            "timezone": "Asia/Kathmandu",
+            "utc_offset_seconds": 20700
+          },
+          "route": "get_time",
+          "service_calls": [
+            {
+              "arguments": {
+                "timezone": "Asia/Kathmandu"
+              },
+              "name": "get_time"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "get_time",
+        "timezone": "Asia/Kathmandu",
+        "user": "What time is it in Asia/Kathmandu right now?"
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": true,
+          "expected_route": true,
+          "live_http": false,
+          "provider": false,
+          "requested_timezone": false,
+          "tool_result": false
+        },
+        "http": [
+          {
+            "elapsed_ms": 12151.82,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:39.845935+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Reykjav%C3%ADk%2C+Iceland&count=100&language=en&format=json"
+          }
+        ],
+        "id": "time_geocoded",
+        "kind": "service",
+        "outcome": "FAIL",
+        "output": {
+          "call": {
+            "arguments": {
+              "timezone": "Reykjav\u00edk, Iceland"
+            },
+            "name": "get_time"
+          },
+          "error_type": "ServiceError",
+          "margin": 1.131183034824938,
+          "message": "The geocoding service could not be reached.",
+          "parser_revision": "argument-parser-v4",
+          "route": "get_time",
+          "service_calls": [
+            {
+              "arguments": {
+                "timezone": "Reykjav\u00edk, Iceland"
+              },
+              "name": "get_time"
+            }
+          ],
+          "service_error": {
+            "code": "timeout",
+            "message": "The geocoding service could not be reached."
+          },
+          "status": "tool_error"
+        },
+        "route": "get_time",
+        "timezone": "Atlantic/Reykjavik",
+        "user": "What time is it in \"Reykjav\u00edk, Iceland\" now?"
+      },
+      {
+        "checks": {
+          "correct_value": true,
+          "exactly_one_dispatch": true,
+          "executes_locally": true,
+          "expected_route": true,
+          "tool_result": true
+        },
+        "http": [],
+        "id": "calculator_parentheses",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "expression": "(144-24)/8"
+            },
+            "name": "calculator"
+          },
+          "margin": 0.8009161007056341,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "expression": "(144-24)/8",
+            "provider": "local_bounded_arithmetic",
+            "value": 15.0
+          },
+          "route": "calculator",
+          "service_calls": [
+            {
+              "arguments": {
+                "expression": "(144-24)/8"
+              },
+              "name": "calculator"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "calculator",
+        "user": "Calculate (144 - 24) / 8.",
+        "value": 15
+      },
+      {
+        "checks": {
+          "correct_value": true,
+          "exactly_one_dispatch": true,
+          "executes_locally": true,
+          "expected_route": true,
+          "tool_result": true
+        },
+        "http": [],
+        "id": "calculator_percentage",
+        "kind": "service",
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "expression": "(12.5/100)*640"
+            },
+            "name": "calculator"
+          },
+          "margin": 1.0283965724061028,
+          "parser_revision": "argument-parser-v4",
+          "result": {
+            "expression": "(12.5/100)*640",
+            "provider": "local_bounded_arithmetic",
+            "value": 80.0
+          },
+          "route": "calculator",
+          "service_calls": [
+            {
+              "arguments": {
+                "expression": "(12.5/100)*640"
+              },
+              "name": "calculator"
+            }
+          ],
+          "status": "tool_result"
+        },
+        "route": "calculator",
+        "user": "What is 12.5 percent of 640?",
+        "value": 80
+      },
+      {
+        "checks": {
+          "expected_route": true,
+          "live_search_executed": false
+        },
+        "http": [],
+        "id": "web_search",
+        "kind": "service",
+        "outcome": "BLOCKED",
+        "output": {
+          "call": {
+            "arguments": {
+              "query": "Search the web for the official Python documentation."
+            },
+            "name": "web_search"
+          },
+          "error_type": "ServiceError",
+          "margin": 0.33562740821213444,
+          "message": "Web search needs BRAVE_SEARCH_API_KEY to be configured.",
+          "parser_revision": "argument-parser-v4",
+          "route": "web_search",
+          "service_calls": [
+            {
+              "arguments": {
+                "query": "Search the web for the official Python documentation."
+              },
+              "name": "web_search"
+            }
+          ],
+          "service_error": {
+            "code": "missing_credentials",
+            "message": "Web search needs BRAVE_SEARCH_API_KEY to be configured."
+          },
+          "status": "tool_unavailable"
+        },
+        "route": "web_search",
+        "user": "Search the web for the official Python documentation."
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_reason": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 1,
+        "error": "ambiguous_location",
+        "http": [
+          {
+            "body_sha256": "20012cb3f17a5ef5e5ce49cf1730fa6f6f8374960c0928c03ac8cb248ce968f0",
+            "elapsed_ms": 698.73,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:52.003841+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=London&count=100&language=en&format=json"
+          }
+        ],
+        "id": "ambiguous_place",
+        "kind": "guard",
+        "network_services": [
+          "geocoding"
+        ],
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "London"
+            },
+            "name": "weather"
+          },
+          "error_type": "ServiceError",
+          "margin": 1.071792832288803,
+          "message": "Several places match. Please include the country or full region name.",
+          "parser_revision": "argument-parser-v4",
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "London"
+              },
+              "name": "weather"
+            }
+          ],
+          "service_error": {
+            "choices": [
+              "London, England, United Kingdom",
+              "London, Ontario, Canada",
+              "London, Ohio, United States",
+              "London, Kentucky, United States",
+              "London, Arkansas, United States"
+            ],
+            "code": "ambiguous_location",
+            "message": "Several places match. Please include the country or full region name."
+          },
+          "status": "needs_clarification"
+        },
+        "route": "weather",
+        "status": "needs_clarification",
+        "user": "What is the weather in London now?"
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_reason": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 1,
+        "error": "location_not_found",
+        "http": [
+          {
+            "body_sha256": "1c3bc3f28378115d826ae0647a18638133bd14b25e1ee34b7d48e28877719b84",
+            "elapsed_ms": 581.75,
+            "http_status": 200,
+            "service": "geocoding",
+            "started_at": "2026-09-12T13:56:52.704667+00:00",
+            "url": "https://geocoding-api.open-meteo.com/v1/search?name=Qzxvplon&count=100&language=en&format=json"
+          }
+        ],
+        "id": "unknown_place",
+        "kind": "guard",
+        "network_services": [
+          "geocoding"
+        ],
+        "outcome": "PASS",
+        "output": {
+          "call": {
+            "arguments": {
+              "location": "Qzxvplon"
+            },
+            "name": "weather"
+          },
+          "error_type": "ServiceError",
+          "margin": 1.0921794652116432,
+          "message": "I could not resolve that city exactly. Please give its full name and country.",
+          "parser_revision": "argument-parser-v4",
+          "route": "weather",
+          "service_calls": [
+            {
+              "arguments": {
+                "location": "Qzxvplon"
+              },
+              "name": "weather"
+            }
+          ],
+          "service_error": {
+            "code": "location_not_found",
+            "message": "I could not resolve that city exactly. Please give its full name and country."
+          },
+          "status": "needs_clarification"
+        },
+        "route": "weather",
+        "status": "needs_clarification",
+        "user": "What is the weather in Qzxvplon now?"
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_reason": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 0,
+        "error": "unsupported_time",
+        "http": [],
+        "id": "future_weather",
+        "kind": "guard",
+        "network_services": [],
+        "outcome": "PASS",
+        "output": {
+          "call": null,
+          "margin": 0.5742902537892236,
+          "message": "This tool handles current weather or time. Please request the current conditions.",
+          "parser_revision": "argument-parser-v4",
+          "reason": "unsupported_time",
+          "route": "weather",
+          "service_calls": [],
+          "status": "needs_clarification"
+        },
+        "route": "weather",
+        "status": "needs_clarification",
+        "user": "What will the weather in Oslo be tomorrow?"
+      },
+      {
+        "checks": {
+          "expected_dispatch_count": true,
+          "expected_network_calls": true,
+          "expected_route": true,
+          "expected_status": true
+        },
+        "dispatches": 0,
+        "http": [],
+        "id": "direct_no_dispatch",
+        "kind": "guard",
+        "network_services": [],
+        "outcome": "PASS",
+        "output": {
+          "call": null,
+          "margin": 0.7492248446584647,
+          "parser_revision": "argument-parser-v4",
+          "route": "direct",
+          "service_calls": [],
+          "status": "direct_answer_unavailable"
+        },
+        "route": "direct",
+        "status": "direct_answer_unavailable",
+        "user": "Explain why rainbows form."
+      },
+      {
+        "checks": {
+          "exactly_one_dispatch": false,
+          "expected_route": false,
+          "live_http": false,
+          "provider": false,
+          "requested_place": false,
+          "tool_result": false
+        },
+        "http": [],
+        "id": "preserved_v5_routing_failure",
+        "kind": "known_routing_failure",
+        "outcome": "FAIL",
+        "output": {
+          "call": null,
+          "margin": 0.10986375842651153,
+          "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+          "parser_revision": "argument-parser-v4",
+          "reason": "ambiguous_location",
+          "route": "get_time",
+          "service_calls": [],
+          "status": "needs_clarification"
+        },
+        "place_id": 3133895,
+        "route": "weather",
+        "user": "I am contacting a friend in Troms\u00f8; is it cold there currently?"
+      }
+    ]
+  },
+  "routing_confirmation_changed": false,
+  "routing_confirmation_status": "FAIL",
+  "schema_version": 1,
+  "scope": "frozen_bundle_live_service_smoke",
+  "search_key_configured": false,
+  "source_sha256": {
+    ".github/workflows/ember-live-services-run.yml": "c152475c28fb35ca3ebbe1633b1fe9f6aa94264845ac0fa009e679be2c4949e7",
+    ".github/workflows/ember-live-services.yml": "4a3ee6bd67b3ef4159a497e97672861b521ca86034f90f29a55f00ef3b02dd97",
+    "tests/test_live_services.py": "01d0a05be57ca561f5fb2ce9161eda024eb75d7238996eaa0039a36590616324",
+    "tests/test_restore_live_candidate.py": "a68db449b2ff99ecdc9164d6b89221f40ee682a6ae4dc238576f8973d3b22a03",
+    "tool_assistant/live_services.py": "eb391e0ac886e119342dff104a7fcf8586d91531e160e927f406cf51967f418e",
+    "tool_assistant/live_smoke.py": "9b325c6c8200ed49736c0aa3880a96832780e2b39e38b5c2a014d7799b526ea1",
+    "tool_assistant/restore_live_candidate.py": "f3c2f5479baeb80a8bf12893e35fde22ebc0a997bdf88d277f503f74542fc279"
+  },
+  "status": "FAIL"
+}
