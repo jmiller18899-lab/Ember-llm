@@ -8,7 +8,7 @@ from urllib.error import HTTPError, URLError
 import pytest
 
 from tool_assistant.live_services import JsonClient, LiveServices, ServiceError
-from tool_assistant.live_smoke import CASES, check
+from tool_assistant.live_smoke import CASES, check, completed_http_requests
 from tool_assistant.runtime_v5 import ParserV4Control
 
 NOW = datetime(2026, 9, 12, 12, 0, tzinfo=timezone.utc)
@@ -230,3 +230,164 @@ def test_live_smoke_rejects_fixture_output_without_real_http_evidence():
     output = {"route": "weather", "status": "tool_result", "service_calls": [{}],
               "result": {"provider": "Open-Meteo", "location": {"id": 3133895}}}
     assert check(case, output, [])[0] == "FAIL"
+
+
+class SequenceOpener:
+    def __init__(self, *responses):
+        self.responses = list(responses)
+        self.requests, self.timeouts = [], []
+
+    def open(self, request, timeout):
+        self.requests.append(request)
+        self.timeouts.append(timeout)
+        value = self.responses.pop(0)
+        if isinstance(value, Exception):
+            raise value
+        if isinstance(value, dict):
+            value = json.dumps(value).encode()
+        return Response(value) if isinstance(value, bytes) else value
+
+
+def retry_services(*responses):
+    opener, sleeps = SequenceOpener(*responses), []
+    client = JsonClient(opener=opener, sleep=sleeps.append)
+    return LiveServices(client=client, search_key="", now=lambda: NOW), opener, sleeps
+
+
+@pytest.mark.parametrize("service", ["weather", "geocoding"])
+@pytest.mark.parametrize("failure", [TimeoutError("private details"), URLError(TimeoutError("private details"))])
+def test_open_meteo_timeout_recovers_and_keeps_the_failed_attempt(service, failure):
+    live, opener, sleeps = retry_services(failure, {"value": 1})
+    assert live.client.get(service, {"name": "Tromsø, Norway"}) == {"value": 1}
+    assert sleeps == [0.5]
+    assert opener.timeouts == [12, 12]
+    assert opener.requests[0].full_url == opener.requests[1].full_url
+    first, second = live.client.events
+    assert first["outcome"] == "error" and first["error_code"] == "timeout"
+    assert first["phase"] == "open" and "http_status" not in first
+    assert (first["request_id"], first["attempt"], second["request_id"], second["attempt"]) == (1, 1, 1, 2)
+    assert second["outcome"] == "success" and second["http_status"] == 200
+    assert "private" not in json.dumps(live.client.events)
+    assert completed_http_requests(live.client.events) == [service]
+
+
+def test_forecast_recovery_does_not_repeat_geocoding_or_tool_dispatch():
+    live, opener, sleeps = retry_services({"results": [PLACE]}, TimeoutError(), TimeoutError(), WEATHER)
+    case = next(c for c in CASES if c["id"] == "weather_unicode")
+    output = live.run(routed("weather"), case["user"])
+    assert output["status"] == "tool_result"
+    assert output["result"]["current"]["temperature_2m"] == 10.5
+    assert len(output["service_calls"]) == 1
+    assert [e["service"] for e in live.client.events] == ["geocoding", "weather", "weather", "weather"]
+    assert [e["attempt"] for e in live.client.events] == [1, 1, 2, 3]
+    assert [e["request_id"] for e in live.client.events] == [1, 2, 2, 2]
+    assert sleeps == [0.5, 1.0] and len(opener.requests) == 4
+    assert check(case, output, live.client.events)[0] == "PASS"
+
+
+def test_exhausted_forecast_timeouts_are_an_explicit_failure_after_three_attempts():
+    live, opener, sleeps = retry_services({"results": [PLACE]}, TimeoutError(), TimeoutError(), TimeoutError())
+    case = next(c for c in CASES if c["id"] == "weather_unicode")
+    output = live.run(routed("weather"), case["user"])
+    assert output["status"] == "tool_error" and output["service_error"]["code"] == "timeout"
+    assert "result" not in output and len(output["service_calls"]) == 1
+    assert len(opener.requests) == 4 and sleeps == [0.5, 1.0]
+    assert all(e["outcome"] == "error" for e in live.client.events[1:])
+    assert "retry_delay_seconds" not in live.client.events[-1]
+    assert check(case, output, live.client.events)[0] == "FAIL"
+
+
+def test_exhausted_geocoding_timeouts_never_reach_the_forecast():
+    live, opener, sleeps = retry_services(TimeoutError(), TimeoutError(), TimeoutError())
+    output = live.run(routed("weather"), "What is the weather in Tromsø now?")
+    assert output["status"] == "tool_error" and "result" not in output
+    assert [e["service"] for e in live.client.events] == ["geocoding"] * 3
+    assert len(opener.requests) == 3 and sleeps == [0.5, 1.0]
+
+
+class ReadTimeoutResponse(Response):
+    def read(self, size=-1):
+        raise TimeoutError("private read details")
+
+
+def test_http_200_with_an_incomplete_body_is_a_failed_attempt_and_is_closed():
+    interrupted = ReadTimeoutResponse()
+    live, _, _ = retry_services(interrupted, {"results": []})
+    live.client.get("geocoding", {"name": "Tromsø"})
+    assert interrupted.closed
+    first = live.client.events[0]
+    assert first["http_status"] == 200 and first["outcome"] == "error"
+    assert first["phase"] == "body" and first["error_code"] == "timeout"
+    assert "body_sha256" not in first
+    assert completed_http_requests(live.client.events) == ["geocoding"]
+
+
+@pytest.mark.parametrize("service", ["geocoding", "weather"])
+@pytest.mark.parametrize("failure,code", [
+    *[(HTTPError("https://example.invalid/", n, "private body", {"Retry-After": "60"}, None), f"http_{n}") for n in (401, 429, 503)],
+    (URLError("private transport details"), "network_error"),
+    (b"invalid JSON", "invalid_response"),
+])
+def test_weather_retries_do_not_repeat_http_errors_or_invalid_responses(service, failure, code):
+    live, opener, sleeps = retry_services(failure)
+    with pytest.raises(ServiceError) as error:
+        live.client.get(service, {})
+    assert error.value.code == code
+    assert len(opener.requests) == 1 and not sleeps
+    assert live.client.events[0]["error_code"] == code
+    assert "private" not in json.dumps(live.client.events)
+
+
+def test_clock_timeout_keeps_its_original_single_attempt():
+    live, opener, sleeps = retry_services(TimeoutError())
+    with pytest.raises(ServiceError) as error:
+        live.get_time("UTC")
+    assert error.value.code == "timeout"
+    assert len(opener.requests) == 1 and not sleeps
+
+
+def test_recovered_geocoding_still_rejects_stale_weather():
+    stale = deepcopy(WEATHER)
+    stale["current"]["time"] = NOW.timestamp() - 7200
+    live, opener, sleeps = retry_services(TimeoutError(), {"results": [PLACE]}, stale)
+    case = next(c for c in CASES if c["id"] == "weather_unicode")
+    output = live.run(routed("weather"), case["user"])
+    assert output["status"] == "tool_error" and output["service_error"]["code"] == "stale_response"
+    assert "result" not in output and len(opener.requests) == 3 and sleeps == [0.5]
+    assert check(case, output, live.client.events)[0] == "FAIL"
+
+
+def test_recovered_geocoding_still_clarifies_ambiguous_places_without_a_forecast():
+    london = {**PLACE, "name": "London", "country": "United Kingdom"}
+    other = {**london, "id": 2, "country": "Canada"}
+    live, opener, _ = retry_services(TimeoutError(), {"results": [london, other]})
+    case = next(c for c in CASES if c["id"] == "ambiguous_place")
+    output = live.run(routed("weather"), case["user"])
+    assert output["status"] == "needs_clarification"
+    assert len(opener.requests) == 2
+    assert check(case, output, live.client.events)[0] == "PASS"
+
+
+@pytest.mark.parametrize("damage", ["missing_attempt", "permanent_error", "different_url", "reordered_request",
+                                    "extra_request", "error_after_200", "missing_body_hash"])
+def test_smoke_cannot_hide_failed_or_unrelated_attempts_behind_a_final_success(damage):
+    live, _, _ = retry_services({"results": [PLACE]}, TimeoutError(), WEATHER)
+    case = next(c for c in CASES if c["id"] == "weather_unicode")
+    output = live.run(routed("weather"), case["user"])
+    events = deepcopy(live.client.events)
+    assert check(case, output, events)[0] == "PASS"
+    if damage == "missing_attempt":
+        del events[1]
+    elif damage == "permanent_error":
+        events[1]["error_code"] = "http_401"
+    elif damage == "different_url":
+        events[-1]["url"] += "&latitude=0"
+    elif damage == "reordered_request":
+        events[-1]["request_id"] = events[0]["request_id"]
+    elif damage == "extra_request":
+        events.append({**events[-1], "request_id": 3, "attempt": 1})
+    elif damage == "error_after_200":
+        events[-1]["error_code"] = "timeout"
+    elif damage == "missing_body_hash":
+        del events[-1]["body_sha256"]
+    assert check(case, output, events)[0] == "FAIL"

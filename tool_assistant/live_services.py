@@ -22,6 +22,9 @@ ENDPOINTS = {
     "search": "https://api.search.brave.com/res/v1/web/search",
 }
 
+OPEN_METEO_SERVICES = frozenset(("geocoding", "weather"))
+OPEN_METEO_RETRY_DELAYS = (0.5, 1.0)
+
 
 class ServiceError(Exception):
     def __init__(self, code, message, *, choices=None):
@@ -51,25 +54,53 @@ class NoRedirect(HTTPRedirectHandler):
 
 class JsonClient:
     """Bounded HTTPS GETs; the evidence log never includes authentication headers."""
-    def __init__(self, *, timeout=12, opener=None):
+    def __init__(self, *, timeout=12, opener=None, sleep=None):
         self.timeout = timeout
         self.opener = opener or build_opener(NoRedirect())
+        self.sleep = sleep if sleep is not None else time.sleep
         self.events = []
+        self.request_id = 0
 
     def get(self, service, params, *, headers=None):
         url = ENDPOINTS[service] + "?" + urlencode(params)
+        self.request_id += 1
+        request_id = self.request_id
+        delays = OPEN_METEO_RETRY_DELAYS if service in OPEN_METEO_SERVICES else ()
+        for attempt in range(1, len(delays) + 2):
+            event = {"service": service, "url": url, "request_id": request_id,
+                     "attempt": attempt, "outcome": "error", "phase": "open",
+                     "started_at": datetime.now(timezone.utc).isoformat()}
+            started = time.monotonic()
+            try:
+                data = self._get_once(service, url, headers, event)
+            except ServiceError as exc:
+                event["error_code"] = exc.code
+                error = exc
+            else:
+                event.update(outcome="success", phase="complete")
+                return data
+            finally:
+                event["elapsed_ms"] = round((time.monotonic() - started) * 1000, 2)
+                self.events.append(event)
+            if error.code != "timeout" or attempt > len(delays):
+                raise error
+            # Retry this GET only. Successful geocoding and the tool dispatch
+            # are not repeated when the forecast request times out.
+            event["retry_delay_seconds"] = delays[attempt - 1]
+            self.sleep(delays[attempt - 1])
+
+    def _get_once(self, service, url, headers, event):
         request = Request(url, headers={"Accept": "application/json",
             "User-Agent": "Ember-llm-live-smoke/1.0", "Cache-Control": "no-cache", **(headers or {})})
-        event = {"service": service, "url": url,
-                 "started_at": datetime.now(timezone.utc).isoformat()}
-        started = time.monotonic()
         try:
             with self.opener.open(request, timeout=self.timeout) as response:
                 event["http_status"] = response.status
                 require(response.status == 200)
+                event["phase"] = "body"
                 raw = response.read(1_048_577)
             require(len(raw) <= 1_048_576, "The service response exceeded the size limit.")
             event["body_sha256"] = hashlib.sha256(raw).hexdigest()
+            event["phase"] = "decode"
             try:
                 data = json.loads(raw)
             except (ValueError, UnicodeError) as exc:
@@ -84,9 +115,6 @@ class JsonClient:
         except URLError as exc:
             code = "timeout" if isinstance(exc.reason, TimeoutError) else "network_error"
             raise ServiceError(code, f"The {service} service could not be reached.") from None
-        finally:
-            event["elapsed_ms"] = round((time.monotonic() - started) * 1000, 2)
-            self.events.append(event)
 
 
 def name_key(text):

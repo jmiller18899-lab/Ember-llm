@@ -27,7 +27,10 @@ The service layer calls the existing runtime's `run` method. A missing search
 key produces `tool_unavailable`; ambiguous or unresolved places produce
 `needs_clarification`; network errors, invalid data, and stale responses produce
 `tool_error`. It does not fill failures with fabricated results. Requests have
-timeouts and response-size limits, retain TLS verification, and make one attempt.
+socket timeouts and response-size limits and retain TLS verification. Open-Meteo
+geocoding and weather GETs now retry timeout errors up to twice, waiting 0.5 and
+1 second. Other errors and other providers keep one attempt. Each HTTP attempt,
+including any failed attempt followed by recovery, remains in the evidence.
 Authentication headers and raw exception details are omitted from evidence.
 
 ## Reproduce
@@ -73,6 +76,14 @@ when available. The normalized service result records actual returned values,
 timestamps, and source attribution. Exact JSON evidence is also emitted into logs
 for checksum-verified readback.
 
+Schema-2 reports additionally record a logical request ID, attempt number,
+transport phase, outcome, sanitized error code, and any retry delay. A successful
+retry completes the same GET and does not repeat the tool dispatch or previously
+successful geocoding. The 12-second timeout applies to blocking socket operations,
+as described by [Python's urllib documentation](https://docs.python.org/3/library/urllib.request.html#urllib.request.urlopen);
+it is not a hard wall-clock deadline. At most three attempts are made per
+Open-Meteo GET. A weather request can require both geocoding and forecast GETs.
+
 ## Scoring and limits
 
 Each integration runs eight service checks and four guards: ambiguous city,
@@ -89,9 +100,19 @@ staleness checks are explicitly offline tests; the smoke run does not deliberate
 disrupt providers. Direct-answer generation, search-result relevance, service
 uptime over time, and production deployment are outside this test.
 
+Starting with schema 2, the service result may pass after a bounded timeout retry.
+`first_attempt_counts` preserves success/failure before recovery, and
+`retry_summary` counts affected cases, recovered cases, and additional HTTP
+attempts. The scorer validates the complete attempt sequence: consecutive
+attempt numbers, the same URL and request ID, only eligible timeout retries,
+the allowed attempt limit, and a final complete HTTP 200 response with a body
+checksum. Failed attempts, missing receipts, or extra requests cannot be dropped
+to obtain a pass. Schema-1 reports remain unchanged and retain their original
+single-attempt outcomes.
+
 ## Measurement status
 
-Local service contracts: **46 passed**. Archive restoration has three additional
+Initial local service contracts: **46 passed**. Archive restoration has three additional
 checks for exact restoration, a mismatched archive, and changed model weights.
 
 The [first hosted attempt](https://github.com/jmiller18899-lab/Ember-llm/actions/runs/34695406601)
@@ -283,3 +304,25 @@ passed 772 repository tests, 22 packaged tests, and historical parser-v3 60/60.
 The live job passed all 49 service/restoration tests. Brave search is now
 verified on this bounded smoke check; weather availability and the preserved
 routing error remain unresolved. Generated-answer quality remains untested.
+
+## Weather timeout recovery
+
+The earlier reports show the same valid Open-Meteo requests sometimes succeeding
+and sometimes timing out, at both geocoding and forecast. They do not identify
+whether the underlying delay occurred in connection setup, the network, or the
+provider. The client previously abandoned each request after its first timeout.
+The recovery change retries that individual GET up to twice and records every
+attempt, including whether it failed while opening the response or reading its
+body. Exhaustion still returns an explicit `tool_error`.
+
+The change preserves the frozen router, parser, model files, exact place matching,
+and current-weather validation. HTTP errors, malformed JSON, invalid units,
+stale conditions, and ambiguous places retain their existing error or clarification
+behavior. HTTP errors such as 429 and 503 are not retried by this policy.
+
+Local verification passed **77 service/restoration tests**, including timeout
+recovery, exhaustion, partial-body timeouts, one tool dispatch, one successful
+geocoding call despite forecast retries, unchanged clock/search behavior, stale
+data and ambiguity after recovery, and rejection of incomplete or misleading
+HTTP traces. Live measurement will record first-attempt and recovered results
+separately.
