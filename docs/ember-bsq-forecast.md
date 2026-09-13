@@ -5,6 +5,11 @@ repository. It is an offline CPU experiment, not a modification to EmberGPT's
 text tokenizer, INT4 export, tool router, or protected checkpoints. It does not
 yet register a forecast tool in ClawAgent or train Ember to call that tool.
 
+The first domain-specific run is documented in [UFC winner forecasting](ember-ufc-forecast.md).
+That adapter uses a single matchup snapshot, fixed evaluation dates, and an
+optional binary symmetry constraint for difference features. The generic
+runner's defaults remain the original chronological split and unconstrained output.
+
 The reason for this boundary is practical: previous Ember experiments recorded
 a tradeoff between new learning and retained tool behavior. This component lets
 us evaluate forecasting before choosing a connection to the language model.

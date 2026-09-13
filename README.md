@@ -8,6 +8,11 @@ compares continuous, binary spherical, and hybrid representations on offline
 timestamped data. It trains separately from EmberGPT; real-world forecasting
 quality and production integration remain unverified.
 
+The first [UFC winner-forecasting experiment](docs/ember-ufc-forecast.md) now
+uses 4,816 reconstructed historical matchups and a 901-bout held-out test.
+BSQ's 63.6% winner accuracy does not establish an advantage over the continuous
+model, which had better probability scores. Live integration remains pending.
+
 Latest experimental milestone: **v0.0.31 step 479 passed copy promotion and the
 legacy ClawAgent promotion contract**. Production integration remains deferred.
 The next check is the separate [semantic-v1 CPU gate](docs/ember-semantic-gate.md),

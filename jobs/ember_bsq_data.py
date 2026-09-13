@@ -77,12 +77,18 @@ def load_examples(path: Path, cfg: dict) -> list[Example]:
     return sorted(result, key=lambda row: (row.as_of, row.sample_id))
 
 
-def chronological_split(rows: list[Example]):
+def chronological_split(rows: list[Example], boundaries: tuple[float, float] | None = None):
     """60/20/20 by unique prediction time; purge labels unavailable at the next split."""
     times = sorted({row.as_of for row in rows})
     if len(times) < 5:
         raise ValueError("need at least five distinct prediction times")
-    validation_start, test_start = times[int(len(times) * .6)], times[int(len(times) * .8)]
+    if boundaries is None:
+        validation_start, test_start = times[int(len(times) * .6)], times[int(len(times) * .8)]
+    else:
+        validation_start, test_start = boundaries
+        if not (math.isfinite(validation_start) and math.isfinite(test_start)
+                and validation_start < test_start):
+            raise ValueError("split boundaries must be finite and strictly increasing")
     train = [r for r in rows if r.as_of < validation_start and r.label_available_at < validation_start]
     validation = [r for r in rows if validation_start <= r.as_of < test_start
                   and r.label_available_at < test_start]
@@ -113,7 +119,7 @@ def write_smoke_data(path: Path, cfg: dict):
             as_of = base + i * (cfg["horizon_seconds"] + 60)
             features = [[rng.gauss(0, 1) for _ in cfg["feature_names"]]
                         for _ in range(cfg["history_length"])]
-            score = features[-1][0] + .4 * features[-2][0] + rng.gauss(0, .1)
+            score = features[-1][0] + (.4 * features[-2][0] if len(features) > 1 else 0) + rng.gauss(0, .1)
             target = int(score > 0) if cfg["task"] == "binary" else score
             row = {"sample_id": f"synthetic-{i}", "event_id": f"synthetic-{i}",
                    "source": "synthetic plumbing fixture; not real-world evidence",
