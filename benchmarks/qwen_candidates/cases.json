@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "scope": "candidate_selection_not_training_or_promotion",
+  "system": "You are Ember. Answer the current request directly and concisely. Preserve supplied facts and follow the requested format.",
+  "cases": [
+    {
+      "id": "greeting-01",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Hello!",
+      "reference": "Hello!"
+    },
+    {
+      "id": "greeting-02",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Good morning, Maya.",
+      "reference": "Good morning, Maya."
+    },
+    {
+      "id": "greeting-03",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Welcome back, Justin.",
+      "reference": "Welcome back, Justin."
+    },
+    {
+      "id": "greeting-04",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Hi, Nora!",
+      "reference": "Hi, Nora!"
+    },
+    {
+      "id": "greeting-05",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Good evening.",
+      "reference": "Good evening."
+    },
+    {
+      "id": "greeting-06",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Hello, Qevora.",
+      "reference": "Hello, Qevora."
+    },
+    {
+      "id": "greeting-07",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Welcome, team!",
+      "reference": "Welcome, team!"
+    },
+    {
+      "id": "greeting-08",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Good afternoon, Nadia.",
+      "reference": "Good afternoon, Nadia."
+    },
+    {
+      "id": "copy-01",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Maya reviewed 17 records in 4 minutes.",
+      "reference": "Maya reviewed 17 records in 4 minutes."
+    },
+    {
+      "id": "copy-02",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Nora reviewed 23 invoice records.",
+      "reference": "Nora reviewed 23 invoice records."
+    },
+    {
+      "id": "copy-03",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Qevora reviewed 5831 ledgerpane records.",
+      "reference": "Qevora reviewed 5831 ledgerpane records."
+    },
+    {
+      "id": "copy-04",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: The balance is -12.50 USD.",
+      "reference": "The balance is -12.50 USD."
+    },
+    {
+      "id": "copy-05",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Reservation ID: AZ-0719.",
+      "reference": "Reservation ID: AZ-0719."
+    },
+    {
+      "id": "copy-06",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Do not delete the backup.",
+      "reference": "Do not delete the backup."
+    },
+    {
+      "id": "copy-07",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: The meeting moved from 09:15 to 10:45.",
+      "reference": "The meeting moved from 09:15 to 10:45."
+    },
+    {
+      "id": "copy-08",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Ivo checked 0 files; Leona checked 108.",
+      "reference": "Ivo checked 0 files; Leona checked 108."
+    },
+    {
+      "id": "extraction-01",
+      "family": "extraction",
+      "user": "Return only the name: Maya reviewed 17 records.",
+      "reference": "Maya"
+    },
+    {
+      "id": "extraction-02",
+      "family": "extraction",
+      "user": "Return only the number of records: Maya reviewed 17 records in 4 minutes.",
+      "reference": "17"
+    },
+    {
+      "id": "extraction-03",
+      "family": "extraction",
+      "user": "Return only the duration in minutes as a number: Maya reviewed 17 records in 4 minutes.",
+      "reference": "4"
+    },
+    {
+      "id": "extraction-04",
+      "family": "extraction",
+      "user": "Return only the ID: Reservation ID is AZ-0719.",
+      "reference": "AZ-0719"
+    },
+    {
+      "id": "extraction-05",
+      "family": "extraction",
+      "user": "Return only the signed amount, with two decimal places: The balance is -12.50 USD.",
+      "reference": "-12.50"
+    },
+    {
+      "id": "extraction-06",
+      "family": "extraction",
+      "user": "Return only the subject: Qevora reviewed 5831 ledgerpane records.",
+      "reference": "ledgerpane"
+    },
+    {
+      "id": "extraction-07",
+      "family": "extraction",
+      "user": "Return only the new time: The meeting moved from 09:15 to 10:45.",
+      "reference": "10:45"
+    },
+    {
+      "id": "extraction-08",
+      "family": "extraction",
+      "user": "Return only the name of the person who checked zero files: Ivo checked 0 files; Leona checked 108.",
+      "reference": "Ivo"
+    },
+    {
+      "id": "writing-01",
+      "family": "writing",
+      "user": "Thank Maya for reviewing the calendar. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Maya, for reviewing the calendar."
+    },
+    {
+      "id": "writing-02",
+      "family": "writing",
+      "user": "Thank Qevora for reviewing the ledgerpane. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Qevora, for reviewing the ledgerpane."
+    },
+    {
+      "id": "writing-03",
+      "family": "writing",
+      "user": "Thank Nadia for reviewing the reservation. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Nadia, for reviewing the reservation."
+    },
+    {
+      "id": "writing-04",
+      "family": "writing",
+      "user": "Thank Ivo for reviewing the thumbnail. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Ivo, for reviewing the thumbnail."
+    },
+    {
+      "id": "writing-05",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the reservation does not open.",
+      "reference": "Reservation does not open."
+    },
+    {
+      "id": "writing-06",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the thumbnail loads slowly.",
+      "reference": "Thumbnail loads slowly."
+    },
+    {
+      "id": "writing-07",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the ledgerpane does not open.",
+      "reference": "Ledgerpane does not open."
+    },
+    {
+      "id": "writing-08",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the calendar loads slowly.",
+      "reference": "Calendar loads slowly."
+    },
+    {
+      "id": "classification-01",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The update completed successfully.",
+      "reference": "success"
+    },
+    {
+      "id": "classification-02",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The update is delayed but can continue.",
+      "reference": "warning"
+    },
+    {
+      "id": "classification-03",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: Deployment failed and cannot continue.",
+      "reference": "error"
+    },
+    {
+      "id": "classification-04",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: All records were saved successfully.",
+      "reference": "success"
+    },
+    {
+      "id": "classification-05",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: Storage is almost full; saving still works.",
+      "reference": "warning"
+    },
+    {
+      "id": "classification-06",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The import stopped because the file is invalid.",
+      "reference": "error"
+    },
+    {
+      "id": "classification-07",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The backup completed with no errors.",
+      "reference": "success"
+    },
+    {
+      "id": "classification-08",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: Connection lost; the request could not be completed.",
+      "reference": "error"
+    },
+    {
+      "id": "open_review-01",
+      "family": "open_review",
+      "user": "hello ember",
+      "reference": null
+    },
+    {
+      "id": "open_review-02",
+      "family": "open_review",
+      "user": "Good morning!",
+      "reference": null
+    },
+    {
+      "id": "open_review-03",
+      "family": "open_review",
+      "user": "Thank Maya for reviewing the calendar.",
+      "reference": null
+    },
+    {
+      "id": "open_review-04",
+      "family": "open_review",
+      "user": "Write a friendly one-sentence welcome for Justin.",
+      "reference": null
+    },
+    {
+      "id": "open_review-05",
+      "family": "open_review",
+      "user": "Explain what a backup is in one sentence.",
+      "reference": null
+    },
+    {
+      "id": "open_review-06",
+      "family": "open_review",
+      "user": "Rewrite clearly: the reservation page is slow to load.",
+      "reference": null
+    },
+    {
+      "id": "open_review-07",
+      "family": "open_review",
+      "user": "Summarize without adding facts: Nadia checked 137 records. Five were incomplete.",
+      "reference": null
+    },
+    {
+      "id": "open_review-08",
+      "family": "open_review",
+      "user": "I gave you no name. Please say hello without inventing one.",
+      "reference": null
+    }
+  ],
+  "settings": {
+    "context": 2048,
+    "max_tokens": 96,
+    "temperature": 0,
+    "seed": 42,
+    "enable_thinking": false,
+    "threads": 2,
+    "memory_limit_bytes": 3221225472
+  },
+  "selection_gate": {
+    "minimum_per_scored_family": 8,
+    "scored_family_total": 8,
+    "manual_open_review_required": true,
+    "production_ready": false
+  }
+}
