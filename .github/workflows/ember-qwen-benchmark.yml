@@ -1,0 +1,44 @@
+name: Ember pretrained candidate prompt calibration
+on:
+  push:
+    branches: [codex/ember-routing-v4]
+    paths: [.github/workflows/ember-qwen-benchmark.yml]
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        model: ['0.8B', '2B']
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Download and verify pinned runtime and Q4_K_M weights
+        run: python jobs/ember_qwen_benchmark.py prepare --model '${{ matrix.model }}' --target /tmp/qwen-runtime
+      - name: Build bounded CPU environment
+        run: |
+          docker build -t ember-qwen-bench - <<'DOCKER'
+          FROM ubuntu:24.04
+          RUN apt-get update && apt-get install -y python3 libgomp1 libcurl4t64 && rm -rf /var/lib/apt/lists/*
+          DOCKER
+          docker image inspect ember-qwen-bench --format '{{.Id}}'
+      - name: Benchmark with two CPUs, 3 GiB RAM, and no swap
+        env:
+          MODEL_SIZE: ${{ matrix.model }}
+        run: |
+          mkdir -p benchmark-results
+          docker run --rm --cpus=2 --memory=3g --memory-swap=3g \
+            -e GITHUB_SHA -v "$PWD:/work" -v /tmp/qwen-runtime:/model:ro -w /work \
+            ember-qwen-bench python3 jobs/ember_qwen_benchmark.py run \
+              --model "$MODEL_SIZE" --target /model --output "benchmark-results/qwen-$MODEL_SIZE.json" \
+              --suite benchmarks/qwen_candidates/calibration.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ember-qwen-${{ matrix.model }}-${{ github.run_id }}
+          path: benchmark-results/

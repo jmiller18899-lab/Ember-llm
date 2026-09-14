@@ -1,0 +1,70 @@
+name: Ember Routing V4 CPU Experiment
+
+on:
+  push:
+    branches: [codex/ember-routing-v4]
+    paths:
+      - tool_assistant/routing*_v4.py
+      - tool_assistant/runtime_v4.py
+      - tool_assistant/build_v4.py
+      - tool_assistant/evaluate_v4.py
+      - tool_assistant/data/routing-v4-*.json
+      - tests/test_routing_v4.py
+      - .github/workflows/ember-routing-v4.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  routing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU dependencies
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install huggingface-hub==1.31.0 sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Check routing and preserved parser behavior
+        run: python -m pytest -q tests/test_routing_v4.py tests/test_resolver_v3.py tests/test_parser_evaluation.py tests/test_tool_assistant.py
+      - name: Reproduce the original frozen candidate
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m tool_assistant.build --out baseline-candidate | tee baseline-build.log
+      - name: Fit and freeze development-only routing heads
+        run: python -m tool_assistant.build_v4 --base baseline-candidate --out routing-candidate | tee routing-build.log
+      - name: Measure consumed v2 requests as development regressions
+        run: python -m tool_assistant.evaluate_v4 --bundle routing-candidate --cases tool_assistant/data/confirmation-100.json --kind development --report evidence/routing-v4-development.json | tee routing-development.log
+      - name: Score a new confirmation only when its frozen suite is present
+        id: confirmation
+        if: hashFiles('tool_assistant/data/routing-v4-confirmation.json') != ''
+        continue-on-error: true
+        run: python -m tool_assistant.evaluate_v4 --bundle routing-candidate --cases tool_assistant/data/routing-v4-confirmation.json --kind confirmation --report evidence/routing-v4-confirmation.json | tee routing-confirmation.log
+      - name: Preserve measurements and fitted heads
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-routing-v4-evidence-${{ github.run_id }}
+          path: |
+            evidence/
+            *-build.log
+            routing-*.log
+            routing-candidate/manifest.json
+            routing-candidate/routing-development*.json
+            routing-candidate/routing-v4-*.pt
+          retention-days: 90
+      - name: Enforce any measured confirmation failure
+        if: always() && steps.confirmation.outcome == 'failure'
+        run: exit 1

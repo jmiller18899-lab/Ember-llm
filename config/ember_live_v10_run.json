@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "source_freeze_commit": "f8a8ffe5574820b18d8dc0d2eb08f0fdd150b18d",
+  "scope": "live_service_v10_with_explicit_country_reply",
+  "expected_checks": 52,
+  "original_v9_contract_preserved": true,
+  "production_ready": false
+}

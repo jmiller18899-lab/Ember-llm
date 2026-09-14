@@ -1,0 +1,5761 @@
+{
+  "schema_version": 2,
+  "description": "Bounded source-grounded reference tasks plus 72 unchanged historical training examples. Exact reference matching is conservative, not broad answer quality.",
+  "train": [
+    {
+      "id": "train_001",
+      "family": "writing",
+      "user": "Write a short sentence thanking Asha for testing the form.",
+      "answer": "Thank you, Asha, for testing the form.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_002",
+      "family": "writing",
+      "user": "Write a short sentence thanking Ben for fixing the link.",
+      "answer": "Thank you, Ben, for fixing the link.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_003",
+      "family": "writing",
+      "user": "Write a short sentence thanking Cleo for reviewing the draft.",
+      "answer": "Thank you, Cleo, for reviewing the draft.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_004",
+      "family": "writing",
+      "user": "Write a short sentence thanking Diego for organizing the notes.",
+      "answer": "Thank you, Diego, for organizing the notes.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_005",
+      "family": "writing",
+      "user": "Write a short sentence thanking Eleni for sharing the slides.",
+      "answer": "Thank you, Eleni, for sharing the slides.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_006",
+      "family": "writing",
+      "user": "Write a short sentence thanking Farah for checking the labels.",
+      "answer": "Thank you, Farah, for checking the labels.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you,"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_007",
+      "family": "writing",
+      "user": "Write a friendly welcome for Gita joining the reading club.",
+      "answer": "Welcome to the reading club, Gita!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_008",
+      "family": "writing",
+      "user": "Write a friendly welcome for Hugo joining the design team.",
+      "answer": "Welcome to the design team, Hugo!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_009",
+      "family": "writing",
+      "user": "Write a friendly welcome for Inez joining the garden project.",
+      "answer": "Welcome to the garden project, Inez!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_010",
+      "family": "writing",
+      "user": "Write a friendly welcome for Jamal joining the volunteer group.",
+      "answer": "Welcome to the volunteer group, Jamal!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_011",
+      "family": "writing",
+      "user": "Write a friendly welcome for Kira joining the support team.",
+      "answer": "Welcome to the support team, Kira!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_012",
+      "family": "writing",
+      "user": "Write a friendly welcome for Leon joining the study group.",
+      "answer": "Welcome to the study group, Leon!",
+      "check": {
+        "all_terms": [
+          "Welcome",
+          "to"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_013",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: save thing broke.",
+      "answer": "Saving does not work.",
+      "check": {
+        "all_terms": [
+          "Saving",
+          "does"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_014",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: button goes nowhere.",
+      "answer": "The button does not open a page.",
+      "check": {
+        "all_terms": [
+          "The",
+          "button"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_015",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: words too tiny.",
+      "answer": "The text is too small.",
+      "check": {
+        "all_terms": [
+          "The",
+          "text"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_016",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: file wont come down.",
+      "answer": "The file cannot be downloaded.",
+      "check": {
+        "all_terms": [
+          "The",
+          "file"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_017",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: page taking ages.",
+      "answer": "The page loads slowly.",
+      "check": {
+        "all_terms": [
+          "The",
+          "page"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_018",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: box hides the words.",
+      "answer": "The box covers the text.",
+      "check": {
+        "all_terms": [
+          "The",
+          "box"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_019",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: pic looks stretched.",
+      "answer": "The image appears stretched.",
+      "check": {
+        "all_terms": [
+          "The",
+          "image"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_020",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: menu disappears fast.",
+      "answer": "The menu closes too quickly.",
+      "check": {
+        "all_terms": [
+          "The",
+          "menu"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_021",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: link opens bad place.",
+      "answer": "The link opens the wrong page.",
+      "check": {
+        "all_terms": [
+          "The",
+          "link"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_022",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: message sent twice.",
+      "answer": "The message was sent twice.",
+      "check": {
+        "all_terms": [
+          "The",
+          "message"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_023",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: search finds no stuff.",
+      "answer": "The search returns no results.",
+      "check": {
+        "all_terms": [
+          "The",
+          "search"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_024",
+      "family": "rewrite",
+      "user": "Rewrite this clearly: sound way too quiet.",
+      "answer": "The volume is too low.",
+      "check": {
+        "all_terms": [
+          "The",
+          "volume"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_025",
+      "family": "explain",
+      "user": "Explain a backup in one short sentence.",
+      "answer": "A backup is a saved copy used to restore lost information.",
+      "check": {
+        "all_terms": [
+          "A",
+          "backup"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_026",
+      "family": "explain",
+      "user": "Explain a password in one short sentence.",
+      "answer": "A password is a secret used to protect access to an account.",
+      "check": {
+        "all_terms": [
+          "A",
+          "password"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_027",
+      "family": "explain",
+      "user": "Explain a printer in one short sentence.",
+      "answer": "A printer makes a paper copy of a digital document.",
+      "check": {
+        "all_terms": [
+          "A",
+          "printer"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_028",
+      "family": "explain",
+      "user": "Explain a draft in one short sentence.",
+      "answer": "A draft is an unfinished version that can still be revised.",
+      "check": {
+        "all_terms": [
+          "A",
+          "draft"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_029",
+      "family": "explain",
+      "user": "Explain a folder in one short sentence.",
+      "answer": "A folder groups files so they are easier to organize.",
+      "check": {
+        "all_terms": [
+          "A",
+          "folder"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_030",
+      "family": "explain",
+      "user": "Explain a hyperlink in one short sentence.",
+      "answer": "A hyperlink opens another page or resource when selected.",
+      "check": {
+        "all_terms": [
+          "A",
+          "hyperlink"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_031",
+      "family": "explain",
+      "user": "Explain a checklist in one short sentence.",
+      "answer": "A checklist lists tasks so you can track what is finished.",
+      "check": {
+        "all_terms": [
+          "A",
+          "checklist"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_032",
+      "family": "explain",
+      "user": "Explain a prototype in one short sentence.",
+      "answer": "A prototype is an early version used to test an idea.",
+      "check": {
+        "all_terms": [
+          "A",
+          "prototype"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_033",
+      "family": "explain",
+      "user": "Explain a browser in one short sentence.",
+      "answer": "A browser displays websites and lets you use the web.",
+      "check": {
+        "all_terms": [
+          "A",
+          "browser"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_034",
+      "family": "explain",
+      "user": "Explain a spreadsheet in one short sentence.",
+      "answer": "A spreadsheet organizes information in rows and columns.",
+      "check": {
+        "all_terms": [
+          "A",
+          "spreadsheet"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_035",
+      "family": "explain",
+      "user": "Explain an attachment in one short sentence.",
+      "answer": "An attachment is a file included with a message.",
+      "check": {
+        "all_terms": [
+          "An",
+          "attachment"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_036",
+      "family": "explain",
+      "user": "Explain a bookmark in one short sentence.",
+      "answer": "A bookmark saves a page so you can find it again.",
+      "check": {
+        "all_terms": [
+          "A",
+          "bookmark"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_037",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Mira bought a lantern. Later, Mira tested it.",
+      "answer": "Mira bought a lantern and tested it.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_038",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Nico bought a chair. Later, Nico painted it.",
+      "answer": "Nico bought a chair and painted it.",
+      "check": {
+        "all_terms": [
+          "Nico",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_039",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Ola bought a bicycle. Later, Ola repaired it.",
+      "answer": "Ola bought a bicycle and repaired it.",
+      "check": {
+        "all_terms": [
+          "Ola",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_040",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Pia bought a notebook. Later, Pia labeled it.",
+      "answer": "Pia bought a notebook and labeled it.",
+      "check": {
+        "all_terms": [
+          "Pia",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_041",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Quinn bought a tent. Later, Quinn cleaned it.",
+      "answer": "Quinn bought a tent and cleaned it.",
+      "check": {
+        "all_terms": [
+          "Quinn",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_042",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Rafi bought a camera. Later, Rafi charged it.",
+      "answer": "Rafi bought a camera and charged it.",
+      "check": {
+        "all_terms": [
+          "Rafi",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_043",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Sara bought a shelf. Later, Sara installed it.",
+      "answer": "Sara bought a shelf and installed it.",
+      "check": {
+        "all_terms": [
+          "Sara",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_044",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Tao bought a jacket. Later, Tao washed it.",
+      "answer": "Tao bought a jacket and washed it.",
+      "check": {
+        "all_terms": [
+          "Tao",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_045",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Uma bought a parcel. Later, Uma posted it.",
+      "answer": "Uma bought a parcel and posted it.",
+      "check": {
+        "all_terms": [
+          "Uma",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_046",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Vera bought a plant. Later, Vera watered it.",
+      "answer": "Vera bought a plant and watered it.",
+      "check": {
+        "all_terms": [
+          "Vera",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_047",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Wes bought a loaf. Later, Wes sliced it.",
+      "answer": "Wes bought a loaf and sliced it.",
+      "check": {
+        "all_terms": [
+          "Wes",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_048",
+      "family": "summarize",
+      "user": "Summarize in one sentence: Yara bought a frame. Later, Yara hung it.",
+      "answer": "Yara bought a frame and hung it.",
+      "check": {
+        "all_terms": [
+          "Yara",
+          "bought"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_049",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The new display is wonderful.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_050",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I loved the helpful explanation.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_051",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The repair worked perfectly.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_052",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I am delighted with the result.",
+      "answer": "positive",
+      "check": {
+        "all_terms": [
+          "positive"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_053",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The screen arrived cracked.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_054",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: This delay is frustrating.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_055",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: I hated the confusing instructions.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_056",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The service was disappointing.",
+      "answer": "negative",
+      "check": {
+        "all_terms": [
+          "negative"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_057",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The folder contains three files.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_058",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The meeting starts at noon.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_059",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The package weighs two kilograms.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_060",
+      "family": "classify",
+      "user": "Label the sentiment as positive, negative, or neutral. Return only the label: The desk is beside the window.",
+      "answer": "neutral",
+      "check": {
+        "all_terms": [
+          "neutral"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_061",
+      "family": "plan_compare",
+      "user": "Give three short steps to prepare a short presentation.",
+      "answer": "1. Choose the main message. 2. Draft the slides. 3. Practice speaking.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Choose"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_062",
+      "family": "plan_compare",
+      "user": "Give three short steps to organize a shared folder.",
+      "answer": "1. Review the files. 2. Create clear folders. 3. Move and label each file.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Review"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_063",
+      "family": "plan_compare",
+      "user": "Give three short steps to check a broken button.",
+      "answer": "1. Reproduce the problem. 2. Inspect the click handler. 3. Test the fix.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Reproduce"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_064",
+      "family": "plan_compare",
+      "user": "Give three short steps to write a clear email.",
+      "answer": "1. State the purpose. 2. Add the needed details. 3. Check the wording.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "State"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_065",
+      "family": "plan_compare",
+      "user": "Give three short steps to tidy a small kitchen.",
+      "answer": "1. Clear the surfaces. 2. Wash the dishes. 3. Put everything away.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Clear"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_066",
+      "family": "plan_compare",
+      "user": "Give three short steps to review a short document.",
+      "answer": "1. Read the full draft. 2. Mark unclear passages. 3. Check the revisions.",
+      "check": {
+        "all_terms": [
+          "1.",
+          "Read"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_067",
+      "family": "plan_compare",
+      "user": "Explain the difference between a file and a folder in two short sentences.",
+      "answer": "A file stores information. A folder groups files.",
+      "check": {
+        "all_terms": [
+          "A",
+          "file"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_068",
+      "family": "plan_compare",
+      "user": "Explain the difference between a draft and a final version in two short sentences.",
+      "answer": "A draft can still change. A final version is ready to use.",
+      "check": {
+        "all_terms": [
+          "A",
+          "draft"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_069",
+      "family": "plan_compare",
+      "user": "Explain the difference between saving and printing in two short sentences.",
+      "answer": "Saving keeps a digital copy. Printing creates a paper copy.",
+      "check": {
+        "all_terms": [
+          "Saving",
+          "keeps"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_070",
+      "family": "plan_compare",
+      "user": "Explain the difference between copying and moving a file in two short sentences.",
+      "answer": "Copying creates another copy. Moving changes the original location.",
+      "check": {
+        "all_terms": [
+          "Copying",
+          "creates"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_071",
+      "family": "plan_compare",
+      "user": "Explain the difference between a title and a summary in two short sentences.",
+      "answer": "A title names the topic. A summary briefly describes the main points.",
+      "check": {
+        "all_terms": [
+          "A",
+          "title"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "train_072",
+      "family": "plan_compare",
+      "user": "Explain the difference between a question and an instruction in two short sentences.",
+      "answer": "A question asks for information. An instruction tells someone what to do.",
+      "check": {
+        "all_terms": [
+          "A",
+          "question"
+        ],
+        "max_words": 50
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-001",
+      "family": "thanks",
+      "user": "Thank Nora for checking the invoice in one sentence.",
+      "answer": "Thank you, Nora, for checking the invoice.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Nora",
+          "for",
+          "checking",
+          "the",
+          "invoice"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-002",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ibrahim for checking the profile.",
+      "answer": "Thank you, Ibrahim, for checking the profile.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ibrahim",
+          "for",
+          "checking",
+          "the",
+          "profile"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-003",
+      "family": "thanks",
+      "user": "Thank Lena for checking the report in one sentence.",
+      "answer": "Thank you, Lena, for checking the report.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Lena",
+          "for",
+          "checking",
+          "the",
+          "report"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-004",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Mateo for checking the menu.",
+      "answer": "Thank you, Mateo, for checking the menu.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mateo",
+          "for",
+          "checking",
+          "the",
+          "menu"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-005",
+      "family": "thanks",
+      "user": "Thank Suri for checking the calendar in one sentence.",
+      "answer": "Thank you, Suri, for checking the calendar.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Suri",
+          "for",
+          "checking",
+          "the",
+          "calendar"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-006",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Jonas for checking the address.",
+      "answer": "Thank you, Jonas, for checking the address.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Jonas",
+          "for",
+          "checking",
+          "the",
+          "address"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-007",
+      "family": "thanks",
+      "user": "Thank Alina for checking the archive in one sentence.",
+      "answer": "Thank you, Alina, for checking the archive.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Alina",
+          "for",
+          "checking",
+          "the",
+          "archive"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-008",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ravi for checking the ticket.",
+      "answer": "Thank you, Ravi, for checking the ticket.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ravi",
+          "for",
+          "checking",
+          "the",
+          "ticket"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-009",
+      "family": "thanks",
+      "user": "Thank Mira for checking the settings in one sentence.",
+      "answer": "Thank you, Mira, for checking the settings.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mira",
+          "for",
+          "checking",
+          "the",
+          "settings"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-010",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Tomas for checking the receipt.",
+      "answer": "Thank you, Tomas, for checking the receipt.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Tomas",
+          "for",
+          "checking",
+          "the",
+          "receipt"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-011",
+      "family": "thanks",
+      "user": "Thank Evan for checking the invoice in one sentence.",
+      "answer": "Thank you, Evan, for checking the invoice.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Evan",
+          "for",
+          "checking",
+          "the",
+          "invoice"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-012",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Priya for checking the profile.",
+      "answer": "Thank you, Priya, for checking the profile.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Priya",
+          "for",
+          "checking",
+          "the",
+          "profile"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-013",
+      "family": "thanks",
+      "user": "Thank Nora for fixing the report in one sentence.",
+      "answer": "Thank you, Nora, for fixing the report.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Nora",
+          "for",
+          "fixing",
+          "the",
+          "report"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-014",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ibrahim for fixing the menu.",
+      "answer": "Thank you, Ibrahim, for fixing the menu.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ibrahim",
+          "for",
+          "fixing",
+          "the",
+          "menu"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-015",
+      "family": "thanks",
+      "user": "Thank Lena for fixing the calendar in one sentence.",
+      "answer": "Thank you, Lena, for fixing the calendar.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Lena",
+          "for",
+          "fixing",
+          "the",
+          "calendar"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-016",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Mateo for fixing the address.",
+      "answer": "Thank you, Mateo, for fixing the address.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mateo",
+          "for",
+          "fixing",
+          "the",
+          "address"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-017",
+      "family": "thanks",
+      "user": "Thank Suri for fixing the archive in one sentence.",
+      "answer": "Thank you, Suri, for fixing the archive.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Suri",
+          "for",
+          "fixing",
+          "the",
+          "archive"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-018",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Jonas for fixing the ticket.",
+      "answer": "Thank you, Jonas, for fixing the ticket.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Jonas",
+          "for",
+          "fixing",
+          "the",
+          "ticket"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-019",
+      "family": "thanks",
+      "user": "Thank Alina for fixing the settings in one sentence.",
+      "answer": "Thank you, Alina, for fixing the settings.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Alina",
+          "for",
+          "fixing",
+          "the",
+          "settings"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-020",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ravi for fixing the receipt.",
+      "answer": "Thank you, Ravi, for fixing the receipt.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ravi",
+          "for",
+          "fixing",
+          "the",
+          "receipt"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-021",
+      "family": "thanks",
+      "user": "Thank Mira for fixing the invoice in one sentence.",
+      "answer": "Thank you, Mira, for fixing the invoice.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mira",
+          "for",
+          "fixing",
+          "the",
+          "invoice"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-022",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Tomas for fixing the profile.",
+      "answer": "Thank you, Tomas, for fixing the profile.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Tomas",
+          "for",
+          "fixing",
+          "the",
+          "profile"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-023",
+      "family": "thanks",
+      "user": "Thank Evan for fixing the report in one sentence.",
+      "answer": "Thank you, Evan, for fixing the report.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Evan",
+          "for",
+          "fixing",
+          "the",
+          "report"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-024",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Priya for fixing the menu.",
+      "answer": "Thank you, Priya, for fixing the menu.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Priya",
+          "for",
+          "fixing",
+          "the",
+          "menu"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-025",
+      "family": "thanks",
+      "user": "Thank Nora for reviewing the calendar in one sentence.",
+      "answer": "Thank you, Nora, for reviewing the calendar.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Nora",
+          "for",
+          "reviewing",
+          "the",
+          "calendar"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-026",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ibrahim for reviewing the address.",
+      "answer": "Thank you, Ibrahim, for reviewing the address.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ibrahim",
+          "for",
+          "reviewing",
+          "the",
+          "address"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-027",
+      "family": "thanks",
+      "user": "Thank Lena for reviewing the archive in one sentence.",
+      "answer": "Thank you, Lena, for reviewing the archive.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Lena",
+          "for",
+          "reviewing",
+          "the",
+          "archive"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-028",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Mateo for reviewing the ticket.",
+      "answer": "Thank you, Mateo, for reviewing the ticket.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mateo",
+          "for",
+          "reviewing",
+          "the",
+          "ticket"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-029",
+      "family": "thanks",
+      "user": "Thank Suri for reviewing the settings in one sentence.",
+      "answer": "Thank you, Suri, for reviewing the settings.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Suri",
+          "for",
+          "reviewing",
+          "the",
+          "settings"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-030",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Jonas for reviewing the receipt.",
+      "answer": "Thank you, Jonas, for reviewing the receipt.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Jonas",
+          "for",
+          "reviewing",
+          "the",
+          "receipt"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-031",
+      "family": "thanks",
+      "user": "Thank Alina for reviewing the invoice in one sentence.",
+      "answer": "Thank you, Alina, for reviewing the invoice.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Alina",
+          "for",
+          "reviewing",
+          "the",
+          "invoice"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-032",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ravi for reviewing the profile.",
+      "answer": "Thank you, Ravi, for reviewing the profile.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ravi",
+          "for",
+          "reviewing",
+          "the",
+          "profile"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-033",
+      "family": "thanks",
+      "user": "Thank Mira for reviewing the report in one sentence.",
+      "answer": "Thank you, Mira, for reviewing the report.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mira",
+          "for",
+          "reviewing",
+          "the",
+          "report"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-034",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Tomas for reviewing the menu.",
+      "answer": "Thank you, Tomas, for reviewing the menu.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Tomas",
+          "for",
+          "reviewing",
+          "the",
+          "menu"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-035",
+      "family": "thanks",
+      "user": "Thank Evan for reviewing the calendar in one sentence.",
+      "answer": "Thank you, Evan, for reviewing the calendar.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Evan",
+          "for",
+          "reviewing",
+          "the",
+          "calendar"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-036",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Priya for reviewing the address.",
+      "answer": "Thank you, Priya, for reviewing the address.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Priya",
+          "for",
+          "reviewing",
+          "the",
+          "address"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-037",
+      "family": "thanks",
+      "user": "Thank Nora for testing the archive in one sentence.",
+      "answer": "Thank you, Nora, for testing the archive.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Nora",
+          "for",
+          "testing",
+          "the",
+          "archive"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-038",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ibrahim for testing the ticket.",
+      "answer": "Thank you, Ibrahim, for testing the ticket.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ibrahim",
+          "for",
+          "testing",
+          "the",
+          "ticket"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-039",
+      "family": "thanks",
+      "user": "Thank Lena for testing the settings in one sentence.",
+      "answer": "Thank you, Lena, for testing the settings.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Lena",
+          "for",
+          "testing",
+          "the",
+          "settings"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-040",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Mateo for testing the receipt.",
+      "answer": "Thank you, Mateo, for testing the receipt.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mateo",
+          "for",
+          "testing",
+          "the",
+          "receipt"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-041",
+      "family": "thanks",
+      "user": "Thank Suri for testing the invoice in one sentence.",
+      "answer": "Thank you, Suri, for testing the invoice.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Suri",
+          "for",
+          "testing",
+          "the",
+          "invoice"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-042",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Jonas for testing the profile.",
+      "answer": "Thank you, Jonas, for testing the profile.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Jonas",
+          "for",
+          "testing",
+          "the",
+          "profile"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-043",
+      "family": "thanks",
+      "user": "Thank Alina for testing the report in one sentence.",
+      "answer": "Thank you, Alina, for testing the report.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Alina",
+          "for",
+          "testing",
+          "the",
+          "report"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-044",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ravi for testing the menu.",
+      "answer": "Thank you, Ravi, for testing the menu.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ravi",
+          "for",
+          "testing",
+          "the",
+          "menu"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-045",
+      "family": "thanks",
+      "user": "Thank Mira for testing the calendar in one sentence.",
+      "answer": "Thank you, Mira, for testing the calendar.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mira",
+          "for",
+          "testing",
+          "the",
+          "calendar"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-046",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Tomas for testing the address.",
+      "answer": "Thank you, Tomas, for testing the address.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Tomas",
+          "for",
+          "testing",
+          "the",
+          "address"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-047",
+      "family": "thanks",
+      "user": "Thank Evan for testing the archive in one sentence.",
+      "answer": "Thank you, Evan, for testing the archive.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Evan",
+          "for",
+          "testing",
+          "the",
+          "archive"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-048",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Priya for testing the ticket.",
+      "answer": "Thank you, Priya, for testing the ticket.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Priya",
+          "for",
+          "testing",
+          "the",
+          "ticket"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-049",
+      "family": "thanks",
+      "user": "Thank Nora for updating the settings in one sentence.",
+      "answer": "Thank you, Nora, for updating the settings.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Nora",
+          "for",
+          "updating",
+          "the",
+          "settings"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-050",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ibrahim for updating the receipt.",
+      "answer": "Thank you, Ibrahim, for updating the receipt.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ibrahim",
+          "for",
+          "updating",
+          "the",
+          "receipt"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-051",
+      "family": "thanks",
+      "user": "Thank Lena for updating the invoice in one sentence.",
+      "answer": "Thank you, Lena, for updating the invoice.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Lena",
+          "for",
+          "updating",
+          "the",
+          "invoice"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-052",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Mateo for updating the profile.",
+      "answer": "Thank you, Mateo, for updating the profile.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mateo",
+          "for",
+          "updating",
+          "the",
+          "profile"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-053",
+      "family": "thanks",
+      "user": "Thank Suri for updating the report in one sentence.",
+      "answer": "Thank you, Suri, for updating the report.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Suri",
+          "for",
+          "updating",
+          "the",
+          "report"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-054",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Jonas for updating the menu.",
+      "answer": "Thank you, Jonas, for updating the menu.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Jonas",
+          "for",
+          "updating",
+          "the",
+          "menu"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-055",
+      "family": "thanks",
+      "user": "Thank Alina for updating the calendar in one sentence.",
+      "answer": "Thank you, Alina, for updating the calendar.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Alina",
+          "for",
+          "updating",
+          "the",
+          "calendar"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-056",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Ravi for updating the address.",
+      "answer": "Thank you, Ravi, for updating the address.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ravi",
+          "for",
+          "updating",
+          "the",
+          "address"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-057",
+      "family": "thanks",
+      "user": "Thank Mira for updating the archive in one sentence.",
+      "answer": "Thank you, Mira, for updating the archive.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Mira",
+          "for",
+          "updating",
+          "the",
+          "archive"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-058",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Tomas for updating the ticket.",
+      "answer": "Thank you, Tomas, for updating the ticket.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Tomas",
+          "for",
+          "updating",
+          "the",
+          "ticket"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-059",
+      "family": "thanks",
+      "user": "Thank Evan for updating the settings in one sentence.",
+      "answer": "Thank you, Evan, for updating the settings.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Evan",
+          "for",
+          "updating",
+          "the",
+          "settings"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-thanks-060",
+      "family": "thanks",
+      "user": "Write a brief thank-you to Priya for updating the receipt.",
+      "answer": "Thank you, Priya, for updating the receipt.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Priya",
+          "for",
+          "updating",
+          "the",
+          "receipt"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-001",
+      "family": "rewrite",
+      "user": "Write a short issue title: the invoice does not open.",
+      "answer": "Invoice does not open.",
+      "check": {
+        "all_terms": [
+          "Invoice",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-002",
+      "family": "rewrite",
+      "user": "Write a short issue title: the profile does not open.",
+      "answer": "Profile does not open.",
+      "check": {
+        "all_terms": [
+          "Profile",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-003",
+      "family": "rewrite",
+      "user": "Write a short issue title: the report does not open.",
+      "answer": "Report does not open.",
+      "check": {
+        "all_terms": [
+          "Report",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-004",
+      "family": "rewrite",
+      "user": "Write a short issue title: the menu does not open.",
+      "answer": "Menu does not open.",
+      "check": {
+        "all_terms": [
+          "Menu",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-005",
+      "family": "rewrite",
+      "user": "Write a short issue title: the calendar does not open.",
+      "answer": "Calendar does not open.",
+      "check": {
+        "all_terms": [
+          "Calendar",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-006",
+      "family": "rewrite",
+      "user": "Write a short issue title: the address does not open.",
+      "answer": "Address does not open.",
+      "check": {
+        "all_terms": [
+          "Address",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-007",
+      "family": "rewrite",
+      "user": "Write a short issue title: the archive does not open.",
+      "answer": "Archive does not open.",
+      "check": {
+        "all_terms": [
+          "Archive",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-008",
+      "family": "rewrite",
+      "user": "Write a short issue title: the ticket does not open.",
+      "answer": "Ticket does not open.",
+      "check": {
+        "all_terms": [
+          "Ticket",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-009",
+      "family": "rewrite",
+      "user": "Write a short issue title: the settings does not open.",
+      "answer": "Settings does not open.",
+      "check": {
+        "all_terms": [
+          "Settings",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-010",
+      "family": "rewrite",
+      "user": "Write a short issue title: the receipt does not open.",
+      "answer": "Receipt does not open.",
+      "check": {
+        "all_terms": [
+          "Receipt",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-011",
+      "family": "rewrite",
+      "user": "Write a short issue title: the invoice loads slowly.",
+      "answer": "Invoice loads slowly.",
+      "check": {
+        "all_terms": [
+          "Invoice",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-012",
+      "family": "rewrite",
+      "user": "Write a short issue title: the profile loads slowly.",
+      "answer": "Profile loads slowly.",
+      "check": {
+        "all_terms": [
+          "Profile",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-013",
+      "family": "rewrite",
+      "user": "Write a short issue title: the report loads slowly.",
+      "answer": "Report loads slowly.",
+      "check": {
+        "all_terms": [
+          "Report",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-014",
+      "family": "rewrite",
+      "user": "Write a short issue title: the menu loads slowly.",
+      "answer": "Menu loads slowly.",
+      "check": {
+        "all_terms": [
+          "Menu",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-015",
+      "family": "rewrite",
+      "user": "Write a short issue title: the calendar loads slowly.",
+      "answer": "Calendar loads slowly.",
+      "check": {
+        "all_terms": [
+          "Calendar",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-016",
+      "family": "rewrite",
+      "user": "Write a short issue title: the address loads slowly.",
+      "answer": "Address loads slowly.",
+      "check": {
+        "all_terms": [
+          "Address",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-017",
+      "family": "rewrite",
+      "user": "Write a short issue title: the archive loads slowly.",
+      "answer": "Archive loads slowly.",
+      "check": {
+        "all_terms": [
+          "Archive",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-018",
+      "family": "rewrite",
+      "user": "Write a short issue title: the ticket loads slowly.",
+      "answer": "Ticket loads slowly.",
+      "check": {
+        "all_terms": [
+          "Ticket",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-019",
+      "family": "rewrite",
+      "user": "Write a short issue title: the settings loads slowly.",
+      "answer": "Settings loads slowly.",
+      "check": {
+        "all_terms": [
+          "Settings",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-020",
+      "family": "rewrite",
+      "user": "Write a short issue title: the receipt loads slowly.",
+      "answer": "Receipt loads slowly.",
+      "check": {
+        "all_terms": [
+          "Receipt",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-021",
+      "family": "rewrite",
+      "user": "Write a short issue title: the invoice does not save.",
+      "answer": "Invoice does not save.",
+      "check": {
+        "all_terms": [
+          "Invoice",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-022",
+      "family": "rewrite",
+      "user": "Write a short issue title: the profile does not save.",
+      "answer": "Profile does not save.",
+      "check": {
+        "all_terms": [
+          "Profile",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-023",
+      "family": "rewrite",
+      "user": "Write a short issue title: the report does not save.",
+      "answer": "Report does not save.",
+      "check": {
+        "all_terms": [
+          "Report",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-024",
+      "family": "rewrite",
+      "user": "Write a short issue title: the menu does not save.",
+      "answer": "Menu does not save.",
+      "check": {
+        "all_terms": [
+          "Menu",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-025",
+      "family": "rewrite",
+      "user": "Write a short issue title: the calendar does not save.",
+      "answer": "Calendar does not save.",
+      "check": {
+        "all_terms": [
+          "Calendar",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-026",
+      "family": "rewrite",
+      "user": "Write a short issue title: the address does not save.",
+      "answer": "Address does not save.",
+      "check": {
+        "all_terms": [
+          "Address",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-027",
+      "family": "rewrite",
+      "user": "Write a short issue title: the archive does not save.",
+      "answer": "Archive does not save.",
+      "check": {
+        "all_terms": [
+          "Archive",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-028",
+      "family": "rewrite",
+      "user": "Write a short issue title: the ticket does not save.",
+      "answer": "Ticket does not save.",
+      "check": {
+        "all_terms": [
+          "Ticket",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-029",
+      "family": "rewrite",
+      "user": "Write a short issue title: the settings does not save.",
+      "answer": "Settings does not save.",
+      "check": {
+        "all_terms": [
+          "Settings",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-030",
+      "family": "rewrite",
+      "user": "Write a short issue title: the receipt does not save.",
+      "answer": "Receipt does not save.",
+      "check": {
+        "all_terms": [
+          "Receipt",
+          "does",
+          "not",
+          "save"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-031",
+      "family": "rewrite",
+      "user": "Write a short issue title: the invoice shows an error.",
+      "answer": "Invoice shows an error.",
+      "check": {
+        "all_terms": [
+          "Invoice",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-032",
+      "family": "rewrite",
+      "user": "Write a short issue title: the profile shows an error.",
+      "answer": "Profile shows an error.",
+      "check": {
+        "all_terms": [
+          "Profile",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-033",
+      "family": "rewrite",
+      "user": "Write a short issue title: the report shows an error.",
+      "answer": "Report shows an error.",
+      "check": {
+        "all_terms": [
+          "Report",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-034",
+      "family": "rewrite",
+      "user": "Write a short issue title: the menu shows an error.",
+      "answer": "Menu shows an error.",
+      "check": {
+        "all_terms": [
+          "Menu",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-035",
+      "family": "rewrite",
+      "user": "Write a short issue title: the calendar shows an error.",
+      "answer": "Calendar shows an error.",
+      "check": {
+        "all_terms": [
+          "Calendar",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-036",
+      "family": "rewrite",
+      "user": "Write a short issue title: the address shows an error.",
+      "answer": "Address shows an error.",
+      "check": {
+        "all_terms": [
+          "Address",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-037",
+      "family": "rewrite",
+      "user": "Write a short issue title: the archive shows an error.",
+      "answer": "Archive shows an error.",
+      "check": {
+        "all_terms": [
+          "Archive",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-038",
+      "family": "rewrite",
+      "user": "Write a short issue title: the ticket shows an error.",
+      "answer": "Ticket shows an error.",
+      "check": {
+        "all_terms": [
+          "Ticket",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-039",
+      "family": "rewrite",
+      "user": "Write a short issue title: the settings shows an error.",
+      "answer": "Settings shows an error.",
+      "check": {
+        "all_terms": [
+          "Settings",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-040",
+      "family": "rewrite",
+      "user": "Write a short issue title: the receipt shows an error.",
+      "answer": "Receipt shows an error.",
+      "check": {
+        "all_terms": [
+          "Receipt",
+          "shows",
+          "an",
+          "error"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-041",
+      "family": "rewrite",
+      "user": "Write a short issue title: the invoice is missing.",
+      "answer": "Invoice is missing.",
+      "check": {
+        "all_terms": [
+          "Invoice",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-042",
+      "family": "rewrite",
+      "user": "Write a short issue title: the profile is missing.",
+      "answer": "Profile is missing.",
+      "check": {
+        "all_terms": [
+          "Profile",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-043",
+      "family": "rewrite",
+      "user": "Write a short issue title: the report is missing.",
+      "answer": "Report is missing.",
+      "check": {
+        "all_terms": [
+          "Report",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-044",
+      "family": "rewrite",
+      "user": "Write a short issue title: the menu is missing.",
+      "answer": "Menu is missing.",
+      "check": {
+        "all_terms": [
+          "Menu",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-045",
+      "family": "rewrite",
+      "user": "Write a short issue title: the calendar is missing.",
+      "answer": "Calendar is missing.",
+      "check": {
+        "all_terms": [
+          "Calendar",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-046",
+      "family": "rewrite",
+      "user": "Write a short issue title: the address is missing.",
+      "answer": "Address is missing.",
+      "check": {
+        "all_terms": [
+          "Address",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-047",
+      "family": "rewrite",
+      "user": "Write a short issue title: the archive is missing.",
+      "answer": "Archive is missing.",
+      "check": {
+        "all_terms": [
+          "Archive",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-048",
+      "family": "rewrite",
+      "user": "Write a short issue title: the ticket is missing.",
+      "answer": "Ticket is missing.",
+      "check": {
+        "all_terms": [
+          "Ticket",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-049",
+      "family": "rewrite",
+      "user": "Write a short issue title: the settings is missing.",
+      "answer": "Settings is missing.",
+      "check": {
+        "all_terms": [
+          "Settings",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-050",
+      "family": "rewrite",
+      "user": "Write a short issue title: the receipt is missing.",
+      "answer": "Receipt is missing.",
+      "check": {
+        "all_terms": [
+          "Receipt",
+          "is",
+          "missing"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-051",
+      "family": "rewrite",
+      "user": "Write a short issue title: the invoice does not update.",
+      "answer": "Invoice does not update.",
+      "check": {
+        "all_terms": [
+          "Invoice",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-052",
+      "family": "rewrite",
+      "user": "Write a short issue title: the profile does not update.",
+      "answer": "Profile does not update.",
+      "check": {
+        "all_terms": [
+          "Profile",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-053",
+      "family": "rewrite",
+      "user": "Write a short issue title: the report does not update.",
+      "answer": "Report does not update.",
+      "check": {
+        "all_terms": [
+          "Report",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-054",
+      "family": "rewrite",
+      "user": "Write a short issue title: the menu does not update.",
+      "answer": "Menu does not update.",
+      "check": {
+        "all_terms": [
+          "Menu",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-055",
+      "family": "rewrite",
+      "user": "Write a short issue title: the calendar does not update.",
+      "answer": "Calendar does not update.",
+      "check": {
+        "all_terms": [
+          "Calendar",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-056",
+      "family": "rewrite",
+      "user": "Write a short issue title: the address does not update.",
+      "answer": "Address does not update.",
+      "check": {
+        "all_terms": [
+          "Address",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-057",
+      "family": "rewrite",
+      "user": "Write a short issue title: the archive does not update.",
+      "answer": "Archive does not update.",
+      "check": {
+        "all_terms": [
+          "Archive",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-058",
+      "family": "rewrite",
+      "user": "Write a short issue title: the ticket does not update.",
+      "answer": "Ticket does not update.",
+      "check": {
+        "all_terms": [
+          "Ticket",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-059",
+      "family": "rewrite",
+      "user": "Write a short issue title: the settings does not update.",
+      "answer": "Settings does not update.",
+      "check": {
+        "all_terms": [
+          "Settings",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-rewrite-060",
+      "family": "rewrite",
+      "user": "Write a short issue title: the receipt does not update.",
+      "answer": "Receipt does not update.",
+      "check": {
+        "all_terms": [
+          "Receipt",
+          "does",
+          "not",
+          "update"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-001",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Nora reviewed 11 invoice records in 2 minutes.",
+      "answer": "Nora reviewed 11 invoice records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Nora",
+          "reviewed",
+          "11",
+          "invoice",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-002",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ibrahim reviewed 12 profile records in 3 minutes.",
+      "answer": "Ibrahim reviewed 12 profile records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Ibrahim",
+          "reviewed",
+          "12",
+          "profile",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-003",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Lena reviewed 13 report records in 4 minutes.",
+      "answer": "Lena reviewed 13 report records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Lena",
+          "reviewed",
+          "13",
+          "report",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-004",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mateo reviewed 14 menu records in 5 minutes.",
+      "answer": "Mateo reviewed 14 menu records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Mateo",
+          "reviewed",
+          "14",
+          "menu",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-005",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Suri reviewed 15 calendar records in 6 minutes.",
+      "answer": "Suri reviewed 15 calendar records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Suri",
+          "reviewed",
+          "15",
+          "calendar",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-006",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Jonas reviewed 16 address records in 7 minutes.",
+      "answer": "Jonas reviewed 16 address records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Jonas",
+          "reviewed",
+          "16",
+          "address",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-007",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Alina reviewed 17 archive records in 8 minutes.",
+      "answer": "Alina reviewed 17 archive records in 8 minutes.",
+      "check": {
+        "all_terms": [
+          "Alina",
+          "reviewed",
+          "17",
+          "archive",
+          "records",
+          "in",
+          "8",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-008",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ravi reviewed 18 ticket records in 9 minutes.",
+      "answer": "Ravi reviewed 18 ticket records in 9 minutes.",
+      "check": {
+        "all_terms": [
+          "Ravi",
+          "reviewed",
+          "18",
+          "ticket",
+          "records",
+          "in",
+          "9",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-009",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mira reviewed 19 settings records in 10 minutes.",
+      "answer": "Mira reviewed 19 settings records in 10 minutes.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "reviewed",
+          "19",
+          "settings",
+          "records",
+          "in",
+          "10",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-010",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Tomas reviewed 20 receipt records in 2 minutes.",
+      "answer": "Tomas reviewed 20 receipt records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Tomas",
+          "reviewed",
+          "20",
+          "receipt",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-011",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Evan reviewed 21 invoice records in 3 minutes.",
+      "answer": "Evan reviewed 21 invoice records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Evan",
+          "reviewed",
+          "21",
+          "invoice",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-012",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Priya reviewed 22 profile records in 4 minutes.",
+      "answer": "Priya reviewed 22 profile records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Priya",
+          "reviewed",
+          "22",
+          "profile",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-013",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Nora reviewed 23 report records in 5 minutes.",
+      "answer": "Nora reviewed 23 report records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Nora",
+          "reviewed",
+          "23",
+          "report",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-014",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ibrahim reviewed 24 menu records in 6 minutes.",
+      "answer": "Ibrahim reviewed 24 menu records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Ibrahim",
+          "reviewed",
+          "24",
+          "menu",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-015",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Lena reviewed 25 calendar records in 7 minutes.",
+      "answer": "Lena reviewed 25 calendar records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Lena",
+          "reviewed",
+          "25",
+          "calendar",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-016",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mateo reviewed 26 address records in 8 minutes.",
+      "answer": "Mateo reviewed 26 address records in 8 minutes.",
+      "check": {
+        "all_terms": [
+          "Mateo",
+          "reviewed",
+          "26",
+          "address",
+          "records",
+          "in",
+          "8",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-017",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Suri reviewed 27 archive records in 9 minutes.",
+      "answer": "Suri reviewed 27 archive records in 9 minutes.",
+      "check": {
+        "all_terms": [
+          "Suri",
+          "reviewed",
+          "27",
+          "archive",
+          "records",
+          "in",
+          "9",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-018",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Jonas reviewed 28 ticket records in 10 minutes.",
+      "answer": "Jonas reviewed 28 ticket records in 10 minutes.",
+      "check": {
+        "all_terms": [
+          "Jonas",
+          "reviewed",
+          "28",
+          "ticket",
+          "records",
+          "in",
+          "10",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-019",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Alina reviewed 29 settings records in 2 minutes.",
+      "answer": "Alina reviewed 29 settings records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Alina",
+          "reviewed",
+          "29",
+          "settings",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-020",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ravi reviewed 30 receipt records in 3 minutes.",
+      "answer": "Ravi reviewed 30 receipt records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Ravi",
+          "reviewed",
+          "30",
+          "receipt",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-021",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mira reviewed 31 invoice records in 4 minutes.",
+      "answer": "Mira reviewed 31 invoice records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "reviewed",
+          "31",
+          "invoice",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-022",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Tomas reviewed 32 profile records in 5 minutes.",
+      "answer": "Tomas reviewed 32 profile records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Tomas",
+          "reviewed",
+          "32",
+          "profile",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-023",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Evan reviewed 33 report records in 6 minutes.",
+      "answer": "Evan reviewed 33 report records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Evan",
+          "reviewed",
+          "33",
+          "report",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-024",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Priya reviewed 34 menu records in 7 minutes.",
+      "answer": "Priya reviewed 34 menu records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Priya",
+          "reviewed",
+          "34",
+          "menu",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-025",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Nora reviewed 35 calendar records in 8 minutes.",
+      "answer": "Nora reviewed 35 calendar records in 8 minutes.",
+      "check": {
+        "all_terms": [
+          "Nora",
+          "reviewed",
+          "35",
+          "calendar",
+          "records",
+          "in",
+          "8",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-026",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ibrahim reviewed 36 address records in 9 minutes.",
+      "answer": "Ibrahim reviewed 36 address records in 9 minutes.",
+      "check": {
+        "all_terms": [
+          "Ibrahim",
+          "reviewed",
+          "36",
+          "address",
+          "records",
+          "in",
+          "9",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-027",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Lena reviewed 37 archive records in 10 minutes.",
+      "answer": "Lena reviewed 37 archive records in 10 minutes.",
+      "check": {
+        "all_terms": [
+          "Lena",
+          "reviewed",
+          "37",
+          "archive",
+          "records",
+          "in",
+          "10",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-028",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mateo reviewed 38 ticket records in 2 minutes.",
+      "answer": "Mateo reviewed 38 ticket records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Mateo",
+          "reviewed",
+          "38",
+          "ticket",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-029",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Suri reviewed 39 settings records in 3 minutes.",
+      "answer": "Suri reviewed 39 settings records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Suri",
+          "reviewed",
+          "39",
+          "settings",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-030",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Jonas reviewed 40 receipt records in 4 minutes.",
+      "answer": "Jonas reviewed 40 receipt records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Jonas",
+          "reviewed",
+          "40",
+          "receipt",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-031",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Alina reviewed 41 invoice records in 5 minutes.",
+      "answer": "Alina reviewed 41 invoice records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Alina",
+          "reviewed",
+          "41",
+          "invoice",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-032",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ravi reviewed 42 profile records in 6 minutes.",
+      "answer": "Ravi reviewed 42 profile records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Ravi",
+          "reviewed",
+          "42",
+          "profile",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-033",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mira reviewed 43 report records in 7 minutes.",
+      "answer": "Mira reviewed 43 report records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "reviewed",
+          "43",
+          "report",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-034",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Tomas reviewed 44 menu records in 8 minutes.",
+      "answer": "Tomas reviewed 44 menu records in 8 minutes.",
+      "check": {
+        "all_terms": [
+          "Tomas",
+          "reviewed",
+          "44",
+          "menu",
+          "records",
+          "in",
+          "8",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-035",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Evan reviewed 45 calendar records in 9 minutes.",
+      "answer": "Evan reviewed 45 calendar records in 9 minutes.",
+      "check": {
+        "all_terms": [
+          "Evan",
+          "reviewed",
+          "45",
+          "calendar",
+          "records",
+          "in",
+          "9",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-036",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Priya reviewed 46 address records in 10 minutes.",
+      "answer": "Priya reviewed 46 address records in 10 minutes.",
+      "check": {
+        "all_terms": [
+          "Priya",
+          "reviewed",
+          "46",
+          "address",
+          "records",
+          "in",
+          "10",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-037",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Nora reviewed 47 archive records in 2 minutes.",
+      "answer": "Nora reviewed 47 archive records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Nora",
+          "reviewed",
+          "47",
+          "archive",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-038",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ibrahim reviewed 48 ticket records in 3 minutes.",
+      "answer": "Ibrahim reviewed 48 ticket records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Ibrahim",
+          "reviewed",
+          "48",
+          "ticket",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-039",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Lena reviewed 49 settings records in 4 minutes.",
+      "answer": "Lena reviewed 49 settings records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Lena",
+          "reviewed",
+          "49",
+          "settings",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-040",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mateo reviewed 50 receipt records in 5 minutes.",
+      "answer": "Mateo reviewed 50 receipt records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Mateo",
+          "reviewed",
+          "50",
+          "receipt",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-041",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Suri reviewed 51 invoice records in 6 minutes.",
+      "answer": "Suri reviewed 51 invoice records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Suri",
+          "reviewed",
+          "51",
+          "invoice",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-042",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Jonas reviewed 52 profile records in 7 minutes.",
+      "answer": "Jonas reviewed 52 profile records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Jonas",
+          "reviewed",
+          "52",
+          "profile",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-043",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Alina reviewed 53 report records in 8 minutes.",
+      "answer": "Alina reviewed 53 report records in 8 minutes.",
+      "check": {
+        "all_terms": [
+          "Alina",
+          "reviewed",
+          "53",
+          "report",
+          "records",
+          "in",
+          "8",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-044",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ravi reviewed 54 menu records in 9 minutes.",
+      "answer": "Ravi reviewed 54 menu records in 9 minutes.",
+      "check": {
+        "all_terms": [
+          "Ravi",
+          "reviewed",
+          "54",
+          "menu",
+          "records",
+          "in",
+          "9",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-045",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mira reviewed 55 calendar records in 10 minutes.",
+      "answer": "Mira reviewed 55 calendar records in 10 minutes.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "reviewed",
+          "55",
+          "calendar",
+          "records",
+          "in",
+          "10",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-046",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Tomas reviewed 56 address records in 2 minutes.",
+      "answer": "Tomas reviewed 56 address records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Tomas",
+          "reviewed",
+          "56",
+          "address",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-047",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Evan reviewed 57 archive records in 3 minutes.",
+      "answer": "Evan reviewed 57 archive records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Evan",
+          "reviewed",
+          "57",
+          "archive",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-048",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Priya reviewed 58 ticket records in 4 minutes.",
+      "answer": "Priya reviewed 58 ticket records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Priya",
+          "reviewed",
+          "58",
+          "ticket",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-049",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Nora reviewed 59 settings records in 5 minutes.",
+      "answer": "Nora reviewed 59 settings records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Nora",
+          "reviewed",
+          "59",
+          "settings",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-050",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ibrahim reviewed 60 receipt records in 6 minutes.",
+      "answer": "Ibrahim reviewed 60 receipt records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Ibrahim",
+          "reviewed",
+          "60",
+          "receipt",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-051",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Lena reviewed 61 invoice records in 7 minutes.",
+      "answer": "Lena reviewed 61 invoice records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Lena",
+          "reviewed",
+          "61",
+          "invoice",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-052",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mateo reviewed 62 profile records in 8 minutes.",
+      "answer": "Mateo reviewed 62 profile records in 8 minutes.",
+      "check": {
+        "all_terms": [
+          "Mateo",
+          "reviewed",
+          "62",
+          "profile",
+          "records",
+          "in",
+          "8",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-053",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Suri reviewed 63 report records in 9 minutes.",
+      "answer": "Suri reviewed 63 report records in 9 minutes.",
+      "check": {
+        "all_terms": [
+          "Suri",
+          "reviewed",
+          "63",
+          "report",
+          "records",
+          "in",
+          "9",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-054",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Jonas reviewed 64 menu records in 10 minutes.",
+      "answer": "Jonas reviewed 64 menu records in 10 minutes.",
+      "check": {
+        "all_terms": [
+          "Jonas",
+          "reviewed",
+          "64",
+          "menu",
+          "records",
+          "in",
+          "10",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-055",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Alina reviewed 65 calendar records in 2 minutes.",
+      "answer": "Alina reviewed 65 calendar records in 2 minutes.",
+      "check": {
+        "all_terms": [
+          "Alina",
+          "reviewed",
+          "65",
+          "calendar",
+          "records",
+          "in",
+          "2",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-056",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Ravi reviewed 66 address records in 3 minutes.",
+      "answer": "Ravi reviewed 66 address records in 3 minutes.",
+      "check": {
+        "all_terms": [
+          "Ravi",
+          "reviewed",
+          "66",
+          "address",
+          "records",
+          "in",
+          "3",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-057",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Mira reviewed 67 archive records in 4 minutes.",
+      "answer": "Mira reviewed 67 archive records in 4 minutes.",
+      "check": {
+        "all_terms": [
+          "Mira",
+          "reviewed",
+          "67",
+          "archive",
+          "records",
+          "in",
+          "4",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-058",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Tomas reviewed 68 ticket records in 5 minutes.",
+      "answer": "Tomas reviewed 68 ticket records in 5 minutes.",
+      "check": {
+        "all_terms": [
+          "Tomas",
+          "reviewed",
+          "68",
+          "ticket",
+          "records",
+          "in",
+          "5",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-059",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Evan reviewed 69 settings records in 6 minutes.",
+      "answer": "Evan reviewed 69 settings records in 6 minutes.",
+      "check": {
+        "all_terms": [
+          "Evan",
+          "reviewed",
+          "69",
+          "settings",
+          "records",
+          "in",
+          "6",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-facts-060",
+      "family": "facts",
+      "user": "Summarize this fact without changing its details: Priya reviewed 70 receipt records in 7 minutes.",
+      "answer": "Priya reviewed 70 receipt records in 7 minutes.",
+      "check": {
+        "all_terms": [
+          "Priya",
+          "reviewed",
+          "70",
+          "receipt",
+          "records",
+          "in",
+          "7",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-001",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The invoice update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-002",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The profile update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-003",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The report update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-004",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The menu update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-005",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The calendar update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-006",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The address update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-007",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The archive update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-008",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The ticket update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-009",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The settings update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-010",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The receipt update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-011",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The invoice update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-012",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The profile update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-013",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The report update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-014",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The menu update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-015",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The calendar update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-016",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The address update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-017",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The archive update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-018",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The ticket update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-019",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The settings update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-020",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The receipt update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-021",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The invoice update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-022",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The profile update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-023",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The report update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-024",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The menu update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-025",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The calendar update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-026",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The address update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-027",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The archive update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-028",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The ticket update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-029",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The settings update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-030",
+      "family": "label",
+      "user": "Label as success, warning, or error. Return only the label: The receipt update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-031",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The invoice update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-032",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The profile update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-033",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The report update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-034",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The menu update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-035",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The calendar update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-036",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The address update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-037",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The archive update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-038",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The ticket update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-039",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The settings update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-040",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The receipt update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-041",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The invoice update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-042",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The profile update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-043",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The report update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-044",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The menu update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-045",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The calendar update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-046",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The address update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-047",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The archive update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-048",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The ticket update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-049",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The settings update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-050",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The receipt update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-051",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The invoice update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-052",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The profile update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-053",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The report update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-054",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The menu update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-055",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The calendar update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-056",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The address update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-057",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The archive update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-058",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The ticket update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-059",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The settings update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-train-label-060",
+      "family": "label",
+      "user": "Choose the correct status label only: success, warning, or error. The receipt update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    }
+  ],
+  "development": [
+    {
+      "id": "grounded-v2-development-thanks-001",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Zelda; task reviewing the playlist.",
+      "answer": "Thank you, Zelda, for reviewing the playlist.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Zelda",
+          "for",
+          "reviewing",
+          "the",
+          "playlist"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-002",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Niko; task reviewing the booking.",
+      "answer": "Thank you, Niko, for reviewing the booking.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Niko",
+          "for",
+          "reviewing",
+          "the",
+          "booking"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-003",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Orla; task reviewing the diagram.",
+      "answer": "Thank you, Orla, for reviewing the diagram.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Orla",
+          "for",
+          "reviewing",
+          "the",
+          "diagram"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-004",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Vera; task reviewing the catalogue.",
+      "answer": "Thank you, Vera, for reviewing the catalogue.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Vera",
+          "for",
+          "reviewing",
+          "the",
+          "catalogue"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-005",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Hugo; task reviewing the reminder.",
+      "answer": "Thank you, Hugo, for reviewing the reminder.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Hugo",
+          "for",
+          "reviewing",
+          "the",
+          "reminder"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-006",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Anika; task reviewing the journal.",
+      "answer": "Thank you, Anika, for reviewing the journal.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Anika",
+          "for",
+          "reviewing",
+          "the",
+          "journal"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-007",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Dara; task reviewing the survey.",
+      "answer": "Thank you, Dara, for reviewing the survey.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Dara",
+          "for",
+          "reviewing",
+          "the",
+          "survey"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-008",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Remy; task reviewing the inventory.",
+      "answer": "Thank you, Remy, for reviewing the inventory.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Remy",
+          "for",
+          "reviewing",
+          "the",
+          "inventory"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-009",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Talia; task reviewing the gallery.",
+      "answer": "Thank you, Talia, for reviewing the gallery.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Talia",
+          "for",
+          "reviewing",
+          "the",
+          "gallery"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-010",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Bram; task reviewing the transcript.",
+      "answer": "Thank you, Bram, for reviewing the transcript.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Bram",
+          "for",
+          "reviewing",
+          "the",
+          "transcript"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-011",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Kira; task reviewing the attachment.",
+      "answer": "Thank you, Kira, for reviewing the attachment.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Kira",
+          "for",
+          "reviewing",
+          "the",
+          "attachment"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-thanks-012",
+      "family": "thanks",
+      "user": "Write one sentence of thanks: recipient Otis; task reviewing the dashboard.",
+      "answer": "Thank you, Otis, for reviewing the dashboard.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Otis",
+          "for",
+          "reviewing",
+          "the",
+          "dashboard"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-001",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the playlist loads slowly.",
+      "answer": "Playlist loads slowly.",
+      "check": {
+        "all_terms": [
+          "Playlist",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-002",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the booking does not open.",
+      "answer": "Booking does not open.",
+      "check": {
+        "all_terms": [
+          "Booking",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-003",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the diagram loads slowly.",
+      "answer": "Diagram loads slowly.",
+      "check": {
+        "all_terms": [
+          "Diagram",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-004",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the catalogue does not open.",
+      "answer": "Catalogue does not open.",
+      "check": {
+        "all_terms": [
+          "Catalogue",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-005",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the reminder loads slowly.",
+      "answer": "Reminder loads slowly.",
+      "check": {
+        "all_terms": [
+          "Reminder",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-006",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the journal does not open.",
+      "answer": "Journal does not open.",
+      "check": {
+        "all_terms": [
+          "Journal",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-007",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the survey loads slowly.",
+      "answer": "Survey loads slowly.",
+      "check": {
+        "all_terms": [
+          "Survey",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-008",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the inventory does not open.",
+      "answer": "Inventory does not open.",
+      "check": {
+        "all_terms": [
+          "Inventory",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-009",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the gallery loads slowly.",
+      "answer": "Gallery loads slowly.",
+      "check": {
+        "all_terms": [
+          "Gallery",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-010",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the transcript does not open.",
+      "answer": "Transcript does not open.",
+      "check": {
+        "all_terms": [
+          "Transcript",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-011",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the attachment loads slowly.",
+      "answer": "Attachment loads slowly.",
+      "check": {
+        "all_terms": [
+          "Attachment",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-rewrite-012",
+      "family": "rewrite",
+      "user": "Turn this report into a concise title: the dashboard does not open.",
+      "answer": "Dashboard does not open.",
+      "check": {
+        "all_terms": [
+          "Dashboard",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-001",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Zelda reviewed 83 playlist records in 17 minutes.",
+      "answer": "Zelda reviewed 83 playlist records in 17 minutes.",
+      "check": {
+        "all_terms": [
+          "Zelda",
+          "reviewed",
+          "83",
+          "playlist",
+          "records",
+          "in",
+          "17",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-002",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Niko reviewed 84 booking records in 18 minutes.",
+      "answer": "Niko reviewed 84 booking records in 18 minutes.",
+      "check": {
+        "all_terms": [
+          "Niko",
+          "reviewed",
+          "84",
+          "booking",
+          "records",
+          "in",
+          "18",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-003",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Orla reviewed 85 diagram records in 19 minutes.",
+      "answer": "Orla reviewed 85 diagram records in 19 minutes.",
+      "check": {
+        "all_terms": [
+          "Orla",
+          "reviewed",
+          "85",
+          "diagram",
+          "records",
+          "in",
+          "19",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-004",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Vera reviewed 86 catalogue records in 20 minutes.",
+      "answer": "Vera reviewed 86 catalogue records in 20 minutes.",
+      "check": {
+        "all_terms": [
+          "Vera",
+          "reviewed",
+          "86",
+          "catalogue",
+          "records",
+          "in",
+          "20",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-005",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Hugo reviewed 87 reminder records in 21 minutes.",
+      "answer": "Hugo reviewed 87 reminder records in 21 minutes.",
+      "check": {
+        "all_terms": [
+          "Hugo",
+          "reviewed",
+          "87",
+          "reminder",
+          "records",
+          "in",
+          "21",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-006",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Anika reviewed 88 journal records in 22 minutes.",
+      "answer": "Anika reviewed 88 journal records in 22 minutes.",
+      "check": {
+        "all_terms": [
+          "Anika",
+          "reviewed",
+          "88",
+          "journal",
+          "records",
+          "in",
+          "22",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-007",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Dara reviewed 89 survey records in 23 minutes.",
+      "answer": "Dara reviewed 89 survey records in 23 minutes.",
+      "check": {
+        "all_terms": [
+          "Dara",
+          "reviewed",
+          "89",
+          "survey",
+          "records",
+          "in",
+          "23",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-008",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Remy reviewed 90 inventory records in 24 minutes.",
+      "answer": "Remy reviewed 90 inventory records in 24 minutes.",
+      "check": {
+        "all_terms": [
+          "Remy",
+          "reviewed",
+          "90",
+          "inventory",
+          "records",
+          "in",
+          "24",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-009",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Talia reviewed 91 gallery records in 25 minutes.",
+      "answer": "Talia reviewed 91 gallery records in 25 minutes.",
+      "check": {
+        "all_terms": [
+          "Talia",
+          "reviewed",
+          "91",
+          "gallery",
+          "records",
+          "in",
+          "25",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-010",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Bram reviewed 92 transcript records in 26 minutes.",
+      "answer": "Bram reviewed 92 transcript records in 26 minutes.",
+      "check": {
+        "all_terms": [
+          "Bram",
+          "reviewed",
+          "92",
+          "transcript",
+          "records",
+          "in",
+          "26",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-011",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Kira reviewed 93 attachment records in 27 minutes.",
+      "answer": "Kira reviewed 93 attachment records in 27 minutes.",
+      "check": {
+        "all_terms": [
+          "Kira",
+          "reviewed",
+          "93",
+          "attachment",
+          "records",
+          "in",
+          "27",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-facts-012",
+      "family": "facts",
+      "user": "Restate the following as one factual sentence: Otis reviewed 94 dashboard records in 28 minutes.",
+      "answer": "Otis reviewed 94 dashboard records in 28 minutes.",
+      "check": {
+        "all_terms": [
+          "Otis",
+          "reviewed",
+          "94",
+          "dashboard",
+          "records",
+          "in",
+          "28",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-001",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The playlist update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-002",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The booking update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-003",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The diagram update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-004",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The catalogue update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-005",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The reminder update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-006",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The journal update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-007",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The survey update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-008",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The inventory update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-009",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The gallery update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-010",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The transcript update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-011",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The attachment update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-development-label-012",
+      "family": "label",
+      "user": "Choose exactly one label (success, warning, error) for this report: The dashboard update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "id": "grounded-v2-confirmation-thanks-001",
+      "family": "thanks",
+      "user": "Please thank Nadia, who helped by reviewing the reservation. Keep it brief.",
+      "answer": "Thank you, Nadia, for reviewing the reservation.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Nadia",
+          "for",
+          "reviewing",
+          "the",
+          "reservation"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-thanks-002",
+      "family": "thanks",
+      "user": "Please thank Ivo, who helped by reviewing the thumbnail. Keep it brief.",
+      "answer": "Thank you, Ivo, for reviewing the thumbnail.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ivo",
+          "for",
+          "reviewing",
+          "the",
+          "thumbnail"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-thanks-003",
+      "family": "thanks",
+      "user": "Please thank Leona, who helped by reviewing the subscription. Keep it brief.",
+      "answer": "Thank you, Leona, for reviewing the subscription.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Leona",
+          "for",
+          "reviewing",
+          "the",
+          "subscription"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-thanks-004",
+      "family": "thanks",
+      "user": "Please thank Esme, who helped by reviewing the timeline. Keep it brief.",
+      "answer": "Thank you, Esme, for reviewing the timeline.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Esme",
+          "for",
+          "reviewing",
+          "the",
+          "timeline"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-thanks-005",
+      "family": "thanks",
+      "user": "Please thank Ronan, who helped by reviewing the bookmark. Keep it brief.",
+      "answer": "Thank you, Ronan, for reviewing the bookmark.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Ronan",
+          "for",
+          "reviewing",
+          "the",
+          "bookmark"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-thanks-006",
+      "family": "thanks",
+      "user": "Please thank Zora, who helped by reviewing the shipment. Keep it brief.",
+      "answer": "Thank you, Zora, for reviewing the shipment.",
+      "check": {
+        "all_terms": [
+          "Thank",
+          "you",
+          "Zora",
+          "for",
+          "reviewing",
+          "the",
+          "shipment"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-rewrite-001",
+      "family": "rewrite",
+      "user": "Create a brief bug title for this fact: the reservation loads slowly.",
+      "answer": "Reservation loads slowly.",
+      "check": {
+        "all_terms": [
+          "Reservation",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-rewrite-002",
+      "family": "rewrite",
+      "user": "Create a brief bug title for this fact: the thumbnail does not open.",
+      "answer": "Thumbnail does not open.",
+      "check": {
+        "all_terms": [
+          "Thumbnail",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-rewrite-003",
+      "family": "rewrite",
+      "user": "Create a brief bug title for this fact: the subscription loads slowly.",
+      "answer": "Subscription loads slowly.",
+      "check": {
+        "all_terms": [
+          "Subscription",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-rewrite-004",
+      "family": "rewrite",
+      "user": "Create a brief bug title for this fact: the timeline does not open.",
+      "answer": "Timeline does not open.",
+      "check": {
+        "all_terms": [
+          "Timeline",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-rewrite-005",
+      "family": "rewrite",
+      "user": "Create a brief bug title for this fact: the bookmark loads slowly.",
+      "answer": "Bookmark loads slowly.",
+      "check": {
+        "all_terms": [
+          "Bookmark",
+          "loads",
+          "slowly"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-rewrite-006",
+      "family": "rewrite",
+      "user": "Create a brief bug title for this fact: the shipment does not open.",
+      "answer": "Shipment does not open.",
+      "check": {
+        "all_terms": [
+          "Shipment",
+          "does",
+          "not",
+          "open"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-facts-001",
+      "family": "facts",
+      "user": "Give a concise sentence preserving this report: Nadia reviewed 137 reservation records in 37 minutes.",
+      "answer": "Nadia reviewed 137 reservation records in 37 minutes.",
+      "check": {
+        "all_terms": [
+          "Nadia",
+          "reviewed",
+          "137",
+          "reservation",
+          "records",
+          "in",
+          "37",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-facts-002",
+      "family": "facts",
+      "user": "Give a concise sentence preserving this report: Ivo reviewed 138 thumbnail records in 38 minutes.",
+      "answer": "Ivo reviewed 138 thumbnail records in 38 minutes.",
+      "check": {
+        "all_terms": [
+          "Ivo",
+          "reviewed",
+          "138",
+          "thumbnail",
+          "records",
+          "in",
+          "38",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-facts-003",
+      "family": "facts",
+      "user": "Give a concise sentence preserving this report: Leona reviewed 139 subscription records in 39 minutes.",
+      "answer": "Leona reviewed 139 subscription records in 39 minutes.",
+      "check": {
+        "all_terms": [
+          "Leona",
+          "reviewed",
+          "139",
+          "subscription",
+          "records",
+          "in",
+          "39",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-facts-004",
+      "family": "facts",
+      "user": "Give a concise sentence preserving this report: Esme reviewed 140 timeline records in 40 minutes.",
+      "answer": "Esme reviewed 140 timeline records in 40 minutes.",
+      "check": {
+        "all_terms": [
+          "Esme",
+          "reviewed",
+          "140",
+          "timeline",
+          "records",
+          "in",
+          "40",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-facts-005",
+      "family": "facts",
+      "user": "Give a concise sentence preserving this report: Ronan reviewed 141 bookmark records in 41 minutes.",
+      "answer": "Ronan reviewed 141 bookmark records in 41 minutes.",
+      "check": {
+        "all_terms": [
+          "Ronan",
+          "reviewed",
+          "141",
+          "bookmark",
+          "records",
+          "in",
+          "41",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-facts-006",
+      "family": "facts",
+      "user": "Give a concise sentence preserving this report: Zora reviewed 142 shipment records in 42 minutes.",
+      "answer": "Zora reviewed 142 shipment records in 42 minutes.",
+      "check": {
+        "all_terms": [
+          "Zora",
+          "reviewed",
+          "142",
+          "shipment",
+          "records",
+          "in",
+          "42",
+          "minutes"
+        ],
+        "max_words": 40
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-label-001",
+      "family": "label",
+      "user": "Return one classification: success, warning, or error. Report: The reservation update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-label-002",
+      "family": "label",
+      "user": "Return one classification: success, warning, or error. Report: The thumbnail update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-label-003",
+      "family": "label",
+      "user": "Return one classification: success, warning, or error. Report: The subscription update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-label-004",
+      "family": "label",
+      "user": "Return one classification: success, warning, or error. Report: The timeline update completed successfully.",
+      "answer": "success",
+      "check": {
+        "label": "success",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-label-005",
+      "family": "label",
+      "user": "Return one classification: success, warning, or error. Report: The bookmark update is delayed but can continue.",
+      "answer": "warning",
+      "check": {
+        "label": "warning",
+        "max_words": 1
+      }
+    },
+    {
+      "id": "grounded-v2-confirmation-label-006",
+      "family": "label",
+      "user": "Return one classification: success, warning, or error. Report: The shipment update failed and cannot continue.",
+      "answer": "error",
+      "check": {
+        "label": "error",
+        "max_words": 1
+      }
+    }
+  ],
+  "training_config": {
+    "steps": 240,
+    "batch_size": 2,
+    "learning_rate": 0.0002,
+    "weight_decay": 0.01,
+    "clip_norm": 1.0,
+    "checkpoints": [
+      80,
+      160,
+      240
+    ],
+    "maximum_training_seconds": 1200,
+    "trainable": [
+      "blocks.5.*",
+      "ln_f.*"
+    ],
+    "selection": "lowest development answer-token NLL including unchanged baseline",
+    "consume_confirmation_only_if": "Development NLL improves by at least 10% and reference-matched development answers increase by at least 3",
+    "production_ready": false
+  }
+}

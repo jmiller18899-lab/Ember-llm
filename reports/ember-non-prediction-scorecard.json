@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "scope": "archived_non_prediction_evidence_recount",
+  "sources": {
+    "routing": {
+      "path": "reports/ember-routing-v9-confirmation.json",
+      "sha256": "a19c1bbfd20e08731470676446c7fae4fe6f7c8162f7d751ee9553e5c8cd8de3",
+      "baseline_arm": "frozen_v8",
+      "candidate_arm": "contact_v9",
+      "measured_at": "2026-09-14T13:56:47.639412+00:00"
+    },
+    "live": {
+      "path": "reports/ember-live-services-v10-34856109144.json",
+      "sha256": "0df51897f45234a92a3f5f2593d7ac215647e697368a152659ea8311df592068",
+      "expected_checks": 52,
+      "measured_at": "2026-09-14T14:34:15.007970+00:00"
+    },
+    "direct": {
+      "path": "reports/ember-direct-answer-canary.json",
+      "sha256": "ed1410714826253b9bcc8a1cb828442d206b4d4c2c9b905c157eaab77a02ed73",
+      "measured_at": "2026-09-11T05:27:02.943524+00:00"
+    },
+    "direct_grounded_v2": {
+      "path": "reports/ember-direct-grounded-v2-34857841073.json",
+      "sha256": "1f18d8cdc9b55a278490241afd6e1261898b4014171e417ed8098b5681be1c82",
+      "measured_at": "2026-09-14T14:49:35.366984+00:00"
+    }
+  },
+  "paired_routing": {
+    "full": {
+      "baseline": {
+        "combined_correct": 80,
+        "combined_total": 100,
+        "routing_correct": 100,
+        "routing_total": 100,
+        "exact_arguments_correct": 60,
+        "arguments_total": 80,
+        "failures": [
+          "v9-new-weather-01",
+          "v9-new-weather-02",
+          "v9-new-weather-03",
+          "v9-new-weather-04",
+          "v9-new-weather-05",
+          "v9-new-weather-06",
+          "v9-new-weather-07",
+          "v9-new-weather-08",
+          "v9-new-weather-09",
+          "v9-new-weather-10",
+          "v9-new-get_time-01",
+          "v9-new-get_time-02",
+          "v9-new-get_time-03",
+          "v9-new-get_time-04",
+          "v9-new-get_time-05",
+          "v9-new-get_time-06",
+          "v9-new-get_time-07",
+          "v9-new-get_time-08",
+          "v9-new-get_time-09",
+          "v9-new-get_time-10"
+        ]
+      },
+      "candidate": {
+        "combined_correct": 100,
+        "combined_total": 100,
+        "routing_correct": 100,
+        "routing_total": 100,
+        "exact_arguments_correct": 80,
+        "arguments_total": 80,
+        "failures": []
+      },
+      "repaired": 20,
+      "regressed": 0
+    },
+    "int4": {
+      "baseline": {
+        "combined_correct": 80,
+        "combined_total": 100,
+        "routing_correct": 100,
+        "routing_total": 100,
+        "exact_arguments_correct": 60,
+        "arguments_total": 80,
+        "failures": [
+          "v9-new-weather-01",
+          "v9-new-weather-02",
+          "v9-new-weather-03",
+          "v9-new-weather-04",
+          "v9-new-weather-05",
+          "v9-new-weather-06",
+          "v9-new-weather-07",
+          "v9-new-weather-08",
+          "v9-new-weather-09",
+          "v9-new-weather-10",
+          "v9-new-get_time-01",
+          "v9-new-get_time-02",
+          "v9-new-get_time-03",
+          "v9-new-get_time-04",
+          "v9-new-get_time-05",
+          "v9-new-get_time-06",
+          "v9-new-get_time-07",
+          "v9-new-get_time-08",
+          "v9-new-get_time-09",
+          "v9-new-get_time-10"
+        ]
+      },
+      "candidate": {
+        "combined_correct": 100,
+        "combined_total": 100,
+        "routing_correct": 100,
+        "routing_total": 100,
+        "exact_arguments_correct": 80,
+        "arguments_total": 80,
+        "failures": []
+      },
+      "repaired": 20,
+      "regressed": 0
+    }
+  },
+  "parser_supplied_routes": {
+    "passed": 60,
+    "total": 60
+  },
+  "live_service_smoke": {
+    "final": {
+      "BLOCKED": 0,
+      "FAIL": 0,
+      "PASS": 52
+    },
+    "first_attempt": {
+      "BLOCKED": 0,
+      "FAIL": 3,
+      "PASS": 49
+    },
+    "current_availability": "not_retested",
+    "scope": "service_v10_with_explicit_country_reply",
+    "scope_gate_passed": true,
+    "original_unqualified_contract_counts": {
+      "PASS": 48,
+      "FAIL": 2,
+      "BLOCKED": 0
+    }
+  },
+  "direct_answers": {
+    "baseline_quality": {
+      "passed": 0,
+      "legacy_passed": 0,
+      "total": 24
+    },
+    "candidate_quality": {
+      "passed": 2,
+      "legacy_passed": 1,
+      "total": 24
+    },
+    "development_loss_before": 6.185259018501226,
+    "development_loss_after": 3.6641258914975356,
+    "learning_gate_passed": false,
+    "fresh_confirmation_consumed": false,
+    "protected_routing_parameters_unchanged": true,
+    "limitation": "Lexical passes can contain invented entities; not broad answer quality."
+  },
+  "routing_confirmation_passed": true,
+  "direct_grounded_v2": {
+    "baseline_quality": {
+      "passed": 0,
+      "legacy_passed": 0,
+      "total": 48,
+      "by_family": {
+        "facts": {
+          "passed": 0,
+          "total": 12
+        },
+        "label": {
+          "passed": 0,
+          "total": 12
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 12
+        },
+        "thanks": {
+          "passed": 0,
+          "total": 12
+        }
+      }
+    },
+    "candidate_quality": {
+      "passed": 12,
+      "legacy_passed": 1,
+      "total": 48,
+      "by_family": {
+        "facts": {
+          "passed": 0,
+          "total": 12
+        },
+        "label": {
+          "passed": 12,
+          "total": 12
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 12
+        },
+        "thanks": {
+          "passed": 0,
+          "total": 12
+        }
+      }
+    },
+    "historical_baseline_quality": {
+      "passed": 0,
+      "legacy_passed": 0,
+      "total": 24,
+      "by_family": {
+        "classify": {
+          "passed": 0,
+          "total": 4
+        },
+        "explain": {
+          "passed": 0,
+          "total": 4
+        },
+        "plan_compare": {
+          "passed": 0,
+          "total": 4
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 4
+        },
+        "summarize": {
+          "passed": 0,
+          "total": 4
+        },
+        "writing": {
+          "passed": 0,
+          "total": 4
+        }
+      }
+    },
+    "historical_candidate_quality": {
+      "passed": 4,
+      "legacy_passed": 3,
+      "total": 24,
+      "by_family": {
+        "classify": {
+          "passed": 2,
+          "total": 4
+        },
+        "explain": {
+          "passed": 0,
+          "total": 4
+        },
+        "plan_compare": {
+          "passed": 0,
+          "total": 4
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 4
+        },
+        "summarize": {
+          "passed": 0,
+          "total": 4
+        },
+        "writing": {
+          "passed": 2,
+          "total": 4
+        }
+      }
+    },
+    "confirmation": {
+      "passed": 6,
+      "legacy_passed": 0,
+      "total": 24,
+      "by_family": {
+        "facts": {
+          "passed": 0,
+          "total": 6
+        },
+        "label": {
+          "passed": 6,
+          "total": 6
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 6
+        },
+        "thanks": {
+          "passed": 0,
+          "total": 6
+        }
+      }
+    },
+    "learning_gate_passed": true,
+    "confirmation_gate_passed": false,
+    "confirmation_consumed": true,
+    "development_loss_before": 6.172915761465645,
+    "development_loss_after": 1.883521131270004,
+    "protected_routing_parameters_unchanged": true,
+    "limitation": "All grounded passes are status labels; free-form content preservation failed. Historical lexical passes can be false positives. Confirmation is now consumed."
+  },
+  "production_ready": false,
+  "unmeasured": [
+    "current live uptime",
+    "broad generated-answer quality",
+    "native INT4 inference speed",
+    "production latency and cost"
+  ],
+  "next_actions": [
+    "Review the latest failed confirmation cases before the next frozen candidate.",
+    "Diagnose name, subject, and number copying; v2 confirmation is consumed and must not be reused as fresh.",
+    "Run a new live smoke before release; archived PASS is not current health."
+  ],
+  "interpretation": "Helper progress is separate from LLM learning. Different request suites are not a trend. CI success verifies evidence consistency, not assistant readiness."
+}

@@ -1,0 +1,83 @@
+name: Ember Live Service Runner
+
+on:
+  workflow_call:
+    secrets:
+      HF_TOKEN:
+        required: false
+      BRAVE_SEARCH_API_KEY:
+        required: false
+
+permissions:
+  contents: read
+  actions: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU dependencies
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install huggingface-hub==1.31.0 sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Check service contracts and injected failures offline
+        run: python -m pytest -q tests/test_live_services.py tests/test_restore_live_candidate.py
+      - name: Retrieve original fitted base helpers
+        uses: actions/download-artifact@v4
+        with:
+          name: ember-tool-assistant-evidence-34565654365
+          run-id: 34565654365
+          github-token: ${{ github.token }}
+          path: frozen-archives/base
+      - name: Retrieve original fitted v4 controls
+        uses: actions/download-artifact@v4
+        with:
+          name: ember-routing-v4-evidence-34691874565
+          run-id: 34691874565
+          github-token: ${{ github.token }}
+          path: frozen-archives/v4
+      - name: Retrieve originally measured v5 helper
+        uses: actions/download-artifact@v4
+        with:
+          name: ember-routing-v5-evidence-34694061949
+          run-id: 34694061949
+          github-token: ${{ github.token }}
+          path: frozen-archives/v5
+      - name: Reproduce original frozen checkpoints
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m tool_assistant.build --out baseline-candidate | tee baseline-build.log
+      - name: Reproduce v4 control
+        run: python -m tool_assistant.build_v4 --base baseline-candidate --out routing-v4-candidate | tee v4-build.log
+      - name: Reproduce frozen v5 helper
+        run: python -m tool_assistant.build_v5 --base routing-v4-candidate --out routing-v5-candidate | tee v5-build.log
+      - name: Restore archived fitted bytes and verify every candidate file
+        run: python -m tool_assistant.restore_live_candidate --bundle routing-v5-candidate --archives frozen-archives --report evidence/live-candidate-restore.json
+      - name: Measure live services on both checkpoint integrations
+        env:
+          BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+        run: python -m tool_assistant.live_smoke --bundle routing-v5-candidate --report evidence/live-services-smoke.json | tee live-services.log
+      - name: Preserve live evidence including failures and unavailable services
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-live-services-${{ github.run_id }}-attempt-${{ github.run_attempt }}
+          path: |
+            evidence/
+            live-services.log
+            *-build.log
+            routing-v5-candidate/manifest.json
+          retention-days: 90

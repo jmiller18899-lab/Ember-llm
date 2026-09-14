@@ -1,0 +1,732 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-12T12:34:13.299862+00:00",
+  "routing_revision": "routing-head-v5",
+  "parser_revision": "argument-parser-v4",
+  "source_lock_sha256": "2a6bd995f55c5c1c34afb7477df5ab3d54826e5d7e8132105eb7519778413579",
+  "freeze_commit": "7cf5355ed5ae9a4b42c8566744b75b2b0c075072",
+  "authorship": "Assistant-authored after freezing source and fitted candidate files. Labels, location arguments, and arithmetic oracles were specified before running inference. This is finite contract coverage, not independent human evaluation or a representative traffic sample.",
+  "novelty": "Exact normalized request text is disjoint from recorded training, consumed confirmations, and literal development tests. Semantic/template independence is not asserted.",
+  "cases": [
+    {
+      "id": "v5-new-weather-01",
+      "route": "weather",
+      "user": "Can you check the current weather in Valparaíso?",
+      "arguments": {
+        "location": "Valparaíso"
+      }
+    },
+    {
+      "id": "v5-new-weather-02",
+      "route": "weather",
+      "user": "I am taking my umbrella; is it raining in Ljubljana right now?",
+      "arguments": {
+        "location": "Ljubljana"
+      }
+    },
+    {
+      "id": "v5-new-weather-03",
+      "route": "weather",
+      "user": "I am about to step outside; how cold is it in Saskatoon at the moment?",
+      "arguments": {
+        "location": "Saskatoon"
+      }
+    },
+    {
+      "id": "v5-new-weather-04",
+      "route": "weather",
+      "user": "Tell me whether it is wet in Kaohsiung currently.",
+      "arguments": {
+        "location": "Kaohsiung"
+      }
+    },
+    {
+      "id": "v5-new-weather-05",
+      "route": "weather",
+      "user": "Please get the current temperature for Freiburg.",
+      "arguments": {
+        "location": "Freiburg"
+      }
+    },
+    {
+      "id": "v5-new-weather-06",
+      "route": "weather",
+      "user": "Is the weather windy in Essaouira now?",
+      "arguments": {
+        "location": "Essaouira"
+      }
+    },
+    {
+      "id": "v5-new-weather-07",
+      "route": "weather",
+      "user": "I am packing my coat. What is the temperature in Pécs right now?",
+      "arguments": {
+        "location": "Pécs"
+      }
+    },
+    {
+      "id": "v5-new-weather-08",
+      "route": "weather",
+      "user": "How humid is it in Surabaya today?",
+      "arguments": {
+        "location": "Surabaya"
+      }
+    },
+    {
+      "id": "v5-new-weather-09",
+      "route": "weather",
+      "user": "Is snow falling in Rovaniemi at this moment?",
+      "arguments": {
+        "location": "Rovaniemi"
+      }
+    },
+    {
+      "id": "v5-new-weather-10",
+      "route": "weather",
+      "user": "Could you tell me how warm it is in Asunción now?",
+      "arguments": {
+        "location": "Asunción"
+      }
+    },
+    {
+      "id": "v5-new-weather-11",
+      "route": "weather",
+      "user": "I am visiting a relative in Bergen; what is the weather there now?",
+      "arguments": {
+        "location": "Bergen"
+      }
+    },
+    {
+      "id": "v5-new-weather-12",
+      "route": "weather",
+      "user": "What are the current conditions in Gdańsk, Poland?",
+      "arguments": {
+        "location": "Gdańsk, Poland"
+      }
+    },
+    {
+      "id": "v5-new-weather-13",
+      "route": "weather",
+      "user": "I am going outside; could you check the weather in Funchal, please?",
+      "arguments": {
+        "location": "Funchal"
+      }
+    },
+    {
+      "id": "v5-new-weather-14",
+      "route": "weather",
+      "user": "Are rain showers happening in Ipoh right now?",
+      "arguments": {
+        "location": "Ipoh"
+      }
+    },
+    {
+      "id": "v5-new-weather-15",
+      "route": "weather",
+      "user": "Please check whether it is damp in Hobart at the moment.",
+      "arguments": {
+        "location": "Hobart"
+      }
+    },
+    {
+      "id": "v5-new-weather-16",
+      "route": "weather",
+      "user": "I am contacting a friend in Tromsø; is it cold there currently?",
+      "arguments": {
+        "location": "Tromsø"
+      }
+    },
+    {
+      "id": "v5-new-weather-17",
+      "route": "weather",
+      "user": "What is the current weather for \"Trinidad and Tobago\"?",
+      "arguments": {
+        "location": "Trinidad and Tobago"
+      }
+    },
+    {
+      "id": "v5-new-weather-18",
+      "route": "weather",
+      "user": "Is the weather sunny in Córdoba, Argentina now?",
+      "arguments": {
+        "location": "Córdoba, Argentina"
+      }
+    },
+    {
+      "id": "v5-new-weather-19",
+      "route": "weather",
+      "user": "We are getting ready to head out; show the current temperature in Antananarivo.",
+      "arguments": {
+        "location": "Antananarivo"
+      }
+    },
+    {
+      "id": "v5-new-weather-20",
+      "route": "weather",
+      "user": "Could you check the latest weather observation for Vaduz?",
+      "arguments": {
+        "location": "Vaduz"
+      }
+    },
+    {
+      "id": "v5-new-get_time-01",
+      "route": "get_time",
+      "user": "What is the local time in Port Vila right now?",
+      "arguments": {
+        "timezone": "Port Vila"
+      }
+    },
+    {
+      "id": "v5-new-get_time-02",
+      "route": "get_time",
+      "user": "I am about to phone my colleague in Tallinn; what time is it there now?",
+      "arguments": {
+        "timezone": "Tallinn"
+      }
+    },
+    {
+      "id": "v5-new-get_time-03",
+      "route": "get_time",
+      "user": "Could you read the current clock for Kigali?",
+      "arguments": {
+        "timezone": "Kigali"
+      }
+    },
+    {
+      "id": "v5-new-get_time-04",
+      "route": "get_time",
+      "user": "Tell me the time in Europe/Bucharest, please.",
+      "arguments": {
+        "timezone": "Europe/Bucharest"
+      }
+    },
+    {
+      "id": "v5-new-get_time-05",
+      "route": "get_time",
+      "user": "We are visiting a friend in Honiara; is it afternoon there currently?",
+      "arguments": {
+        "timezone": "Honiara"
+      }
+    },
+    {
+      "id": "v5-new-get_time-06",
+      "route": "get_time",
+      "user": "I am planning to call a customer in Rabat. What is the local time there?",
+      "arguments": {
+        "timezone": "Rabat"
+      }
+    },
+    {
+      "id": "v5-new-get_time-07",
+      "route": "get_time",
+      "user": "What time would a clock in Suva show now?",
+      "arguments": {
+        "timezone": "Suva"
+      }
+    },
+    {
+      "id": "v5-new-get_time-08",
+      "route": "get_time",
+      "user": "Please give me the current time for Asia/Colombo.",
+      "arguments": {
+        "timezone": "Asia/Colombo"
+      }
+    },
+    {
+      "id": "v5-new-get_time-09",
+      "route": "get_time",
+      "user": "How late is it in Ouagadougou at the moment?",
+      "arguments": {
+        "timezone": "Ouagadougou"
+      }
+    },
+    {
+      "id": "v5-new-get_time-10",
+      "route": "get_time",
+      "user": "I am contacting my family in Edmonton; what time is it there today?",
+      "arguments": {
+        "timezone": "Edmonton"
+      }
+    },
+    {
+      "id": "v5-new-get_time-11",
+      "route": "get_time",
+      "user": "Show the current local hour in Limassol.",
+      "arguments": {
+        "timezone": "Limassol"
+      }
+    },
+    {
+      "id": "v5-new-get_time-12",
+      "route": "get_time",
+      "user": "I am phoning someone in \"St. John’s, Newfoundland\"; what is the current time there?",
+      "arguments": {
+        "timezone": "St. John’s, Newfoundland"
+      }
+    },
+    {
+      "id": "v5-new-get_time-13",
+      "route": "get_time",
+      "user": "Could you check the time in Pacific/Chatham now?",
+      "arguments": {
+        "timezone": "Pacific/Chatham"
+      }
+    },
+    {
+      "id": "v5-new-get_time-14",
+      "route": "get_time",
+      "user": "What time of day is it in Lusaka right now?",
+      "arguments": {
+        "timezone": "Lusaka"
+      }
+    },
+    {
+      "id": "v5-new-get_time-15",
+      "route": "get_time",
+      "user": "We are about to visit a colleague in Uppsala; what time is it there at the moment?",
+      "arguments": {
+        "timezone": "Uppsala"
+      }
+    },
+    {
+      "id": "v5-new-get_time-16",
+      "route": "get_time",
+      "user": "Read the local clock for Praia, please.",
+      "arguments": {
+        "timezone": "Praia"
+      }
+    },
+    {
+      "id": "v5-new-get_time-17",
+      "route": "get_time",
+      "user": "I am calling a relative in Halifax; is it evening there now?",
+      "arguments": {
+        "timezone": "Halifax"
+      }
+    },
+    {
+      "id": "v5-new-get_time-18",
+      "route": "get_time",
+      "user": "What is the time in UTC currently?",
+      "arguments": {
+        "timezone": "UTC"
+      }
+    },
+    {
+      "id": "v5-new-get_time-19",
+      "route": "get_time",
+      "user": "Give me the current time in America/Montevideo.",
+      "arguments": {
+        "timezone": "America/Montevideo"
+      }
+    },
+    {
+      "id": "v5-new-get_time-20",
+      "route": "get_time",
+      "user": "I am going to contact someone in Nukuʻalofa; what is the local time there now?",
+      "arguments": {
+        "timezone": "Nukuʻalofa"
+      }
+    },
+    {
+      "id": "v5-new-calculator-01",
+      "route": "calculator",
+      "user": "Would you calculate (162 - 42) / 8?",
+      "result": 15,
+      "reference_expression": "(162-42)/8"
+    },
+    {
+      "id": "v5-new-calculator-02",
+      "route": "calculator",
+      "user": "Please evaluate 27*(4+6).",
+      "result": 270,
+      "reference_expression": "27*(4+6)"
+    },
+    {
+      "id": "v5-new-calculator-03",
+      "route": "calculator",
+      "user": "What is 6.75 multiplied by 12?",
+      "result": 81,
+      "reference_expression": "6.75*12"
+    },
+    {
+      "id": "v5-new-calculator-04",
+      "route": "calculator",
+      "user": "Calculate -34 plus 79.",
+      "result": 45,
+      "reference_expression": "-34+79"
+    },
+    {
+      "id": "v5-new-calculator-05",
+      "route": "calculator",
+      "user": "Work out (81+45)/(9+5).",
+      "result": 9,
+      "reference_expression": "(81+45)/(9+5)"
+    },
+    {
+      "id": "v5-new-calculator-06",
+      "route": "calculator",
+      "user": "Could you compute 17.5 percent of 640?",
+      "result": 112,
+      "reference_expression": "17.5/100*640"
+    },
+    {
+      "id": "v5-new-calculator-07",
+      "route": "calculator",
+      "user": "Find 3 to the power of -2.",
+      "result": 0.1111111111111111,
+      "reference_expression": "3**-2"
+    },
+    {
+      "id": "v5-new-calculator-08",
+      "route": "calculator",
+      "user": "Calculate -7 squared minus 8.",
+      "result": 41,
+      "reference_expression": "(-7)**2-8"
+    },
+    {
+      "id": "v5-new-calculator-09",
+      "route": "calculator",
+      "user": "Please compute -(4**3) + 22.",
+      "result": -42,
+      "reference_expression": "-(4**3)+22"
+    },
+    {
+      "id": "v5-new-calculator-10",
+      "route": "calculator",
+      "user": "What do 19 plus 26 plus 38 add up to?",
+      "result": 83,
+      "reference_expression": "19+26+38"
+    },
+    {
+      "id": "v5-new-calculator-11",
+      "route": "calculator",
+      "user": "I need the product of 64 times 39.",
+      "result": 2496,
+      "reference_expression": "64*39"
+    },
+    {
+      "id": "v5-new-calculator-12",
+      "route": "calculator",
+      "user": "Evaluate 1,650.75 minus 875.25.",
+      "result": 775.5,
+      "reference_expression": "1650.75-875.25"
+    },
+    {
+      "id": "v5-new-calculator-13",
+      "route": "calculator",
+      "user": "Calculate 0.45 plus 0.55 minus 1.",
+      "result": 0,
+      "reference_expression": "0.45+0.55-1"
+    },
+    {
+      "id": "v5-new-calculator-14",
+      "route": "calculator",
+      "user": "Compute (15 - 31) * -6.",
+      "result": 96,
+      "reference_expression": "(15-31)*-6"
+    },
+    {
+      "id": "v5-new-calculator-15",
+      "route": "calculator",
+      "user": "Find 4.8 divided by .6.",
+      "result": 8,
+      "reference_expression": "4.8/.6"
+    },
+    {
+      "id": "v5-new-calculator-16",
+      "route": "calculator",
+      "user": "What is (9+7)**2?",
+      "result": 256,
+      "reference_expression": "(9+7)**2"
+    },
+    {
+      "id": "v5-new-calculator-17",
+      "route": "calculator",
+      "user": "Could you calculate 2e-3 times 4500?",
+      "result": 9,
+      "reference_expression": "2e-3*4500"
+    },
+    {
+      "id": "v5-new-calculator-18",
+      "route": "calculator",
+      "user": "Compute 7,200 divided by (15*8).",
+      "result": 60,
+      "reference_expression": "7200/(15*8)"
+    },
+    {
+      "id": "v5-new-calculator-19",
+      "route": "calculator",
+      "user": "Please evaluate 14 minus -18.",
+      "result": 32,
+      "reference_expression": "14-(-18)"
+    },
+    {
+      "id": "v5-new-calculator-20",
+      "route": "calculator",
+      "user": "Calculate −12 × (5 + 4) ÷ 6.",
+      "result": -18,
+      "reference_expression": "-12*(5+4)/6"
+    },
+    {
+      "id": "v5-new-web_search-01",
+      "route": "web_search",
+      "user": "Find the latest stable release of the Zig programming language.",
+      "arguments": {
+        "query": "Find the latest stable release of the Zig programming language."
+      }
+    },
+    {
+      "id": "v5-new-web_search-02",
+      "route": "web_search",
+      "user": "Check for current rail service disruptions at Vienna Hauptbahnhof.",
+      "arguments": {
+        "query": "Check for current rail service disruptions at Vienna Hauptbahnhof."
+      }
+    },
+    {
+      "id": "v5-new-web_search-03",
+      "route": "web_search",
+      "user": "Look up today's ferry sailing timetable between Dover and Calais.",
+      "arguments": {
+        "query": "Look up today's ferry sailing timetable between Dover and Calais."
+      }
+    },
+    {
+      "id": "v5-new-web_search-04",
+      "route": "web_search",
+      "user": "Please verify the current application deadline for the Erasmus Mundus programme.",
+      "arguments": {
+        "query": "Please verify the current application deadline for the Erasmus Mundus programme."
+      }
+    },
+    {
+      "id": "v5-new-web_search-05",
+      "route": "web_search",
+      "user": "Search for the newest security advisory for the PostgreSQL project.",
+      "arguments": {
+        "query": "Search for the newest security advisory for the PostgreSQL project."
+      }
+    },
+    {
+      "id": "v5-new-web_search-06",
+      "route": "web_search",
+      "user": "Are trams running normally in Zagreb today? Check the official service notices.",
+      "arguments": {
+        "query": "Are trams running normally in Zagreb today? Check the official service notices."
+      }
+    },
+    {
+      "id": "v5-new-web_search-07",
+      "route": "web_search",
+      "user": "Find the currently published visitor hours for the Acropolis Museum.",
+      "arguments": {
+        "query": "Find the currently published visitor hours for the Acropolis Museum."
+      }
+    },
+    {
+      "id": "v5-new-web_search-08",
+      "route": "web_search",
+      "user": "Check the latest bus cancellations at Ottawa's main terminal.",
+      "arguments": {
+        "query": "Check the latest bus cancellations at Ottawa's main terminal."
+      }
+    },
+    {
+      "id": "v5-new-web_search-09",
+      "route": "web_search",
+      "user": "Look online for the current admission price at the Vasa Museum.",
+      "arguments": {
+        "query": "Look online for the current admission price at the Vasa Museum."
+      }
+    },
+    {
+      "id": "v5-new-web_search-10",
+      "route": "web_search",
+      "user": "Find this week's official service outage updates from GitHub.",
+      "arguments": {
+        "query": "Find this week's official service outage updates from GitHub."
+      }
+    },
+    {
+      "id": "v5-new-web_search-11",
+      "route": "web_search",
+      "user": "Please search for the current registration dates for FOSDEM.",
+      "arguments": {
+        "query": "Please search for the current registration dates for FOSDEM."
+      }
+    },
+    {
+      "id": "v5-new-web_search-12",
+      "route": "web_search",
+      "user": "What is the latest stable Blender version? Verify on its official site.",
+      "arguments": {
+        "query": "What is the latest stable Blender version? Verify on its official site."
+      }
+    },
+    {
+      "id": "v5-new-web_search-13",
+      "route": "web_search",
+      "user": "Find current train delay notices affecting Rotterdam Centraal.",
+      "arguments": {
+        "query": "Find current train delay notices affecting Rotterdam Centraal."
+      }
+    },
+    {
+      "id": "v5-new-web_search-14",
+      "route": "web_search",
+      "user": "Search for the newest release notes from the Julia language project.",
+      "arguments": {
+        "query": "Search for the newest release notes from the Julia language project."
+      }
+    },
+    {
+      "id": "v5-new-web_search-15",
+      "route": "web_search",
+      "user": "Look up the current ferry cancellation notices for the Isle of Arran.",
+      "arguments": {
+        "query": "Look up the current ferry cancellation notices for the Isle of Arran."
+      }
+    },
+    {
+      "id": "v5-new-web_search-16",
+      "route": "web_search",
+      "user": "Check whether the national science museum in Daejeon is open today.",
+      "arguments": {
+        "query": "Check whether the national science museum in Daejeon is open today."
+      }
+    },
+    {
+      "id": "v5-new-web_search-17",
+      "route": "web_search",
+      "user": "Find the most recent official announcement about Debian releases.",
+      "arguments": {
+        "query": "Find the most recent official announcement about Debian releases."
+      }
+    },
+    {
+      "id": "v5-new-web_search-18",
+      "route": "web_search",
+      "user": "Please look up the current booking policy for the Edinburgh International Festival.",
+      "arguments": {
+        "query": "Please look up the current booking policy for the Edinburgh International Festival."
+      }
+    },
+    {
+      "id": "v5-new-web_search-19",
+      "route": "web_search",
+      "user": "Search the web for the latest timetable on the Bergen–Flåm route.",
+      "arguments": {
+        "query": "Search the web for the latest timetable on the Bergen–Flåm route."
+      }
+    },
+    {
+      "id": "v5-new-web_search-20",
+      "route": "web_search",
+      "user": "Find today's service updates for the Lisbon metro.",
+      "arguments": {
+        "query": "Find today's service updates for the Lisbon metro."
+      }
+    },
+    {
+      "id": "v5-new-direct-01",
+      "route": "direct",
+      "user": "Explain why wet pavement can look darker than dry pavement."
+    },
+    {
+      "id": "v5-new-direct-02",
+      "route": "direct",
+      "user": "Write a four-line poem about a delayed ferry."
+    },
+    {
+      "id": "v5-new-direct-03",
+      "route": "direct",
+      "user": "Give a beginner's explanation of what a time zone is."
+    },
+    {
+      "id": "v5-new-direct-04",
+      "route": "direct",
+      "user": "Rewrite this politely: Please tell me when the train leaves."
+    },
+    {
+      "id": "v5-new-direct-05",
+      "route": "direct",
+      "user": "Describe the difference between humidity and rainfall."
+    },
+    {
+      "id": "v5-new-direct-06",
+      "route": "direct",
+      "user": "Suggest a title for a fictional story about a station clock."
+    },
+    {
+      "id": "v5-new-direct-07",
+      "route": "direct",
+      "user": "Translate the phrase 'rainy morning' into Italian."
+    },
+    {
+      "id": "v5-new-direct-08",
+      "route": "direct",
+      "user": "Explain what a software release note is."
+    },
+    {
+      "id": "v5-new-direct-09",
+      "route": "direct",
+      "user": "Make this sentence shorter: The ferry arrived later than we had expected."
+    },
+    {
+      "id": "v5-new-direct-10",
+      "route": "direct",
+      "user": "Write a friendly greeting for a new coworker."
+    },
+    {
+      "id": "v5-new-direct-11",
+      "route": "direct",
+      "user": "Define the word 'timetable' without checking a live schedule."
+    },
+    {
+      "id": "v5-new-direct-12",
+      "route": "direct",
+      "user": "Explain how parentheses affect the order of arithmetic operations."
+    },
+    {
+      "id": "v5-new-direct-13",
+      "route": "direct",
+      "user": "Give an analogy for how a web search engine organizes pages."
+    },
+    {
+      "id": "v5-new-direct-14",
+      "route": "direct",
+      "user": "Turn these words into a sentence: umbrella, station, surprise."
+    },
+    {
+      "id": "v5-new-direct-15",
+      "route": "direct",
+      "user": "Write an example question about the weather; do not answer it."
+    },
+    {
+      "id": "v5-new-direct-16",
+      "route": "direct",
+      "user": "Summarize this sentence: All passengers waited inside because rain was falling."
+    },
+    {
+      "id": "v5-new-direct-17",
+      "route": "direct",
+      "user": "Explain the idea of negative numbers without solving a calculation."
+    },
+    {
+      "id": "v5-new-direct-18",
+      "route": "direct",
+      "user": "Draft a short apology for missing a meeting."
+    },
+    {
+      "id": "v5-new-direct-19",
+      "route": "direct",
+      "user": "Describe a fictional city with clocks on every building."
+    },
+    {
+      "id": "v5-new-direct-20",
+      "route": "direct",
+      "user": "Give me a study outline for learning fractions."
+    }
+  ]
+}

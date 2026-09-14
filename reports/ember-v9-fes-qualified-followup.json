@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-09-14T13:59:49.837880+00:00",
+  "scope": "text_helper_live_country_qualified_followup_not_checkpoint_confirmation",
+  "user": "We are phoning a client in Fes, Morocco; what time is it there currently?",
+  "output": {
+    "route": "get_time",
+    "margin": 0.0,
+    "routing_source": "validated_contact_v9",
+    "margin_kind": "not_applicable",
+    "routing_revision": "contact-routing-v9",
+    "parser_revision": "contact-parser-v9",
+    "status": "tool_error",
+    "call": {
+      "name": "get_time",
+      "arguments": {
+        "timezone": "Fes, Morocco"
+      }
+    },
+    "error_type": "ServiceError",
+    "service_calls": [
+      {
+        "name": "get_time",
+        "arguments": {
+          "timezone": "Fes, Morocco"
+        }
+      }
+    ],
+    "service_error": {
+      "code": "invalid_response",
+      "message": "The service returned incomplete or invalid data."
+    },
+    "message": "The service returned incomplete or invalid data."
+  },
+  "http": [
+    {
+      "service": "geocoding",
+      "url": "https://geocoding-api.open-meteo.com/v1/search?name=Fes%2C+Morocco&count=100&language=en&format=json",
+      "request_id": 1,
+      "attempt": 1,
+      "outcome": "success",
+      "phase": "complete",
+      "started_at": "2026-09-14T13:59:34.590949+00:00",
+      "http_status": 200,
+      "body_sha256": "2262a76ac8ee8a1a05b51dea6fe05ac8b1136b46a74c07ef09e4ab14b4813be1",
+      "elapsed_ms": 7931.51
+    },
+    {
+      "service": "clock",
+      "url": "https://timeapi.io/api/v1/time/current/zone?timezone=Africa%2FCasablanca",
+      "request_id": 2,
+      "attempt": 1,
+      "outcome": "success",
+      "phase": "complete",
+      "started_at": "2026-09-14T13:59:42.523706+00:00",
+      "http_status": 200,
+      "body_sha256": "7682febb6e28b59305196db87b5bba90c26d4a88493b472117efc7398bb71d71",
+      "elapsed_ms": 7313.82
+    }
+  ],
+  "original_unqualified_failure_preserved": true,
+  "production_ready": false
+}

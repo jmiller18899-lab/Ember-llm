@@ -1,0 +1,21 @@
+{
+  "routing": {
+    "path": "reports/ember-routing-v9-confirmation.json",
+    "sha256": "a19c1bbfd20e08731470676446c7fae4fe6f7c8162f7d751ee9553e5c8cd8de3",
+    "baseline_arm": "frozen_v8",
+    "candidate_arm": "contact_v9"
+  },
+  "live": {
+    "path": "reports/ember-live-services-v10-34856109144.json",
+    "sha256": "0df51897f45234a92a3f5f2593d7ac215647e697368a152659ea8311df592068",
+    "expected_checks": 52
+  },
+  "direct": {
+    "path": "reports/ember-direct-answer-canary.json",
+    "sha256": "ed1410714826253b9bcc8a1cb828442d206b4d4c2c9b905c157eaab77a02ed73"
+  },
+  "direct_grounded_v2": {
+    "path": "reports/ember-direct-grounded-v2-34857841073.json",
+    "sha256": "1f18d8cdc9b55a278490241afd6e1261898b4014171e417ed8098b5681be1c82"
+  }
+}

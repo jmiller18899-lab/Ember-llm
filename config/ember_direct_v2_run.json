@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "source_freeze_commit": "fff4a131be59e3fe03b2b4c4ed99fa9eec2293d9",
+  "training_steps": 240,
+  "compute": "CPU only",
+  "new_confirmation_requires_learning_gate": true,
+  "production_ready": false
+}

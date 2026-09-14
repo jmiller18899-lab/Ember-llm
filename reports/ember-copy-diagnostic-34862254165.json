@@ -1,0 +1,778 @@
+{
+  "baseline": {
+    "groups": {
+      "consumed_entities": {
+        "passed": 0,
+        "total": 8
+      },
+      "control": {
+        "passed": 0,
+        "total": 4
+      },
+      "novel_entities": {
+        "passed": 0,
+        "total": 8
+      },
+      "training_entities": {
+        "passed": 0,
+        "total": 8
+      },
+      "training_replay": {
+        "passed": 0,
+        "total": 4
+      }
+    },
+    "passed": 0,
+    "rows": [
+      {
+        "answer": "Nora",
+        "generated_tokens": 4,
+        "group": "training_entities",
+        "id": "training_entities-copy_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_name",
+        "text": "A Northern",
+        "user": "Repeat exactly: Nora"
+      },
+      {
+        "answer": "invoice",
+        "generated_tokens": 3,
+        "group": "training_entities",
+        "id": "training_entities-copy_subject",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_subject",
+        "text": "A_",
+        "user": "Repeat exactly: invoice"
+      },
+      {
+        "answer": "23",
+        "generated_tokens": 3,
+        "group": "training_entities",
+        "id": "training_entities-copy_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_number",
+        "text": "A_",
+        "user": "Repeat exactly: 23"
+      },
+      {
+        "answer": "Nora reviewed 23 invoice records.",
+        "generated_tokens": 18,
+        "group": "training_entities",
+        "id": "training_entities-copy_sentence",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_sentence",
+        "text": "A License is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Repeat exactly: Nora reviewed 23 invoice records."
+      },
+      {
+        "answer": "Nora",
+        "generated_tokens": 8,
+        "group": "training_entities",
+        "id": "training_entities-extract_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_name",
+        "text": "A Northernid Miami",
+        "user": "Return only the name from: Nora reviewed 23 invoice records."
+      },
+      {
+        "answer": "23",
+        "generated_tokens": 20,
+        "group": "training_entities",
+        "id": "training_entities-extract_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_number",
+        "text": "A Northern directories is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Return only the number from: Nora reviewed 23 invoice records."
+      },
+      {
+        "answer": "Thank you, Nora, for reviewing the invoice.",
+        "generated_tokens": 18,
+        "group": "training_entities",
+        "id": "training_entities-thanks",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "You're welcome! This is a helpful note to wish you a great day.",
+        "user": "Thank Nora for reviewing the invoice in one sentence."
+      },
+      {
+        "answer": "invoice does not open.",
+        "generated_tokens": 15,
+        "group": "training_entities",
+        "id": "training_entities-rewrite",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "A I the current working directory and it is the current working directory.",
+        "user": "Create a brief bug title: the invoice does not open."
+      },
+      {
+        "answer": "Nadia",
+        "generated_tokens": 9,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_name",
+        "text": "Aasia, and Gasia",
+        "user": "Repeat exactly: Nadia"
+      },
+      {
+        "answer": "reservation",
+        "generated_tokens": 21,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_subject",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_subject",
+        "text": "Areak, it is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Repeat exactly: reservation"
+      },
+      {
+        "answer": "137",
+        "generated_tokens": 6,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_number",
+        "text": "871/261",
+        "user": "Repeat exactly: 137"
+      },
+      {
+        "answer": "Nadia reviewed 137 reservation records.",
+        "generated_tokens": 27,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_sentence",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_sentence",
+        "text": "Aadadadly review review is aadgetic/adam3getget_query\\\": \\\"adminute",
+        "user": "Repeat exactly: Nadia reviewed 137 reservation records."
+      },
+      {
+        "answer": "Nadia",
+        "generated_tokens": 7,
+        "group": "consumed_entities",
+        "id": "consumed_entities-extract_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_name",
+        "text": "functionaloneoneone:",
+        "user": "Return only the name from: Nadia reviewed 137 reservation records."
+      },
+      {
+        "answer": "137",
+        "generated_tokens": 26,
+        "group": "consumed_entities",
+        "id": "consumed_entities-extract_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_number",
+        "text": "1. Prepare a controlled example and review an error logs.\n2. Record the result and verify the expected behavior.",
+        "user": "Return only the number from: Nadia reviewed 137 reservation records."
+      },
+      {
+        "answer": "Thank you, Nadia, for reviewing the reservation.",
+        "generated_tokens": 18,
+        "group": "consumed_entities",
+        "id": "consumed_entities-thanks",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "You're welcome! This is a helpful note to wish you a great day.",
+        "user": "Thank Nadia for reviewing the reservation in one sentence."
+      },
+      {
+        "answer": "reservation does not open.",
+        "generated_tokens": 19,
+        "group": "consumed_entities",
+        "id": "consumed_entities-rewrite",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "A checkpoint is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Create a brief bug title: the reservation does not open."
+      },
+      {
+        "answer": "Qevora",
+        "generated_tokens": 5,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_name",
+        "text": "Allbridge",
+        "user": "Repeat exactly: Qevora"
+      },
+      {
+        "answer": "ledgerpane",
+        "generated_tokens": 11,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_subject",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_subject",
+        "text": "AI apologize, but as an AI language model",
+        "user": "Repeat exactly: ledgerpane"
+      },
+      {
+        "answer": "5831",
+        "generated_tokens": 5,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_number",
+        "text": "876016",
+        "user": "Repeat exactly: 5831"
+      },
+      {
+        "answer": "Qevora reviewed 5831 ledgerpane records.",
+        "generated_tokens": 10,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_sentence",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_sentence",
+        "text": "I'llm sorry, but Ios",
+        "user": "Repeat exactly: Qevora reviewed 5831 ledgerpane records."
+      },
+      {
+        "answer": "Qevora",
+        "generated_tokens": 8,
+        "group": "novel_entities",
+        "id": "novel_entities-extract_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_name",
+        "text": "ATSkml 8752",
+        "user": "Return only the name from: Qevora reviewed 5831 ledgerpane records."
+      },
+      {
+        "answer": "5831",
+        "generated_tokens": 28,
+        "group": "novel_entities",
+        "id": "novel_entities-extract_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_number",
+        "text": "Figure 7johnBuilding confirms that verified information about recent WebAssembly announcements is available.",
+        "user": "Return only the number from: Qevora reviewed 5831 ledgerpane records."
+      },
+      {
+        "answer": "Thank you, Qevora, for reviewing the ledgerpane.",
+        "generated_tokens": 18,
+        "group": "novel_entities",
+        "id": "novel_entities-thanks",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "Hello, Morgan! This is a helpful note to wish you a great day.",
+        "user": "Thank Qevora for reviewing the ledgerpane in one sentence."
+      },
+      {
+        "answer": "ledgerpane does not open.",
+        "generated_tokens": 19,
+        "group": "novel_entities",
+        "id": "novel_entities-rewrite",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "A the result is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Create a brief bug title: the ledgerpane does not open."
+      },
+      {
+        "answer": "Thank you, Nora, for checking the invoice.",
+        "generated_tokens": 17,
+        "group": "training_replay",
+        "id": "training_replay-thanks",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "You are welcome! This is a helpful note to wish you a great day.",
+        "user": "Thank Nora for checking the invoice in one sentence."
+      },
+      {
+        "answer": "Invoice does not open.",
+        "generated_tokens": 15,
+        "group": "training_replay",
+        "id": "training_replay-rewrite",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "You are a great, it will be $1 each and the result is",
+        "user": "Write a short issue title: the invoice does not open."
+      },
+      {
+        "answer": "Nora reviewed 11 invoice records in 2 minutes.",
+        "generated_tokens": 13,
+        "group": "training_replay",
+        "id": "training_replay-facts",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "facts",
+        "text": "1. Prepare a controlled example and review a password reset.",
+        "user": "Summarize this fact without changing its details: Nora reviewed 11 invoice records in 2 minutes."
+      },
+      {
+        "answer": "success",
+        "generated_tokens": 11,
+        "group": "training_replay",
+        "id": "training_replay-label",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "label",
+        "text": "The definition of the newest stable Rust release is",
+        "user": "Label as success, warning, or error. Return only the label: The invoice update completed successfully."
+      },
+      {
+        "answer": "Hello!",
+        "generated_tokens": 4,
+        "group": "control",
+        "id": "control-greeting",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "greeting",
+        "text": "Ak,",
+        "user": "Reply with exactly: Hello!"
+      },
+      {
+        "answer": "success",
+        "generated_tokens": 3,
+        "group": "control",
+        "id": "control-success",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "success",
+        "text": "A_",
+        "user": "Classify as success, warning, or error: The update completed successfully."
+      },
+      {
+        "answer": "warning",
+        "generated_tokens": 18,
+        "group": "control",
+        "id": "control-warning",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "warning",
+        "text": "The definition is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Classify as success, warning, or error: The update is delayed but can continue."
+      },
+      {
+        "answer": "error",
+        "generated_tokens": 18,
+        "group": "control",
+        "id": "control-error",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "error",
+        "text": "The definition is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Classify as success, warning, or error: The update failed and cannot continue."
+      }
+    ],
+    "total": 32
+  },
+  "candidate": {
+    "groups": {
+      "consumed_entities": {
+        "passed": 0,
+        "total": 8
+      },
+      "control": {
+        "passed": 3,
+        "total": 4
+      },
+      "novel_entities": {
+        "passed": 0,
+        "total": 8
+      },
+      "training_entities": {
+        "passed": 2,
+        "total": 8
+      },
+      "training_replay": {
+        "passed": 4,
+        "total": 4
+      }
+    },
+    "passed": 9,
+    "rows": [
+      {
+        "answer": "Nora",
+        "generated_tokens": 16,
+        "group": "training_entities",
+        "id": "training_entities-copy_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_name",
+        "text": "Nora is a file used to make a system easier to operate reliably.",
+        "user": "Repeat exactly: Nora"
+      },
+      {
+        "answer": "invoice",
+        "generated_tokens": 12,
+        "group": "training_entities",
+        "id": "training_entities-copy_subject",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_subject",
+        "text": "Invoice is a password used to test an invoice.",
+        "user": "Repeat exactly: invoice"
+      },
+      {
+        "answer": "23",
+        "generated_tokens": 13,
+        "group": "training_entities",
+        "id": "training_entities-copy_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_number",
+        "text": "A unit test is a file used to test file test file.",
+        "user": "Repeat exactly: 23"
+      },
+      {
+        "answer": "Nora reviewed 23 invoice records.",
+        "generated_tokens": 11,
+        "group": "training_entities",
+        "id": "training_entities-copy_sentence",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_sentence",
+        "text": "Nora reviewed 23 invoice records in 2 minutes.",
+        "user": "Repeat exactly: Nora reviewed 23 invoice records."
+      },
+      {
+        "answer": "Nora",
+        "generated_tokens": 11,
+        "group": "training_entities",
+        "id": "training_entities-extract_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_name",
+        "text": "Nora reviewed 23 invoice records in Nora.",
+        "user": "Return only the name from: Nora reviewed 23 invoice records."
+      },
+      {
+        "answer": "23",
+        "generated_tokens": 11,
+        "group": "training_entities",
+        "id": "training_entities-extract_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_number",
+        "text": "Nora reviewed 23 invoice records in Nora.",
+        "user": "Return only the number from: Nora reviewed 23 invoice records."
+      },
+      {
+        "answer": "Thank you, Nora, for reviewing the invoice.",
+        "generated_tokens": 13,
+        "group": "training_entities",
+        "id": "training_entities-thanks",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "Thank you, Nora, for reviewing the invoice.",
+        "user": "Thank Nora for reviewing the invoice in one sentence."
+      },
+      {
+        "answer": "invoice does not open.",
+        "generated_tokens": 7,
+        "group": "training_entities",
+        "id": "training_entities-rewrite",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "Invoice does not open.",
+        "user": "Create a brief bug title: the invoice does not open."
+      },
+      {
+        "answer": "Nadia",
+        "generated_tokens": 14,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_name",
+        "text": "Noraia, Nora, Nora, and Nora.",
+        "user": "Repeat exactly: Nadia"
+      },
+      {
+        "answer": "reservation",
+        "generated_tokens": 7,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_subject",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_subject",
+        "text": "America, for information.",
+        "user": "Repeat exactly: reservation"
+      },
+      {
+        "answer": "137",
+        "generated_tokens": 5,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_number",
+        "text": "The link is missing.",
+        "user": "Repeat exactly: 137"
+      },
+      {
+        "answer": "Nadia reviewed 137 reservation records.",
+        "generated_tokens": 8,
+        "group": "consumed_entities",
+        "id": "consumed_entities-copy_sentence",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_sentence",
+        "text": "Noraia reviewed 43 minutes.",
+        "user": "Repeat exactly: Nadia reviewed 137 reservation records."
+      },
+      {
+        "answer": "Nadia",
+        "generated_tokens": 12,
+        "group": "consumed_entities",
+        "id": "consumed_entities-extract_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_name",
+        "text": "Noraia reviewed 43 report records in Nora.",
+        "user": "Return only the name from: Nadia reviewed 137 reservation records."
+      },
+      {
+        "answer": "137",
+        "generated_tokens": 13,
+        "group": "consumed_entities",
+        "id": "consumed_entities-extract_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_number",
+        "text": "Noraia reviewed 22 profile records in Nora records.",
+        "user": "Return only the number from: Nadia reviewed 137 reservation records."
+      },
+      {
+        "answer": "Thank you, Nadia, for reviewing the reservation.",
+        "generated_tokens": 13,
+        "group": "consumed_entities",
+        "id": "consumed_entities-thanks",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "Thank you, Nora, for reviewing the settings.",
+        "user": "Thank Nadia for reviewing the reservation in one sentence."
+      },
+      {
+        "answer": "reservation does not open.",
+        "generated_tokens": 7,
+        "group": "consumed_entities",
+        "id": "consumed_entities-rewrite",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "Invoice does not open.",
+        "user": "Create a brief bug title: the reservation does not open."
+      },
+      {
+        "answer": "Qevora",
+        "generated_tokens": 6,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_name",
+        "text": "Akwicus",
+        "user": "Repeat exactly: Qevora"
+      },
+      {
+        "answer": "ledgerpane",
+        "generated_tokens": 6,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_subject",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_subject",
+        "text": "The page loads slowly.",
+        "user": "Repeat exactly: ledgerpane"
+      },
+      {
+        "answer": "5831",
+        "generated_tokens": 5,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_number",
+        "text": "A_ is missing.",
+        "user": "Repeat exactly: 5831"
+      },
+      {
+        "answer": "Qevora reviewed 5831 ledgerpane records.",
+        "generated_tokens": 7,
+        "group": "novel_entities",
+        "id": "novel_entities-copy_sentence",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "copy_sentence",
+        "text": "Uma reviewed 43 minutes.",
+        "user": "Repeat exactly: Qevora reviewed 5831 ledgerpane records."
+      },
+      {
+        "answer": "Qevora",
+        "generated_tokens": 10,
+        "group": "novel_entities",
+        "id": "novel_entities-extract_name",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_name",
+        "text": "Uma bought a page and test an error.",
+        "user": "Return only the name from: Qevora reviewed 5831 ledgerpane records."
+      },
+      {
+        "answer": "5831",
+        "generated_tokens": 7,
+        "group": "novel_entities",
+        "id": "novel_entities-extract_number",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "extract_number",
+        "text": "Uma reviewed 43 minutes.",
+        "user": "Return only the number from: Qevora reviewed 5831 ledgerpane records."
+      },
+      {
+        "answer": "Thank you, Qevora, for reviewing the ledgerpane.",
+        "generated_tokens": 14,
+        "group": "novel_entities",
+        "id": "novel_entities-thanks",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "Thank you, Ctrl, for reviewing the report.",
+        "user": "Thank Qevora for reviewing the ledgerpane in one sentence."
+      },
+      {
+        "answer": "ledgerpane does not open.",
+        "generated_tokens": 7,
+        "group": "novel_entities",
+        "id": "novel_entities-rewrite",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "Archive does not open.",
+        "user": "Create a brief bug title: the ledgerpane does not open."
+      },
+      {
+        "answer": "Thank you, Nora, for checking the invoice.",
+        "generated_tokens": 12,
+        "group": "training_replay",
+        "id": "training_replay-thanks",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "thanks",
+        "text": "Thank you, Nora, for checking the invoice.",
+        "user": "Thank Nora for checking the invoice in one sentence."
+      },
+      {
+        "answer": "Invoice does not open.",
+        "generated_tokens": 7,
+        "group": "training_replay",
+        "id": "training_replay-rewrite",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "rewrite",
+        "text": "Invoice does not open.",
+        "user": "Write a short issue title: the invoice does not open."
+      },
+      {
+        "answer": "Nora reviewed 11 invoice records in 2 minutes.",
+        "generated_tokens": 11,
+        "group": "training_replay",
+        "id": "training_replay-facts",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "facts",
+        "text": "Nora reviewed 11 invoice records in 2 minutes.",
+        "user": "Summarize this fact without changing its details: Nora reviewed 11 invoice records in 2 minutes."
+      },
+      {
+        "answer": "success",
+        "generated_tokens": 1,
+        "group": "training_replay",
+        "id": "training_replay-label",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "label",
+        "text": "success",
+        "user": "Label as success, warning, or error. Return only the label: The invoice update completed successfully."
+      },
+      {
+        "answer": "Hello!",
+        "generated_tokens": 11,
+        "group": "control",
+        "id": "control-greeting",
+        "passed": false,
+        "stopped_at_eot": true,
+        "task": "greeting",
+        "text": "Thank you, Ev, for fixing the link.",
+        "user": "Reply with exactly: Hello!"
+      },
+      {
+        "answer": "success",
+        "generated_tokens": 1,
+        "group": "control",
+        "id": "control-success",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "success",
+        "text": "success",
+        "user": "Classify as success, warning, or error: The update completed successfully."
+      },
+      {
+        "answer": "warning",
+        "generated_tokens": 2,
+        "group": "control",
+        "id": "control-warning",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "warning",
+        "text": "warning",
+        "user": "Classify as success, warning, or error: The update is delayed but can continue."
+      },
+      {
+        "answer": "error",
+        "generated_tokens": 1,
+        "group": "control",
+        "id": "control-error",
+        "passed": true,
+        "stopped_at_eot": true,
+        "task": "error",
+        "text": "error",
+        "user": "Classify as success, warning, or error: The update failed and cannot continue."
+      }
+    ],
+    "total": 32
+  },
+  "created_at": "2026-09-14T15:29:12.006484+00:00",
+  "interpretation": "Exact normalized references; finite diagnostic probes. Seen entities do not imply seen task frames. No training or fresh confirmation.",
+  "model_sources": {
+    "full": {
+      "path": "checkpoints/ember-v053-step9-20260910T165742Z/best.pt",
+      "sha256": "700e4259b2e724c8fa384e23ba1a6e67636c4f110863e887499f06951622c9ad"
+    },
+    "int4": {
+      "path": "checkpoints/ember-v053-step9-20260910T165742Z/best.int4.pt",
+      "sha256": "d77c466fb8a9e602796aed3dffa4070b55cae8b492057b8f59a672ab6a1c1c78"
+    }
+  },
+  "production_ready": false,
+  "scope": "paired_copy_diagnosis_not_confirmation",
+  "selected_adapter_sha256": "3c6cdb0448773a032cadbf2bd5296c7f6e4358752b48a7219f77c5ecf05629d4",
+  "training_launched": false
+}

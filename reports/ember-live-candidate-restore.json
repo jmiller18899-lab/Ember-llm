@@ -1,0 +1,61 @@
+{
+  "archives": {
+    "base": {
+      "artifact_id": 10185934664,
+      "run_id": 34565654365
+    },
+    "v4": {
+      "artifact_id": 10297810403,
+      "run_id": 34691874565
+    },
+    "v5": {
+      "artifact_id": 10297993516,
+      "run_id": 34694061949
+    }
+  },
+  "created_at": "2026-09-12T13:17:34.900475+00:00",
+  "interpretation": "Original checksum-matching fitted bytes restored from retained Actions artifacts. Rebuilt helper bytes were not used for live measurement. Model weights and the freeze are unchanged.",
+  "rebuild_manifest_sha256": "8495e79d836a6d777d5ebf1c394572f3ad432908c9e8c869fed4f9d5a2013b7b",
+  "restored_heads": [
+    {
+      "archive": "base",
+      "archived_sha256": "437f202297f27367ef45b58e5617d0e338d2456cad47e2929b32441d52c570dd",
+      "file": "family.pt",
+      "rebuilt_sha256": "df526b65bba99361bd719237e2c1dc5f9f9247866d65c557ed36f0a3d3345e17"
+    },
+    {
+      "archive": "base",
+      "archived_sha256": "8639ff9db361255d4b3fbde87b5bea0c41ba6723ba3b7ae86fe1b5fbaf78fbc2",
+      "file": "router-full.pt",
+      "rebuilt_sha256": "25e2f3c85edf3a646c29c6ac21b500aff35d0814fa85daca46228febeaa7c096"
+    },
+    {
+      "archive": "base",
+      "archived_sha256": "cf2c2078ece971a2c3ecc144312b193e044aac0f96b8d7424eeb7d4485f075e1",
+      "file": "router-int4.pt",
+      "rebuilt_sha256": "b224f73742ead16e6acc46cc5c37edfa4e6b199b516cfc29c1ae5b717c7e5c20"
+    },
+    {
+      "archive": "v4",
+      "archived_sha256": "aaf6505ca71ee70b53052a897d338912ea4f09dc9842750f8ef25a0f18260255",
+      "file": "routing-v4-full.pt",
+      "rebuilt_sha256": "6c5f4b262fb989cd8edcdc65479a15836db91f6ecc163a9de0973d1afb390af6"
+    },
+    {
+      "archive": "v4",
+      "archived_sha256": "15b3e46296030631103a2d1dd453497cab84d67d412836f09124f42d28d121f9",
+      "file": "routing-v4-int4.pt",
+      "rebuilt_sha256": "d18615b3a35e2b410f2ebafb9b10e5916e0cf988c28321b914a82b8da5f4783b"
+    },
+    {
+      "archive": "v5",
+      "archived_sha256": "c9736c79f4c8234f1ef3fe0a1e9b002d44cdd3e554b3ccffa0b78cebc497f16a",
+      "file": "routing-v5.pt",
+      "rebuilt_sha256": "c560c6fca09362a8193744406c18164c2793a9160664707eefba9a9a3b19a45e"
+    }
+  ],
+  "restored_manifest_sha256": "df8a6bb074e157403f1c4142ce8c8eae4448ee72a94b7876d661ffc4364703b4",
+  "schema_version": 1,
+  "source_lock_sha256": "2a6bd995f55c5c1c34afb7477df5ab3d54826e5d7e8132105eb7519778413579",
+  "verified_files": 38
+}

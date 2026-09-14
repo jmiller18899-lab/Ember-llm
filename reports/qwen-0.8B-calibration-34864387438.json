@@ -1,0 +1,2344 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-14T15:47:13.954842+00:00",
+  "scope": "targeted_prompt_calibration_after_consumed_benchmark",
+  "suite": "benchmarks/qwen_candidates/calibration.json",
+  "model": "0.8B",
+  "provenance": {
+    "llama_cpp": {
+      "tag": "b10964",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10964/llama-b10964-bin-ubuntu-x64.tar.gz",
+      "sha256": "9abf88aea48a55d0f80edb1ee20220b186848cca0b4e919d71518cfd7ca67443"
+    },
+    "models": {
+      "0.8B": {
+        "repo": "unsloth/Qwen3.5-0.8B-GGUF",
+        "revision": "6ab461498e2023f6e3c1baea90a8f0fe38ab64d0",
+        "file": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "sha256": "bd258782e35f7f458f8aced1adc053e6e92e89bc735ba3be89d38a06121dc517",
+        "bytes": 532517120
+      },
+      "2B": {
+        "repo": "unsloth/Qwen3.5-2B-GGUF",
+        "revision": "f6d5376be1edb4d416d56da11e5397a961aca8ae",
+        "file": "Qwen3.5-2B-Q4_K_M.gguf",
+        "sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+        "bytes": 1280835840
+      }
+    }
+  },
+  "cases_sha256": "75e0f9a8b518459856e5843b6736caa856ea141bf21dd33fa2b44dd4868f1678",
+  "settings": {
+    "context": 2048,
+    "max_tokens": 96,
+    "temperature": 0,
+    "seed": 42,
+    "enable_thinking": false,
+    "threads": 2,
+    "memory_limit_bytes": 3221225472
+  },
+  "github_sha": "7a91e329f8ac0a1630e3f2cb6824cc63040ff436",
+  "training_launched": false,
+  "production_ready": false,
+  "memory_limit": "3221225472",
+  "swap_limit": "0",
+  "cpu_quota": "200000 100000",
+  "cpu_info": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 1\nmodel name\t: AMD EPYC 7763 64-Core Processor\nstepping\t: 1\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3228.159\ncache size\t: 512 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 0\ncpu cores\t: 2\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves user_shstk clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload umip vaes vpclmulqdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 4890.86\nTLB size\t: 2560 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:",
+  "command": [
+    "/model/runtime/llama-b10964/llama-server",
+    "-m",
+    "/model/model.gguf",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8099",
+    "--ctx-size",
+    "2048",
+    "--threads",
+    "2",
+    "--threads-batch",
+    "2",
+    "--parallel",
+    "1",
+    "--n-gpu-layers",
+    "0",
+    "--jinja"
+  ],
+  "rows": [
+    {
+      "id": "greeting-01",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Hello!",
+      "reference": "Hello!",
+      "text": "Hello!",
+      "elapsed_seconds": 1.3754407969999818,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Hello!"
+            }
+          }
+        ],
+        "created": 1789400838,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 3,
+          "prompt_tokens": 127,
+          "total_tokens": 130,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-TebncUZoFbYixRgOJd1nntXhuoYGgPf0",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 127,
+          "prompt_ms": 1311.068,
+          "prompt_per_token_ms": 10.323370078740158,
+          "prompt_per_second": 96.86759191742915,
+          "predicted_n": 3,
+          "predicted_ms": 60.347,
+          "predicted_per_token_ms": 30.1735,
+          "predicted_per_second": 33.1416640429516
+        }
+      },
+      "server_peak_rss_bytes": 933199872,
+      "passed": true
+    },
+    {
+      "id": "greeting-02",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Good morning, Maya.",
+      "reference": "Good morning, Maya.",
+      "text": "Good morning, Maya.",
+      "elapsed_seconds": 1.4792907540000044,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Good morning, Maya."
+            }
+          }
+        ],
+        "created": 1789400840,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 6,
+          "prompt_tokens": 130,
+          "total_tokens": 136,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-BALVY7s5fwPQ7DtjGYN4afBKlY2XRPcn",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 130,
+          "prompt_ms": 1342.328,
+          "prompt_per_token_ms": 10.3256,
+          "prompt_per_second": 96.84667234833812,
+          "predicted_n": 6,
+          "predicted_ms": 133.592,
+          "predicted_per_token_ms": 26.718400000000003,
+          "predicted_per_second": 37.42739086172824
+        }
+      },
+      "server_peak_rss_bytes": 933298176,
+      "passed": true
+    },
+    {
+      "id": "greeting-03",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Welcome back, Justin.",
+      "reference": "Welcome back, Justin.",
+      "text": "Welcome back, Justin.",
+      "elapsed_seconds": 1.4876518849999911,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Welcome back, Justin."
+            }
+          }
+        ],
+        "created": 1789400841,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 6,
+          "prompt_tokens": 130,
+          "total_tokens": 136,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-9NxoMDAEGSppSlGJpKElPJIalV6Q5l5w",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 130,
+          "prompt_ms": 1339.997,
+          "prompt_per_token_ms": 10.307669230769232,
+          "prompt_per_second": 97.01514257121471,
+          "predicted_n": 6,
+          "predicted_ms": 143.729,
+          "predicted_per_token_ms": 28.745800000000003,
+          "predicted_per_second": 34.78769072351439
+        }
+      },
+      "server_peak_rss_bytes": 933396480,
+      "passed": true
+    },
+    {
+      "id": "greeting-04",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Hi, Nora!",
+      "reference": "Hi, Nora!",
+      "text": "Hi, Nora!",
+      "elapsed_seconds": 1.4634887059999926,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Hi, Nora!"
+            }
+          }
+        ],
+        "created": 1789400843,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 129,
+          "total_tokens": 134,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-ELZW4V9FyUcsPOgBMSJfj0shFc0p3pW7",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 129,
+          "prompt_ms": 1336.261,
+          "prompt_per_token_ms": 10.358612403100775,
+          "prompt_per_second": 96.5380266280315,
+          "predicted_n": 5,
+          "predicted_ms": 123.238,
+          "predicted_per_token_ms": 30.8095,
+          "predicted_per_second": 32.4575212191045
+        }
+      },
+      "server_peak_rss_bytes": 933482496,
+      "passed": true
+    },
+    {
+      "id": "greeting-05",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Good evening.",
+      "reference": "Good evening.",
+      "text": "Good evening.",
+      "elapsed_seconds": 1.409102398999977,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Good evening."
+            }
+          }
+        ],
+        "created": 1789400844,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 4,
+          "prompt_tokens": 128,
+          "total_tokens": 132,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-kx5zgDaiQGR2jcdRdiN82syJgg28ncrk",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 128,
+          "prompt_ms": 1321.432,
+          "prompt_per_token_ms": 10.3236875,
+          "prompt_per_second": 96.86461354046216,
+          "predicted_n": 4,
+          "predicted_ms": 83.556,
+          "predicted_per_token_ms": 27.852,
+          "predicted_per_second": 35.904064340083295
+        }
+      },
+      "server_peak_rss_bytes": 933502976,
+      "passed": true
+    },
+    {
+      "id": "greeting-06",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Hello, Qevora.",
+      "reference": "Hello, Qevora.",
+      "text": "Hello, Qevora.",
+      "elapsed_seconds": 1.5067691380000099,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Hello, Qevora."
+            }
+          }
+        ],
+        "created": 1789400846,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 7,
+          "prompt_tokens": 131,
+          "total_tokens": 138,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-qk9MSgKEtFHOyWV0nrUCyldmBKuzekPa",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 131,
+          "prompt_ms": 1344.151,
+          "prompt_per_token_ms": 10.26069465648855,
+          "prompt_per_second": 97.45928842816022,
+          "predicted_n": 7,
+          "predicted_ms": 159.159,
+          "predicted_per_token_ms": 26.5265,
+          "predicted_per_second": 37.69815090569808
+        }
+      },
+      "server_peak_rss_bytes": 933519360,
+      "passed": true
+    },
+    {
+      "id": "greeting-07",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Welcome, team!",
+      "reference": "Welcome, team!",
+      "text": "Welcome, team!",
+      "elapsed_seconds": 1.4477928819999875,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Welcome, team!"
+            }
+          }
+        ],
+        "created": 1789400847,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 5,
+          "prompt_tokens": 129,
+          "total_tokens": 134,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-TT67ySQ7EFrN48pisPIfnT6C0G1VTCrx",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 129,
+          "prompt_ms": 1324.851,
+          "prompt_per_token_ms": 10.270162790697675,
+          "prompt_per_second": 97.36944003514357,
+          "predicted_n": 5,
+          "predicted_ms": 119.679,
+          "predicted_per_token_ms": 29.91975,
+          "predicted_per_second": 33.4227391605879
+        }
+      },
+      "server_peak_rss_bytes": 933531648,
+      "passed": true
+    },
+    {
+      "id": "greeting-08",
+      "family": "greeting",
+      "user": "Greet the user with exactly this text and nothing else: Good afternoon, Nadia.",
+      "reference": "Good afternoon, Nadia.",
+      "text": "Good afternoon, Nadia.",
+      "elapsed_seconds": 1.514656309000003,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Good afternoon, Nadia."
+            }
+          }
+        ],
+        "created": 1789400848,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 7,
+          "prompt_tokens": 131,
+          "total_tokens": 138,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-7mojHLHuQuiVSCcdOp5eFRoFqv031NFz",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 131,
+          "prompt_ms": 1346.258,
+          "prompt_per_token_ms": 10.276778625954199,
+          "prompt_per_second": 97.30675695149073,
+          "predicted_n": 7,
+          "predicted_ms": 165.07,
+          "predicted_per_token_ms": 27.511666666666667,
+          "predicted_per_second": 36.3482159084025
+        }
+      },
+      "server_peak_rss_bytes": 933543936,
+      "passed": true
+    },
+    {
+      "id": "copy-01",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Maya reviewed 17 records in 4 minutes.",
+      "reference": "Maya reviewed 17 records in 4 minutes.",
+      "text": "success",
+      "elapsed_seconds": 1.3762947270000154,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400850,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 131,
+          "total_tokens": 133,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-ZHfNqHazrVvffiuWJP1KeKbMKERKj0A8",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 131,
+          "prompt_ms": 1344.852,
+          "prompt_per_token_ms": 10.266045801526719,
+          "prompt_per_second": 97.40848807154987,
+          "predicted_n": 2,
+          "predicted_ms": 28.019,
+          "predicted_per_token_ms": 28.019,
+          "predicted_per_second": 35.69006745422749
+        }
+      },
+      "server_peak_rss_bytes": 933560320,
+      "passed": false
+    },
+    {
+      "id": "copy-02",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Nora reviewed 23 invoice records.",
+      "reference": "Nora reviewed 23 invoice records.",
+      "text": "nora reviewed 23 invoice records.",
+      "elapsed_seconds": 1.5645372959999975,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "nora reviewed 23 invoice records."
+            }
+          }
+        ],
+        "created": 1789400851,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 10,
+          "prompt_tokens": 128,
+          "total_tokens": 138,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-fLPdcUG0MDcmp00CaQ4aj2TsX3NB2u18",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 128,
+          "prompt_ms": 1314.806,
+          "prompt_per_token_ms": 10.271921875,
+          "prompt_per_second": 97.3527653509339,
+          "predicted_n": 10,
+          "predicted_ms": 246.403,
+          "predicted_per_token_ms": 27.37811111111111,
+          "predicted_per_second": 36.525529315795666
+        }
+      },
+      "server_peak_rss_bytes": 933560320,
+      "passed": true
+    },
+    {
+      "id": "copy-03",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Qevora reviewed 5831 ledgerpane records.",
+      "reference": "Qevora reviewed 5831 ledgerpane records.",
+      "text": "Qevora reviewed 5831 ledgerpane records.",
+      "elapsed_seconds": 1.732655674,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Qevora reviewed 5831 ledgerpane records."
+            }
+          }
+        ],
+        "created": 1789400853,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 14,
+          "prompt_tokens": 133,
+          "total_tokens": 147,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-eCdt82gb0tuhBCQusfEbpm6GcNNzMWvv",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 133,
+          "prompt_ms": 1361.218,
+          "prompt_per_token_ms": 10.23472180451128,
+          "prompt_per_second": 97.70661275416575,
+          "predicted_n": 14,
+          "predicted_ms": 368.255,
+          "predicted_per_token_ms": 28.32730769230769,
+          "predicted_per_second": 35.30162523251551
+        }
+      },
+      "server_peak_rss_bytes": 933568512,
+      "passed": true
+    },
+    {
+      "id": "copy-04",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: The balance is -12.50 USD.",
+      "reference": "The balance is -12.50 USD.",
+      "text": "error",
+      "elapsed_seconds": 1.3738017830000047,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400855,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 131,
+          "total_tokens": 133,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-EZu8SbAyqVTAWjCrQCZYTA847pBPg4Lr",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 131,
+          "prompt_ms": 1341.786,
+          "prompt_per_token_ms": 10.242641221374047,
+          "prompt_per_second": 97.63106784539413,
+          "predicted_n": 2,
+          "predicted_ms": 27.985,
+          "predicted_per_token_ms": 27.985,
+          "predicted_per_second": 35.733428622476325
+        }
+      },
+      "server_peak_rss_bytes": 933576704,
+      "passed": false
+    },
+    {
+      "id": "copy-05",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Reservation ID: AZ-0719.",
+      "reference": "Reservation ID: AZ-0719.",
+      "text": "Reservation ID: AZ-0719.",
+      "elapsed_seconds": 1.6110767570000064,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Reservation ID: AZ-0719."
+            }
+          }
+        ],
+        "created": 1789400856,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 11,
+          "prompt_tokens": 130,
+          "total_tokens": 141,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-IvPTGUrpRBxxJOLRoen8haIrS4l3UJY7",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 130,
+          "prompt_ms": 1329.212,
+          "prompt_per_token_ms": 10.224707692307692,
+          "prompt_per_second": 97.80230693072286,
+          "predicted_n": 11,
+          "predicted_ms": 278.651,
+          "predicted_per_token_ms": 27.8651,
+          "predicted_per_second": 35.887185045092245
+        }
+      },
+      "server_peak_rss_bytes": 933580800,
+      "passed": true
+    },
+    {
+      "id": "copy-06",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Do not delete the backup.",
+      "reference": "Do not delete the backup.",
+      "text": "error",
+      "elapsed_seconds": 1.3152293950000171,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400857,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 126,
+          "total_tokens": 128,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-BVThZPDDLrk7BXhee08mSTDZrF0HWZ1x",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 126,
+          "prompt_ms": 1283.581,
+          "prompt_per_token_ms": 10.187150793650792,
+          "prompt_per_second": 98.16287402197446,
+          "predicted_n": 2,
+          "predicted_ms": 28.384,
+          "predicted_per_token_ms": 28.384,
+          "predicted_per_second": 35.23111612175874
+        }
+      },
+      "server_peak_rss_bytes": 933584896,
+      "passed": false
+    },
+    {
+      "id": "copy-07",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: The meeting moved from 09:15 to 10:45.",
+      "reference": "The meeting moved from 09:15 to 10:45.",
+      "text": "error",
+      "elapsed_seconds": 1.4275668570000164,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400859,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 138,
+          "total_tokens": 140,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-5aVe2WNnY0RBc3wAnsiN0KjEFCpFlmQz",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 138,
+          "prompt_ms": 1396.728,
+          "prompt_per_token_ms": 10.121217391304349,
+          "prompt_per_second": 98.80234376342423,
+          "predicted_n": 2,
+          "predicted_ms": 27.688,
+          "predicted_per_token_ms": 27.688,
+          "predicted_per_second": 36.1167292689974
+        }
+      },
+      "server_peak_rss_bytes": 933588992,
+      "passed": false
+    },
+    {
+      "id": "copy-08",
+      "family": "copy",
+      "user": "Repeat exactly, without adding anything: Ivo checked 0 files; Leona checked 108.",
+      "reference": "Ivo checked 0 files; Leona checked 108.",
+      "text": "Ivo checked 0 files; Leona checked 108.",
+      "elapsed_seconds": 1.821337418000013,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Ivo checked 0 files; Leona checked 108."
+            }
+          }
+        ],
+        "created": 1789400861,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 16,
+          "prompt_tokens": 135,
+          "total_tokens": 151,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-xGjBsH0oOQPf0oa6nNYTlGbWC2f3JMZA",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1385.378,
+          "prompt_per_token_ms": 10.262059259259258,
+          "prompt_per_second": 97.4463287276108,
+          "predicted_n": 16,
+          "predicted_ms": 432.592,
+          "predicted_per_token_ms": 28.839466666666667,
+          "predicted_per_second": 34.674705033842514
+        }
+      },
+      "server_peak_rss_bytes": 933588992,
+      "passed": true
+    },
+    {
+      "id": "extraction-01",
+      "family": "extraction",
+      "user": "Return only the name: Maya reviewed 17 records.",
+      "reference": "Maya",
+      "text": "Maya",
+      "elapsed_seconds": 1.33363085900001,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Maya"
+            }
+          }
+        ],
+        "created": 1789400862,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 3,
+          "prompt_tokens": 125,
+          "total_tokens": 128,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-WOSoBPH81xsCDMASeRBncfRdRRrUjfvO",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 125,
+          "prompt_ms": 1272.438,
+          "prompt_per_token_ms": 10.179504000000001,
+          "prompt_per_second": 98.2366134931525,
+          "predicted_n": 3,
+          "predicted_ms": 56.323,
+          "predicted_per_token_ms": 28.1615,
+          "predicted_per_second": 35.509472151696464
+        }
+      },
+      "server_peak_rss_bytes": 933588992,
+      "passed": true
+    },
+    {
+      "id": "extraction-02",
+      "family": "extraction",
+      "user": "Return only the number of records: Maya reviewed 17 records in 4 minutes.",
+      "reference": "17",
+      "text": "17",
+      "elapsed_seconds": 1.3994472349999967,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "17"
+            }
+          }
+        ],
+        "created": 1789400863,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 3,
+          "prompt_tokens": 131,
+          "total_tokens": 134,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-J69fSF9kN55BHznNm9VsNJQTK39VW2ck",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 131,
+          "prompt_ms": 1338.558,
+          "prompt_per_token_ms": 10.218,
+          "prompt_per_second": 97.86651008025055,
+          "predicted_n": 3,
+          "predicted_ms": 56.899,
+          "predicted_per_token_ms": 28.4495,
+          "predicted_per_second": 35.1500026362502
+        }
+      },
+      "server_peak_rss_bytes": 933593088,
+      "passed": true
+    },
+    {
+      "id": "extraction-03",
+      "family": "extraction",
+      "user": "Return only the duration in minutes as a number: Maya reviewed 17 records in 4 minutes.",
+      "reference": "4",
+      "text": "4",
+      "elapsed_seconds": 1.4150616599999921,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "4"
+            }
+          }
+        ],
+        "created": 1789400865,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 134,
+          "total_tokens": 136,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-scEo0CuAmt0joiFwVVHn2ZcCOAbm2z2J",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 134,
+          "prompt_ms": 1383.316,
+          "prompt_per_token_ms": 10.323253731343284,
+          "prompt_per_second": 96.8686836557952,
+          "predicted_n": 2,
+          "predicted_ms": 27.844,
+          "predicted_per_token_ms": 27.844,
+          "predicted_per_second": 35.91438011779916
+        }
+      },
+      "server_peak_rss_bytes": 933593088,
+      "passed": true
+    },
+    {
+      "id": "extraction-04",
+      "family": "extraction",
+      "user": "Return only the ID: Reservation ID is AZ-0719.",
+      "reference": "AZ-0719",
+      "text": "reservation-id: AZ-0719",
+      "elapsed_seconds": 1.5598363789999894,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "reservation-id: AZ-0719"
+            }
+          }
+        ],
+        "created": 1789400866,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 10,
+          "prompt_tokens": 128,
+          "total_tokens": 138,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-KntH80Y1nXC0oCVIkV0BU5yHQJ1qMXKU",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 128,
+          "prompt_ms": 1307.619,
+          "prompt_per_token_ms": 10.2157734375,
+          "prompt_per_second": 97.88784041834816,
+          "predicted_n": 10,
+          "predicted_ms": 248.736,
+          "predicted_per_token_ms": 27.63733333333333,
+          "predicted_per_second": 36.18294094944037
+        }
+      },
+      "server_peak_rss_bytes": 933597184,
+      "passed": false
+    },
+    {
+      "id": "extraction-05",
+      "family": "extraction",
+      "user": "Return only the signed amount, with two decimal places: The balance is -12.50 USD.",
+      "reference": "-12.50",
+      "text": "-12.50",
+      "elapsed_seconds": 1.539358577999991,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "-12.50"
+            }
+          }
+        ],
+        "created": 1789400868,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 7,
+          "prompt_tokens": 135,
+          "total_tokens": 142,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-2mxaeDERzbOtOZ6UEhEcHUDc106w5oEH",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1380.174,
+          "prompt_per_token_ms": 10.223511111111112,
+          "prompt_per_second": 97.81375391798426,
+          "predicted_n": 7,
+          "predicted_ms": 155.22,
+          "predicted_per_token_ms": 25.87,
+          "predicted_per_second": 38.65481252415926
+        }
+      },
+      "server_peak_rss_bytes": 933597184,
+      "passed": true
+    },
+    {
+      "id": "extraction-06",
+      "family": "extraction",
+      "user": "Return only the record category, the word immediately before records: Qevora reviewed 5831 ledgerpane records.",
+      "reference": "ledgerpane",
+      "text": "Qevora",
+      "elapsed_seconds": 1.4830598129999828,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Qevora"
+            }
+          }
+        ],
+        "created": 1789400869,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 4,
+          "prompt_tokens": 138,
+          "total_tokens": 142,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-LRhMuFivthsWaziDDvPwd69LRrIabCPy",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 138,
+          "prompt_ms": 1397.173,
+          "prompt_per_token_ms": 10.124442028985507,
+          "prompt_per_second": 98.77087518868458,
+          "predicted_n": 4,
+          "predicted_ms": 82.625,
+          "predicted_per_token_ms": 27.541666666666668,
+          "predicted_per_second": 36.30862329803328
+        }
+      },
+      "server_peak_rss_bytes": 933601280,
+      "passed": false
+    },
+    {
+      "id": "extraction-07",
+      "family": "extraction",
+      "user": "Return only the new time: The meeting moved from 09:15 to 10:45.",
+      "reference": "10:45",
+      "text": "10:45",
+      "elapsed_seconds": 1.5466669449999983,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "10:45"
+            }
+          }
+        ],
+        "created": 1789400871,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 6,
+          "prompt_tokens": 137,
+          "total_tokens": 143,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-r6lpktGd9DBMWY4XkOTx4K3LhglFkSWi",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 137,
+          "prompt_ms": 1404.288,
+          "prompt_per_token_ms": 10.250277372262774,
+          "prompt_per_second": 97.55833561206818,
+          "predicted_n": 6,
+          "predicted_ms": 138.218,
+          "predicted_per_token_ms": 27.6436,
+          "predicted_per_second": 36.17473845664096
+        }
+      },
+      "server_peak_rss_bytes": 933601280,
+      "passed": true
+    },
+    {
+      "id": "extraction-08",
+      "family": "extraction",
+      "user": "Return only the name of the person who checked zero files: Ivo checked 0 files; Leona checked 108.",
+      "reference": "Ivo",
+      "text": "Ivo",
+      "elapsed_seconds": 1.5021176550000064,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Ivo"
+            }
+          }
+        ],
+        "created": 1789400872,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 3,
+          "prompt_tokens": 140,
+          "total_tokens": 143,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-vW6LPPNuLc0L7TVZVi26tnAMW5XSLJlP",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 140,
+          "prompt_ms": 1440.993,
+          "prompt_per_token_ms": 10.292807142857143,
+          "prompt_per_second": 97.15522559790367,
+          "predicted_n": 3,
+          "predicted_ms": 57.499,
+          "predicted_per_token_ms": 28.7495,
+          "predicted_per_second": 34.783213621106455
+        }
+      },
+      "server_peak_rss_bytes": 933609472,
+      "passed": true
+    },
+    {
+      "id": "writing-01",
+      "family": "writing",
+      "user": "Thank Maya for reviewing the calendar. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Maya, for reviewing the calendar.",
+      "text": "Thank you, Maya, for reviewing the calendar.",
+      "elapsed_seconds": 1.644852558999986,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Thank you, Maya, for reviewing the calendar."
+            }
+          }
+        ],
+        "created": 1789400874,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 11,
+          "prompt_tokens": 135,
+          "total_tokens": 146,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-ItMsj8GX9RSplpm87LZWahuMQpU3dbXj",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1378.083,
+          "prompt_per_token_ms": 10.208022222222223,
+          "prompt_per_second": 97.96216918719699,
+          "predicted_n": 11,
+          "predicted_ms": 262.874,
+          "predicted_per_token_ms": 26.2874,
+          "predicted_per_second": 38.04103867251991
+        }
+      },
+      "server_peak_rss_bytes": 933617664,
+      "passed": true
+    },
+    {
+      "id": "writing-02",
+      "family": "writing",
+      "user": "Thank Qevora for reviewing the ledgerpane. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Qevora, for reviewing the ledgerpane.",
+      "text": "Thank Qevora, for reviewing the ledgerpane.",
+      "elapsed_seconds": 1.6950047689999792,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Thank Qevora, for reviewing the ledgerpane."
+            }
+          }
+        ],
+        "created": 1789400876,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 12,
+          "prompt_tokens": 138,
+          "total_tokens": 150,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-aVCahPLg8UxEF6wil1Y7MA2vqHWthgG1",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 138,
+          "prompt_ms": 1400.451,
+          "prompt_per_token_ms": 10.148195652173913,
+          "prompt_per_second": 98.53968471585225,
+          "predicted_n": 12,
+          "predicted_ms": 290.331,
+          "predicted_per_token_ms": 26.393727272727276,
+          "predicted_per_second": 37.88779014297474
+        }
+      },
+      "server_peak_rss_bytes": 933625856,
+      "passed": false
+    },
+    {
+      "id": "writing-03",
+      "family": "writing",
+      "user": "Thank Nadia for reviewing the reservation. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Nadia, for reviewing the reservation.",
+      "text": "Thank you, Nadia, for reviewing the reservation.",
+      "elapsed_seconds": 1.7038274120000096,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Thank you, Nadia, for reviewing the reservation."
+            }
+          }
+        ],
+        "created": 1789400878,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 12,
+          "prompt_tokens": 136,
+          "total_tokens": 148,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-xw6YQfZdc5rOA76u0ILoNl3edLsWCmfG",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 136,
+          "prompt_ms": 1393.835,
+          "prompt_per_token_ms": 10.248786764705883,
+          "prompt_per_second": 97.57252472494952,
+          "predicted_n": 12,
+          "predicted_ms": 305.787,
+          "predicted_per_token_ms": 27.79881818181818,
+          "predicted_per_second": 35.972752275276584
+        }
+      },
+      "server_peak_rss_bytes": 933629952,
+      "passed": true
+    },
+    {
+      "id": "writing-04",
+      "family": "writing",
+      "user": "Thank Ivo for reviewing the thumbnail. Use exactly the form: Thank you, NAME, for reviewing the SUBJECT.",
+      "reference": "Thank you, Ivo, for reviewing the thumbnail.",
+      "text": "Thank you, Ivo, for reviewing the thumbnail.",
+      "elapsed_seconds": 1.728543927000004,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Thank you, Ivo, for reviewing the thumbnail."
+            }
+          }
+        ],
+        "created": 1789400879,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 12,
+          "prompt_tokens": 136,
+          "total_tokens": 148,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-BgPotXNd4o83AJUYNZpXfLsDmMdnJ7mI",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 136,
+          "prompt_ms": 1403.219,
+          "prompt_per_token_ms": 10.317786764705883,
+          "prompt_per_second": 96.92001034763639,
+          "predicted_n": 12,
+          "predicted_ms": 322.037,
+          "predicted_per_token_ms": 29.276090909090907,
+          "predicted_per_second": 34.157565745550976
+        }
+      },
+      "server_peak_rss_bytes": 933638144,
+      "passed": true
+    },
+    {
+      "id": "writing-05",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the reservation does not open.",
+      "reference": "Reservation does not open.",
+      "text": "error",
+      "elapsed_seconds": 1.4394596879999995,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400881,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 136,
+          "total_tokens": 138,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-NKBg7kWzJ2sp5mCz8JqwvSiLY7vpaRri",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 136,
+          "prompt_ms": 1405.12,
+          "prompt_per_token_ms": 10.331764705882351,
+          "prompt_per_second": 96.7888863584605,
+          "predicted_n": 2,
+          "predicted_ms": 30.324,
+          "predicted_per_token_ms": 30.324,
+          "predicted_per_second": 32.97717979158422
+        }
+      },
+      "server_peak_rss_bytes": 933642240,
+      "passed": false
+    },
+    {
+      "id": "writing-06",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the thumbnail loads slowly.",
+      "reference": "Thumbnail loads slowly.",
+      "text": "error",
+      "elapsed_seconds": 1.4211757169999828,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400882,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 135,
+          "total_tokens": 137,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-TDoD72xFp8NhoaT5KgEul7F29S3AMv3r",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1389.882,
+          "prompt_per_token_ms": 10.295422222222223,
+          "prompt_per_second": 97.13054777312031,
+          "predicted_n": 2,
+          "predicted_ms": 27.271,
+          "predicted_per_token_ms": 27.271,
+          "predicted_per_second": 36.668989035972274
+        }
+      },
+      "server_peak_rss_bytes": 933646336,
+      "passed": false
+    },
+    {
+      "id": "writing-07",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the ledgerpane does not open.",
+      "reference": "Ledgerpane does not open.",
+      "text": "error",
+      "elapsed_seconds": 1.4269071900000085,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400884,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 137,
+          "total_tokens": 139,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-QmMjwSpUTVgMccPpr6VHfCbFawr51lft",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 137,
+          "prompt_ms": 1393.855,
+          "prompt_per_token_ms": 10.174124087591242,
+          "prompt_per_second": 98.28855942691312,
+          "predicted_n": 2,
+          "predicted_ms": 29.117,
+          "predicted_per_token_ms": 29.117,
+          "predicted_per_second": 34.344197547824294
+        }
+      },
+      "server_peak_rss_bytes": 933650432,
+      "passed": false
+    },
+    {
+      "id": "writing-08",
+      "family": "writing",
+      "user": "Write a short bug title using only this fact, with no heading or quotation marks: the calendar loads slowly.",
+      "reference": "Calendar loads slowly.",
+      "text": "error",
+      "elapsed_seconds": 1.4249819019999848,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400885,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 135,
+          "total_tokens": 137,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-crOAnT7mpac0nvf94UL0EEfRM1bd4klh",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1391.496,
+          "prompt_per_token_ms": 10.307377777777779,
+          "prompt_per_second": 97.01788578623294,
+          "predicted_n": 2,
+          "predicted_ms": 29.376,
+          "predicted_per_token_ms": 29.376,
+          "predicted_per_second": 34.04139433551198
+        }
+      },
+      "server_peak_rss_bytes": 933654528,
+      "passed": false
+    },
+    {
+      "id": "classification-01",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The update completed successfully.",
+      "reference": "success",
+      "text": "success",
+      "elapsed_seconds": 1.412972386000007,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400886,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 134,
+          "total_tokens": 136,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-AYHLq9BdRKtIxpUIUL28L8OizWMIeeCw",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 134,
+          "prompt_ms": 1379.303,
+          "prompt_per_token_ms": 10.293305970149255,
+          "prompt_per_second": 97.15051732650475,
+          "predicted_n": 2,
+          "predicted_ms": 29.471,
+          "predicted_per_token_ms": 29.471,
+          "predicted_per_second": 33.93166163347019
+        }
+      },
+      "server_peak_rss_bytes": 933658624,
+      "passed": true
+    },
+    {
+      "id": "classification-02",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The update is delayed but can continue.",
+      "reference": "warning",
+      "text": "success",
+      "elapsed_seconds": 1.4303136780000045,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400888,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 137,
+          "total_tokens": 139,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-ttCjuH7XLO5Vp8fjP4HyxQbxqVUXTIfW",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 137,
+          "prompt_ms": 1397.775,
+          "prompt_per_token_ms": 10.202737226277373,
+          "prompt_per_second": 98.01291338019351,
+          "predicted_n": 2,
+          "predicted_ms": 28.266,
+          "predicted_per_token_ms": 28.266,
+          "predicted_per_second": 35.378192881907594
+        }
+      },
+      "server_peak_rss_bytes": 933658624,
+      "passed": false
+    },
+    {
+      "id": "classification-03",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: Deployment failed and cannot continue.",
+      "reference": "error",
+      "text": "error",
+      "elapsed_seconds": 1.4198237989999996,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400889,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 135,
+          "total_tokens": 137,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-UPF1825wy4kFBa9JVy3yqD8beZsVjpjS",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1384.198,
+          "prompt_per_token_ms": 10.253318518518519,
+          "prompt_per_second": 97.52939969570826,
+          "predicted_n": 2,
+          "predicted_ms": 31.285,
+          "predicted_per_token_ms": 31.285,
+          "predicted_per_second": 31.9642000958926
+        }
+      },
+      "server_peak_rss_bytes": 933662720,
+      "passed": true
+    },
+    {
+      "id": "classification-04",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: All records were saved successfully.",
+      "reference": "success",
+      "text": "success",
+      "elapsed_seconds": 1.4202808469999866,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400891,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 135,
+          "total_tokens": 137,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-yBJaWyNgAJ2xwqHnneiPJPSE2kPlErTm",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 135,
+          "prompt_ms": 1386.891,
+          "prompt_per_token_ms": 10.273266666666668,
+          "prompt_per_second": 97.34002167437815,
+          "predicted_n": 2,
+          "predicted_ms": 29.364,
+          "predicted_per_token_ms": 29.364,
+          "predicted_per_second": 34.05530581664623
+        }
+      },
+      "server_peak_rss_bytes": 933666816,
+      "passed": true
+    },
+    {
+      "id": "classification-05",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: Storage is almost full; saving still works.",
+      "reference": "warning",
+      "text": "success",
+      "elapsed_seconds": 1.4521356809999872,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400892,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 138,
+          "total_tokens": 140,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-yTNw1K2LVgPQMDtB4C4fiXU3EAtnFpWL",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 138,
+          "prompt_ms": 1415.003,
+          "prompt_per_token_ms": 10.253644927536232,
+          "prompt_per_second": 97.52629499725444,
+          "predicted_n": 2,
+          "predicted_ms": 33.084,
+          "predicted_per_token_ms": 33.084,
+          "predicted_per_second": 30.226091161890942
+        }
+      },
+      "server_peak_rss_bytes": 933666816,
+      "passed": false
+    },
+    {
+      "id": "classification-06",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The import stopped because the file is invalid.",
+      "reference": "error",
+      "text": "error",
+      "elapsed_seconds": 1.4406620070000145,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400894,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 138,
+          "total_tokens": 140,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-oxauOT3YzKI93iqeTu9bnlv91XV1C9tD",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 138,
+          "prompt_ms": 1407.416,
+          "prompt_per_token_ms": 10.198666666666666,
+          "prompt_per_second": 98.05203294548308,
+          "predicted_n": 2,
+          "predicted_ms": 29.175,
+          "predicted_per_token_ms": 29.175,
+          "predicted_per_second": 34.27592116538132
+        }
+      },
+      "server_peak_rss_bytes": 933666816,
+      "passed": true
+    },
+    {
+      "id": "classification-07",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: The backup completed with no errors.",
+      "reference": "success",
+      "text": "success",
+      "elapsed_seconds": 1.4314533369999936,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400895,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 136,
+          "total_tokens": 138,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-Mxb8fpN4hVyWvdmJbOpTymUgKAOXhsKF",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 136,
+          "prompt_ms": 1398.122,
+          "prompt_per_token_ms": 10.280308823529412,
+          "prompt_per_second": 97.27334238356882,
+          "predicted_n": 2,
+          "predicted_ms": 29.419,
+          "predicted_per_token_ms": 29.419,
+          "predicted_per_second": 33.99163805703797
+        }
+      },
+      "server_peak_rss_bytes": 933670912,
+      "passed": true
+    },
+    {
+      "id": "classification-08",
+      "family": "classification",
+      "user": "Classify as success, warning, or error. Reply with only the label: Connection lost; the request could not be completed.",
+      "reference": "error",
+      "text": "error",
+      "elapsed_seconds": 1.448939518000003,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "error"
+            }
+          }
+        ],
+        "created": 1789400896,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 139,
+          "total_tokens": 141,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-Ndu8cFpHOjV44PEwv8T0FEowJns3o56w",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 139,
+          "prompt_ms": 1416.523,
+          "prompt_per_token_ms": 10.190812949640287,
+          "prompt_per_second": 98.12759835173873,
+          "predicted_n": 2,
+          "predicted_ms": 28.17,
+          "predicted_per_token_ms": 28.17,
+          "predicted_per_second": 35.49875754348598
+        }
+      },
+      "server_peak_rss_bytes": 933675008,
+      "passed": true
+    },
+    {
+      "id": "open_review-01",
+      "family": "open_review",
+      "user": "hello ember",
+      "reference": null,
+      "text": "success",
+      "elapsed_seconds": 1.2207922869999948,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400898,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 115,
+          "total_tokens": 117,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-qIemIcFGetVdi4qUkx12QnBsSXPgyqNb",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 115,
+          "prompt_ms": 1186.784,
+          "prompt_per_token_ms": 10.319860869565218,
+          "prompt_per_second": 96.90053118343354,
+          "predicted_n": 2,
+          "predicted_ms": 30.068,
+          "predicted_per_token_ms": 30.068,
+          "predicted_per_second": 33.25794864972728
+        }
+      },
+      "server_peak_rss_bytes": 933675008,
+      "passed": null
+    },
+    {
+      "id": "open_review-02",
+      "family": "open_review",
+      "user": "Good morning!",
+      "reference": null,
+      "text": "success",
+      "elapsed_seconds": 1.2269143909999798,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400899,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 116,
+          "total_tokens": 118,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-q3q1GVgrB2O2qoWi4UYlMc36TZAGZjb4",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 116,
+          "prompt_ms": 1195.348,
+          "prompt_per_token_ms": 10.304724137931034,
+          "prompt_per_second": 97.04286952418877,
+          "predicted_n": 2,
+          "predicted_ms": 27.457,
+          "predicted_per_token_ms": 27.457,
+          "predicted_per_second": 36.420584914593725
+        }
+      },
+      "server_peak_rss_bytes": 933679104,
+      "passed": null
+    },
+    {
+      "id": "open_review-03",
+      "family": "open_review",
+      "user": "Thank Maya for reviewing the calendar.",
+      "reference": null,
+      "text": "success",
+      "elapsed_seconds": 1.278690920999992,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "success"
+            }
+          }
+        ],
+        "created": 1789400900,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 120,
+          "total_tokens": 122,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-RFOu4hYWZlzbn6TYCYHSb6iH9vWLzqIu",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 120,
+          "prompt_ms": 1245.897,
+          "prompt_per_token_ms": 10.382475,
+          "prompt_per_second": 96.31614812460421,
+          "predicted_n": 2,
+          "predicted_ms": 28.818,
+          "predicted_per_token_ms": 28.818,
+          "predicted_per_second": 34.70053438822958
+        }
+      },
+      "server_peak_rss_bytes": 933679104,
+      "passed": null
+    },
+    {
+      "id": "open_review-04",
+      "family": "open_review",
+      "user": "Write a friendly one-sentence welcome for Justin.",
+      "reference": null,
+      "text": "Welcome to the team, Justin!",
+      "elapsed_seconds": 1.4593353130000253,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Welcome to the team, Justin!"
+            }
+          }
+        ],
+        "created": 1789400902,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 8,
+          "prompt_tokens": 123,
+          "total_tokens": 131,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-nozX3aOsHtDhYWjwX5BOoa6xWtU7Xt7H",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 123,
+          "prompt_ms": 1257.309,
+          "prompt_per_token_ms": 10.222024390243902,
+          "prompt_per_second": 97.8279802339759,
+          "predicted_n": 8,
+          "predicted_ms": 198.821,
+          "predicted_per_token_ms": 28.403,
+          "predicted_per_second": 35.207548498398054
+        }
+      },
+      "server_peak_rss_bytes": 933683200,
+      "passed": null
+    },
+    {
+      "id": "open_review-05",
+      "family": "open_review",
+      "user": "Explain what a backup is in one sentence.",
+      "reference": null,
+      "text": "A backup is a copy of a file or database created to protect against data loss or corruption.",
+      "elapsed_seconds": 1.8202507980000178,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "A backup is a copy of a file or database created to protect against data loss or corruption."
+            }
+          }
+        ],
+        "created": 1789400903,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 20,
+          "prompt_tokens": 123,
+          "total_tokens": 143,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-0SGFVoUj2dhgxA8Ix3SPzkI52uQv7SHW",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 123,
+          "prompt_ms": 1259.581,
+          "prompt_per_token_ms": 10.240495934959348,
+          "prompt_per_second": 97.65152062471569,
+          "predicted_n": 20,
+          "predicted_ms": 556.255,
+          "predicted_per_token_ms": 29.27657894736842,
+          "predicted_per_second": 34.15699634160592
+        }
+      },
+      "server_peak_rss_bytes": 933683200,
+      "passed": null
+    },
+    {
+      "id": "open_review-06",
+      "family": "open_review",
+      "user": "Rewrite clearly: the reservation page is slow to load.",
+      "reference": null,
+      "text": "warning",
+      "elapsed_seconds": 1.3110515079999914,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "warning"
+            }
+          }
+        ],
+        "created": 1789400905,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 125,
+          "total_tokens": 127,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-oA5ikzjplley2Mj2xCMnYwOgm6LIAI9s",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 125,
+          "prompt_ms": 1275.142,
+          "prompt_per_token_ms": 10.201136,
+          "prompt_per_second": 98.02829802484743,
+          "predicted_n": 2,
+          "predicted_ms": 30.831,
+          "predicted_per_token_ms": 30.831,
+          "predicted_per_second": 32.43488696441893
+        }
+      },
+      "server_peak_rss_bytes": 933687296,
+      "passed": null
+    },
+    {
+      "id": "open_review-07",
+      "family": "open_review",
+      "user": "Summarize without adding facts: Nadia checked 137 records. Five were incomplete.",
+      "reference": null,
+      "text": "warning",
+      "elapsed_seconds": 1.401844264000033,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "warning"
+            }
+          }
+        ],
+        "created": 1789400906,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 133,
+          "total_tokens": 135,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-K514we4gpIULdy7xHkex1MOYY2E6rsRg",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 133,
+          "prompt_ms": 1369.467,
+          "prompt_per_token_ms": 10.296744360902256,
+          "prompt_per_second": 97.11807586455167,
+          "predicted_n": 2,
+          "predicted_ms": 29.139,
+          "predicted_per_token_ms": 29.139,
+          "predicted_per_second": 34.31826761385086
+        }
+      },
+      "server_peak_rss_bytes": 933687296,
+      "passed": null
+    },
+    {
+      "id": "open_review-08",
+      "family": "open_review",
+      "user": "I gave you no name. Please say hello without inventing one.",
+      "reference": null,
+      "text": "Hello",
+      "elapsed_seconds": 1.327663662999953,
+      "raw": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "Hello"
+            }
+          }
+        ],
+        "created": 1789400907,
+        "model": "/model/model.gguf",
+        "system_fingerprint": "b10964-b29c606e2",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 2,
+          "prompt_tokens": 127,
+          "total_tokens": 129,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-etk15dlZxySML0vbytPXD0rxC1veyqZ7",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 127,
+          "prompt_ms": 1297.012,
+          "prompt_per_token_ms": 10.212692913385826,
+          "prompt_per_second": 97.9173669942915,
+          "predicted_n": 2,
+          "predicted_ms": 27.382,
+          "predicted_per_token_ms": 27.382,
+          "predicted_per_second": 36.52034183039953
+        }
+      },
+      "server_peak_rss_bytes": 933695488,
+      "passed": null
+    }
+  ],
+  "manual_review_required": true,
+  "load_seconds": 2.023733563999997,
+  "warmup": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Ready."
+        }
+      }
+    ],
+    "created": 1789400837,
+    "model": "/model/model.gguf",
+    "system_fingerprint": "b10964-b29c606e2",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 3,
+      "prompt_tokens": 119,
+      "total_tokens": 122,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-nQ5Z47ePwq4zMEq2xBfPtwX43nQ4bQAq",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 119,
+      "prompt_ms": 1251.998,
+      "prompt_per_token_ms": 10.520991596638655,
+      "prompt_per_second": 95.04807515666958,
+      "predicted_n": 3,
+      "predicted_ms": 53.238,
+      "predicted_per_token_ms": 26.619,
+      "predicted_per_second": 37.56715128291822
+    }
+  },
+  "server_peak_rss_bytes": 933695488,
+  "memory_peak_bytes": "410869760",
+  "groups": {
+    "greeting": {
+      "passed": 8,
+      "total": 8
+    },
+    "copy": {
+      "passed": 4,
+      "total": 8
+    },
+    "extraction": {
+      "passed": 6,
+      "total": 8
+    },
+    "writing": {
+      "passed": 3,
+      "total": 8
+    },
+    "classification": {
+      "passed": 6,
+      "total": 8
+    }
+  },
+  "automated_gate_passed": false,
+  "median_response_seconds": 1.440060847500007,
+  "median_decode_tokens_per_second": 35.266370677137125,
+  "status": "completed",
+  "total_seconds": 74.08086478999999
+}

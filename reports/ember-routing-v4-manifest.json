@@ -1,0 +1,289 @@
+{
+  "argument_parser_revision": "argument-parser-v3",
+  "base_manifest_sha256": "91f15a989d969054716f32639618836296e2532cf98534d8dce3c5a617fe9e83",
+  "base_model_trained": false,
+  "binary_cv": {
+    "full": {
+      "records": [
+        {
+          "accuracy": 0.9921875,
+          "correct": 254,
+          "ridge": 0.01,
+          "total": 256
+        },
+        {
+          "accuracy": 0.9921875,
+          "correct": 254,
+          "ridge": 0.1,
+          "total": 256
+        },
+        {
+          "accuracy": 0.9921875,
+          "correct": 254,
+          "ridge": 1.0,
+          "total": 256
+        },
+        {
+          "accuracy": 0.98828125,
+          "correct": 253,
+          "ridge": 10.0,
+          "total": 256
+        },
+        {
+          "accuracy": 0.99609375,
+          "correct": 255,
+          "ridge": 100.0,
+          "total": 256
+        }
+      ],
+      "selected": {
+        "accuracy": 0.99609375,
+        "correct": 255,
+        "ridge": 100.0,
+        "total": 256
+      }
+    },
+    "int4": {
+      "records": [
+        {
+          "accuracy": 0.98046875,
+          "correct": 251,
+          "ridge": 0.01,
+          "total": 256
+        },
+        {
+          "accuracy": 0.98046875,
+          "correct": 251,
+          "ridge": 0.1,
+          "total": 256
+        },
+        {
+          "accuracy": 0.98046875,
+          "correct": 251,
+          "ridge": 1.0,
+          "total": 256
+        },
+        {
+          "accuracy": 0.98828125,
+          "correct": 253,
+          "ridge": 10.0,
+          "total": 256
+        },
+        {
+          "accuracy": 0.99609375,
+          "correct": 255,
+          "ridge": 100.0,
+          "total": 256
+        }
+      ],
+      "selected": {
+        "accuracy": 0.99609375,
+        "correct": 255,
+        "ridge": 100.0,
+        "total": 256
+      }
+    }
+  },
+  "build_commit": "70904a87bbef0cc520205208c82f98cdb8549156",
+  "created_at": "2026-09-12T11:47:00.972061+00:00",
+  "dependencies": {
+    "numpy": "2.2.6",
+    "sentencepiece": "0.2.0",
+    "torch": "2.6.0+cpu"
+  },
+  "family_cv": {
+    "accuracy": 1.0,
+    "correct": 256,
+    "folds": [
+      {
+        "correct": 64,
+        "fold": 0,
+        "total": 64,
+        "vocab": 1697
+      },
+      {
+        "correct": 64,
+        "fold": 1,
+        "total": 64,
+        "vocab": 1632
+      },
+      {
+        "correct": 64,
+        "fold": 2,
+        "total": 64,
+        "vocab": 1606
+      },
+      {
+        "correct": 64,
+        "fold": 3,
+        "total": 64,
+        "vocab": 1635
+      }
+    ],
+    "mode": "hybrid",
+    "ridge": 0.01,
+    "total": 256
+  },
+  "files": {
+    "ember/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ember/src/checkpoint.py": "fe9422b88a760f26c43fd8a6c65d9775757085d637ebbcdcea1c47053540e308",
+    "ember/src/corpus.py": "62e565f83670749585ea6115b6d7fc633b3957cbec0ae090e182dd912c3608ce",
+    "ember/src/data.py": "49917d6bfdb5f40d302d4c57759f405b2b8a59e9428238161753b6d36212d3e0",
+    "ember/src/estimate.py": "cb90c67c9eb250733af3ca0b5ee58aea0b3f0cd1d290e9c2b68886e897ed9cdb",
+    "ember/src/generate.py": "53358d09f20c060d2392e4fddbd6bb5ca9a06dc7ca4a3b0c64be3efd2eae9293",
+    "ember/src/generate_int4.py": "5d5ebdc5779e6bf8858119c66dc63f130a0a148c44de93e22d8ed448ef7e9062",
+    "ember/src/model.py": "0b90cf678e2890c6d820f3501b72ff2857bce25f89f9574e88387c3b615fd244",
+    "ember/src/quantize_int4.py": "dcd9647d73c9b59a1c718d235761e63d39cad21cf0f613d9b95558b6f9b2711c",
+    "ember/src/tokenizer.py": "b980461bdc0dcd45f04e15331cba16d0f5f46b4a1e7a57af712f1c02a5ba64b0",
+    "ember/src/train.py": "36b187f73ca4577d1061315ebb8504a7643e63816c1aebc5640d9819ee03016f",
+    "family.pt": "437f202297f27367ef45b58e5617d0e338d2456cad47e2929b32441d52c570dd",
+    "model-full.pt": "ff6625711b779ad505161e16ca0ffe7916cf28e00b7cfd4486bf77cbddeacf5a",
+    "model-int4.pt": "41a133869a21c1351b4c524cff893bb9acc84efc87df5f753ba452555e6bd290",
+    "router-full.pt": "8639ff9db361255d4b3fbde87b5bea0c41ba6723ba3b7ae86fe1b5fbaf78fbc2",
+    "router-int4.pt": "cf2c2078ece971a2c3ecc144312b193e044aac0f96b8d7424eeb7d4485f075e1",
+    "routing-development-report.json": "cc3f375f8220edf346d7b4c0617ae29441800b65c014e1c835d53b90436714d7",
+    "routing-development.json": "54bd7ac0f44cb82ad69f8572444b1bde7390ef8d01d0f0899838cb92d0ec389c",
+    "routing-v4-full.pt": "aaf6505ca71ee70b53052a897d338912ea4f09dc9842750f8ef25a0f18260255",
+    "routing-v4-int4.pt": "15b3e46296030631103a2d1dd453497cab84d67d412836f09124f42d28d121f9",
+    "tool_assistant/__init__.py": "303db78a3193b610554ac5fbceecb0be55961657ac7d5698ca58ec27ce59e0f7",
+    "tool_assistant/__main__.py": "4741bc1d1f77c1c56972b2ec0ad03e5e21d183ae5d9918820ce846ee9d3d6857",
+    "tool_assistant/binary.py": "dfb2b9f5cd04342fe0927ddfd5e0888308c2045e6c54469a55d428acd78b8c92",
+    "tool_assistant/family.py": "c5b62605c9962413d47a5d0e42b604002cbd6d9fcd3f8a7a611383b7d9f200ee",
+    "tool_assistant/resolver.py": "def46c0da544960c741c477e8c414c68f8c4410cde524e0ded2d78b0021ad449",
+    "tool_assistant/resolver_v3.py": "73d72e676ed350517bba384b1c2dad3021a308faec1cf5c6ccc0b94a94046aba",
+    "tool_assistant/routing_data_v4.py": "e2e5f16ac513830d0c18d66bcf5b54d50ab56d02abded073b20f88c121485db1",
+    "tool_assistant/routing_v4.py": "84cea72cda8fdc8fff917fcf805295fd2ae9c513ed6dd08ae6f310ca99016610",
+    "tool_assistant/runtime.py": "64086046cbbf26487aee67197a03ba6380a495263db128cc399ee3db45f49090",
+    "tool_assistant/runtime_v3.py": "4daa850642178fb6845595831ea6b74833ac10bf1f8cf8acf15dd7a6fe290281",
+    "tool_assistant/runtime_v4.py": "18e6b69527e922f541774631eda74a9c0ec3b5efb3dedc1aa7434d2c96c7d2a7"
+  },
+  "int4_execution": "INT4 checkpoint dequantized to float32 on CPU; not a packed INT4 kernel",
+  "model_repo": "Jmiller18899/ember-v0.0.53-t4",
+  "model_revision": "107139538465650c51d8e83ec6489c44e09ae7e3",
+  "model_sources": {
+    "full": {
+      "path": "checkpoints/ember-v053-step9-20260910T165742Z/best.pt",
+      "sha256": "700e4259b2e724c8fa384e23ba1a6e67636c4f110863e887499f06951622c9ad"
+    },
+    "int4": {
+      "path": "checkpoints/ember-v053-step9-20260910T165742Z/best.int4.pt",
+      "sha256": "d77c466fb8a9e602796aed3dffa4070b55cae8b492057b8f59a672ab6a1c1c78"
+    }
+  },
+  "package_sha256": "27e8f7c80317652a22b3d58a0bd474724491a685dfe9e20c0b997b7c5907a289",
+  "production_ready": false,
+  "resolver_source_commit": "10683d1f62fb9c2eff04f9f522c4f8ffb3907414",
+  "router_source_commit": "13bcf0eb645c5b1f1fd5423982f6b89ab8c923f2",
+  "routing_development_sha256": "54bd7ac0f44cb82ad69f8572444b1bde7390ef8d01d0f0899838cb92d0ec389c",
+  "routing_revision": "routing-head-v4",
+  "routing_selection": {
+    "full": {
+      "correct": 287,
+      "embedding_weight": 1.0,
+      "folds": [
+        {
+          "correct": 68,
+          "fold": 0,
+          "groups": [
+            "frame-00",
+            "frame-04",
+            "frame-08",
+            "frame-12"
+          ],
+          "total": 80
+        },
+        {
+          "correct": 72,
+          "fold": 1,
+          "groups": [
+            "frame-01",
+            "frame-05",
+            "frame-09",
+            "frame-13"
+          ],
+          "total": 80
+        },
+        {
+          "correct": 72,
+          "fold": 2,
+          "groups": [
+            "frame-02",
+            "frame-06",
+            "frame-10",
+            "frame-14"
+          ],
+          "total": 80
+        },
+        {
+          "correct": 75,
+          "fold": 3,
+          "groups": [
+            "frame-03",
+            "frame-07",
+            "frame-11",
+            "frame-15"
+          ],
+          "total": 80
+        }
+      ],
+      "ridge": 1.0,
+      "total": 320
+    },
+    "int4": {
+      "correct": 284,
+      "embedding_weight": 0.0,
+      "folds": [
+        {
+          "correct": 68,
+          "fold": 0,
+          "groups": [
+            "frame-00",
+            "frame-04",
+            "frame-08",
+            "frame-12"
+          ],
+          "total": 80
+        },
+        {
+          "correct": 72,
+          "fold": 1,
+          "groups": [
+            "frame-01",
+            "frame-05",
+            "frame-09",
+            "frame-13"
+          ],
+          "total": 80
+        },
+        {
+          "correct": 68,
+          "fold": 2,
+          "groups": [
+            "frame-02",
+            "frame-06",
+            "frame-10",
+            "frame-14"
+          ],
+          "total": 80
+        },
+        {
+          "correct": 76,
+          "fold": 3,
+          "groups": [
+            "frame-03",
+            "frame-07",
+            "frame-11",
+            "frame-15"
+          ],
+          "total": 80
+        }
+      ],
+      "ridge": 0.01,
+      "total": 320
+    }
+  },
+  "runtime_system": "You are Ember. You may answer normally or use one of these tools: weather, calculator, web_search, get_time. Use a tool only when live weather, arithmetic, current web information, or current local time is actually needed. Otherwise answer directly. Tool calls use JSON arguments.",
+  "schema_version": 1,
+  "status": "UNTESTED_ROUTING_CANDIDATE",
+  "training_sha256": "96c8d3e3b37b5f8930b3be14dc3faef612e3c3a1bbd68b2f5b696af0078d34da"
+}
