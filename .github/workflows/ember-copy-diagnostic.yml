@@ -1,0 +1,36 @@
+name: Ember paired copy diagnostic
+on:
+  push:
+    branches: [codex/ember-routing-v4]
+    paths: [.github/workflows/ember-copy-diagnostic.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v5
+        with:
+          artifact-ids: '10352838270'
+          run-id: '34857841073'
+          github-token: ${{ github.token }}
+          path: experiment
+      - run: |
+          pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+          pip install huggingface-hub==1.31.0 sentencepiece==0.2.0 numpy==2.2.6
+      - name: Restore unchanged base
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m tool_assistant.build --out diagnostic-base
+      - name: Compare base and experimental adapter without training
+        run: python -m direct_answers.copy_diagnostic --bundle diagnostic-base --artifact experiment --output copy-diagnostic.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ember-copy-diagnostic-${{ github.run_id }}
+          path: copy-diagnostic.json
