@@ -133,7 +133,7 @@ def main():
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"])
     config = SFTConfig(output_dir=str(out), max_steps=2 if args.preflight else 120,
         per_device_train_batch_size=1, gradient_accumulation_steps=1 if args.preflight else 8,
-        per_device_eval_batch_size=1, learning_rate=2e-5, warmup_ratio=0.05,
+        per_device_eval_batch_size=1, learning_rate=2e-5, warmup_steps=0 if args.preflight else 6,
         bf16=not args.preflight, fp16=False, gradient_checkpointing=not args.preflight,
         gradient_checkpointing_kwargs={"use_reentrant":False}, max_length=256,
         dataset_kwargs={"skip_prepare_dataset":True}, packing=False,
