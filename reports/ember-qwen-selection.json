@@ -1,0 +1,342 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "original-0.8B": {
+      "path": "reports/qwen-0.8B-34863846441.json",
+      "sha256": "911a584e9a6d49dcb2ed21c26ae336c0dab4d231f2881589a2ee9489938fdb37"
+    },
+    "original-2B": {
+      "path": "reports/qwen-2B-34863846441.json",
+      "sha256": "4c4d32b14326a5cc20d763c86dd959db45a9135024d847636c672822ce776621"
+    },
+    "calibration-0.8B": {
+      "path": "reports/qwen-0.8B-calibration-34864387438.json",
+      "sha256": "c0e1280deaa40381b55215e2d4cd990f729bc669c1ec216950c8f855c947d790"
+    },
+    "calibration-2B": {
+      "path": "reports/qwen-2B-calibration-34864387438.json",
+      "sha256": "f9c44883863af52fcc755576cd665e79366017fac1e78d53309b3bdbd0dedb7e"
+    }
+  },
+  "results": {
+    "original-0.8B": {
+      "passed": 30,
+      "total": 40,
+      "groups": {
+        "greeting": {
+          "passed": 8,
+          "total": 8
+        },
+        "copy": {
+          "passed": 8,
+          "total": 8
+        },
+        "extraction": {
+          "passed": 6,
+          "total": 8
+        },
+        "writing": {
+          "passed": 2,
+          "total": 8
+        },
+        "classification": {
+          "passed": 6,
+          "total": 8
+        }
+      },
+      "gate_passed": false,
+      "median_response_seconds": 0.9329540419999915,
+      "server_peak_rss_bytes": 1812660224,
+      "cgroup_peak_bytes": 1290756096,
+      "median_decode_tokens_per_second": 24.917193496332708
+    },
+    "original-2B": {
+      "passed": 37,
+      "total": 40,
+      "groups": {
+        "greeting": {
+          "passed": 8,
+          "total": 8
+        },
+        "copy": {
+          "passed": 8,
+          "total": 8
+        },
+        "extraction": {
+          "passed": 7,
+          "total": 8
+        },
+        "writing": {
+          "passed": 8,
+          "total": 8
+        },
+        "classification": {
+          "passed": 6,
+          "total": 8
+        }
+      },
+      "gate_passed": false,
+      "median_response_seconds": 1.6892481489999938,
+      "server_peak_rss_bytes": 2888593408,
+      "cgroup_peak_bytes": 1620783104,
+      "median_decode_tokens_per_second": 17.617176154378228
+    },
+    "calibration-0.8B": {
+      "passed": 27,
+      "total": 40,
+      "groups": {
+        "greeting": {
+          "passed": 8,
+          "total": 8
+        },
+        "copy": {
+          "passed": 4,
+          "total": 8
+        },
+        "extraction": {
+          "passed": 6,
+          "total": 8
+        },
+        "writing": {
+          "passed": 3,
+          "total": 8
+        },
+        "classification": {
+          "passed": 6,
+          "total": 8
+        }
+      },
+      "gate_passed": false,
+      "median_response_seconds": 1.440060847500007,
+      "server_peak_rss_bytes": 933695488,
+      "cgroup_peak_bytes": 410869760,
+      "median_decode_tokens_per_second": 35.266370677137125
+    },
+    "calibration-2B": {
+      "passed": 36,
+      "total": 40,
+      "groups": {
+        "greeting": {
+          "passed": 8,
+          "total": 8
+        },
+        "copy": {
+          "passed": 5,
+          "total": 8
+        },
+        "extraction": {
+          "passed": 8,
+          "total": 8
+        },
+        "writing": {
+          "passed": 7,
+          "total": 8
+        },
+        "classification": {
+          "passed": 8,
+          "total": 8
+        }
+      },
+      "gate_passed": false,
+      "median_response_seconds": 2.303091758000008,
+      "server_peak_rss_bytes": 2023706624,
+      "cgroup_peak_bytes": 754139136,
+      "median_decode_tokens_per_second": 23.64261858330939
+    }
+  },
+  "manual_review": {
+    "original-0.8B": {
+      "passed": 6,
+      "total": 8,
+      "rows": [
+        {
+          "id": "open_review-01",
+          "passed": true,
+          "reason": "Appropriate greeting."
+        },
+        {
+          "id": "open_review-02",
+          "passed": true,
+          "reason": "Appropriate greeting."
+        },
+        {
+          "id": "open_review-03",
+          "passed": false,
+          "reason": "Refuses the drafting request and invents calendar capabilities."
+        },
+        {
+          "id": "open_review-04",
+          "passed": true,
+          "reason": "Appropriate creative welcome."
+        },
+        {
+          "id": "open_review-05",
+          "passed": true,
+          "reason": "Accurate concise definition."
+        },
+        {
+          "id": "open_review-06",
+          "passed": false,
+          "reason": "Adds unsupported significant severity."
+        },
+        {
+          "id": "open_review-07",
+          "passed": true,
+          "reason": "Preserves name and both counts."
+        },
+        {
+          "id": "open_review-08",
+          "passed": true,
+          "reason": "No invented name."
+        }
+      ]
+    },
+    "original-2B": {
+      "passed": 7,
+      "total": 8,
+      "rows": [
+        {
+          "id": "open_review-01",
+          "passed": true,
+          "reason": "Appropriate greeting."
+        },
+        {
+          "id": "open_review-02",
+          "passed": true,
+          "reason": "Appropriate greeting."
+        },
+        {
+          "id": "open_review-03",
+          "passed": false,
+          "reason": "Answers as recipient rather than thanking Maya."
+        },
+        {
+          "id": "open_review-04",
+          "passed": true,
+          "reason": "Appropriate creative welcome."
+        },
+        {
+          "id": "open_review-05",
+          "passed": true,
+          "reason": "Accurate concise definition."
+        },
+        {
+          "id": "open_review-06",
+          "passed": true,
+          "reason": "Preserves issue and subject."
+        },
+        {
+          "id": "open_review-07",
+          "passed": true,
+          "reason": "Preserves name and both counts."
+        },
+        {
+          "id": "open_review-08",
+          "passed": true,
+          "reason": "No invented name."
+        }
+      ]
+    },
+    "calibration-0.8B": {
+      "passed": 3,
+      "total": 8,
+      "rows": [
+        {
+          "id": "open_review-01",
+          "passed": false,
+          "reason": "Classifies a greeting."
+        },
+        {
+          "id": "open_review-02",
+          "passed": false,
+          "reason": "Classifies a greeting."
+        },
+        {
+          "id": "open_review-03",
+          "passed": false,
+          "reason": "Classifies instead of drafting."
+        },
+        {
+          "id": "open_review-04",
+          "passed": true,
+          "reason": "Appropriate creative welcome."
+        },
+        {
+          "id": "open_review-05",
+          "passed": true,
+          "reason": "Accurate concise definition."
+        },
+        {
+          "id": "open_review-06",
+          "passed": false,
+          "reason": "Returns label instead of rewrite."
+        },
+        {
+          "id": "open_review-07",
+          "passed": false,
+          "reason": "Returns label instead of summary."
+        },
+        {
+          "id": "open_review-08",
+          "passed": true,
+          "reason": "No invented name."
+        }
+      ]
+    },
+    "calibration-2B": {
+      "passed": 6,
+      "total": 8,
+      "rows": [
+        {
+          "id": "open_review-01",
+          "passed": true,
+          "reason": "Appropriate greeting."
+        },
+        {
+          "id": "open_review-02",
+          "passed": true,
+          "reason": "Appropriate greeting."
+        },
+        {
+          "id": "open_review-03",
+          "passed": false,
+          "reason": "Omits named recipient and review subject."
+        },
+        {
+          "id": "open_review-04",
+          "passed": true,
+          "reason": "Appropriate creative welcome."
+        },
+        {
+          "id": "open_review-05",
+          "passed": true,
+          "reason": "Accurate concise definition."
+        },
+        {
+          "id": "open_review-06",
+          "passed": true,
+          "reason": "Preserves issue and subject."
+        },
+        {
+          "id": "open_review-07",
+          "passed": false,
+          "reason": "Drops Nadia from the supplied facts."
+        },
+        {
+          "id": "open_review-08",
+          "passed": true,
+          "reason": "No invented name."
+        }
+      ]
+    }
+  },
+  "manual_review_scope": "Assistant review of eight open responses per arm; finite and not blind. Strict factual fidelity for summaries; creative wording allowed for welcome requests.",
+  "preferred_development_candidate": "2B",
+  "preferred_prompt": "original",
+  "qualified_model": null,
+  "production_ready": false,
+  "training_launched": false,
+  "prompt_calibration_accepted": false,
+  "known_benchmark_issue": "Original extraction-06 uses ambiguous subject wording. Preserve frozen score; do not treat its expected answer as unambiguous. Calibration clarifies it.",
+  "interpretation": "2B is the stronger development starting point, not a fully qualified replacement. Reject global prompt calibration due copying regressions. Timing is a GitHub runner measurement, not DigitalOcean; small templates and quantized weights only."
+}
