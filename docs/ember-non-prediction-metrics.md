@@ -1,15 +1,16 @@
 # Ember non-prediction metrics
 
-The tool helper is improving on paired requests. The generated-answer model has
+The v9 tool helper passes its latest paired fixture confirmation. The live
+service gate remains failed for unqualified Fes. The generated-answer model has
 not met its learning gate. Prediction benchmarks do not replace either measure.
 
 | Metric | Latest archived evidence | Meaning |
 | --- | --- | --- |
-| Combined route, arguments, fixture dispatch | v7 82/100 → v8 98/100, same requests | 16 repaired, zero measured regressions; strict 100/100 gate fails |
-| Correct tool route | 99/100 | One remaining weather/time routing failure |
-| Exact tool arguments | 78/80 | Two contact-location failures remain |
+| Combined route, arguments, fixture dispatch | v8 80/100 → v9 100/100, same requests | 20 repaired, zero measured regressions; strict fixture gate passes |
+| Correct tool route | 100/100 | Correct route on the latest finite confirmation |
+| Exact tool arguments | 80/80 | Both contact forms repaired in fixture evaluation |
 | Parser with supplied routes | 60/60 | Parser regression coverage; routing not assessed |
-| Live services and guards, September 12 | 46/46 final, 44/46 first attempt | Two recovered timeouts; current availability not retested |
+| Live services and guards, September 14 | 48/50 final, 46/50 first attempt | Two recovered timeouts; unqualified Fes requests require country clarification |
 | Generated-answer task checks, September 11 | 0/24 → 2/24 | Learning gate fails; lexical checks overstate content quality |
 | Answer development loss | 6.1853 → 3.6641 | Better loss alone does not demonstrate useful answers |
 | Protected routing parameters during answer trial | Hashes and sampled features unchanged | Measured isolation preserved |
@@ -41,15 +42,16 @@ aggregates, changed paired requests, or a stale scorecard fail this check.
 When new evaluations finish, retain old reports, deliberately update
 `config/ember_metrics_sources.json` to the new compatible reports and SHA-256
 values, then regenerate with `--output reports/ember-non-prediction-scorecard.json`.
-The adapter currently names v7/v8 comparison fields explicitly; update it and its
+The adapter currently names comparison arms from the source registry; update its
 tests for later report schemas. This is an explicit evidence registry, not an
 automatic search for the latest file. It does not launch scheduled training or
 live calls. All work remains on the experimental tool branch, separate from main.
 
 ## Next success gates
 
-1. Repair the two contact-location cases in a new frozen candidate; preserve old
-   measurements and evaluate genuinely new requests afterward.
+1. Preserve the v9 routing PASS and the live-service FAIL separately. Resolve
+   country clarification for unqualified Fes and the separately observed clock
+   DST-label mismatch before claiming end-to-end success.
 2. Improve name, subject, fact, and requested-action preservation in generated
    answers. Inspect raw outputs; the existing lexical pass can invent a recipient.
    Require the existing learning gate before using the untouched confirmation.

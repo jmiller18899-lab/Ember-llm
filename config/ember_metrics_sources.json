@@ -1,11 +1,13 @@
 {
   "routing": {
-    "path": "reports/ember-routing-v8-confirmation.json",
-    "sha256": "8851601d89f18ddcfdd1afa37083c21f7bbff27295707f2b97cf8eefca0e5970"
+    "path": "reports/ember-routing-v9-confirmation.json",
+    "sha256": "a19c1bbfd20e08731470676446c7fae4fe6f7c8162f7d751ee9553e5c8cd8de3",
+    "baseline_arm": "frozen_v8",
+    "candidate_arm": "contact_v9"
   },
   "live": {
-    "path": "reports/ember-live-services-v8-34704176690.json",
-    "sha256": "1c89c6339b0d14d3e585ebf477f3458b709af4ab9609a01286857b4efb08ac93"
+    "path": "reports/ember-live-services-v9-34851973951.json",
+    "sha256": "d3b95232711e61696971642b51f1921f15a9ebe622e366e7bb8571c0d645188d"
   },
   "direct": {
     "path": "reports/ember-direct-answer-canary.json",

@@ -49,7 +49,8 @@ def build(root=ROOT):
     comparisons = {}
     for precision in ('full', 'int4'):
         pair = route['results'][precision]
-        baseline, candidate = pair['frozen_v7'], pair['definition_v8']
+        baseline = pair[registry['routing'].get('baseline_arm', 'frozen_v7')]
+        candidate = pair[registry['routing'].get('candidate_arm', 'definition_v8')]
         before, after = routing(baseline), routing(candidate)
         old = {r['id']: r for r in baseline['cases']}
         new = {r['id']: r for r in candidate['cases']}
@@ -106,7 +107,7 @@ def build(root=ROOT):
         'production_ready': False,
         'unmeasured': ['current live uptime', 'broad generated-answer quality',
                        'native INT4 inference speed', 'production latency and cost'],
-        'next_actions': ['Repair remaining contact-location failures in a new frozen candidate.',
+        'next_actions': ['Review the latest failed confirmation cases before the next frozen candidate.',
                          'Improve grounded direct-answer content before consuming fresh confirmation.',
                          'Run a new live smoke before release; archived PASS is not current health.'],
         'interpretation': 'Helper progress is separate from LLM learning. Different request suites are not a trend. CI success verifies evidence consistency, not assistant readiness.',

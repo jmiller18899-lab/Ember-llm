@@ -33,22 +33,22 @@ def mutate(root, key, change, rehash=True):
 def test_archived_scores_keep_failed_gates_and_unmeasured_health():
     score = build()
     assert score == json.loads((ROOT / 'reports/ember-non-prediction-scorecard.json').read_text())
-    assert score['paired_routing']['full']['repaired'] == 16
+    assert score['paired_routing']['full']['repaired'] == 20
     assert score['paired_routing']['full']['regressed'] == 0
-    assert not score['routing_confirmation_passed']
+    assert score['routing_confirmation_passed']
     assert not score['direct_answers']['learning_gate_passed']
     assert not score['production_ready']
     assert score['live_service_smoke']['current_availability'] == 'not_retested'
 
 
 @pytest.mark.parametrize('key,change,match', [
-    ('routing', lambda d: d['results']['full']['definition_v8'].__setitem__('combined_correct', 100), 'aggregate'),
-    ('routing', lambda d: d.__setitem__('strict_pass', True), 'gate'),
-    ('routing', lambda d: d['results']['full']['frozen_v7']['cases'][0].__setitem__('user', 'different cohort'), 'Changed request'),
-    ('routing', lambda d: d['results']['full']['definition_v8']['cases'].append(d['results']['full']['definition_v8']['cases'][0]), 'Duplicate'),
+    ('routing', lambda d: d['results']['full']['contact_v9'].__setitem__('combined_correct', 99), 'aggregate'),
+    ('routing', lambda d: d.__setitem__('strict_pass', False), 'gate'),
+    ('routing', lambda d: d['results']['full']['frozen_v8']['cases'][0].__setitem__('user', 'different cohort'), 'Changed request'),
+    ('routing', lambda d: d['results']['full']['contact_v9']['cases'].append(d['results']['full']['contact_v9']['cases'][0]), 'Duplicate'),
     ('direct', lambda d: d.__setitem__('development_progress_gate', True), 'gate'),
     ('direct', lambda d: d.__setitem__('frozen_parameter_sha256_after', 'changed'), 'Protected'),
-    ('live', lambda d: d['first_attempt_counts'].__setitem__('PASS', 46), 'aggregate'),
+    ('live', lambda d: d['first_attempt_counts'].__setitem__('PASS', 50), 'aggregate'),
 ])
 def test_reject_misleading_evidence_even_after_registry_update(evidence, key, change, match):
     mutate(evidence, key, change)
