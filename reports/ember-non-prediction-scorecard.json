@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "scope": "archived_non_prediction_evidence_recount",
+  "sources": {
+    "routing": {
+      "path": "reports/ember-routing-v8-confirmation.json",
+      "sha256": "8851601d89f18ddcfdd1afa37083c21f7bbff27295707f2b97cf8eefca0e5970",
+      "measured_at": "2026-09-12T16:08:14.152744+00:00"
+    },
+    "live": {
+      "path": "reports/ember-live-services-v8-34704176690.json",
+      "sha256": "1c89c6339b0d14d3e585ebf477f3458b709af4ab9609a01286857b4efb08ac93",
+      "measured_at": "2026-09-12T16:09:00.942730+00:00"
+    },
+    "direct": {
+      "path": "reports/ember-direct-answer-canary.json",
+      "sha256": "ed1410714826253b9bcc8a1cb828442d206b4d4c2c9b905c157eaab77a02ed73",
+      "measured_at": "2026-09-11T05:27:02.943524+00:00"
+    }
+  },
+  "paired_routing": {
+    "full": {
+      "baseline": {
+        "combined_correct": 82,
+        "combined_total": 100,
+        "routing_correct": 83,
+        "routing_total": 100,
+        "exact_arguments_correct": 78,
+        "arguments_total": 80,
+        "failures": [
+          "v8-new-weather-06",
+          "v8-new-get_time-09",
+          "v8-new-direct-01",
+          "v8-new-direct-02",
+          "v8-new-direct-03",
+          "v8-new-direct-04",
+          "v8-new-direct-05",
+          "v8-new-direct-06",
+          "v8-new-direct-07",
+          "v8-new-direct-08",
+          "v8-new-direct-10",
+          "v8-new-direct-11",
+          "v8-new-direct-12",
+          "v8-new-direct-13",
+          "v8-new-direct-14",
+          "v8-new-direct-15",
+          "v8-new-direct-16",
+          "v8-new-direct-20"
+        ]
+      },
+      "candidate": {
+        "combined_correct": 98,
+        "combined_total": 100,
+        "routing_correct": 99,
+        "routing_total": 100,
+        "exact_arguments_correct": 78,
+        "arguments_total": 80,
+        "failures": [
+          "v8-new-weather-06",
+          "v8-new-get_time-09"
+        ]
+      },
+      "repaired": 16,
+      "regressed": 0
+    },
+    "int4": {
+      "baseline": {
+        "combined_correct": 82,
+        "combined_total": 100,
+        "routing_correct": 83,
+        "routing_total": 100,
+        "exact_arguments_correct": 78,
+        "arguments_total": 80,
+        "failures": [
+          "v8-new-weather-06",
+          "v8-new-get_time-09",
+          "v8-new-direct-01",
+          "v8-new-direct-02",
+          "v8-new-direct-03",
+          "v8-new-direct-04",
+          "v8-new-direct-05",
+          "v8-new-direct-06",
+          "v8-new-direct-07",
+          "v8-new-direct-08",
+          "v8-new-direct-10",
+          "v8-new-direct-11",
+          "v8-new-direct-12",
+          "v8-new-direct-13",
+          "v8-new-direct-14",
+          "v8-new-direct-15",
+          "v8-new-direct-16",
+          "v8-new-direct-20"
+        ]
+      },
+      "candidate": {
+        "combined_correct": 98,
+        "combined_total": 100,
+        "routing_correct": 99,
+        "routing_total": 100,
+        "exact_arguments_correct": 78,
+        "arguments_total": 80,
+        "failures": [
+          "v8-new-weather-06",
+          "v8-new-get_time-09"
+        ]
+      },
+      "repaired": 16,
+      "regressed": 0
+    }
+  },
+  "parser_supplied_routes": {
+    "passed": 60,
+    "total": 60
+  },
+  "live_service_smoke": {
+    "final": {
+      "BLOCKED": 0,
+      "FAIL": 0,
+      "PASS": 46
+    },
+    "first_attempt": {
+      "BLOCKED": 0,
+      "FAIL": 2,
+      "PASS": 44
+    },
+    "current_availability": "not_retested"
+  },
+  "direct_answers": {
+    "baseline_quality": {
+      "passed": 0,
+      "legacy_passed": 0,
+      "total": 24
+    },
+    "candidate_quality": {
+      "passed": 2,
+      "legacy_passed": 1,
+      "total": 24
+    },
+    "development_loss_before": 6.185259018501226,
+    "development_loss_after": 3.6641258914975356,
+    "learning_gate_passed": false,
+    "fresh_confirmation_consumed": false,
+    "protected_routing_parameters_unchanged": true,
+    "limitation": "Lexical passes can contain invented entities; not broad answer quality."
+  },
+  "routing_confirmation_passed": false,
+  "production_ready": false,
+  "unmeasured": [
+    "current live uptime",
+    "broad generated-answer quality",
+    "native INT4 inference speed",
+    "production latency and cost"
+  ],
+  "next_actions": [
+    "Repair remaining contact-location failures in a new frozen candidate.",
+    "Improve grounded direct-answer content before consuming fresh confirmation.",
+    "Run a new live smoke before release; archived PASS is not current health."
+  ],
+  "interpretation": "Helper progress is separate from LLM learning. Different request suites are not a trend. CI success verifies evidence consistency, not assistant readiness."
+}

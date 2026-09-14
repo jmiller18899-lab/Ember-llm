@@ -1,0 +1,14 @@
+{
+  "routing": {
+    "path": "reports/ember-routing-v8-confirmation.json",
+    "sha256": "8851601d89f18ddcfdd1afa37083c21f7bbff27295707f2b97cf8eefca0e5970"
+  },
+  "live": {
+    "path": "reports/ember-live-services-v8-34704176690.json",
+    "sha256": "1c89c6339b0d14d3e585ebf477f3458b709af4ab9609a01286857b4efb08ac93"
+  },
+  "direct": {
+    "path": "reports/ember-direct-answer-canary.json",
+    "sha256": "ed1410714826253b9bcc8a1cb828442d206b4d4c2c9b905c157eaab77a02ed73"
+  }
+}
