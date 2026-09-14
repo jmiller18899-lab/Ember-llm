@@ -19,6 +19,11 @@
       "path": "reports/ember-direct-answer-canary.json",
       "sha256": "ed1410714826253b9bcc8a1cb828442d206b4d4c2c9b905c157eaab77a02ed73",
       "measured_at": "2026-09-11T05:27:02.943524+00:00"
+    },
+    "direct_grounded_v2": {
+      "path": "reports/ember-direct-grounded-v2-34857841073.json",
+      "sha256": "1f18d8cdc9b55a278490241afd6e1261898b4014171e417ed8098b5681be1c82",
+      "measured_at": "2026-09-14T14:49:35.366984+00:00"
     }
   },
   "paired_routing": {
@@ -152,6 +157,146 @@
     "limitation": "Lexical passes can contain invented entities; not broad answer quality."
   },
   "routing_confirmation_passed": true,
+  "direct_grounded_v2": {
+    "baseline_quality": {
+      "passed": 0,
+      "legacy_passed": 0,
+      "total": 48,
+      "by_family": {
+        "facts": {
+          "passed": 0,
+          "total": 12
+        },
+        "label": {
+          "passed": 0,
+          "total": 12
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 12
+        },
+        "thanks": {
+          "passed": 0,
+          "total": 12
+        }
+      }
+    },
+    "candidate_quality": {
+      "passed": 12,
+      "legacy_passed": 1,
+      "total": 48,
+      "by_family": {
+        "facts": {
+          "passed": 0,
+          "total": 12
+        },
+        "label": {
+          "passed": 12,
+          "total": 12
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 12
+        },
+        "thanks": {
+          "passed": 0,
+          "total": 12
+        }
+      }
+    },
+    "historical_baseline_quality": {
+      "passed": 0,
+      "legacy_passed": 0,
+      "total": 24,
+      "by_family": {
+        "classify": {
+          "passed": 0,
+          "total": 4
+        },
+        "explain": {
+          "passed": 0,
+          "total": 4
+        },
+        "plan_compare": {
+          "passed": 0,
+          "total": 4
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 4
+        },
+        "summarize": {
+          "passed": 0,
+          "total": 4
+        },
+        "writing": {
+          "passed": 0,
+          "total": 4
+        }
+      }
+    },
+    "historical_candidate_quality": {
+      "passed": 4,
+      "legacy_passed": 3,
+      "total": 24,
+      "by_family": {
+        "classify": {
+          "passed": 2,
+          "total": 4
+        },
+        "explain": {
+          "passed": 0,
+          "total": 4
+        },
+        "plan_compare": {
+          "passed": 0,
+          "total": 4
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 4
+        },
+        "summarize": {
+          "passed": 0,
+          "total": 4
+        },
+        "writing": {
+          "passed": 2,
+          "total": 4
+        }
+      }
+    },
+    "confirmation": {
+      "passed": 6,
+      "legacy_passed": 0,
+      "total": 24,
+      "by_family": {
+        "facts": {
+          "passed": 0,
+          "total": 6
+        },
+        "label": {
+          "passed": 6,
+          "total": 6
+        },
+        "rewrite": {
+          "passed": 0,
+          "total": 6
+        },
+        "thanks": {
+          "passed": 0,
+          "total": 6
+        }
+      }
+    },
+    "learning_gate_passed": true,
+    "confirmation_gate_passed": false,
+    "confirmation_consumed": true,
+    "development_loss_before": 6.172915761465645,
+    "development_loss_after": 1.883521131270004,
+    "protected_routing_parameters_unchanged": true,
+    "limitation": "All grounded passes are status labels; free-form content preservation failed. Historical lexical passes can be false positives. Confirmation is now consumed."
+  },
   "production_ready": false,
   "unmeasured": [
     "current live uptime",
@@ -161,7 +306,7 @@
   ],
   "next_actions": [
     "Review the latest failed confirmation cases before the next frozen candidate.",
-    "Improve grounded direct-answer content before consuming fresh confirmation.",
+    "Diagnose name, subject, and number copying; v2 confirmation is consumed and must not be reused as fresh.",
     "Run a new live smoke before release; archived PASS is not current health."
   ],
   "interpretation": "Helper progress is separate from LLM learning. Different request suites are not a trend. CI success verifies evidence consistency, not assistant readiness."

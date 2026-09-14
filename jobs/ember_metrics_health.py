@@ -37,6 +37,50 @@ def routing(result):
     return measured
 
 
+def grounded_answers(report):
+    from direct_answers.grounded_v2 import score
+    result = {}
+    for key, expected in [('baseline_quality', 48), ('candidate_quality', 48),
+                          ('historical_baseline_quality', 24), ('historical_candidate_quality', 24),
+                          ('confirmation', 24)]:
+        data = report[key]
+        rows = data['rows']
+        require(len(rows) == data['total'] == expected, 'Grounded denominator mismatch')
+        for flag in ('passed', 'legacy_passed'):
+            require(counts(rows, flag) == data[flag], 'Grounded aggregate mismatch')
+        if not key.startswith('historical'):
+            for row in rows:
+                exact = score(row['text'], {'answer': row['reference']})
+                require(row['content_reference_match'] is exact and
+                        row['passed'] is (row['stopped_at_eot'] and exact), 'Grounded raw answer mismatch')
+        result[key] = {k: data[k] for k in ('passed', 'legacy_passed', 'total')}
+        result[key]['by_family'] = {
+            family: {'passed': sum(r['passed'] for r in rows if r['family'] == family),
+                     'total': sum(r['family'] == family for r in rows)}
+            for family in sorted({r['family'] for r in rows})}
+    for before, after in [('baseline_quality', 'candidate_quality'),
+                          ('historical_baseline_quality', 'historical_candidate_quality')]:
+        require([(r['id'], r['user']) for r in report[before]['rows']] ==
+                [(r['id'], r['user']) for r in report[after]['rows']], 'Unpaired grounded cohorts')
+    progress = (report['selected_step'] > 0 and
+                report['selected_development_loss'] <= report['baseline_development_loss'] * 0.9 and
+                result['candidate_quality']['passed'] >= result['baseline_quality']['passed'] + 3 and
+                result['historical_candidate_quality']['passed'] >= result['historical_baseline_quality']['passed'])
+    require(report['development_progress_gate'] is progress, 'Grounded learning gate mismatch')
+    require(report['confirmation_consumed'] is progress, 'Grounded confirmation consumption mismatch')
+    confirmed = progress and result['confirmation']['passed'] == 24
+    require(report['confirmation_gate_passed'] is confirmed, 'Grounded confirmation gate mismatch')
+    protected = (report['frozen_parameter_sha256_before'] == report['frozen_parameter_sha256_after']
+                 and report['block04_features_identical'] and not report['router_heads_changed'])
+    require(protected, 'Protected grounded routing parameters changed')
+    return {**result, 'learning_gate_passed': progress, 'confirmation_gate_passed': confirmed,
+            'confirmation_consumed': report['confirmation_consumed'],
+            'development_loss_before': report['baseline_development_loss'],
+            'development_loss_after': report['selected_development_loss'],
+            'protected_routing_parameters_unchanged': protected,
+            'limitation': 'All grounded passes are status labels; free-form content preservation failed. Historical lexical passes can be false positives. Confirmation is now consumed.'}
+
+
 def build(root=ROOT):
     registry = json.loads((root / 'config/ember_metrics_sources.json').read_text())
     sources, evidence = {}, {}
@@ -118,11 +162,12 @@ def build(root=ROOT):
             'protected_routing_parameters_unchanged': protected,
             'limitation': 'Lexical passes can contain invented entities; not broad answer quality.'},
         'routing_confirmation_passed': route['strict_pass'],
+        'direct_grounded_v2': grounded_answers(evidence['direct_grounded_v2']),
         'production_ready': False,
         'unmeasured': ['current live uptime', 'broad generated-answer quality',
                        'native INT4 inference speed', 'production latency and cost'],
         'next_actions': ['Review the latest failed confirmation cases before the next frozen candidate.',
-                         'Improve grounded direct-answer content before consuming fresh confirmation.',
+                         'Diagnose name, subject, and number copying; v2 confirmation is consumed and must not be reused as fresh.',
                          'Run a new live smoke before release; archived PASS is not current health.'],
         'interpretation': 'Helper progress is separate from LLM learning. Different request suites are not a trend. CI success verifies evidence consistency, not assistant readiness.',
     }

@@ -13,5 +13,9 @@
   "direct": {
     "path": "reports/ember-direct-answer-canary.json",
     "sha256": "ed1410714826253b9bcc8a1cb828442d206b4d4c2c9b905c157eaab77a02ed73"
+  },
+  "direct_grounded_v2": {
+    "path": "reports/ember-direct-grounded-v2-34857841073.json",
+    "sha256": "1f18d8cdc9b55a278490241afd6e1261898b4014171e417ed8098b5681be1c82"
   }
 }

@@ -59,3 +59,13 @@ live calls. All work remains on the experimental tool branch, separate from main
 
 No new capability improvement is claimed by adding this scorecard. The code
 makes the existing progress and remaining failures visible and reproducible.
+
+## Grounded direct-answer v2 update
+
+The scorecard now retains the old `direct_answers` canary and adds a separate
+`direct_grounded_v2` section. New development reference accuracy moved from 0/48
+to 12/48, and the newly consumed confirmation scored 6/24. Every grounded pass was
+a status label; named writing, rewrites and fact preservation scored zero.
+The development learning gate passed but strict confirmation failed. Historical
+lexical scores and losses on different suites must not be combined into a trend.
+See `docs/ember-direct-grounded-v2.md` for raw failure examples and provenance.

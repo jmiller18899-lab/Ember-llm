@@ -74,3 +74,26 @@ def test_original_live_counts_cannot_be_rewritten(evidence):
     mutate(evidence, 'live', lambda d: d['original_v9_contract']['counts'].__setitem__('FAIL', 0))
     with pytest.raises(ValueError, match='Original live aggregate mismatch'):
         build(evidence)
+
+
+def test_grounded_result_keeps_classification_separate_from_writing():
+    answer = build()['direct_grounded_v2']
+    assert answer['learning_gate_passed'] and answer['confirmation_consumed']
+    assert not answer['confirmation_gate_passed']
+    assert answer['confirmation']['passed'] == 6
+    assert answer['confirmation']['by_family']['label'] == {'passed': 6, 'total': 6}
+    for family in ('thanks', 'rewrite', 'facts'):
+        assert answer['confirmation']['by_family'][family] == {'passed': 0, 'total': 6}
+
+
+@pytest.mark.parametrize('change,match', [
+    (lambda d: d['confirmation'].__setitem__('passed', 24), 'aggregate'),
+    (lambda d: d.__setitem__('confirmation_gate_passed', True), 'confirmation gate'),
+    (lambda d: d.__setitem__('confirmation_consumed', False), 'consumption'),
+    (lambda d: d['confirmation']['rows'][-1].__setitem__('text', 'invented answer'), 'raw answer'),
+    (lambda d: d.__setitem__('frozen_parameter_sha256_after', 'changed'), 'Protected'),
+])
+def test_grounded_report_rejects_false_success(evidence, change, match):
+    mutate(evidence, 'direct_grounded_v2', change)
+    with pytest.raises(ValueError, match=match):
+        build(evidence)
