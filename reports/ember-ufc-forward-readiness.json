@@ -1,0 +1,57 @@
+{
+  "status": "inference_replay_passed",
+  "evidence_kind": "historical_replay_not_forward_predictions",
+  "registry_sha256": "59c97adae47a3263c3a4e4b18e0788279ed114f8132a3ce159681626563e771e",
+  "primary_model": "continuous",
+  "models_compared": [
+    "continuous",
+    "bsq",
+    "hybrid",
+    "logistic",
+    "elo"
+  ],
+  "historical_bouts_checked": 3,
+  "absolute_tolerance": 1e-06,
+  "checks": [
+    {
+      "fight_id": "http://ufcstats.com/fight-details/477c3b9de012e4b3",
+      "event_date": "2024-01-13T00:00:00+00:00",
+      "absolute_probability_differences": {
+        "continuous": 0.0,
+        "bsq": 0.0,
+        "hybrid": 1.986821490662649e-08,
+        "logistic": 0.0,
+        "elo": 2.854196046175872e-08
+      }
+    },
+    {
+      "fight_id": "http://ufcstats.com/fight-details/fbf83609dc96f32e",
+      "event_date": "2025-04-26T00:00:00+00:00",
+      "absolute_probability_differences": {
+        "continuous": 9.934107481068821e-09,
+        "bsq": 9.934107481068821e-09,
+        "hybrid": 0.0,
+        "logistic": 0.0,
+        "elo": 7.1233801079984005e-09
+      }
+    },
+    {
+      "fight_id": "http://ufcstats.com/fight-details/c23197c7e4f2fd9d",
+      "event_date": "2026-09-05T00:00:00+00:00",
+      "absolute_probability_differences": {
+        "continuous": 9.934107481068821e-09,
+        "bsq": 9.934107481068821e-09,
+        "hybrid": 0.0,
+        "logistic": 0.0,
+        "elo": 2.900168549757609e-09
+      }
+    }
+  ],
+  "focused_tests_passed": 41,
+  "python_version": "3.12.14",
+  "torch_version": "2.6.0+cpu",
+  "new_training_launched": false,
+  "live_forward_predictions_recorded": 0,
+  "production_integrated": false,
+  "next_requirement": "Verify and archive an upcoming complete card and current input snapshot, then externally timestamp forecasts before the event."
+}

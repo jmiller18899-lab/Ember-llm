@@ -117,3 +117,7 @@ training job is needed for this initial dataset.
 The next useful check is a pre-registered forward evaluation on newly scheduled
 bouts, recording probabilities before results exist. Validate source updates,
 calibration, and inference inputs before connecting a forecast tool to Ember.
+
+The [forward-test workflow](ember-ufc-forward-test.md) now freezes the existing
+models, records unlabelled future matchups, and scores separately collected results.
+Its local receipts need an external pre-event timestamp to qualify as forward evidence.
