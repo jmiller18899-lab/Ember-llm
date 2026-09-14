@@ -72,7 +72,7 @@ def data():
 
 def encode(tokenizer, row):
     prompt = tokenizer.apply_chat_template([{"role": "system", "content": SYSTEM},
-        {"role": "user", "content": row["prompt"]}], tokenize=True, add_generation_prompt=True, enable_thinking=False)
+        {"role": "user", "content": row["prompt"]}], tokenize=True, add_generation_prompt=True, enable_thinking=False, return_dict=False)
     answer = tokenizer.encode(row["answer"], add_special_tokens=False) + [tokenizer.convert_tokens_to_ids("<|im_end|>")]
     assert len(prompt) + len(answer) <= 256, "No silent truncation allowed"
     return {"input_ids": prompt + answer, "labels": [-100] * len(prompt) + answer}
@@ -165,7 +165,7 @@ def main():
         for row in sets["confirmation"]:
             ids = tokenizer.apply_chat_template([{"role":"system", "content":SYSTEM},
                 {"role":"user", "content":row["prompt"]}], tokenize=True,
-                add_generation_prompt=True, enable_thinking=False, return_tensors="pt").to(trainer.model.device)
+                add_generation_prompt=True, enable_thinking=False, return_tensors="pt", return_dict=False).to(trainer.model.device)
             start = time.monotonic()
             with torch.inference_mode():
                 generated = trainer.model.generate(input_ids=ids, attention_mask=torch.ones_like(ids),

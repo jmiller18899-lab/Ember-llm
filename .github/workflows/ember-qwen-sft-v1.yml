@@ -1,4 +1,5 @@
 name: Ember Qwen SFT v1 preflight and capped GPU launch
+# Preflight revision 2: explicit tokenizer return type.
 on:
   push:
     branches: [codex/ember-routing-v4]
