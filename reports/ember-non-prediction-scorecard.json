@@ -10,9 +10,10 @@
       "measured_at": "2026-09-14T13:56:47.639412+00:00"
     },
     "live": {
-      "path": "reports/ember-live-services-v9-34851973951.json",
-      "sha256": "d3b95232711e61696971642b51f1921f15a9ebe622e366e7bb8571c0d645188d",
-      "measured_at": "2026-09-14T13:57:35.703241+00:00"
+      "path": "reports/ember-live-services-v10-34856109144.json",
+      "sha256": "0df51897f45234a92a3f5f2593d7ac215647e697368a152659ea8311df592068",
+      "expected_checks": 52,
+      "measured_at": "2026-09-14T14:34:15.007970+00:00"
     },
     "direct": {
       "path": "reports/ember-direct-answer-canary.json",
@@ -115,15 +116,22 @@
   "live_service_smoke": {
     "final": {
       "BLOCKED": 0,
-      "FAIL": 2,
-      "PASS": 48
+      "FAIL": 0,
+      "PASS": 52
     },
     "first_attempt": {
       "BLOCKED": 0,
-      "FAIL": 4,
-      "PASS": 46
+      "FAIL": 3,
+      "PASS": 49
     },
-    "current_availability": "not_retested"
+    "current_availability": "not_retested",
+    "scope": "service_v10_with_explicit_country_reply",
+    "scope_gate_passed": true,
+    "original_unqualified_contract_counts": {
+      "PASS": 48,
+      "FAIL": 2,
+      "BLOCKED": 0
+    }
   },
   "direct_answers": {
     "baseline_quality": {

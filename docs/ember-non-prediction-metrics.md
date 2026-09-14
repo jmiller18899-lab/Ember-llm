@@ -1,7 +1,7 @@
 # Ember non-prediction metrics
 
-The v9 tool helper passes its latest paired fixture confirmation. The live
-service gate remains failed for unqualified Fes. The generated-answer model has
+The v9 tool helper passes its latest paired fixture confirmation. The new live
+service contract passes with an explicit country reply for Fes. The generated-answer model has
 not met its learning gate. Prediction benchmarks do not replace either measure.
 
 | Metric | Latest archived evidence | Meaning |
@@ -10,7 +10,7 @@ not met its learning gate. Prediction benchmarks do not replace either measure.
 | Correct tool route | 100/100 | Correct route on the latest finite confirmation |
 | Exact tool arguments | 80/80 | Both contact forms repaired in fixture evaluation |
 | Parser with supplied routes | 60/60 | Parser regression coverage; routing not assessed |
-| Live services and guards, September 14 | 48/50 final, 46/50 first attempt | Two recovered timeouts; unqualified Fes requests require country clarification |
+| Live services and guards, September 14, v10 assisted flow | 52/52 final, 49/52 first attempt | Three recovered timeouts; includes explicit country replies, not automatic Fes resolution |
 | Generated-answer task checks, September 11 | 0/24 → 2/24 | Learning gate fails; lexical checks overstate content quality |
 | Answer development loss | 6.1853 → 3.6641 | Better loss alone does not demonstrate useful answers |
 | Protected routing parameters during answer trial | Hashes and sampled features unchanged | Measured isolation preserved |
@@ -49,9 +49,8 @@ live calls. All work remains on the experimental tool branch, separate from main
 
 ## Next success gates
 
-1. Preserve the v9 routing PASS and the live-service FAIL separately. Resolve
-   country clarification for unqualified Fes and the separately observed clock
-   DST-label mismatch before claiming end-to-end success.
+1. Preserve v9 routing PASS and v10 assisted-service PASS, alongside the original
+   unqualified 48/50 result. The new flow asks for a country; it does not infer one.
 2. Improve name, subject, fact, and requested-action preservation in generated
    answers. Inspect raw outputs; the existing lexical pass can invent a recipient.
    Require the existing learning gate before using the untouched confirmation.

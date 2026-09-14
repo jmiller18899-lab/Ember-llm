@@ -6,8 +6,9 @@
     "candidate_arm": "contact_v9"
   },
   "live": {
-    "path": "reports/ember-live-services-v9-34851973951.json",
-    "sha256": "d3b95232711e61696971642b51f1921f15a9ebe622e366e7bb8571c0d645188d"
+    "path": "reports/ember-live-services-v10-34856109144.json",
+    "sha256": "0df51897f45234a92a3f5f2593d7ac215647e697368a152659ea8311df592068",
+    "expected_checks": 52
   },
   "direct": {
     "path": "reports/ember-direct-answer-canary.json",

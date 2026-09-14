@@ -48,7 +48,7 @@ def test_archived_scores_keep_failed_gates_and_unmeasured_health():
     ('routing', lambda d: d['results']['full']['contact_v9']['cases'].append(d['results']['full']['contact_v9']['cases'][0]), 'Duplicate'),
     ('direct', lambda d: d.__setitem__('development_progress_gate', True), 'gate'),
     ('direct', lambda d: d.__setitem__('frozen_parameter_sha256_after', 'changed'), 'Protected'),
-    ('live', lambda d: d['first_attempt_counts'].__setitem__('PASS', 50), 'aggregate'),
+    ('live', lambda d: d['first_attempt_counts'].__setitem__('PASS', 52), 'aggregate'),
 ])
 def test_reject_misleading_evidence_even_after_registry_update(evidence, key, change, match):
     mutate(evidence, key, change)
@@ -59,4 +59,18 @@ def test_reject_misleading_evidence_even_after_registry_update(evidence, key, ch
 def test_reject_unregistered_evidence_change(evidence):
     mutate(evidence, 'direct', lambda d: d.__setitem__('selected_step', 40), rehash=False)
     with pytest.raises(ValueError, match='hash mismatch'):
+        build(evidence)
+
+
+def test_assisted_flow_does_not_relabel_original_failures():
+    live = build()['live_service_smoke']
+    assert live['scope'] == 'service_v10_with_explicit_country_reply'
+    assert live['scope_gate_passed'] is True
+    assert live['final']['PASS'] == 52 and live['first_attempt']['PASS'] == 49
+    assert live['original_unqualified_contract_counts']['FAIL'] == 2
+
+
+def test_original_live_counts_cannot_be_rewritten(evidence):
+    mutate(evidence, 'live', lambda d: d['original_v9_contract']['counts'].__setitem__('FAIL', 0))
+    with pytest.raises(ValueError, match='Original live aggregate mismatch'):
         build(evidence)

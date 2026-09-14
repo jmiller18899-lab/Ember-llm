@@ -74,6 +74,17 @@ def build(root=ROOT):
         measured = Counter(r[field] for r in live_rows)
         require(bool(live_rows) and set(measured) <= {'PASS', 'FAIL', 'BLOCKED'}, 'Invalid live outcome')
         require({k: measured[k] for k in ('PASS', 'FAIL', 'BLOCKED')} == live[aggregate], 'Live aggregate mismatch')
+    if 'expected_checks' in registry['live']:
+        require(len(live_rows) == registry['live']['expected_checks'], 'Live cohort size mismatch')
+    original_counts = None
+    if 'original_v9_contract' in live:
+        original = live['original_v9_contract']
+        original_rows = [r for rows in original['results'].values() for r in rows]
+        require(bool(original_rows), 'Empty original live cohort')
+        measured = Counter(r['outcome'] for r in original_rows)
+        require(set(measured) <= {'PASS', 'FAIL', 'BLOCKED'}, 'Invalid original live outcome')
+        original_counts = {k: measured[k] for k in ('PASS', 'FAIL', 'BLOCKED')}
+        require(original_counts == original['counts'], 'Original live aggregate mismatch')
     answer = {}
     for key in ('baseline_quality', 'candidate_quality'):
         data = direct[key]
@@ -95,7 +106,10 @@ def build(root=ROOT):
         'sources': sources, 'paired_routing': comparisons,
         'parser_supplied_routes': {'passed': parser['passed'], 'total': parser['total']},
         'live_service_smoke': {'final': live['counts'], 'first_attempt': live['first_attempt_counts'],
-                               'current_availability': 'not_retested'},
+                               'current_availability': 'not_retested',
+                               'scope': live.get('scope', 'single_turn_service_smoke'),
+                               'scope_gate_passed': all(r['outcome'] == 'PASS' for r in live_rows),
+                               'original_unqualified_contract_counts': original_counts},
         'direct_answers': {**answer,
             'development_loss_before': direct['baseline_development_loss'],
             'development_loss_after': direct['selected_development_loss'],
