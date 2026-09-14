@@ -30,6 +30,8 @@ def main():
         raise RuntimeError('Artifact does not contain the exact archived report')
     if evidence['production_ready'] or evidence['confirmation_gate_passed']:
         raise RuntimeError('Unexpected experimental status')
+    if not os.environ.get('HF_TOKEN', '').strip():
+        raise RuntimeError('GitHub-held HF_TOKEN is unavailable')
     api = HfApi(token=os.environ['HF_TOKEN'])
     info = api.model_info(REPO)
     if not info.private:
