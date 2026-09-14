@@ -1,4 +1,4 @@
-name: Ember pretrained candidate benchmark
+name: Ember pretrained candidate prompt calibration
 on:
   push:
     branches: [codex/ember-routing-v4]
@@ -35,7 +35,8 @@ jobs:
           docker run --rm --cpus=2 --memory=3g --memory-swap=3g \
             -e GITHUB_SHA -v "$PWD:/work" -v /tmp/qwen-runtime:/model:ro -w /work \
             ember-qwen-bench python3 jobs/ember_qwen_benchmark.py run \
-              --model "$MODEL_SIZE" --target /model --output "benchmark-results/qwen-$MODEL_SIZE.json"
+              --model "$MODEL_SIZE" --target /model --output "benchmark-results/qwen-$MODEL_SIZE.json" \
+              --suite benchmarks/qwen_candidates/calibration.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -34,3 +34,26 @@ Public sources:
 - https://huggingface.co/unsloth/Qwen3.5-0.8B-GGUF
 - https://huggingface.co/unsloth/Qwen3.5-2B-GGUF
 - https://github.com/ggml-org/llama.cpp/releases/tag/b10964
+
+## Initial measured result and bounded follow-up
+
+Run 34863846441 completed on source 348d84635019142cca37c6168c11450de33462df.
+The 0.8B candidate scored 30/40 and 2B scored 37/40. Both passed greetings and
+exact copying at 8/8 each. Neither passed the strict automated gate. All original
+raw responses are retained in reports/qwen-{0.8B,2B}-34863846441.json.
+
+Manual inspection found the extraction prompt asking for the “subject” ambiguous:
+its expected answer was the record category, but the grammatical subject is the
+person's name. This case is unreliable evidence and is explicitly flagged, not
+silently relabeled. Four 0.8B writing failures were reasonable paraphrases; its
+other writing failures and two non-label classification outputs were real issues.
+2B mislabeled two warning conditions as success. Both mishandled the natural
+thank-you request in the unscored review set.
+
+A single bounded prompt calibration now tests both unchanged weight files with
+explicit warning/error definitions and an instruction to draft requested
+thank-you messages rather than answer as the recipient. The ambiguous extraction
+request is clarified. All 48 cases are already consumed, so calibration is not
+fresh confirmation. This cheap inference-only customization precedes any proposal
+to fine-tune weights. The original cases.json remains unchanged; calibration.json
+records the changed system instruction and single clarified request.

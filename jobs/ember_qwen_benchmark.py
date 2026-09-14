@@ -76,9 +76,9 @@ def high_water(pid):
     return int(match[1]) * 1024 if match else None
 
 
-def run(label, target, output):
+def run(label, target, output, suite):
     config = json.loads((ROOT / 'benchmarks/qwen_candidates/models.json').read_text())
-    spec_path = ROOT / 'benchmarks/qwen_candidates/cases.json'
+    spec_path = ROOT / suite
     spec = json.loads(spec_path.read_text())
     if output.exists():
         raise RuntimeError('Refusing to overwrite evidence')
@@ -95,7 +95,7 @@ def run(label, target, output):
     output.parent.mkdir(parents=True, exist_ok=True)
     rows = []
     report = {'schema_version': 1, 'created_at': datetime.now(timezone.utc).isoformat(),
-              'scope': 'cpu_quantized_candidate_selection_not_production', 'model': label,
+              'scope': spec['scope'], 'suite': suite, 'model': label,
               'provenance': config, 'cases_sha256': digest(spec_path), 'settings': spec['settings'],
               'github_sha': os.environ.get('GITHUB_SHA'), 'training_launched': False, 'production_ready': False,
               'memory_limit': cgroup('memory.max'), 'swap_limit': cgroup('memory.swap.max'),
@@ -177,8 +177,9 @@ if __name__ == '__main__':
     p.add_argument('--model', choices=['0.8B', '2B'], required=True)
     p.add_argument('--target', type=Path, required=True)
     p.add_argument('--output', type=Path)
+    p.add_argument('--suite', default='benchmarks/qwen_candidates/cases.json')
     a = p.parse_args()
     if a.mode == 'prepare':
         prepare(a.model, a.target)
     else:
-        run(a.model, a.target, a.output)
+        run(a.model, a.target, a.output, a.suite)
