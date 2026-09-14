@@ -1,0 +1,26 @@
+{
+  "schema_version": "ember-bsq-forecast-v1",
+  "target_name": "ufc_fighter_a_wins_conditional_on_decisive_result",
+  "task": "binary",
+  "horizon_seconds": 259200,
+  "feature_names": [
+    "elo_diff", "log_prior_bouts_diff", "win_rate_diff", "recent_win_rate_diff",
+    "finish_win_rate_diff", "ko_loss_rate_diff", "submission_loss_rate_diff",
+    "sig_landed_per_min_diff", "sig_absorbed_per_min_diff", "sig_accuracy_diff",
+    "sig_defense_diff", "takedowns_per_15min_diff", "takedown_accuracy_diff",
+    "takedown_defense_diff", "control_share_diff", "control_missing_share_diff",
+    "submission_attempts_per_15min_diff", "duration_minutes_diff", "layoff_log_days_diff",
+    "prior_opponent_elo_diff"
+  ],
+  "history_length": 1,
+  "bits": 16,
+  "hidden_size": 32,
+  "seed": 17,
+  "max_steps": 300,
+  "batch_size": 128,
+  "learning_rate": 0.001,
+  "eval_every": 25,
+  "reconstruction_weight": 0.05,
+  "commitment_weight": 0.1,
+  "entropy_weight": 0.01
+}
