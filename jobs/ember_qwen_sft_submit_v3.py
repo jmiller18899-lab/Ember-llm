@@ -11,7 +11,7 @@ def main():
     if os.environ.get("GITHUB_RUN_ATTEMPT", "1") != "1":
         raise RuntimeError("Workflow retries cannot launch a second paid experiment")
     if not os.environ.get("HF_TOKEN"):
-        raise RuntimeError("GitHub Actions secret HF_2 is missing or unavailable")
+        raise RuntimeError("Both approved GitHub Actions secrets HF_2 and HF_TOKEN are missing or unavailable")
     api = HfApi(token=os.environ["HF_TOKEN"])
     if api.whoami()["name"].lower() != "jmiller18899":
         raise RuntimeError("Unexpected Hugging Face account")

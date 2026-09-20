@@ -1,5 +1,5 @@
 name: Ember Qwen SFT v3 preflight and capped GPU launch
-# Continue v2 using the user-requested existing HF_2 Actions secret.
+# Prefer HF_2; fall back to HF_TOKEN used by the successful September 14 v2 launcher.
 on:
   push:
     branches: [codex/ember-qwen-v3-hf2]
@@ -29,7 +29,7 @@ jobs:
         run: python jobs/ember_qwen_sft_v3.py --preflight
       - name: Launch at most one paid L4 job with 90-minute limit
         env:
-          HF_TOKEN: ${{ secrets.HF_2 }}
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
         run: python jobs/ember_qwen_sft_submit_v3.py
       - name: Preserve preflight evidence and submission receipt
         if: always()
