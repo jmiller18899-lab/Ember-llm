@@ -249,7 +249,7 @@ def targeted_4b_examples():
         add("drafting", f"Message {name}: I found their notebook, and I can return it tomorrow.",
             f"Hi {name}, I found your notebook, and I can return it tomorrow.")
         hour = 8 + (i % 3)
-        add("writing", f"Shorten without dropping the location: 'Everyone should arrive at the studio before {hour}.'",
+        add("writing", f"Shorten for {name} without dropping the location: 'Everyone should arrive at the studio before {hour}.'",
             f"Arrive at the studio before {hour}.")
         tested, failed = 40 + i, 4 + (i % 3)
         add("writing", f"Summarize in one sentence: The lab tested {tested} samples. {failed} were unusable. The rest were processed.",
