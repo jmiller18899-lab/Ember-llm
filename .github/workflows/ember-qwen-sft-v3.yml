@@ -1,0 +1,42 @@
+name: Ember Qwen SFT v3 preflight and capped GPU launch
+# Continue v2 using the user-requested existing HF_2 Actions secret.
+on:
+  push:
+    branches: [codex/ember-qwen-v3-hf2]
+    paths: [.github/workflows/ember-qwen-sft-v3.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ember-qwen-sft-v3-single-launch
+  cancel-in-progress: false
+jobs:
+  preflight-and-launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU preflight dependencies
+        run: |
+          python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install transformers==5.17.0 peft==0.20.0 trl==1.13.0 accelerate==1.15.0 huggingface-hub==1.31.0 trackio==0.37.1 datasets==5.0.1
+      - name: Validate data and run hybrid-model LoRA forward and backward on CPU
+        env:
+          TOKENIZERS_PARALLELISM: 'false'
+        run: python jobs/ember_qwen_sft_v3.py --preflight
+      - name: Launch at most one paid L4 job with 90-minute limit
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 }}
+        run: python jobs/ember_qwen_sft_submit_v3.py
+      - name: Preserve preflight evidence and submission receipt
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: ember-qwen-sft-v3-launch
+          path: |
+            gpu-submission.json
+            qwen-sft-v3-results/manifest.json
+            qwen-sft-v3-results/dataset.json
