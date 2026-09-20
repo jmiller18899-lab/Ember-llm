@@ -239,7 +239,7 @@ def targeted_4b_examples():
             ("Authentication failed, so the task cannot start.", "error"),
         ]
         status, label = labels[i % 3]
-        add("classification", f"Return only one lowercase label: success, warning, or error. {status}", label)
+        add("classification", f"Return only one lowercase label for case {code}: success, warning, or error. {status}", label)
         add("extraction", f"From 'owner={name}; record={code}; state=ready', return only the record value.", code)
         a, b, removed = 22 + i, 7 + i, 3 + (i % 4)
         total = a + b - removed
