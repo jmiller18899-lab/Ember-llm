@@ -1,5 +1,5 @@
 name: Ember Qwen3.5-4B conservative LoRA v1
-# Uses the proven HF_2 write token, with HF_TOKEN as fallback. Preflight retry 2.
+# Uses the proven HF_2 write token, with HF_TOKEN as fallback. Preflight retry 3.
 on:
   push:
     branches: [codex/ember-qwen35-4b-sft-v1]
