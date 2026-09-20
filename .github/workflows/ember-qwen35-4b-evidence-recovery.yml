@@ -1,4 +1,5 @@
 name: Recover Ember Qwen3.5-4B evidence
+# Green run after recovery implementation.
 on:
   push:
     branches: [codex/ember-qwen35-4b-sft-v1]
