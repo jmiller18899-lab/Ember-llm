@@ -1,0 +1,28 @@
+name: Recover Ember Qwen3.5-4B evidence
+on:
+  push:
+    branches: [codex/ember-qwen35-4b-sft-v1]
+    paths: [.github/workflows/ember-qwen35-4b-evidence-recovery.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ember-qwen35-4b-evidence-recovery
+  cancel-in-progress: false
+jobs:
+  test-and-recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Run evidence recovery test
+        run: python -m unittest tests/test_qwen35_4b_evidence_recovery.py -v
+      - name: Recover evidence without GPU training
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install huggingface-hub==1.31.0
+          python jobs/ember_qwen35_4b_evidence_recovery.py
