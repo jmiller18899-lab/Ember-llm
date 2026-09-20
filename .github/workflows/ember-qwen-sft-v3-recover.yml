@@ -1,0 +1,55 @@
+name: Recover Ember Qwen SFT v3 evidence
+
+on:
+  push:
+    branches: [codex/ember-qwen-v3-hf2]
+    paths: [.github/workflows/ember-qwen-sft-v3-recover.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install Hub client
+        run: python -m pip install huggingface-hub==1.31.0
+      - name: Copy existing evidence into run-evidence
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from huggingface_hub import HfApi, hf_hub_download
+
+          repo = 'Jmiller18899/ember-qwen3.5-2b-sft-v3'
+          token = os.environ['HF_TOKEN']
+          api = HfApi(token=token)
+          files = {item.rfilename for item in api.model_info(repo).siblings}
+          names = ['comparison.json', 'manifest.json', 'metrics.jsonl', 'loading-info.json']
+          copied = []
+          for name in names:
+              if name not in files:
+                  continue
+              source = hf_hub_download(repo, name, token=token)
+              api.upload_file(
+                  path_or_fileobj=source,
+                  path_in_repo=f'run-evidence/{name}',
+                  repo_id=repo,
+                  repo_type='model',
+                  commit_message=f'Recover Ember v3 run evidence: {name}',
+              )
+              copied.append(name)
+          refreshed = {item.rfilename for item in api.model_info(repo).siblings}
+          expected = {f'run-evidence/{name}' for name in copied}
+          missing = sorted(expected - refreshed)
+          print(json.dumps({'copied': copied, 'missing_after_copy': missing}, sort_keys=True))
+          if not copied or missing:
+              raise SystemExit(1)
+          PY
