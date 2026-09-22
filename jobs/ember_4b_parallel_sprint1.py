@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11,<3.12"
-# dependencies = ["torch==2.11.0","transformers==5.17.0","peft==0.20.0","accelerate==1.15.0","huggingface-hub==1.31.0","datasets==5.0.1"]
+# dependencies = ["torch==2.11.0","transformers==5.17.0","peft==0.20.0","trl==1.13.0","accelerate==1.15.0","huggingface-hub==1.31.0","datasets==5.0.1"]
 # ///
 """Parallel Ember sprint lane. Continues from accepted repair1b; preserves before gate."""
 import argparse,json,os
