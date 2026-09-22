@@ -140,13 +140,24 @@ def main():
     repaired=[i for i in FAIL_IDS if a[i]["exact_match"]]
     exact_regressions=[i for i in b if b[i].get("exact_match") is True and a[i].get("exact_match") is False]
     fresh_exact=[r for r in after if r["id"].startswith("repair-fresh") and r["scoring"]=="exact"]
-    summary={"before_exact":before_score,"after_exact":after_score,"preserved_historical_gains":sorted(preserved),"repaired_known_failures":sorted(repaired),"exact_regressions":exact_regressions,"fresh_exact_pass":sum(r["exact_match"] for r in fresh_exact),"fresh_exact_total":len(fresh_exact),"human_review_pending":True,"production_ready":False,"steps":trainer.state.global_step}
+    gate_conditions={
+        "no_exact_regressions": len(exact_regressions)==0,
+        "all_five_gains_preserved": set(preserved)==GAIN_IDS,
+        "overall_exact_not_lower": after_score[0]>=before_score[0],
+        "overall_exact_improved": after_score[0]>before_score[0],
+    }
+    accepted=gate_conditions["no_exact_regressions"] and gate_conditions["all_five_gains_preserved"] and gate_conditions["overall_exact_not_lower"]
+    summary={"before_exact":before_score,"after_exact":after_score,"preserved_historical_gains":sorted(preserved),"repaired_known_failures":sorted(repaired),"exact_regressions":exact_regressions,"fresh_exact_pass":sum(r["exact_match"] for r in fresh_exact),"fresh_exact_total":len(fresh_exact),"human_review_pending":True,"production_ready":False,"steps":trainer.state.global_step,"gate_conditions":gate_conditions,"accepted_for_candidate_repo":accepted}
     (out/"summary.json").write_text(json.dumps(summary,indent=2))
-    # Hard fail closed: never publish a repair that loses a prior exact pass or any of the five gains.
-    if exact_regressions or preserved!=GAIN_IDS or after_score[0]<before_score[0]:
-        raise RuntimeError("repair rejected by exact regression gate: "+json.dumps(summary))
-    api.upload_folder(repo_id=OUTPUT,folder_path=str(out/"adapter"),path_in_repo="",commit_message="Save gated Ember 4B targeted repair adapter")
-    api.upload_folder(repo_id=OUTPUT,folder_path=str(out),path_in_repo="repair-evidence",allow_patterns=["*.json"],commit_message="Save targeted repair evidence")
+    print("GATE_CONDITIONS "+json.dumps(gate_conditions,sort_keys=True),flush=True)
+    quarantine="quarantine/candidate-before-gate"
+    api.upload_folder(repo_id=OUTPUT,folder_path=str(out/"adapter"),path_in_repo=quarantine+"/adapter",commit_message="Quarantine Ember repair candidate before quality gate")
+    api.upload_folder(repo_id=OUTPUT,folder_path=str(out),path_in_repo=quarantine+"/evidence",allow_patterns=["*.json"],commit_message="Preserve Ember repair evidence before quality gate")
+    print("CANDIDATE_PRESERVED "+json.dumps({"path":quarantine,"accepted":accepted}),flush=True)
+    if not accepted:
+        raise RuntimeError("repair preserved but rejected by exact regression gate: "+json.dumps(summary))
+    api.upload_folder(repo_id=OUTPUT,folder_path=str(out/"adapter"),path_in_repo="",commit_message="Promote gated Ember 4B targeted repair candidate")
+    api.upload_folder(repo_id=OUTPUT,folder_path=str(out),path_in_repo="repair-evidence",allow_patterns=["*.json"],commit_message="Save accepted targeted repair evidence")
     print("REPAIR_SUMMARY "+json.dumps(summary),flush=True)
 
 if __name__=="__main__": main()
