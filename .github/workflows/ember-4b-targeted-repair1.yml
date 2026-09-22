@@ -40,16 +40,16 @@ jobs:
           if not token: raise RuntimeError("HF token unavailable")
           api=HfApi(token=token)
           if api.whoami()["name"].lower()!="jmiller18899": raise RuntimeError("unexpected HF account")
-          output="Jmiller18899/ember-qwen3.5-4b-sft-v1-repair1"
+          output="Jmiller18899/ember-qwen3.5-4b-sft-v1-repair1b"
           api.create_repo(output,private=True,exist_ok=True)
           info=api.model_info(output)
-          guard="launches/targeted-repair1.json"
+          guard="launches/targeted-repair1b.json"
           if api.file_exists(output,guard) or api.file_exists(output,"adapter_model.safetensors"):
               raise RuntimeError("repair already reserved; refusing duplicate GPU billing")
           source=Path("jobs/ember_qwen35_4b_targeted_repair1.py").read_bytes()
           receipt={"status":"reserved","source_commit":os.environ["GITHUB_SHA"],"source_sha256":hashlib.sha256(source).hexdigest(),"github_run_id":os.environ["GITHUB_RUN_ID"],"hardware":"l4x1","timeout_seconds":5400,"listed_hourly_usd":0.80,"maximum_compute_usd":1.20,"training_steps":24}
           api.create_commit(output,parent_commit=info.sha,operations=[CommitOperationAdd(path_in_repo=guard,path_or_fileobj=json.dumps(receipt).encode()),CommitOperationAdd(path_in_repo="source/train.py",path_or_fileobj=source)],commit_message="Reserve one capped targeted Ember repair")
-          job=api.run_uv_job("jobs/ember_qwen35_4b_targeted_repair1.py",python="3.11",flavor="l4x1",timeout=5400,name="ember-4b-targeted-repair1",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          job=api.run_uv_job("jobs/ember_qwen35_4b_targeted_repair1.py",python="3.11",flavor="l4x1",timeout=5400,name="ember-4b-targeted-repair1b",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
           receipt.update(status="submitted",job_id=job.id,job_url=job.url)
           Path("repair1-submission.json").write_text(json.dumps(receipt,indent=2))
           api.upload_file(repo_id=output,path_in_repo=guard,path_or_fileobj=json.dumps(receipt,indent=2).encode(),commit_message="Record targeted repair job receipt")
