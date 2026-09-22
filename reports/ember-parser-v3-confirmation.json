@@ -1,0 +1,1653 @@
+{
+  "by_tool": {
+    "calculator": {
+      "passed": 30,
+      "total": 30
+    },
+    "get_time": {
+      "passed": 15,
+      "total": 15
+    },
+    "weather": {
+      "passed": 15,
+      "total": 15
+    }
+  },
+  "case_counts": {
+    "calculator_call": 20,
+    "clarification": 20,
+    "location_call": 20
+  },
+  "cases": [
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(84-36)/(9-3)"
+        },
+        "result": 8
+      },
+      "fixture_calls": [
+        {
+          "expression": "(84-36)/(9-3)"
+        }
+      ],
+      "id": "math-call-01",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(84-36)/(9-3)"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 8.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Would you evaluate (84 - 36) / (9 - 3)?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "-28+(6*9)"
+        },
+        "result": 26
+      },
+      "fixture_calls": [
+        {
+          "expression": "-28+(6*9)"
+        }
+      ],
+      "id": "math-call-02",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "-28+(6*9)"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 26,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Kindly compute -28 + (6 * 9)."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "7.25*(4+8)"
+        },
+        "result": 87
+      },
+      "fixture_calls": [
+        {
+          "expression": "7.25*(4+8)"
+        }
+      ],
+      "id": "math-call-03",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "7.25*(4+8)"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 87.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate 7.25 times (4 + 8)."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "1875.5-925.25"
+        },
+        "result": 950.25
+      },
+      "fixture_calls": [
+        {
+          "expression": "1875.5-925.25"
+        }
+      ],
+      "id": "math-call-04",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "1875.5-925.25"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 950.25,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "What is 1,875.5 minus 925.25?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(12.5/100)*736"
+        },
+        "result": 92
+      },
+      "fixture_calls": [
+        {
+          "expression": "(12.5/100)*736"
+        }
+      ],
+      "id": "math-call-05",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(12.5/100)*736"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 92.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 12.5 percent of 736."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(-6)**2+15"
+        },
+        "result": 51
+      },
+      "fixture_calls": [
+        {
+          "expression": "(-6)**2+15"
+        }
+      ],
+      "id": "math-call-06",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(-6)**2+15"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 51,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate -6 squared plus 15."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "-(6**2)+15"
+        },
+        "result": -21
+      },
+      "fixture_calls": [
+        {
+          "expression": "-(6**2)+15"
+        }
+      ],
+      "id": "math-call-07",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "-(6**2)+15"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": -21,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute -(6**2) + 15."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(-2)**3+19"
+        },
+        "result": 11
+      },
+      "fixture_calls": [
+        {
+          "expression": "(-2)**3+19"
+        }
+      ],
+      "id": "math-call-08",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(-2)**3+19"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 11,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate -2 cubed + 19."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(3)**-2"
+        },
+        "result": 0.1111111111111111
+      },
+      "fixture_calls": [
+        {
+          "expression": "(3)**-2"
+        }
+      ],
+      "id": "math-call-09",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(3)**-2"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 0.1111111111111111,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 3 to the power of -2."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(4.5+1.5)**2/9"
+        },
+        "result": 4
+      },
+      "fixture_calls": [
+        {
+          "expression": "(4.5+1.5)**2/9"
+        }
+      ],
+      "id": "math-call-10",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(4.5+1.5)**2/9"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 4.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Evaluate (4.5 + 1.5) squared / 9."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "18/-3+2"
+        },
+        "result": -4
+      },
+      "fixture_calls": [
+        {
+          "expression": "18/-3+2"
+        }
+      ],
+      "id": "math-call-11",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "18/-3+2"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": -4.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "What is 18 divided by -3 plus 2?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": ".625*48-4"
+        },
+        "result": 26
+      },
+      "fixture_calls": [
+        {
+          "expression": ".625*48-4"
+        }
+      ],
+      "id": "math-call-12",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": ".625*48-4"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 26.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate .625 × 48 − 4."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "2.5e-3+7.5e-3"
+        },
+        "result": 0.01
+      },
+      "fixture_calls": [
+        {
+          "expression": "2.5e-3+7.5e-3"
+        }
+      ],
+      "id": "math-call-13",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "2.5e-3+7.5e-3"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 0.01,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 2.5e-3 + 7.5e-3."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "(45+27)/(8+4)"
+        },
+        "result": 6
+      },
+      "fixture_calls": [
+        {
+          "expression": "(45+27)/(8+4)"
+        }
+      ],
+      "id": "math-call-14",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "(45+27)/(8+4)"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 6.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Please evaluate `(45+27)/(8+4)`."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "60-(12/100)*250"
+        },
+        "result": 30
+      },
+      "fixture_calls": [
+        {
+          "expression": "60-(12/100)*250"
+        }
+      ],
+      "id": "math-call-15",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "60-(12/100)*250"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 30.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 60 minus 12 percent of 250."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "2**(1+3)+9"
+        },
+        "result": 25
+      },
+      "fixture_calls": [
+        {
+          "expression": "2**(1+3)+9"
+        }
+      ],
+      "id": "math-call-16",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "2**(1+3)+9"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 25,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate 2**(1+3) + 9."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "+32/(-4)+11"
+        },
+        "result": 3
+      },
+      "fixture_calls": [
+        {
+          "expression": "+32/(-4)+11"
+        }
+      ],
+      "id": "math-call-17",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "+32/(-4)+11"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 3.0,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Evaluate +32/(-4) + 11."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "((6)**3)-((8-3)*7)"
+        },
+        "result": 181
+      },
+      "fixture_calls": [
+        {
+          "expression": "((6)**3)-((8-3)*7)"
+        }
+      ],
+      "id": "math-call-18",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "((6)**3)-((8-3)*7)"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 181,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate (6 cubed) - ((8-3)*7)."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "13+17+23"
+        },
+        "result": 53
+      },
+      "fixture_calls": [
+        {
+          "expression": "13+17+23"
+        }
+      ],
+      "id": "math-call-19",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "13+17+23"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": 53,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "What do 13 plus 17 plus 23 add up to?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "expression": "14*-9"
+        },
+        "result": -126
+      },
+      "fixture_calls": [
+        {
+          "expression": "14*-9"
+        }
+      ],
+      "id": "math-call-20",
+      "output": {
+        "call": {
+          "arguments": {
+            "expression": "14*-9"
+          },
+          "name": "calculator"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": -126,
+        "route": "calculator",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "I need the product of 14 times -9."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Île-de-Bréhat, France"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Île-de-Bréhat, France"
+        }
+      ],
+      "id": "place-call-01",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Île-de-Bréhat, France"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-01"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Could you check the weather in Île-de-Bréhat, France, please?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "St. George's, Grenada"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "St. George's, Grenada"
+        }
+      ],
+      "id": "place-call-02",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "St. George's, Grenada"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-02"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather for St. George's, Grenada at the moment?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Reykjavík"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Reykjavík"
+        }
+      ],
+      "id": "place-call-03",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Reykjavík"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-03"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Do I need a coat for the weather in Reykjavík right now?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Baden-Baden, Germany"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Baden-Baden, Germany"
+        }
+      ],
+      "id": "place-call-04",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Baden-Baden, Germany"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-04"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Baden-Baden, Germany today?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Antigua and Barbuda"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Antigua and Barbuda"
+        }
+      ],
+      "id": "place-call-05",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Antigua and Barbuda"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-05"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather for \"Antigua and Barbuda\" now, please?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Trinidad, Bolivia"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Trinidad, Bolivia"
+        }
+      ],
+      "id": "place-call-06",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Trinidad, Bolivia"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-06"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in \"Trinidad, Bolivia\"?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Oświęcim, Poland"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Oświęcim, Poland"
+        }
+      ],
+      "id": "place-call-07",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Oświęcim, Poland"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-07"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Location: \"Oświęcim, Poland\""
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Ho Chi Minh City"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Ho Chi Minh City"
+        }
+      ],
+      "id": "place-call-08",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Ho Chi Minh City"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-08"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Ho Chi Minh City?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "Dunedin, New Zealand"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "Dunedin, New Zealand"
+        }
+      ],
+      "id": "place-call-09",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "Dunedin, New Zealand"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-09"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather for Dunedin, New Zealand currently, thanks."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "location": "İzmir, Türkiye"
+        }
+      },
+      "fixture_calls": [
+        {
+          "location": "İzmir, Türkiye"
+        }
+      ],
+      "id": "place-call-10",
+      "output": {
+        "call": {
+          "arguments": {
+            "location": "İzmir, Türkiye"
+          },
+          "name": "weather"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-10"
+        },
+        "route": "weather",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in İzmir, Türkiye, please."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Nouakchott"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Nouakchott"
+        }
+      ],
+      "id": "place-call-11",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Nouakchott"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-11"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "What would a clock in Nouakchott read right now?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Port Louis"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Port Louis"
+        }
+      ],
+      "id": "place-call-12",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Port Louis"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-12"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "I need the current time in Port Louis, please."
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Pacific/Chatham"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Pacific/Chatham"
+        }
+      ],
+      "id": "place-call-13",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Pacific/Chatham"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-13"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time for Pacific/Chatham now?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Australia/Lord_Howe"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Australia/Lord_Howe"
+        }
+      ],
+      "id": "place-call-14",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Australia/Lord_Howe"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-14"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time in Australia/Lord_Howe today?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "America/Indiana/Indianapolis"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "America/Indiana/Indianapolis"
+        }
+      ],
+      "id": "place-call-15",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "America/Indiana/Indianapolis"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-15"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "timezone: America/Indiana/Indianapolis"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Etc/GMT-3"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Etc/GMT-3"
+        }
+      ],
+      "id": "place-call-16",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Etc/GMT-3"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-16"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Current time in Etc/GMT-3?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "GMT"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "GMT"
+        }
+      ],
+      "id": "place-call-17",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "GMT"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-17"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time in GMT, thank you!"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Windhoek"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Windhoek"
+        }
+      ],
+      "id": "place-call-18",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Windhoek"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-18"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "What does a clock in Windhoek display at this moment?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "King's Lynn, England"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "King's Lynn, England"
+        }
+      ],
+      "id": "place-call-19",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "King's Lynn, England"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-19"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time in 'King's Lynn, England' currently?"
+    },
+    {
+      "expected": {
+        "arguments": {
+          "timezone": "Santafé de Bogotá, Colombia"
+        }
+      },
+      "fixture_calls": [
+        {
+          "timezone": "Santafé de Bogotá, Colombia"
+        }
+      ],
+      "id": "place-call-20",
+      "output": {
+        "call": {
+          "arguments": {
+            "timezone": "Santafé de Bogotá, Colombia"
+          },
+          "name": "get_time"
+        },
+        "margin": 0.0,
+        "parser_revision": "argument-parser-v3",
+        "result": {
+          "fixture_id": "place-call-20"
+        },
+        "route": "get_time",
+        "status": "tool_result"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Show the current time in Santafé de Bogotá, Colombia?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-01",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "That calculation is undefined. Please check its divisors and exponents.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "undefined_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate 72/(6-6)."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-02",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please use smaller numbers and integer exponents between -12 and 12.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "arithmetic_limit",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 8**14."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-03",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate 4 8 + 2."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-04",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 1,25 + 6."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-05",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Evaluate 7*(3+2) and then store the result."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-06",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate 9!"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-07",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Compute 3 cubed squared."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-08",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Find sqrt(81) + 4."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-09",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "What is 14 modulo 5?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-10",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide one expression using numbers, parentheses, +, -, *, /, or **.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_arithmetic",
+        "route": "calculator",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "calculator",
+      "user": "Calculate 5.5 kilometers divided by 2."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-11",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "ambiguous_location",
+        "route": "weather",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Oslo and Stockholm?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-12",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "This tool handles current weather or time. Please request the current conditions.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_time",
+        "route": "weather",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Vilnius next week?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-13",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "This tool handles current weather or time. Please request the current conditions.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "unsupported_time",
+        "route": "weather",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Tbilisi in 2 days?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-14",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "ambiguous_location",
+        "route": "weather",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Accra at midnight?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-15",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "ambiguous_location",
+        "route": "weather",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "weather",
+      "user": "Weather in Zurich. Have a nice day."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-16",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "ambiguous_location",
+        "route": "get_time",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time in Cairo or Alexandria?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-17",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "ambiguous_location",
+        "route": "get_time",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Tell me the current time in my office, please."
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-18",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide a valid IANA time zone or a city and region.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "invalid_timezone",
+        "route": "get_time",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time in Atlantic/Atlantis?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-19",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please provide a valid IANA time zone or a city and region.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "invalid_timezone",
+        "route": "get_time",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time for Europe/../../Paris?"
+    },
+    {
+      "expected": {
+        "needs_clarification": true
+      },
+      "fixture_calls": [],
+      "id": "clarify-20",
+      "output": {
+        "call": null,
+        "margin": 0.0,
+        "message": "Please name one location. Quote the full name if it contains words such as 'and' or 'or'.",
+        "parser_revision": "argument-parser-v3",
+        "reason": "ambiguous_location",
+        "route": "get_time",
+        "status": "needs_clarification"
+      },
+      "passed": true,
+      "tool": "get_time",
+      "user": "Time in \"Perth\" and then in \"Sydney\"?"
+    }
+  ],
+  "cases_sha256": "54b4222cc7eeb1e3e28d50630b7d329004e4faa6f345d9d0415696b497040bc0",
+  "confirmation_consumed": true,
+  "created_at": "2026-09-11T05:56:53.600860+00:00",
+  "direct_answers_tested": false,
+  "interpretation": "Newly authored finite parser check with supplied routes and fixture handlers. Exact-text disjoint from recorded prior requests. Reuse is regression evidence, not another independent confirmation. Does not qualify a combined prototype for release.",
+  "live_tools_tested": false,
+  "model_routing_tested": false,
+  "novelty_inputs_sha256": {
+    "tests/test_resolver_v3.py": "9c8ec1b6cbb8dce5c0f68c16fa07734244fd1aaf9f8f42b3721adba08d3d2b71",
+    "tool_assistant/data/confirmation-100.json": "bce382f1cc60a9fe5a50c77b4acff9ace28c1e55d1c11731565aa98c710c7882",
+    "tool_assistant/data/prior-string-hashes.json": "58e15cc797a939f78f19e0db885171e82eb4fc8c8f2f370ba76fe9a43a2d5596",
+    "tool_assistant/data/router-training.json": "96c8d3e3b37b5f8930b3be14dc3faef612e3c3a1bbd68b2f5b696af0078d34da"
+  },
+  "parser_revision": "argument-parser-v3",
+  "passed": 60,
+  "production_ready": false,
+  "schema_version": 1,
+  "scope": "parser_only_supplied_route",
+  "source_files": {
+    "tests/test_parser_evaluation.py": "b62ff55a92ef1b05ccd0def8f94f1d0836fd8edc806d14ad40cd82b2a0cf941e",
+    "tests/test_resolver_v3.py": "9c8ec1b6cbb8dce5c0f68c16fa07734244fd1aaf9f8f42b3721adba08d3d2b71",
+    "tool_assistant/data/candidate-source-lock.json": "6a0782c94f633f75a41f8dcb0117a7c2d1f3d7b18ce85cd5c4da206a68d7cf05",
+    "tool_assistant/evaluate.py": "0bf1c527ab2413fec7b5e009e89146cfe97a6b1e0c1899a14278b0ce249e6471",
+    "tool_assistant/evaluate_parser.py": "d6483322b8ffa521d1743c083ab7dddf216bf3f4018118857fe7c0e370e08843",
+    "tool_assistant/resolver_v3.py": "73d72e676ed350517bba384b1c2dad3021a308faec1cf5c6ccc0b94a94046aba",
+    "tool_assistant/runtime_v3.py": "4daa850642178fb6845595831ea6b74833ac10bf1f8cf8acf15dd7a6fe290281"
+  },
+  "source_lock_sha256": "857dabb4b441f4bdb800b7073d7c341c8c281785773853cdaf93af08b88d4735",
+  "status": "PASS",
+  "total": 60
+}

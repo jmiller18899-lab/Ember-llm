@@ -1,0 +1,4201 @@
+{
+  "candidate_manifest_sha256": "9dbdc371850b262bb6a28ffa517d11848759cd8552f0efc452052797c2dec6f9",
+  "cases_sha256": "bce382f1cc60a9fe5a50c77b4acff9ace28c1e55d1c11731565aa98c710c7882",
+  "confirmation_consumed": true,
+  "created_at": "2026-09-11T05:23:17.489446+00:00",
+  "direct_answer_quality_tested": false,
+  "fresh_case_counts": {
+    "calculator": 20,
+    "direct": 20,
+    "get_time": 20,
+    "weather": 20,
+    "web_search": 20
+  },
+  "interpretation": "Tool planning and fixture dispatch only. Direct answers and live service adapters require separate gates.",
+  "live_tools_tested": false,
+  "production_ready": false,
+  "results": {
+    "full": {
+      "arguments_total": 80,
+      "by_route": {
+        "calculator": {
+          "passed": 16,
+          "total": 20
+        },
+        "direct": {
+          "passed": 20,
+          "total": 20
+        },
+        "get_time": {
+          "passed": 15,
+          "total": 20
+        },
+        "weather": {
+          "passed": 18,
+          "total": 20
+        },
+        "web_search": {
+          "passed": 13,
+          "total": 20
+        }
+      },
+      "cases": [
+        {
+          "arguments": {
+            "location": "Baku"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_001",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Baku"
+              },
+              "name": "weather"
+            },
+            "margin": 0.8787096291537295,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Could you check whether it is raining in Baku right now?"
+        },
+        {
+          "arguments": {
+            "location": "Nuuk"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_002",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Nuuk"
+              },
+              "name": "weather"
+            },
+            "margin": 0.31694845042029696,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I am stepping outside; what is the current temperature in Nuuk?"
+        },
+        {
+          "arguments": {
+            "location": "Paramaribo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_003",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Paramaribo"
+              },
+              "name": "weather"
+            },
+            "margin": 0.327991725979304,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Please get the live weather for Paramaribo."
+        },
+        {
+          "arguments": {
+            "location": "Gaborone"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_004",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Gaborone"
+              },
+              "name": "weather"
+            },
+            "margin": 0.36777577464077293,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Are there clear skies in Gaborone at the moment?"
+        },
+        {
+          "arguments": {
+            "location": "Valparaiso"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_005",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Valparaiso"
+              },
+              "name": "weather"
+            },
+            "margin": 0.2662229270053398,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Tell me the current wind conditions in Valparaiso."
+        },
+        {
+          "arguments": {
+            "location": "Tromso"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_006",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Tromso"
+              },
+              "name": "weather"
+            },
+            "margin": 0.14834792406403818,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I need a current weather reading for Tromso."
+        },
+        {
+          "arguments": {
+            "location": "Sapporo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_007",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Sapporo"
+              },
+              "name": "weather"
+            },
+            "margin": 0.09698050876159242,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "How cold is it in Sapporo right now?"
+        },
+        {
+          "arguments": {
+            "location": "Muscat"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_008",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Muscat"
+              },
+              "name": "weather"
+            },
+            "margin": 0.8991685013931869,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Could you report the weather in Muscat currently?"
+        },
+        {
+          "arguments": {
+            "location": "Kigali"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_009",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Kigali"
+              },
+              "name": "weather"
+            },
+            "margin": 0.15500743081446622,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Is the sun out in Kigali at this moment?"
+        },
+        {
+          "arguments": {
+            "location": "Hobart"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_010",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Hobart"
+              },
+              "name": "weather"
+            },
+            "margin": 0.6432013895858869,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Please look at the live temperature in Hobart."
+        },
+        {
+          "arguments": {
+            "location": "Cuenca"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_011",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Cuenca"
+              },
+              "name": "weather"
+            },
+            "margin": 0.5632245876696753,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "What are the outdoor conditions in Cuenca right now?"
+        },
+        {
+          "arguments": {
+            "location": "Bergen"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_012",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Bergen"
+              },
+              "name": "weather"
+            },
+            "margin": 0.45036780661608455,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I need to know whether it is wet in Bergen at the moment."
+        },
+        {
+          "arguments": {
+            "location": "Windhoek"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_013",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Windhoek"
+              },
+              "name": "weather"
+            },
+            "margin": 0.7094644328486025,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Can you fetch current weather observations for Windhoek?"
+        },
+        {
+          "arguments": {
+            "location": "Tbilisi"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_014",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Tbilisi"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.08576472729206008,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "weather",
+          "route_ok": false,
+          "user": "Please tell me how warm it is in Tbilisi right now."
+        },
+        {
+          "arguments": {
+            "location": "Noumea"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_015",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Noumea"
+              },
+              "name": "weather"
+            },
+            "margin": 0.3584641366335486,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Any rainfall in Noumea currently?"
+        },
+        {
+          "arguments": {
+            "location": "Saint-Pierre, Reunion"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_016",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Saint-Pierre, Reunion"
+              },
+              "name": "weather"
+            },
+            "margin": 0.7152222939811599,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Could you get the present weather in Saint-Pierre, Reunion?"
+        },
+        {
+          "arguments": {
+            "location": "St. Moritz"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_017",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "St. Moritz"
+              },
+              "name": "weather"
+            },
+            "margin": 1.0293056021418736,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "What is the live air temperature in St. Moritz?"
+        },
+        {
+          "arguments": {
+            "location": "L'Aquila"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_018",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "L'Aquila"
+              },
+              "name": "weather"
+            },
+            "margin": 0.3795404480053395,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Is it cloudy in L'Aquila right now?"
+        },
+        {
+          "arguments": {
+            "location": "Ulaanbaatar"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_019",
+          "output": {
+            "call": null,
+            "margin": 0.12447449819537826,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "weather",
+          "route_ok": false,
+          "user": "I am packing a jacket; check the current temperature in Ulaanbaatar."
+        },
+        {
+          "arguments": {
+            "location": "Ushuaia"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_020",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Ushuaia"
+              },
+              "name": "weather"
+            },
+            "margin": 0.3907033499292267,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Give me a weather observation for Ushuaia at the moment."
+        },
+        {
+          "arguments": {
+            "timezone": "Thimphu"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_021",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Thimphu"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.8375700341612217,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Could you fetch the local clock time in Thimphu right now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Dushanbe"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_022",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Dushanbe, please"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.29597345154714905,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "I need the current time in Dushanbe, please."
+        },
+        {
+          "arguments": {
+            "timezone": "Praia"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_023",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Praia show"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.11376936492242706,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What would a clock in Praia show at this moment?"
+        },
+        {
+          "arguments": {
+            "timezone": "Port Vila"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_024",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Port Vila"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.47796164667298113,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please check what time it currently is in Port Vila."
+        },
+        {
+          "arguments": {
+            "timezone": "Yerevan"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_025",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Yerevan"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.5058784211064937,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Tell me the local wall-clock time in Yerevan right now."
+        },
+        {
+          "arguments": {
+            "timezone": "Bishkek"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_026",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Bishkek"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.5817331370373985,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Could you read out the current local time for Bishkek?"
+        },
+        {
+          "arguments": {
+            "timezone": "Apia"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_027",
+          "output": {
+            "call": null,
+            "margin": 0.15837510802731708,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "I am about to call someone in Apia; what time is it there now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Asmara"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_028",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Asmara"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.13791604134481228,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "How late is it in Asmara right now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Malabo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_029",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Malabo"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.024408598857541375,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please give the current local clock reading in Malabo."
+        },
+        {
+          "arguments": {
+            "timezone": "Banjul"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_030",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Banjul"
+              },
+              "name": "weather"
+            },
+            "margin": 0.07889236168917402,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "I need a present-time lookup for Banjul."
+        },
+        {
+          "arguments": {
+            "timezone": "Europe/Vilnius"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_031",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Europe/Vilnius"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.786097887116435,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Show the current time in Europe/Vilnius."
+        },
+        {
+          "arguments": {
+            "timezone": "Asia/Kathmandu"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_032",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Asia/Kathmandu"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.29283247943089025,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please tell me the time in Asia/Kathmandu right now."
+        },
+        {
+          "arguments": {
+            "timezone": "Pacific/Chatham"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_033",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Pacific/Chatham"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.9441810328670801,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What time is it currently in Pacific/Chatham?"
+        },
+        {
+          "arguments": {
+            "timezone": "Africa/Lusaka"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_034",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Africa/Lusaka"
+              },
+              "name": "weather"
+            },
+            "margin": 0.31221548023172413,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "Can you check the clock in Africa/Lusaka at the moment?"
+        },
+        {
+          "arguments": {
+            "timezone": "Indian/Mauritius"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_035",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Indian/Mauritius"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.7529664107665375,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Give me the present local time for Indian/Mauritius."
+        },
+        {
+          "arguments": {
+            "timezone": "Surabaya"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_036",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Surabaya"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.6013204558451065,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What is the time on the clock in Surabaya right now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Maputo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_037",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Maputo"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.12893899020168087,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please get a local-time reading for Maputo."
+        },
+        {
+          "arguments": {
+            "timezone": "Belize City"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_038",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Belize City"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.08477699860137239,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Could you tell me the current hour and minute in Belize City?"
+        },
+        {
+          "arguments": {
+            "timezone": "Nuku'alofa"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_039",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Nuku'alofa"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.8120113704203531,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What time is it in Nuku'alofa at this moment?"
+        },
+        {
+          "arguments": {
+            "timezone": "Papeete"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_040",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Papeete"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.32230357862637393,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Look up the local time in Papeete right now."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_041",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "7843+2869"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.36306360129701953,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 10712,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please work out 7843 plus 2869."
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_042",
+          "output": {
+            "call": null,
+            "margin": 0.1624926303638021,
+            "route": "weather",
+            "status": "needs_clarification"
+          },
+          "passed": false,
+          "result": 4234,
+          "route": "calculator",
+          "route_ok": false,
+          "user": "I need the product of 73 times 58."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_043",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "9360/45"
+              },
+              "name": "calculator"
+            },
+            "margin": 1.0484529130131022,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 208,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Can you compute 9360 divided by 45?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_044",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "(6.5/100)*280"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.9060928739545997,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 18.2,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please calculate 6.5 percent of 280."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_045",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "123.75-48.5"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5158507629497757,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 75.25,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "How much is 123.75 minus 48.5?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_046",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "46**2"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.03354894480931617,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 2116,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Work out 46 squared for me."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_047",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "2**11"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5598300224005353,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 2048,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Calculate 2 to the power of 11."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_048",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "16.25*3.2"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.52319482393794,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 52,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please find 16.25 multiplied by 3.2."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_049",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "845+129+76"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5594652689160589,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 1050,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "What do 845 plus 129 plus 76 add up to?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_050",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "4321-987"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.6986690449295686,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 3334,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Compute 4321 minus 987."
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_051",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "18*7+3"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.7767379994753815,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "result": 180,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Could you calculate 18*(7+3)?"
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_052",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "96-24/6"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.2214176462233295,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "result": 12,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Evaluate (96-24)/6."
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_053",
+          "output": {
+            "call": null,
+            "margin": 0.9298007926972844,
+            "route": "calculator",
+            "status": "needs_clarification"
+          },
+          "passed": false,
+          "result": 25,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please calculate -17 plus 42."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_054",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "(9.5/100)*640"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5875688877075215,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 60.8,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "How much is 9.5 percent of 640?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_055",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "2.75*16-9"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.57381161833967,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 35,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please compute 2.75 times 16 minus 9."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_056",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "14+6/3"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.8060804505331398,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 16,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Calculate 14 + 6 / 3."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_057",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "0.6*0.25"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.4572685978511799,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 0.15,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Find the value of 0.6 multiplied by 0.25."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_058",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "1001/13"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.20042293753376844,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 77,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "I need 1001 divided by 13."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_059",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "3**5"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.8872559214049919,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 243,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Compute 3 to the power of 5."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_060",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "508-219+37"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.8341236711424026,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 326,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Calculate 508 minus 219 plus 37."
+        },
+        {
+          "arguments": {
+            "query": "Find the currently supported releases of the Gleam programming language."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_061",
+          "output": {
+            "call": null,
+            "margin": 0.31346068606408384,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Find the currently supported releases of the Gleam programming language."
+        },
+        {
+          "arguments": {
+            "query": "Look up the latest official Zed editor release notes."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_062",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up the latest official Zed editor release notes."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.7191876527527026,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up the latest official Zed editor release notes."
+        },
+        {
+          "arguments": {
+            "query": "Please find the newest security bulletin published by the FreeBSD project."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_063",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please find the newest security bulletin published by the FreeBSD project."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.10524393233201412,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please find the newest security bulletin published by the FreeBSD project."
+        },
+        {
+          "arguments": {
+            "query": "Search for the current opening hours of the National Museum of Iceland."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_064",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Search for the current opening hours of the National Museum of Iceland."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.028195319786616713,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Search for the current opening hours of the National Museum of Iceland."
+        },
+        {
+          "arguments": {
+            "query": "Find the latest public mission update from the European Space Agency."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_065",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the latest public mission update from the European Space Agency."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.47315774320022086,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the latest public mission update from the European Space Agency."
+        },
+        {
+          "arguments": {
+            "query": "Look up the current ticket prices for the Vasa Museum."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_066",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up the current ticket prices for the Vasa Museum."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.20693717828599703,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up the current ticket prices for the Vasa Museum."
+        },
+        {
+          "arguments": {
+            "query": "Please search for the newest stable DuckDB release."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_067",
+          "output": {
+            "call": null,
+            "margin": 0.03240192424731064,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Please search for the newest stable DuckDB release."
+        },
+        {
+          "arguments": {
+            "query": "Find the most recent official Krita development announcement."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_068",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the most recent official Krita development announcement."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.6192563307756079,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the most recent official Krita development announcement."
+        },
+        {
+          "arguments": {
+            "query": "Check the web for current ferry timetables between Tallinn and Helsinki."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_069",
+          "output": {
+            "call": null,
+            "margin": 0.11873037374456435,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Check the web for current ferry timetables between Tallinn and Helsinki."
+        },
+        {
+          "arguments": {
+            "query": "Search for the latest official Mastodon server release."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_070",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Search for the latest official Mastodon server release."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.5833610957023315,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Search for the latest official Mastodon server release."
+        },
+        {
+          "arguments": {
+            "query": "Please look up the current application deadline for the next Google Summer of Code."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_071",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please look up the current application deadline for the next Google Summer of Code."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.24135619688593546,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please look up the current application deadline for the next Google Summer of Code."
+        },
+        {
+          "arguments": {
+            "query": "Find a recent official announcement about the Vera Rubin Observatory."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_072",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find a recent official announcement about the Vera Rubin Observatory."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.23982476440195852,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find a recent official announcement about the Vera Rubin Observatory."
+        },
+        {
+          "arguments": {
+            "query": "Search the web for the latest stable Nushell version."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_073",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Search the web for the latest stable Nushell version."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.29611816727947576,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Search the web for the latest stable Nushell version."
+        },
+        {
+          "arguments": {
+            "query": "Look up the newest official release of the Godot game engine."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_074",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up the newest official release of the Godot game engine."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.42470261257831243,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up the newest official release of the Godot game engine."
+        },
+        {
+          "arguments": {
+            "query": "Find the current schedule for the next FOSDEM conference."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_075",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the current schedule for the next FOSDEM conference."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.19420200745820937,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the current schedule for the next FOSDEM conference."
+        },
+        {
+          "arguments": {
+            "query": "Please search for the newest public OpenStreetMap Foundation board announcement."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_076",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please search for the newest public OpenStreetMap Foundation board announcement."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.2629400114518705,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please search for the newest public OpenStreetMap Foundation board announcement."
+        },
+        {
+          "arguments": {
+            "query": "Look up recent changes to the official Deno release notes."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_077",
+          "output": {
+            "call": null,
+            "margin": 0.15056535842589525,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Look up recent changes to the official Deno release notes."
+        },
+        {
+          "arguments": {
+            "query": "Search for current train service disruptions at Zurich Hauptbahnhof."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_078",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "current train service disruptions at Zurich Hauptbahnhof"
+              },
+              "name": "weather"
+            },
+            "margin": 0.16266501767594688,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Search for current train service disruptions at Zurich Hauptbahnhof."
+        },
+        {
+          "arguments": {
+            "query": "Find the latest stable KiCad release on its official website."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_079",
+          "output": {
+            "call": null,
+            "margin": 0.09980718810925626,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Find the latest stable KiCad release on its official website."
+        },
+        {
+          "arguments": {
+            "query": "Please find the current visitor information for the Rijksmuseum."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_080",
+          "output": {
+            "call": null,
+            "margin": 0.2089166164187541,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Please find the current visitor information for the Rijksmuseum."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_081",
+          "output": {
+            "call": null,
+            "margin": 1.6673339333278954,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Write a kind one-sentence note thanking a neighbor for returning a parcel."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_082",
+          "output": {
+            "call": null,
+            "margin": 1.2137098488812592,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Rewrite this as a clear button label: make the old stuff come back."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_083",
+          "output": {
+            "call": null,
+            "margin": 1.177639831619572,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Summarize: The ferry arrived early. Mara boarded safely. Her suitcase stayed dry."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_084",
+          "output": {
+            "call": null,
+            "margin": 1.4140995380115327,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain in one sentence why multiplying two negative numbers gives a positive result."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_085",
+          "output": {
+            "call": null,
+            "margin": 0.17466320183936246,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Classify this message as polite or rude: Could you please lower the volume?"
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_086",
+          "output": {
+            "call": null,
+            "margin": 0.7354222096387262,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Give three simple steps for organizing an untidy desk."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_087",
+          "output": {
+            "call": null,
+            "margin": 1.0869832713634087,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain the difference between a forecast and an observation without checking the weather."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_088",
+          "output": {
+            "call": null,
+            "margin": 0.9986775178123478,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Rewrite this courteously: Your current timetable makes no sense."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_089",
+          "output": {
+            "call": null,
+            "margin": 0.8896009775913247,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Create a short story title containing the words midnight and calculator."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_090",
+          "output": {
+            "call": null,
+            "margin": 0.06368587837710155,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Summarize: Noor planted basil on Monday and watered it on Tuesday."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_091",
+          "output": {
+            "call": null,
+            "margin": 1.1592506299507515,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain what a web search query is using everyday language."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_092",
+          "output": {
+            "call": null,
+            "margin": 0.9409584912361133,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Give two reasons someone might choose a printed map over a phone map."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_093",
+          "output": {
+            "call": null,
+            "margin": 0.40615668497971313,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Write a short welcome for volunteers joining a beach cleanup."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_094",
+          "output": {
+            "call": null,
+            "margin": 1.79978749687269,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Label the sentiment as positive, negative, or neutral: The replacement arrived damaged."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_095",
+          "output": {
+            "call": null,
+            "margin": 1.163740862258138,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Rewrite this bug report title clearly: clock thing shows odd letters."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_096",
+          "output": {
+            "call": null,
+            "margin": 1.075074242061557,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain why a cached webpage can show old information."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_097",
+          "output": {
+            "call": null,
+            "margin": 0.12364001443318728,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Make this shorter: At the present moment we are unable to determine the answer."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_098",
+          "output": {
+            "call": null,
+            "margin": 0.4442017215132712,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "List three practical ways to make a long paragraph easier to read."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_099",
+          "output": {
+            "call": null,
+            "margin": 0.562426913139494,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Summarize: The cafe ran out of tea, ordered more, and reopened on Thursday."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_100",
+          "output": {
+            "call": null,
+            "margin": 1.2835012486541535,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Write a friendly reminder asking a teammate to review a draft tomorrow."
+        }
+      ],
+      "combined_correct": 82,
+      "combined_total": 100,
+      "exact_arguments_correct": 62,
+      "routing_correct": 87,
+      "routing_total": 100
+    },
+    "int4": {
+      "arguments_total": 80,
+      "by_route": {
+        "calculator": {
+          "passed": 16,
+          "total": 20
+        },
+        "direct": {
+          "passed": 20,
+          "total": 20
+        },
+        "get_time": {
+          "passed": 14,
+          "total": 20
+        },
+        "weather": {
+          "passed": 19,
+          "total": 20
+        },
+        "web_search": {
+          "passed": 16,
+          "total": 20
+        }
+      },
+      "cases": [
+        {
+          "arguments": {
+            "location": "Baku"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_001",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Baku"
+              },
+              "name": "weather"
+            },
+            "margin": 0.8827397357071755,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Could you check whether it is raining in Baku right now?"
+        },
+        {
+          "arguments": {
+            "location": "Nuuk"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_002",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Nuuk"
+              },
+              "name": "weather"
+            },
+            "margin": 0.18676357259435844,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I am stepping outside; what is the current temperature in Nuuk?"
+        },
+        {
+          "arguments": {
+            "location": "Paramaribo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_003",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Paramaribo"
+              },
+              "name": "weather"
+            },
+            "margin": 0.17707521363512807,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Please get the live weather for Paramaribo."
+        },
+        {
+          "arguments": {
+            "location": "Gaborone"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_004",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Gaborone"
+              },
+              "name": "weather"
+            },
+            "margin": 0.4501598345179864,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Are there clear skies in Gaborone at the moment?"
+        },
+        {
+          "arguments": {
+            "location": "Valparaiso"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_005",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Valparaiso"
+              },
+              "name": "weather"
+            },
+            "margin": 0.2662229270053398,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Tell me the current wind conditions in Valparaiso."
+        },
+        {
+          "arguments": {
+            "location": "Tromso"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_006",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Tromso"
+              },
+              "name": "weather"
+            },
+            "margin": 0.2028313992005647,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I need a current weather reading for Tromso."
+        },
+        {
+          "arguments": {
+            "location": "Sapporo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_007",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Sapporo"
+              },
+              "name": "weather"
+            },
+            "margin": 0.09698050876159242,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "How cold is it in Sapporo right now?"
+        },
+        {
+          "arguments": {
+            "location": "Muscat"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_008",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Muscat"
+              },
+              "name": "weather"
+            },
+            "margin": 0.9903553424679769,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Could you report the weather in Muscat currently?"
+        },
+        {
+          "arguments": {
+            "location": "Kigali"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_009",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Kigali"
+              },
+              "name": "weather"
+            },
+            "margin": 0.15500743081446622,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Is the sun out in Kigali at this moment?"
+        },
+        {
+          "arguments": {
+            "location": "Hobart"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_010",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Hobart"
+              },
+              "name": "weather"
+            },
+            "margin": 0.4438572249467032,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Please look at the live temperature in Hobart."
+        },
+        {
+          "arguments": {
+            "location": "Cuenca"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_011",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Cuenca"
+              },
+              "name": "weather"
+            },
+            "margin": 0.5632245876696753,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "What are the outdoor conditions in Cuenca right now?"
+        },
+        {
+          "arguments": {
+            "location": "Bergen"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_012",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Bergen"
+              },
+              "name": "weather"
+            },
+            "margin": 0.4663955048413001,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I need to know whether it is wet in Bergen at the moment."
+        },
+        {
+          "arguments": {
+            "location": "Windhoek"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_013",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Windhoek"
+              },
+              "name": "weather"
+            },
+            "margin": 0.7094644328486025,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Can you fetch current weather observations for Windhoek?"
+        },
+        {
+          "arguments": {
+            "location": "Tbilisi"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_014",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Tbilisi"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.08576472729206008,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "weather",
+          "route_ok": false,
+          "user": "Please tell me how warm it is in Tbilisi right now."
+        },
+        {
+          "arguments": {
+            "location": "Noumea"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_015",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Noumea"
+              },
+              "name": "weather"
+            },
+            "margin": 0.3584641366335486,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Any rainfall in Noumea currently?"
+        },
+        {
+          "arguments": {
+            "location": "Saint-Pierre, Reunion"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_016",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Saint-Pierre, Reunion"
+              },
+              "name": "weather"
+            },
+            "margin": 0.7152222939811599,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Could you get the present weather in Saint-Pierre, Reunion?"
+        },
+        {
+          "arguments": {
+            "location": "St. Moritz"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_017",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "St. Moritz"
+              },
+              "name": "weather"
+            },
+            "margin": 0.9054799826886909,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "What is the live air temperature in St. Moritz?"
+        },
+        {
+          "arguments": {
+            "location": "L'Aquila"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_018",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "L'Aquila"
+              },
+              "name": "weather"
+            },
+            "margin": 0.3795404480053395,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Is it cloudy in L'Aquila right now?"
+        },
+        {
+          "arguments": {
+            "location": "Ulaanbaatar"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_019",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Ulaanbaatar"
+              },
+              "name": "weather"
+            },
+            "margin": 0.1121945065726282,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "I am packing a jacket; check the current temperature in Ulaanbaatar."
+        },
+        {
+          "arguments": {
+            "location": "Ushuaia"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_020",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Ushuaia"
+              },
+              "name": "weather"
+            },
+            "margin": 0.3907033499292267,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "weather",
+          "route_ok": true,
+          "user": "Give me a weather observation for Ushuaia at the moment."
+        },
+        {
+          "arguments": {
+            "timezone": "Thimphu"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_021",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Thimphu"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.8416990569585389,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Could you fetch the local clock time in Thimphu right now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Dushanbe"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_022",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Dushanbe, please"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.29597345154714905,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "I need the current time in Dushanbe, please."
+        },
+        {
+          "arguments": {
+            "timezone": "Praia"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_023",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Praia show"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.11376936492242706,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What would a clock in Praia show at this moment?"
+        },
+        {
+          "arguments": {
+            "timezone": "Port Vila"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_024",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Port Vila"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.5418922335228498,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please check what time it currently is in Port Vila."
+        },
+        {
+          "arguments": {
+            "timezone": "Yerevan"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_025",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Yerevan"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.26462447173762477,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Tell me the local wall-clock time in Yerevan right now."
+        },
+        {
+          "arguments": {
+            "timezone": "Bishkek"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_026",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Bishkek"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.5817331370373985,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Could you read out the current local time for Bishkek?"
+        },
+        {
+          "arguments": {
+            "timezone": "Apia"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_027",
+          "output": {
+            "call": null,
+            "margin": 0.0782433986926116,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "I am about to call someone in Apia; what time is it there now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Asmara"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_028",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Asmara"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.13791604134481228,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "How late is it in Asmara right now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Malabo"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_029",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Malabo"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.024408598857541375,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please give the current local clock reading in Malabo."
+        },
+        {
+          "arguments": {
+            "timezone": "Banjul"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_030",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Banjul"
+              },
+              "name": "weather"
+            },
+            "margin": 0.07889236168917402,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "I need a present-time lookup for Banjul."
+        },
+        {
+          "arguments": {
+            "timezone": "Europe/Vilnius"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_031",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Europe/Vilnius"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.9461389842846419,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Show the current time in Europe/Vilnius."
+        },
+        {
+          "arguments": {
+            "timezone": "Asia/Kathmandu"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_032",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Asia/Kathmandu"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.444767619311577,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Please tell me the time in Asia/Kathmandu right now."
+        },
+        {
+          "arguments": {
+            "timezone": "Pacific/Chatham"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_033",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Pacific/Chatham"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.9441810328670801,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What time is it currently in Pacific/Chatham?"
+        },
+        {
+          "arguments": {
+            "timezone": "Africa/Lusaka"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_034",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "Africa/Lusaka"
+              },
+              "name": "weather"
+            },
+            "margin": 0.31221548023172413,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "Can you check the clock in Africa/Lusaka at the moment?"
+        },
+        {
+          "arguments": {
+            "timezone": "Indian/Mauritius"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_035",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Indian/Mauritius"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.48384154825027625,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Give me the present local time for Indian/Mauritius."
+        },
+        {
+          "arguments": {
+            "timezone": "Surabaya"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_036",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Surabaya"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.6013204558451065,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What is the time on the clock in Surabaya right now?"
+        },
+        {
+          "arguments": {
+            "timezone": "Maputo"
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_037",
+          "output": {
+            "call": null,
+            "margin": 0.007705717848697169,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "get_time",
+          "route_ok": false,
+          "user": "Please get a local-time reading for Maputo."
+        },
+        {
+          "arguments": {
+            "timezone": "Belize City"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_038",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Belize City"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.08477699860137239,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Could you tell me the current hour and minute in Belize City?"
+        },
+        {
+          "arguments": {
+            "timezone": "Nuku'alofa"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_039",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Nuku'alofa"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.7974072091214037,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "What time is it in Nuku'alofa at this moment?"
+        },
+        {
+          "arguments": {
+            "timezone": "Papeete"
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_040",
+          "output": {
+            "call": {
+              "arguments": {
+                "timezone": "Papeete"
+              },
+              "name": "get_time"
+            },
+            "margin": 0.43812021527667333,
+            "route": "get_time",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "get_time",
+          "route_ok": true,
+          "user": "Look up the local time in Papeete right now."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_041",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "7843+2869"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.36306360129701953,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 10712,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please work out 7843 plus 2869."
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_042",
+          "output": {
+            "call": null,
+            "margin": 0.1624926303638021,
+            "route": "weather",
+            "status": "needs_clarification"
+          },
+          "passed": false,
+          "result": 4234,
+          "route": "calculator",
+          "route_ok": false,
+          "user": "I need the product of 73 times 58."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_043",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "9360/45"
+              },
+              "name": "calculator"
+            },
+            "margin": 1.0484529130131022,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 208,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Can you compute 9360 divided by 45?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_044",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "(6.5/100)*280"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.9060928739545997,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 18.2,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please calculate 6.5 percent of 280."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_045",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "123.75-48.5"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5158507629497757,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 75.25,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "How much is 123.75 minus 48.5?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_046",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "46**2"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.03354894480931617,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 2116,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Work out 46 squared for me."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_047",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "2**11"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.554036215357542,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 2048,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Calculate 2 to the power of 11."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_048",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "16.25*3.2"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.52319482393794,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 52,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please find 16.25 multiplied by 3.2."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_049",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "845+129+76"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5594652689160589,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 1050,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "What do 845 plus 129 plus 76 add up to?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_050",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "4321-987"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.6271951044552357,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 3334,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Compute 4321 minus 987."
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_051",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "18*7+3"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.7767379994753815,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "result": 180,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Could you calculate 18*(7+3)?"
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_052",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "96-24/6"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.2214176462233295,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "result": 12,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Evaluate (96-24)/6."
+        },
+        {
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_053",
+          "output": {
+            "call": null,
+            "margin": 0.9298007926972844,
+            "route": "calculator",
+            "status": "needs_clarification"
+          },
+          "passed": false,
+          "result": 25,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please calculate -17 plus 42."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_054",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "(9.5/100)*640"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5875688877075215,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 60.8,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "How much is 9.5 percent of 640?"
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_055",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "2.75*16-9"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.57381161833967,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 35,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Please compute 2.75 times 16 minus 9."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_056",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "14+6/3"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.8060804505331398,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 16,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Calculate 14 + 6 / 3."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_057",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "0.6*0.25"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5907192228780951,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 0.15,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Find the value of 0.6 multiplied by 0.25."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_058",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "1001/13"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.20042293753376844,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 77,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "I need 1001 divided by 13."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_059",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "3**5"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.5931236586710562,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 243,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Compute 3 to the power of 5."
+        },
+        {
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_060",
+          "output": {
+            "call": {
+              "arguments": {
+                "expression": "508-219+37"
+              },
+              "name": "calculator"
+            },
+            "margin": 0.8254297775507244,
+            "route": "calculator",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "result": 326,
+          "route": "calculator",
+          "route_ok": true,
+          "user": "Calculate 508 minus 219 plus 37."
+        },
+        {
+          "arguments": {
+            "query": "Find the currently supported releases of the Gleam programming language."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_061",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the currently supported releases of the Gleam programming language."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.048079791217822576,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the currently supported releases of the Gleam programming language."
+        },
+        {
+          "arguments": {
+            "query": "Look up the latest official Zed editor release notes."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_062",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up the latest official Zed editor release notes."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.4224419303583673,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up the latest official Zed editor release notes."
+        },
+        {
+          "arguments": {
+            "query": "Please find the newest security bulletin published by the FreeBSD project."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_063",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please find the newest security bulletin published by the FreeBSD project."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.12743656190944452,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please find the newest security bulletin published by the FreeBSD project."
+        },
+        {
+          "arguments": {
+            "query": "Search for the current opening hours of the National Museum of Iceland."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_064",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Search for the current opening hours of the National Museum of Iceland."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.028195319786616713,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Search for the current opening hours of the National Museum of Iceland."
+        },
+        {
+          "arguments": {
+            "query": "Find the latest public mission update from the European Space Agency."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_065",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the latest public mission update from the European Space Agency."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.1267936610897769,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the latest public mission update from the European Space Agency."
+        },
+        {
+          "arguments": {
+            "query": "Look up the current ticket prices for the Vasa Museum."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_066",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up the current ticket prices for the Vasa Museum."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.20693717828599703,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up the current ticket prices for the Vasa Museum."
+        },
+        {
+          "arguments": {
+            "query": "Please search for the newest stable DuckDB release."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_067",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please search for the newest stable DuckDB release."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.001003020155604939,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please search for the newest stable DuckDB release."
+        },
+        {
+          "arguments": {
+            "query": "Find the most recent official Krita development announcement."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_068",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the most recent official Krita development announcement."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.44044259553811493,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the most recent official Krita development announcement."
+        },
+        {
+          "arguments": {
+            "query": "Check the web for current ferry timetables between Tallinn and Helsinki."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_069",
+          "output": {
+            "call": null,
+            "margin": 0.21319924307836569,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Check the web for current ferry timetables between Tallinn and Helsinki."
+        },
+        {
+          "arguments": {
+            "query": "Search for the latest official Mastodon server release."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_070",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Search for the latest official Mastodon server release."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.5029437689681371,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Search for the latest official Mastodon server release."
+        },
+        {
+          "arguments": {
+            "query": "Please look up the current application deadline for the next Google Summer of Code."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_071",
+          "output": {
+            "call": null,
+            "margin": 0.0007298587343264606,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Please look up the current application deadline for the next Google Summer of Code."
+        },
+        {
+          "arguments": {
+            "query": "Find a recent official announcement about the Vera Rubin Observatory."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_072",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find a recent official announcement about the Vera Rubin Observatory."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.2728855855092365,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find a recent official announcement about the Vera Rubin Observatory."
+        },
+        {
+          "arguments": {
+            "query": "Search the web for the latest stable Nushell version."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_073",
+          "output": {
+            "call": null,
+            "margin": 0.275670650045535,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Search the web for the latest stable Nushell version."
+        },
+        {
+          "arguments": {
+            "query": "Look up the newest official release of the Godot game engine."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_074",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up the newest official release of the Godot game engine."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.03477683867744252,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up the newest official release of the Godot game engine."
+        },
+        {
+          "arguments": {
+            "query": "Find the current schedule for the next FOSDEM conference."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_075",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the current schedule for the next FOSDEM conference."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.19420200745820937,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the current schedule for the next FOSDEM conference."
+        },
+        {
+          "arguments": {
+            "query": "Please search for the newest public OpenStreetMap Foundation board announcement."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_076",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please search for the newest public OpenStreetMap Foundation board announcement."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.07274932758671104,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please search for the newest public OpenStreetMap Foundation board announcement."
+        },
+        {
+          "arguments": {
+            "query": "Look up recent changes to the official Deno release notes."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_077",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Look up recent changes to the official Deno release notes."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.36533787442480087,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Look up recent changes to the official Deno release notes."
+        },
+        {
+          "arguments": {
+            "query": "Search for current train service disruptions at Zurich Hauptbahnhof."
+          },
+          "arguments_ok": false,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_078",
+          "output": {
+            "call": {
+              "arguments": {
+                "location": "current train service disruptions at Zurich Hauptbahnhof"
+              },
+              "name": "weather"
+            },
+            "margin": 0.0235039428049173,
+            "route": "weather",
+            "status": "tool_call"
+          },
+          "passed": false,
+          "route": "web_search",
+          "route_ok": false,
+          "user": "Search for current train service disruptions at Zurich Hauptbahnhof."
+        },
+        {
+          "arguments": {
+            "query": "Find the latest stable KiCad release on its official website."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_079",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Find the latest stable KiCad release on its official website."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.37418481618101607,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Find the latest stable KiCad release on its official website."
+        },
+        {
+          "arguments": {
+            "query": "Please find the current visitor information for the Rijksmuseum."
+          },
+          "arguments_ok": true,
+          "fixture_dispatch_ok": true,
+          "id": "combined_new_080",
+          "output": {
+            "call": {
+              "arguments": {
+                "query": "Please find the current visitor information for the Rijksmuseum."
+              },
+              "name": "web_search"
+            },
+            "margin": 0.11331877051213929,
+            "route": "web_search",
+            "status": "tool_call"
+          },
+          "passed": true,
+          "route": "web_search",
+          "route_ok": true,
+          "user": "Please find the current visitor information for the Rijksmuseum."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_081",
+          "output": {
+            "call": null,
+            "margin": 1.4473332761203608,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Write a kind one-sentence note thanking a neighbor for returning a parcel."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_082",
+          "output": {
+            "call": null,
+            "margin": 1.2470980718665838,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Rewrite this as a clear button label: make the old stuff come back."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_083",
+          "output": {
+            "call": null,
+            "margin": 1.1870256713788505,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Summarize: The ferry arrived early. Mara boarded safely. Her suitcase stayed dry."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_084",
+          "output": {
+            "call": null,
+            "margin": 1.7655680156310594,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain in one sentence why multiplying two negative numbers gives a positive result."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_085",
+          "output": {
+            "call": null,
+            "margin": 0.07084321916870617,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Classify this message as polite or rude: Could you please lower the volume?"
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_086",
+          "output": {
+            "call": null,
+            "margin": 0.6342835704971593,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Give three simple steps for organizing an untidy desk."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_087",
+          "output": {
+            "call": null,
+            "margin": 0.9795053250865561,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain the difference between a forecast and an observation without checking the weather."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_088",
+          "output": {
+            "call": null,
+            "margin": 1.1202048037243522,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Rewrite this courteously: Your current timetable makes no sense."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_089",
+          "output": {
+            "call": null,
+            "margin": 0.4947673171321866,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Create a short story title containing the words midnight and calculator."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_090",
+          "output": {
+            "call": null,
+            "margin": 0.3220240758452937,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Summarize: Noor planted basil on Monday and watered it on Tuesday."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_091",
+          "output": {
+            "call": null,
+            "margin": 0.9106945460986676,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain what a web search query is using everyday language."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_092",
+          "output": {
+            "call": null,
+            "margin": 1.34975486176619,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Give two reasons someone might choose a printed map over a phone map."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_093",
+          "output": {
+            "call": null,
+            "margin": 0.4970575070919464,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Write a short welcome for volunteers joining a beach cleanup."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_094",
+          "output": {
+            "call": null,
+            "margin": 2.107864558044476,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Label the sentiment as positive, negative, or neutral: The replacement arrived damaged."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_095",
+          "output": {
+            "call": null,
+            "margin": 1.3696209720382633,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Rewrite this bug report title clearly: clock thing shows odd letters."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_096",
+          "output": {
+            "call": null,
+            "margin": 0.9935817323390665,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Explain why a cached webpage can show old information."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_097",
+          "output": {
+            "call": null,
+            "margin": 0.2737200779459685,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Make this shorter: At the present moment we are unable to determine the answer."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_098",
+          "output": {
+            "call": null,
+            "margin": 0.8030043129148228,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "List three practical ways to make a long paragraph easier to read."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_099",
+          "output": {
+            "call": null,
+            "margin": 0.5013811705816223,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Summarize: The cafe ran out of tea, ordered more, and reopened on Thursday."
+        },
+        {
+          "arguments_ok": null,
+          "fixture_dispatch_ok": null,
+          "id": "combined_new_100",
+          "output": {
+            "call": null,
+            "margin": 1.0931150261831242,
+            "route": "direct",
+            "status": "direct_answer_unavailable"
+          },
+          "passed": true,
+          "route": "direct",
+          "route_ok": true,
+          "user": "Write a friendly reminder asking a teammate to review a draft tomorrow."
+        }
+      ],
+      "combined_correct": 85,
+      "combined_total": 100,
+      "exact_arguments_correct": 65,
+      "routing_correct": 90,
+      "routing_total": 100
+    }
+  },
+  "schema_version": 1,
+  "status": "FAIL",
+  "strict_pass": false
+}

@@ -1,0 +1,51 @@
+name: Ember 4B acceleration sprint 1
+on:
+  push:
+    branches: [codex/ember-4b-acceleration-sprint1]
+    paths: [.github/workflows/ember-4b-acceleration-sprint1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        lane: [arithmetic, grounding, drafting]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - run: |
+          python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install transformers==5.17.0 peft==0.20.0 accelerate==1.15.0 huggingface-hub==1.31.0 datasets==5.0.1 trl==1.13.0
+      - run: python jobs/ember_4b_parallel_sprint1.py --lane ${{ matrix.lane }} --preflight
+  launch:
+    needs: preflight
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 3
+      matrix:
+        lane: [arithmetic, grounding, drafting]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - run: python -m pip install huggingface-hub==1.31.0
+      - name: Launch isolated capped L4 lane
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+          LANE: ${{ matrix.lane }}
+        run: |
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          lane=os.environ["LANE"]; token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          repo=f"Jmiller18899/ember-qwen3.5-4b-sprint1-{lane}"; api.create_repo(repo,private=True,exist_ok=True)
+          guard="launch-retry1.json"
+          if api.file_exists(repo,guard): raise RuntimeError("lane already launched")
+          api.upload_file(repo_id=repo,path_in_repo=guard,path_or_fileobj=b'{"status":"reserved"}',commit_message="Reserve one sprint lane")
+          job=api.run_uv_job("jobs/ember_4b_parallel_sprint1.py",script_args=["--lane",lane],python="3.11",flavor="l4x1",timeout=5400,name=f"ember-sprint1-retry1-{lane}",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          api.upload_file(repo_id=repo,path_in_repo=guard,path_or_fileobj=(f'{{"status":"submitted","job_id":"{job.id}"}}').encode(),commit_message="Record sprint lane job")
+          print(lane,job.id,job.url)
+          PY

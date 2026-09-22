@@ -1,0 +1,2649 @@
+{
+  "base_model_trained": false,
+  "configurations": [
+    {
+      "correct": 435,
+      "folds": [
+        {
+          "correct": 104,
+          "fold": 0,
+          "groups": [
+            "contrast-00",
+            "contrast-04",
+            "frame-00",
+            "frame-04",
+            "frame-08",
+            "frame-12"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 107,
+          "fold": 1,
+          "groups": [
+            "contrast-01",
+            "contrast-05",
+            "frame-01",
+            "frame-05",
+            "frame-09",
+            "frame-13"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 108,
+          "fold": 2,
+          "groups": [
+            "contrast-02",
+            "contrast-06",
+            "frame-02",
+            "frame-06",
+            "frame-10",
+            "frame-14"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 116,
+          "fold": 3,
+          "groups": [
+            "contrast-03",
+            "contrast-07",
+            "frame-03",
+            "frame-07",
+            "frame-11",
+            "frame-15"
+          ],
+          "total": 120
+        }
+      ],
+      "ridge": 0.01,
+      "total": 480
+    },
+    {
+      "correct": 433,
+      "folds": [
+        {
+          "correct": 104,
+          "fold": 0,
+          "groups": [
+            "contrast-00",
+            "contrast-04",
+            "frame-00",
+            "frame-04",
+            "frame-08",
+            "frame-12"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 108,
+          "fold": 1,
+          "groups": [
+            "contrast-01",
+            "contrast-05",
+            "frame-01",
+            "frame-05",
+            "frame-09",
+            "frame-13"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 108,
+          "fold": 2,
+          "groups": [
+            "contrast-02",
+            "contrast-06",
+            "frame-02",
+            "frame-06",
+            "frame-10",
+            "frame-14"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 113,
+          "fold": 3,
+          "groups": [
+            "contrast-03",
+            "contrast-07",
+            "frame-03",
+            "frame-07",
+            "frame-11",
+            "frame-15"
+          ],
+          "total": 120
+        }
+      ],
+      "ridge": 0.1,
+      "total": 480
+    },
+    {
+      "correct": 433,
+      "folds": [
+        {
+          "correct": 104,
+          "fold": 0,
+          "groups": [
+            "contrast-00",
+            "contrast-04",
+            "frame-00",
+            "frame-04",
+            "frame-08",
+            "frame-12"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 111,
+          "fold": 1,
+          "groups": [
+            "contrast-01",
+            "contrast-05",
+            "frame-01",
+            "frame-05",
+            "frame-09",
+            "frame-13"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 106,
+          "fold": 2,
+          "groups": [
+            "contrast-02",
+            "contrast-06",
+            "frame-02",
+            "frame-06",
+            "frame-10",
+            "frame-14"
+          ],
+          "total": 120
+        },
+        {
+          "correct": 112,
+          "fold": 3,
+          "groups": [
+            "contrast-03",
+            "contrast-07",
+            "frame-03",
+            "frame-07",
+            "frame-11",
+            "frame-15"
+          ],
+          "total": 120
+        }
+      ],
+      "ridge": 1.0,
+      "total": 480
+    }
+  ],
+  "development_count": 480,
+  "held_frame_predictions": [
+    {
+      "expected": "direct",
+      "id": "v4-00-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-00-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-00-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-00-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-00-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-00-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-00-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-00-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-00-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-00-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-00-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-00-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-00-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-00-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-00-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-00-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-00-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-00-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-00-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-00-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-04-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-04-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-04-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-04-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-04-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-04-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-04-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-04-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-04-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-04-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-04-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-04-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-04-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-04-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-04-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-04-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-04-get_time-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-04-get_time-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-04-get_time-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-04-get_time-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-08-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-08-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-08-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-08-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-08-weather-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-08-weather-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-08-weather-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-08-weather-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-08-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-08-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-08-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-08-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-08-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-08-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-08-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-08-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-08-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-08-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-08-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-08-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-12-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-12-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-12-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-12-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-12-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-12-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-12-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-12-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-12-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-12-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-12-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-12-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-12-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-12-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-12-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-12-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-12-get_time-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-12-get_time-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-12-get_time-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-12-get_time-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-00-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-00-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-00-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-00-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-00-weather-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-00-weather-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-00-weather-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-00-weather-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-00-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-00-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-00-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-00-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-00-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-00-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-00-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-00-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-00-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-00-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-00-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-00-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-04-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-04-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-04-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-04-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-04-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-04-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-04-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-04-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-04-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-04-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-04-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-04-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-04-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-04-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-04-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-04-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-04-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-04-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-04-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-04-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-01-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-01-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-01-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-01-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-01-weather-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-01-weather-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-01-weather-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-01-weather-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-01-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-01-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-01-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-01-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-01-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-01-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-01-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-01-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-01-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-01-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-01-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-01-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-05-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-05-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-05-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-05-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-05-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-05-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-05-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-05-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-05-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-05-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-05-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-05-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-05-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-05-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-05-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-05-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-05-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-05-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-05-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-05-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-09-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-09-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-09-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-09-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-09-weather-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-09-weather-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-09-weather-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-09-weather-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-09-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-09-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-09-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-09-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-09-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-09-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-09-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-09-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-09-get_time-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-09-get_time-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-09-get_time-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-09-get_time-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-13-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-13-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-13-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-13-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-13-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-13-weather-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-13-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-13-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-13-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-13-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-13-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-13-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-13-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-13-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-13-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-13-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-13-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-13-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-13-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-13-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-01-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-01-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-01-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-01-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-01-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-01-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-01-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-01-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-01-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-01-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-01-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-01-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-01-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-01-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-01-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-01-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-01-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-01-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-01-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-01-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-05-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-05-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-05-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-05-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-05-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-05-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-05-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-05-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-05-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-05-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-05-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-05-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-05-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-05-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-05-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-05-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-05-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-05-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-05-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-05-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-02-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-02-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-02-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-02-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-02-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-02-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-02-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-02-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-02-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-02-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-02-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-02-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-02-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-02-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-02-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-02-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-02-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-02-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-02-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-02-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-06-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-06-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-06-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-06-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-06-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-06-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-06-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-06-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-06-calculator-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-06-calculator-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-06-calculator-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-06-calculator-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-06-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-06-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-06-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-06-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-06-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-06-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-06-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-06-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-10-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-10-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-10-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-10-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-10-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-10-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-10-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-10-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-10-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-10-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-10-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-10-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-10-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-10-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-10-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-10-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-10-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-10-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-10-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-10-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-14-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-14-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-14-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-14-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-14-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-14-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-14-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-14-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-14-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-14-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-14-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-14-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-14-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-14-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-14-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-14-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-14-get_time-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-14-get_time-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-14-get_time-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-14-get_time-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-02-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-02-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-02-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-02-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-02-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-02-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-02-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-02-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-02-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-02-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-02-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-02-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-02-web_search-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-02-web_search-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-02-web_search-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-02-web_search-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-02-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-02-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-02-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-02-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-06-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-06-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-06-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-06-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-06-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-06-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-06-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-06-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-06-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-06-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-06-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-06-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-06-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-06-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-06-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-06-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-06-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-06-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-06-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-06-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-03-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-03-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-03-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-03-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-03-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-03-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-03-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-03-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-03-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-03-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-03-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-03-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-03-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-03-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-03-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-03-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-03-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-03-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-03-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-03-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-07-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-07-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-07-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-07-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-07-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-07-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-07-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-07-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-07-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-07-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-07-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-07-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-07-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-07-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-07-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-07-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-07-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-07-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-07-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-07-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-11-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-11-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-11-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-11-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-11-weather-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-11-weather-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-11-weather-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-11-weather-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-11-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-11-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-11-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-11-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-11-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-11-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-11-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-11-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-11-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-11-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-11-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-11-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-15-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-15-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-15-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v4-15-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-15-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-15-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-15-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v4-15-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-15-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-15-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-15-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v4-15-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-15-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-15-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-15-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v4-15-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-15-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-15-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-15-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v4-15-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-03-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-03-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-03-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-03-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-03-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-03-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-03-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-03-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-03-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-03-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-03-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-03-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-03-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-03-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-03-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-03-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-03-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-03-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-03-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-03-get_time-3",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-07-direct-0",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-07-direct-1",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-07-direct-2",
+      "predicted": "direct"
+    },
+    {
+      "expected": "direct",
+      "id": "v5-07-direct-3",
+      "predicted": "direct"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-07-weather-0",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-07-weather-1",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-07-weather-2",
+      "predicted": "weather"
+    },
+    {
+      "expected": "weather",
+      "id": "v5-07-weather-3",
+      "predicted": "weather"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-07-calculator-0",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-07-calculator-1",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-07-calculator-2",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "calculator",
+      "id": "v5-07-calculator-3",
+      "predicted": "calculator"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-07-web_search-0",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-07-web_search-1",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-07-web_search-2",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "web_search",
+      "id": "v5-07-web_search-3",
+      "predicted": "web_search"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-07-get_time-0",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-07-get_time-1",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-07-get_time-2",
+      "predicted": "get_time"
+    },
+    {
+      "expected": "get_time",
+      "id": "v5-07-get_time-3",
+      "predicted": "get_time"
+    }
+  ],
+  "historical_count": 384,
+  "interpretation": "Grouped development selection for a text-only helper; not fresh confirmation.",
+  "revision": "routing-head-v5",
+  "selection": {
+    "correct": 435,
+    "folds": [
+      {
+        "correct": 104,
+        "fold": 0,
+        "groups": [
+          "contrast-00",
+          "contrast-04",
+          "frame-00",
+          "frame-04",
+          "frame-08",
+          "frame-12"
+        ],
+        "total": 120
+      },
+      {
+        "correct": 107,
+        "fold": 1,
+        "groups": [
+          "contrast-01",
+          "contrast-05",
+          "frame-01",
+          "frame-05",
+          "frame-09",
+          "frame-13"
+        ],
+        "total": 120
+      },
+      {
+        "correct": 108,
+        "fold": 2,
+        "groups": [
+          "contrast-02",
+          "contrast-06",
+          "frame-02",
+          "frame-06",
+          "frame-10",
+          "frame-14"
+        ],
+        "total": 120
+      },
+      {
+        "correct": 116,
+        "fold": 3,
+        "groups": [
+          "contrast-03",
+          "contrast-07",
+          "frame-03",
+          "frame-07",
+          "frame-11",
+          "frame-15"
+        ],
+        "total": 120
+      }
+    ],
+    "ridge": 0.01,
+    "total": 480
+  },
+  "training_count": 864,
+  "uses_ember_features": false
+}

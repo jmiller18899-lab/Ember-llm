@@ -1,0 +1,38 @@
+name: Ember Qwen3.5-4B persisted baseline review
+
+on:
+  push:
+    branches: [codex/ember-qwen35-4b-review]
+    paths: [.github/workflows/ember-qwen35-4b-review.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-qwen35-4b-review-single-launch
+  cancel-in-progress: false
+
+jobs:
+  validate-and-launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Validate benchmark sources
+        run: python -m py_compile jobs/ember_qwen35_4b_benchmark.py jobs/ember_qwen35_4b_submit.py
+      - name: Install Hub client
+        run: python -m pip install huggingface-hub==1.31.0
+      - name: Launch one persisted L4 benchmark
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: python jobs/ember_qwen35_4b_submit.py
+      - name: Preserve submission receipt
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: ember-qwen35-4b-review-launch
+          path: gpu-submission-4b.json

@@ -1,0 +1,71 @@
+name: Ember Routing V5 CPU Experiment
+
+on:
+  push:
+    branches: [codex/ember-routing-v4]
+    paths:
+      - tool_assistant/*_v5.py
+      - tool_assistant/resolver_v4.py
+      - tool_assistant/data/routing-v5-*.json
+      - tests/test_resolver_v4.py
+      - tests/test_routing_v5.py
+      - .github/workflows/ember-routing-v5.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  routing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU dependencies
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install huggingface-hub==1.31.0 sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Check revised behavior and preserved controls
+        run: python -m pytest -q tests/test_resolver_v4.py tests/test_routing_v5.py tests/test_resolver_v3.py tests/test_routing_v4.py tests/test_parser_evaluation.py tests/test_tool_assistant.py
+      - name: Reproduce the original candidate
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m tool_assistant.build --out baseline-candidate | tee baseline-build.log
+      - name: Reproduce the v4 control
+        run: python -m tool_assistant.build_v4 --base baseline-candidate --out routing-v4-candidate | tee v4-build.log
+      - name: Fit and freeze the v5 text helper
+        run: python -m tool_assistant.build_v5 --base routing-v4-candidate --out routing-v5-candidate | tee v5-build.log
+      - name: Measure consumed requests as development regressions
+        run: python -m tool_assistant.evaluate_v5 --bundle routing-v5-candidate --cases tool_assistant/data/confirmation-100.json --kind development --report evidence/routing-v5-development.json | tee v5-development.log
+      - name: Measure frozen new requests when present
+        id: confirmation
+        if: hashFiles('tool_assistant/data/routing-v5-confirmation.json') != ''
+        continue-on-error: true
+        run: python -m tool_assistant.evaluate_v5 --bundle routing-v5-candidate --cases tool_assistant/data/routing-v5-confirmation.json --kind confirmation --report evidence/routing-v5-confirmation.json | tee v5-confirmation.log
+      - name: Preserve measured evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-routing-v5-evidence-${{ github.run_id }}
+          path: |
+            evidence/
+            *-build.log
+            v5-*.log
+            routing-v5-candidate/manifest.json
+            routing-v5-candidate/routing-v5-*.json
+            routing-v5-candidate/routing-v5.pt
+          retention-days: 90
+      - name: Enforce measured confirmation failure
+        if: always() && steps.confirmation.outcome == 'failure'
+        run: exit 1

@@ -1,0 +1,59 @@
+name: Ember Independent Direct Answer Canary
+
+on:
+  push:
+    branches: [codex/ember-tool-assistant-freeze]
+    paths:
+      - direct_answers/**
+      - tests/test_direct_answer_learning.py
+      - .github/workflows/ember-direct-answer-canary.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  learn:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned CPU dependencies
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch==2.6.0
+          pip install huggingface-hub==1.31.0 sentencepiece==0.2.0 numpy==2.2.6 pytest==8.3.5
+      - name: Test real optimizer isolation and data boundaries
+        run: python -m pytest -q tests/test_direct_answer_learning.py
+      - name: Load the exact frozen source
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python -m tool_assistant.build --out frozen-source | tee direct-source.log
+      - name: Run bounded direct-answer learning trial
+        run: python -m direct_answers.learn --bundle frozen-source --out direct-learning | tee direct-learning.log
+      - name: Write measured results
+        if: always()
+        run: |
+          if [ -f direct-learning/summary.md ]; then cat direct-learning/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
+          if [ -f direct-learning/report.json ]; then cat direct-learning/report.json; fi
+      - name: Preserve experimental adapters, optimizer state and raw answers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-direct-answer-canary-${{ github.run_id }}
+          path: |
+            direct-learning/
+            direct-learning.log
+            direct-source.log
+            frozen-source/manifest.json
+          retention-days: 90

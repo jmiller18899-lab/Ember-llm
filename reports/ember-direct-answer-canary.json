@@ -1,0 +1,1633 @@
+{
+  "baseline_development_loss": 6.185259018501226,
+  "baseline_quality": {
+    "legacy_passed": 0,
+    "passed": 0,
+    "rows": [
+      {
+        "family": "writing",
+        "generated_tokens": 18,
+        "id": "dq_greet_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9848484848484849,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8571428571428571,
+          "word_count": 14
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:hello/hi/hey"
+          ],
+          "word_count": 14
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "Aube is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Say hello in one friendly sentence."
+      },
+      {
+        "family": "writing",
+        "generated_tokens": 13,
+        "id": "dq_greet_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.926829268292683,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 8
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:thank/thanks/appreciate"
+          ],
+          "word_count": 8
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "Hello, Maya, and review a password is available.",
+        "user": "Write one short sentence thanking someone for reviewing my code."
+      },
+      {
+        "family": "writing",
+        "generated_tokens": 22,
+        "id": "dq_write_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.961038961038961,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.875,
+          "word_count": 16
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:upload",
+            "missing_any:success/succeeded/complete/completed"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "Hello, Maya-file is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Write a friendly one-sentence message saying the upload succeeded."
+      },
+      {
+        "family": "writing",
+        "generated_tokens": 8,
+        "id": "dq_write_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.8461538461538461,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 3
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:refresh/reload/update"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "A_idel_states",
+        "user": "Write a short tooltip for a refresh button."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 19,
+        "id": "dq_rewrite_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9863013698630136,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "too_long:15>12",
+            "missing:checkout",
+            "missing:mobile",
+            "missing_any:broken/fix/issue/failure/problem"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A checkpoint is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Rewrite as a clear title: checkout button broken on mobile."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 7,
+        "id": "dq_rewrite_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 3
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:settings",
+            "missing_any:slow/performance/loading/load"
+          ],
+          "word_count": 3
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "ied byS noteTarget",
+        "user": "Rewrite as a professional title: settings page loads really slow."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 5,
+        "id": "dq_rewrite_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0,
+          "word_count": 0
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:profile",
+            "missing_any:upload/picture/image",
+            "missing_any:accessibility/accessible"
+          ],
+          "word_count": 0
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "## ******************",
+        "user": "Shorten this heading: user profile picture upload accessibility improvements."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 7,
+        "id": "dq_rewrite_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9375,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 5
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:build",
+            "missing_any:notes/release",
+            "missing_any:cleanup/clean/improve"
+          ],
+          "word_count": 5
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "You are a great day.",
+        "user": "Rewrite clearly: latest build notes need cleanup."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 18,
+        "id": "dq_explain_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9852941176470589,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:save/saved/snapshot"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A model is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Explain what a model checkpoint is in one sentence."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 18,
+        "id": "dq_explain_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9852941176470589,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:store/stores/stored/save/keeps",
+            "missing_any:fast/faster/quick/reuse/access"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A cache is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Explain what a cache does in one sentence."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 18,
+        "id": "dq_explain_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9859154929577465,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:bug/error/problem/issue/correct",
+            "missing_any:find/catch/detect/prevent/verify"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A software is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Explain why software tests are useful in one sentence."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 3,
+        "id": "dq_explain_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.5,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:file",
+            "missing:folder",
+            "missing_any:contain/contains/holds/stores",
+            "missing_any:data/files/item/items"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A_",
+        "user": "Explain the difference between a file and a folder in one sentence."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 14,
+        "id": "dq_summary_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9047619047619048,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:test",
+            "missing_any:deploy",
+            "missing_any:pass/success/error/errors"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The expected behavior is 59°F and windy in Python.",
+        "user": "Summarize in one sentence: The tests passed, the deployment completed, and no errors were reported."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 13,
+        "id": "dq_summary_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.925,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.75,
+          "word_count": 8
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:sidebar",
+            "missing_any:left/move",
+            "missing_any:label",
+            "missing_any:behavior/function/functionality/unchanged"
+          ],
+          "word_count": 6
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The current_timezone_time is the current day.",
+        "user": "Summarize: The sidebar was moved to the left, its labels were shortened, and the underlying behavior did not change."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 9,
+        "id": "dq_summary_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.8928571428571429,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 5
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:latency/speed/faster",
+            "missing_any:300",
+            "missing_any:120",
+            "missing_any:optim/improve/drop/reduc"
+          ],
+          "word_count": 5
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "EEE (the latest SQLite release).",
+        "user": "Summarize in one sentence: The API latency dropped from 300 ms to 120 ms after the optimization."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 13,
+        "id": "dq_summary_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9361702127659575,
+          "leak_pattern": "prepare a controlled example",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:backup",
+            "missing_any:success/finished/complete",
+            "missing_any:notification",
+            "missing_any:late/delay/five/5"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "1. Prepare a controlled example and review an error log.",
+        "user": "Summarize: The backup finished successfully, but the notification arrived five minutes late."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 10,
+        "id": "dq_class_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.8928571428571429,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 8
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_label:positive"
+          ],
+          "word_count": 8
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "It is 45°F and clear in JavaScript",
+        "user": "Label the sentiment as positive, negative, or neutral: The new interface is much easier to use."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 11,
+        "id": "dq_class_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.84,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 8
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_label:negative"
+          ],
+          "word_count": 8
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "It is 45°F and clear in Python.",
+        "user": "Label the sentiment as positive, negative, or neutral: The app crashes every time I save."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 20,
+        "id": "dq_class_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9857142857142858,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "too_long:15>12",
+            "missing_label:statement"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A webhook is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Classify this as a question or statement: The service is online."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 19,
+        "id": "dq_class_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9848484848484849,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.875,
+          "word_count": 16
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "too_long:16>12",
+            "missing_label:error"
+          ],
+          "word_count": 16
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The definition is not yet to be able to make a system easier to operate reliably.",
+        "user": "Classify this as success, warning, or error: Deployment failed because the configuration is invalid."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 13,
+        "id": "dq_plan_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9361702127659575,
+          "leak_pattern": "prepare a controlled example",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.9,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:login/credential/password/username",
+            "too_few_steps:1"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "1. Prepare a controlled example and check a broken link.",
+        "user": "Give exactly two short steps for testing a login form."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 25,
+        "id": "dq_plan_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9361702127659575,
+          "leak_pattern": "prepare a controlled example",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8421052631578947,
+          "word_count": 19
+        },
+        "passed": false,
+        "semantic": {
+          "passed": true,
+          "reasons": [],
+          "word_count": 19
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "1. Prepare a controlled example and review a broken link.\n2. Record the result and verify the expected behavior.",
+        "user": "Give exactly two short steps for checking whether a link works."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 14,
+        "id": "dq_compare_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9387755102040817,
+          "leak_pattern": "prepare a controlled example",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.9,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:json",
+            "missing_any:structure/structured/key/nested/table/row/column"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "1. Prepare a controlled example and validate a CSV import.",
+        "user": "Compare JSON and CSV in two concise sentences."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 13,
+        "id": "dq_compare_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9387755102040817,
+          "leak_pattern": "prepare a controlled example",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:tab",
+            "missing:window",
+            "missing_any:browser",
+            "missing_any:multiple/contain/inside/separate"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "1. Prepare a controlled example and check an API response.",
+        "user": "Compare a browser tab and a browser window in two concise sentences."
+      }
+    ],
+    "total": 24
+  },
+  "baseline_train_loss": 6.265008720321272,
+  "block04_features_identical": true,
+  "candidate_quality": {
+    "legacy_passed": 1,
+    "passed": 2,
+    "rows": [
+      {
+        "family": "writing",
+        "generated_tokens": 15,
+        "id": "dq_greet_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9803921568627451,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8571428571428571,
+          "word_count": 14
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:hello/hi/hey"
+          ],
+          "word_count": 14
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The image appears to be a friendly note to wish you a great day.",
+        "user": "Say hello in one friendly sentence."
+      },
+      {
+        "family": "writing",
+        "generated_tokens": 15,
+        "id": "dq_greet_2",
+        "legacy_passed": true,
+        "legacy_quality": {
+          "alpha_ratio": 0.9375,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 8
+        },
+        "passed": true,
+        "semantic": {
+          "passed": true,
+          "reasons": [],
+          "word_count": 8
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "Thank you, Calculator, for reviewing the original code.",
+        "user": "Write one short sentence thanking someone for reviewing my code."
+      },
+      {
+        "family": "writing",
+        "generated_tokens": 15,
+        "id": "dq_write_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9591836734693877,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8888888888888888,
+          "word_count": 9
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:upload",
+            "missing_any:success/succeeded/complete/completed"
+          ],
+          "word_count": 9
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "Welcome to the study group, Inspect the original version.",
+        "user": "Write a friendly one-sentence message saying the upload succeeded."
+      },
+      {
+        "family": "writing",
+        "generated_tokens": 10,
+        "id": "dq_write_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.967741935483871,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 6
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:refresh/reload/update"
+          ],
+          "word_count": 6
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "Welcome to the newest stable button.",
+        "user": "Write a short tooltip for a refresh button."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 7,
+        "id": "dq_rewrite_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9583333333333334,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 6
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:checkout",
+            "missing:mobile",
+            "missing_any:broken/fix/issue/failure/problem"
+          ],
+          "word_count": 6
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The search box does not work.",
+        "user": "Rewrite as a clear title: checkout button broken on mobile."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 6,
+        "id": "dq_rewrite_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9583333333333334,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 5
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:settings",
+            "missing_any:slow/performance/loading/load"
+          ],
+          "word_count": 5
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The page returns no results.",
+        "user": "Rewrite as a professional title: settings page loads really slow."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 6,
+        "id": "dq_rewrite_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9333333333333333,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 2
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:profile",
+            "missing_any:upload/picture/image",
+            "missing_any:accessibility/accessible"
+          ],
+          "word_count": 2
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "Pacific/neutral",
+        "user": "Shorten this heading: user profile picture upload accessibility improvements."
+      },
+      {
+        "family": "rewrite",
+        "generated_tokens": 7,
+        "id": "dq_rewrite_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9583333333333334,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 6
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:build",
+            "missing_any:notes/release",
+            "missing_any:cleanup/clean/improve"
+          ],
+          "word_count": 6
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The search box does not work.",
+        "user": "Rewrite clearly: latest build notes need cleanup."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 17,
+        "id": "dq_explain_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9852941176470589,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:save/saved/snapshot"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A model is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Explain what a model checkpoint is in one sentence."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 17,
+        "id": "dq_explain_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9852941176470589,
+          "leak_pattern": "practical mechanism used to make a system easier",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.8,
+          "word_count": 15
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:store/stores/stored/save/keeps",
+            "missing_any:fast/faster/quick/reuse/access"
+          ],
+          "word_count": 15
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "A cache is a practical mechanism used to make a system easier to operate reliably.",
+        "user": "Explain what a cache does in one sentence."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 15,
+        "id": "dq_explain_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9565217391304348,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.7692307692307693,
+          "word_count": 13
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:bug/error/problem/issue/correct",
+            "missing_any:find/catch/detect/prevent/verify"
+          ],
+          "word_count": 13
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "A language model, a database of a page is to use a system.",
+        "user": "Explain why software tests are useful in one sentence."
+      },
+      {
+        "family": "explain",
+        "generated_tokens": 14,
+        "id": "dq_explain_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9583333333333334,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.5,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:folder",
+            "missing_any:contain/contains/holds/stores",
+            "missing_any:data/files/item/items"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "A file cannot be downloaded. A file cannot be downloaded.",
+        "user": "Explain the difference between a file and a folder in one sentence."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 1,
+        "id": "dq_summary_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:test",
+            "missing_any:deploy",
+            "missing_any:pass/success/error/errors"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "negative",
+        "user": "Summarize in one sentence: The tests passed, the deployment completed, and no errors were reported."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 1,
+        "id": "dq_summary_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:sidebar",
+            "missing_any:left/move",
+            "missing_any:label",
+            "missing_any:behavior/function/functionality/unchanged"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "negative",
+        "user": "Summarize: The sidebar was moved to the left, its labels were shortened, and the underlying behavior did not change."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 1,
+        "id": "dq_summary_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:latency/speed/faster",
+            "missing_any:300",
+            "missing_any:120",
+            "missing_any:optim/improve/drop/reduc"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "negative",
+        "user": "Summarize in one sentence: The API latency dropped from 300 ms to 120 ms after the optimization."
+      },
+      {
+        "family": "summarize",
+        "generated_tokens": 1,
+        "id": "dq_summary_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:backup",
+            "missing_any:success/finished/complete",
+            "missing_any:notification",
+            "missing_any:late/delay/five/5"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "negative",
+        "user": "Summarize: The backup finished successfully, but the notification arrived five minutes late."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 1,
+        "id": "dq_class_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_label:positive",
+            "wrong_label_present:negative"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "negative",
+        "user": "Label the sentiment as positive, negative, or neutral: The new interface is much easier to use."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 1,
+        "id": "dq_class_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": true,
+        "semantic": {
+          "passed": true,
+          "reasons": [],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "negative",
+        "user": "Label the sentiment as positive, negative, or neutral: The app crashes every time I save."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 9,
+        "id": "dq_class_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.8787878787878788,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 8
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_label:statement"
+          ],
+          "word_count": 8
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "The text is healthy with 102 ms latency.",
+        "user": "Classify this as a question or statement: The service is online."
+      },
+      {
+        "family": "classify",
+        "generated_tokens": 1,
+        "id": "dq_class_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 1,
+          "leak_pattern": null,
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 1
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_label:error"
+          ],
+          "word_count": 1
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "negative",
+        "user": "Classify this as success, warning, or error: Deployment failed because the configuration is invalid."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 18,
+        "id": "dq_plan_1",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.8363636363636363,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.9230769230769231,
+          "word_count": 13
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:login/credential/password/username",
+            "too_few_steps:1"
+          ],
+          "word_count": 13
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "1. State the main point. 2. Create a files. 3. Check the revisions.",
+        "user": "Give exactly two short steps for testing a login form."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 15,
+        "id": "dq_plan_2",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 0.9230769230769231,
+          "word_count": 13
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing_any:click/open/link",
+            "too_few_steps:1"
+          ],
+          "word_count": 13
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "1. State the problem. 2. Create a file and verify the expected behavior.",
+        "user": "Give exactly two short steps for checking whether a link works."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 12,
+        "id": "dq_compare_3",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.9423076923076923,
+          "leak_pattern": "prepare a controlled example",
+          "passed": false,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 10
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:json",
+            "missing:csv",
+            "missing_any:structure/structured/key/nested/table/row/column"
+          ],
+          "word_count": 10
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": false,
+        "text": "1. Prepare a controlled example and validate an API response.",
+        "user": "Compare JSON and CSV in two concise sentences."
+      },
+      {
+        "family": "plan_compare",
+        "generated_tokens": 7,
+        "id": "dq_compare_4",
+        "legacy_passed": false,
+        "legacy_quality": {
+          "alpha_ratio": 0.95,
+          "leak_pattern": null,
+          "passed": true,
+          "repeated_triplet": false,
+          "unique_word_ratio": 1,
+          "word_count": 4
+        },
+        "passed": false,
+        "semantic": {
+          "passed": false,
+          "reasons": [
+            "missing:tab",
+            "missing:window",
+            "missing_any:multiple/contain/inside/separate"
+          ],
+          "word_count": 4
+        },
+        "stopped_at_eot": true,
+        "task_quality_passed": true,
+        "text": "Welcome to the browser.",
+        "user": "Compare a browser tab and a browser window in two concise sentences."
+      }
+    ],
+    "total": 24
+  },
+  "checkpoints": [
+    {
+      "development_loss": 3.718052924984563,
+      "step": 40,
+      "train_loss": 2.001017109533051
+    },
+    {
+      "development_loss": 3.6641258914975356,
+      "step": 80,
+      "train_loss": 0.8956977456209049
+    },
+    {
+      "development_loss": 3.788609820125747,
+      "step": 120,
+      "train_loss": 0.33290008197178195
+    }
+  ],
+  "config": {
+    "batch_size": 2,
+    "checkpoints": [
+      40,
+      80,
+      120
+    ],
+    "clip_norm": 1,
+    "consume_confirmation_only_if": "development NLL improves at least 10% and old24 task-check score improves by at least 3",
+    "learning_rate": 0.0002,
+    "maximum_training_seconds": 1200,
+    "production_ready": false,
+    "selection": "lowest development answer-token NLL including unchanged baseline",
+    "steps": 120,
+    "trainable": [
+      "blocks.5.*",
+      "ln_f.*"
+    ],
+    "weight_decay": 0.01
+  },
+  "confirmation": null,
+  "confirmation_consumed": false,
+  "created_at": "2026-09-11T05:27:02.943524+00:00",
+  "data_sha256": "528eb14d12df166274906c60d92a09537e826c6d50e6cc0511832a8debcd8e78",
+  "development_progress_gate": false,
+  "elapsed_training_and_final_eval_seconds": 29.860862294000015,
+  "frozen_parameter_sha256_after": "117cf2faed89923d88d8aabce29c063f2fb3a04ce18892fd3db83665e82116f9",
+  "frozen_parameter_sha256_before": "117cf2faed89923d88d8aabce29c063f2fb3a04ce18892fd3db83665e82116f9",
+  "int4_candidate_tested": false,
+  "interpretation": "A small last-block learning test. Task checks are deterministic lexical checks; inspect the raw answers. This does not prove broad conversational quality or authorize promotion.",
+  "precision": "full",
+  "production_ready": false,
+  "quality_rule": "Original semantic/generic checks with exact single-label exception; unchanged scores retained as legacy_passed",
+  "router_heads_changed": false,
+  "schema_version": 1,
+  "selected_adapter_sha256": "b2bc1062a57393eca855358ef2bbed74b6ed2ea7a0072d4ad68beb26ae9db189",
+  "selected_development_loss": 3.6641258914975356,
+  "selected_step": 80,
+  "source_manifest_sha256": "05cb72cf47d4534a1f77774ffd10acabe7ff5ad67c68fdf4c17b27a3a4119f31",
+  "trainable_names": [
+    "blocks.5.ln1.weight",
+    "blocks.5.attn.qkv.weight",
+    "blocks.5.attn.proj.weight",
+    "blocks.5.ln2.weight",
+    "blocks.5.mlp.gate.weight",
+    "blocks.5.mlp.up.weight",
+    "blocks.5.mlp.proj.weight",
+    "ln_f.weight"
+  ],
+  "trainable_parameters": 3212800,
+  "training_example_order": [
+    "train_026",
+    "train_004",
+    "train_017",
+    "train_003",
+    "train_051",
+    "train_019",
+    "train_047",
+    "train_041",
+    "train_071",
+    "train_061",
+    "train_070",
+    "train_043",
+    "train_057",
+    "train_059",
+    "train_064",
+    "train_011",
+    "train_066",
+    "train_038",
+    "train_030",
+    "train_023",
+    "train_049",
+    "train_055",
+    "train_025",
+    "train_009",
+    "train_053",
+    "train_016",
+    "train_052",
+    "train_006",
+    "train_044",
+    "train_042",
+    "train_021",
+    "train_056",
+    "train_035",
+    "train_058",
+    "train_032",
+    "train_039",
+    "train_060",
+    "train_050",
+    "train_033",
+    "train_005",
+    "train_020",
+    "train_007",
+    "train_067",
+    "train_015",
+    "train_036",
+    "train_031",
+    "train_013",
+    "train_018",
+    "train_069",
+    "train_045",
+    "train_002",
+    "train_046",
+    "train_012",
+    "train_040",
+    "train_028",
+    "train_027",
+    "train_054",
+    "train_065",
+    "train_010",
+    "train_029",
+    "train_024",
+    "train_048",
+    "train_014",
+    "train_072",
+    "train_008",
+    "train_034",
+    "train_022",
+    "train_062",
+    "train_068",
+    "train_001",
+    "train_063",
+    "train_037",
+    "train_065",
+    "train_031",
+    "train_047",
+    "train_011",
+    "train_030",
+    "train_010",
+    "train_013",
+    "train_055",
+    "train_060",
+    "train_069",
+    "train_049",
+    "train_022",
+    "train_039",
+    "train_004",
+    "train_061",
+    "train_068",
+    "train_025",
+    "train_033",
+    "train_029",
+    "train_005",
+    "train_036",
+    "train_017",
+    "train_057",
+    "train_016",
+    "train_046",
+    "train_059",
+    "train_051",
+    "train_072",
+    "train_026",
+    "train_008",
+    "train_045",
+    "train_037",
+    "train_048",
+    "train_023",
+    "train_040",
+    "train_044",
+    "train_028",
+    "train_003",
+    "train_050",
+    "train_006",
+    "train_042",
+    "train_009",
+    "train_015",
+    "train_053",
+    "train_024",
+    "train_043",
+    "train_066",
+    "train_041",
+    "train_032",
+    "train_014",
+    "train_062",
+    "train_002",
+    "train_056",
+    "train_052",
+    "train_035",
+    "train_070",
+    "train_018",
+    "train_001",
+    "train_038",
+    "train_027",
+    "train_071",
+    "train_067",
+    "train_007",
+    "train_063",
+    "train_012",
+    "train_058",
+    "train_021",
+    "train_020",
+    "train_054",
+    "train_064",
+    "train_019",
+    "train_034",
+    "train_026",
+    "train_015",
+    "train_016",
+    "train_040",
+    "train_041",
+    "train_027",
+    "train_025",
+    "train_056",
+    "train_019",
+    "train_003",
+    "train_033",
+    "train_005",
+    "train_036",
+    "train_045",
+    "train_021",
+    "train_058",
+    "train_035",
+    "train_068",
+    "train_032",
+    "train_020",
+    "train_008",
+    "train_066",
+    "train_044",
+    "train_014",
+    "train_065",
+    "train_061",
+    "train_028",
+    "train_030",
+    "train_017",
+    "train_011",
+    "train_012",
+    "train_051",
+    "train_002",
+    "train_053",
+    "train_062",
+    "train_060",
+    "train_009",
+    "train_054",
+    "train_006",
+    "train_010",
+    "train_047",
+    "train_050",
+    "train_001",
+    "train_055",
+    "train_070",
+    "train_024",
+    "train_043",
+    "train_018",
+    "train_064",
+    "train_007",
+    "train_031",
+    "train_039",
+    "train_067",
+    "train_034",
+    "train_069",
+    "train_029",
+    "train_004",
+    "train_072",
+    "train_023",
+    "train_048",
+    "train_057",
+    "train_013",
+    "train_037",
+    "train_063",
+    "train_046",
+    "train_042",
+    "train_071",
+    "train_059",
+    "train_052",
+    "train_038",
+    "train_022",
+    "train_049",
+    "train_058",
+    "train_033",
+    "train_006",
+    "train_047",
+    "train_032",
+    "train_046",
+    "train_057",
+    "train_059",
+    "train_004",
+    "train_023",
+    "train_002",
+    "train_003",
+    "train_039",
+    "train_049",
+    "train_036",
+    "train_063",
+    "train_050",
+    "train_041",
+    "train_009",
+    "train_066",
+    "train_044",
+    "train_068",
+    "train_025",
+    "train_028"
+  ],
+  "training_examples_seen": 72
+}

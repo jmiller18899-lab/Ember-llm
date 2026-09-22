@@ -1,0 +1,90 @@
+name: Recover Ember Qwen SFT v3 evidence
+
+on:
+  push:
+    branches: [codex/ember-qwen-v3-hf2]
+    paths: [.github/workflows/ember-qwen-sft-v3-recover.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install Hub client
+        run: python -m pip install huggingface-hub==1.31.0
+      - name: Recover and verify evidence
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import tempfile
+          from huggingface_hub import HfApi, hf_hub_download
+
+          repo = 'Jmiller18899/ember-qwen3.5-2b-sft-v3'
+          token = os.environ['HF_TOKEN']
+          api = HfApi(token=token)
+          files = {item.rfilename for item in api.model_info(repo).siblings}
+
+          for name in ['manifest.json', 'metrics.jsonl', 'loading-info.json']:
+              target = f'run-evidence/{name}'
+              if name in files and target not in files:
+                  source = hf_hub_download(repo, name, token=token)
+                  api.upload_file(path_or_fileobj=source, path_in_repo=target, repo_id=repo, repo_type='model', commit_message=f'Recover Ember v3 evidence: {name}')
+
+          def load_eval(label):
+              path = hf_hub_download(repo, f'evaluation/{label}.json', token=token)
+              with open(path, encoding='utf-8') as handle:
+                  return json.load(handle)
+
+          def counts(rows):
+              keys = sorted({(row['suite'], row['family']) for row in rows})
+              return {f'{suite}/{family}': {
+                  'exact_pass': sum(row['exact_match'] is True for row in rows if (row['suite'], row['family']) == (suite, family)),
+                  'exact_total': sum(row['scoring'] == 'exact' for row in rows if (row['suite'], row['family']) == (suite, family)),
+                  'manual_total': sum(row['scoring'] == 'rubric' for row in rows if (row['suite'], row['family']) == (suite, family)),
+              } for suite, family in keys}
+
+          files = {item.rfilename for item in api.model_info(repo).siblings}
+          if 'run-evidence/comparison.json' not in files:
+              baseline = load_eval('parent_v2')
+              original = load_eval('original_base')
+              final = load_eval('final')
+              before, after = counts(baseline), counts(final)
+              summary = {
+                  'baseline': before,
+                  'final': after,
+                  'strict_family_regressions': [key for key in before if after[key]['exact_pass'] < before[key]['exact_pass']],
+                  'human_review_pending': True,
+                  'production_ready': False,
+                  'original_base': counts(original),
+                  'comparison': 'v2 parent versus v3 continuation, with original BF16 base comparator. All v1/v2 cases are consumed regression evidence. Only fresh_v3_confirmation is new.',
+                  'training_examples': 864,
+                  'steps_completed': 108,
+                  'eval_case_count': len(final),
+              }
+              with tempfile.NamedTemporaryFile(mode='w', suffix='.json', encoding='utf-8', delete=False) as handle:
+                  json.dump(summary, handle, indent=2)
+                  comparison_path = handle.name
+              api.upload_file(path_or_fileobj=comparison_path, path_in_repo='run-evidence/comparison.json', repo_id=repo, repo_type='model', commit_message='Recover Ember v3 comparison evidence')
+
+          required = {
+              'run-evidence/comparison.json',
+              'run-evidence/manifest.json',
+              'run-evidence/metrics.jsonl',
+              'run-evidence/loading-info.json',
+          }
+          refreshed = {item.rfilename for item in api.model_info(repo).siblings}
+          missing = sorted(required - refreshed)
+          print(json.dumps({'required': sorted(required), 'missing_after_recovery': missing}, indent=2))
+          if missing:
+              raise SystemExit(1)
+          PY

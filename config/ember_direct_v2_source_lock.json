@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-14T14:45:51.109438+00:00",
+  "files": {
+    "direct_answers/learn.py": "da6188b647b5ce6e99bf460c2c4e627c7d9e6cd6ce080d1fc32c20222764d3a6",
+    "direct_answers/quality.py": "543229fbd13445b69493a58b43049026343d139786be821709f99c8dbd304466",
+    "direct_answers/canary-data.json": "528eb14d12df166274906c60d92a09537e826c6d50e6cc0511832a8debcd8e78",
+    "direct_answers/learn_v2.py": "366500f72722e5fc88d221cb763cfff75f344641de7b4234072a7c5741c8244b",
+    "direct_answers/grounded_v2.py": "e0477a9333487d04d050b825af0f36135172c38291ee3ff5bedfe0c85d581172",
+    "direct_answers/grounded-v2-data.json": "45497e4ac153e5677b75e2cbae76a672f414c4d8882946b8146f4ce1a2c57ace",
+    "tool_assistant/runtime.py": "64086046cbbf26487aee67197a03ba6380a495263db128cc399ee3db45f49090",
+    "tool_assistant/evidence_v5.py": "8673d219afc9d8625d5fd0c2d03c89e631e7fadf63f8785ec79cfa85fd3146cf",
+    "tool_assistant/build.py": "8e3e64c37fb8cf1c035d96055da05adebabced81fb99b238284c8a41f9e8f854",
+    "tests/test_direct_grounded_v2.py": "0c9b242811f399943df246bf5f30ae302da88aa025741d184a268aa9b4496bf7",
+    "tests/test_direct_answer_learning.py": "2aae68094c70762a3458d83319df4f9a3a8e05998267d9f4b626606c9bdf3620",
+    ".github/workflows/ember-direct-grounded-v2.yml": "f4f918169d9c142b097fc21119cf91fa2402c9492c1b3571f9605711fcc701dc"
+  },
+  "training_steps": 240,
+  "compute": "CPU only",
+  "production_ready": false
+}

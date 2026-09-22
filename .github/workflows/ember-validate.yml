@@ -12,6 +12,9 @@ on:
       - "config/**"
       - "jobs/**"
       - "tests/**"
+      - "tool_assistant/**"
+      - "direct_answers/**"
+      - "reports/**"
   push:
     branches:
       - main
@@ -24,6 +27,9 @@ on:
       - "config/**"
       - "jobs/**"
       - "tests/**"
+      - "tool_assistant/**"
+      - "direct_answers/**"
+      - "reports/**"
 
 permissions:
   contents: read
@@ -110,6 +116,12 @@ jobs:
 
       - name: Run v0.0.8 orchestration tests
         run: python -m pytest -q tests
+
+      - name: Reproduce frozen parser v3 check (supplied routes, no live tools)
+        run: python -m tool_assistant.evaluate_parser --report /tmp/ember-parser-v3-confirmation.json
+
+      - name: Recount non-prediction metrics (archived evidence, not live health)
+        run: python -m jobs.ember_metrics_health --check reports/ember-non-prediction-scorecard.json
 
       - name: Validation complete
         run: |

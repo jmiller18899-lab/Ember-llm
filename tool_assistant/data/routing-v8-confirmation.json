@@ -1,0 +1,711 @@
+{
+  "arithmetic_gold": "independent_integer_and_fraction_operations_before_inference",
+  "cases": [
+    {
+      "arguments": {
+        "location": "Rovaniemi"
+      },
+      "id": "v8-new-weather-01",
+      "route": "weather",
+      "user": "What is the current weather in Rovaniemi?"
+    },
+    {
+      "arguments": {
+        "location": "La Rochelle"
+      },
+      "id": "v8-new-weather-02",
+      "route": "weather",
+      "user": "What is the temperature in La Rochelle now?"
+    },
+    {
+      "arguments": {
+        "location": "Vicenza"
+      },
+      "id": "v8-new-weather-03",
+      "route": "weather",
+      "user": "What’s the current weather in Vicenza?"
+    },
+    {
+      "arguments": {
+        "location": "Kumamoto"
+      },
+      "id": "v8-new-weather-04",
+      "route": "weather",
+      "user": "Is it raining in Kumamoto right now?"
+    },
+    {
+      "arguments": {
+        "location": "Pärnu"
+      },
+      "id": "v8-new-weather-05",
+      "route": "weather",
+      "user": "Please check the weather in Pärnu at the moment."
+    },
+    {
+      "arguments": {
+        "location": "Akureyri"
+      },
+      "id": "v8-new-weather-06",
+      "route": "weather",
+      "user": "I am contacting my cousin in Akureyri; is it cold there now?"
+    },
+    {
+      "arguments": {
+        "location": "Salta"
+      },
+      "id": "v8-new-weather-07",
+      "route": "weather",
+      "user": "We are phoning a colleague in Salta; is it windy there currently?"
+    },
+    {
+      "arguments": {
+        "location": "Puerto Varas, Chile"
+      },
+      "id": "v8-new-weather-08",
+      "route": "weather",
+      "user": "What is the current temperature in “Puerto Varas, Chile”?"
+    },
+    {
+      "arguments": {
+        "location": "Lübeck"
+      },
+      "id": "v8-new-weather-09",
+      "route": "weather",
+      "user": "Show the current weather in Lübeck."
+    },
+    {
+      "arguments": {
+        "location": "George Town, Cayman Islands"
+      },
+      "id": "v8-new-weather-10",
+      "route": "weather",
+      "user": "Weather in \"George Town, Cayman Islands\" right now?"
+    },
+    {
+      "arguments": {
+        "location": "Östersund"
+      },
+      "id": "v8-new-weather-11",
+      "route": "weather",
+      "user": "Is it snowing in Östersund at this moment?"
+    },
+    {
+      "arguments": {
+        "location": "Limerick"
+      },
+      "id": "v8-new-weather-12",
+      "route": "weather",
+      "user": "What is the weather in Limerick today?"
+    },
+    {
+      "arguments": {
+        "location": "Setúbal"
+      },
+      "id": "v8-new-weather-13",
+      "route": "weather",
+      "user": "Tell me the current temperature in Setúbal."
+    },
+    {
+      "arguments": {
+        "location": "Gijón"
+      },
+      "id": "v8-new-weather-14",
+      "route": "weather",
+      "user": "Look up the current weather in Gijón."
+    },
+    {
+      "arguments": {
+        "location": "Mostar"
+      },
+      "id": "v8-new-weather-15",
+      "route": "weather",
+      "user": "I am visiting a friend in Mostar; is it cloudy there now?"
+    },
+    {
+      "arguments": {
+        "location": "Nelspruit"
+      },
+      "id": "v8-new-weather-16",
+      "route": "weather",
+      "user": "What is the weather in Nelspruit currently?"
+    },
+    {
+      "arguments": {
+        "location": "Port Vila, Vanuatu"
+      },
+      "id": "v8-new-weather-17",
+      "route": "weather",
+      "user": "Is it wet in “Port Vila, Vanuatu” now?"
+    },
+    {
+      "arguments": {
+        "location": "Tartu"
+      },
+      "id": "v8-new-weather-18",
+      "route": "weather",
+      "user": "Check the temperature in Tartu at the moment."
+    },
+    {
+      "arguments": {
+        "location": "Wagga Wagga"
+      },
+      "id": "v8-new-weather-19",
+      "route": "weather",
+      "user": "What is the current weather in Wagga Wagga?"
+    },
+    {
+      "arguments": {
+        "location": "Colmar"
+      },
+      "id": "v8-new-weather-20",
+      "route": "weather",
+      "user": "Please show the current temperature in Colmar."
+    },
+    {
+      "arguments": {
+        "timezone": "Asia/Manila"
+      },
+      "id": "v8-new-get_time-01",
+      "route": "get_time",
+      "user": "What time is it in Asia/Manila right now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Europe/Belgrade"
+      },
+      "id": "v8-new-get_time-02",
+      "route": "get_time",
+      "user": "What is the current time in Europe/Belgrade?"
+    },
+    {
+      "arguments": {
+        "timezone": "Suva"
+      },
+      "id": "v8-new-get_time-03",
+      "route": "get_time",
+      "user": "Tell me the local time in Suva now."
+    },
+    {
+      "arguments": {
+        "timezone": "Antofagasta"
+      },
+      "id": "v8-new-get_time-04",
+      "route": "get_time",
+      "user": "Look up the current time in Antofagasta."
+    },
+    {
+      "arguments": {
+        "timezone": "Africa/Maputo"
+      },
+      "id": "v8-new-get_time-05",
+      "route": "get_time",
+      "user": "What time is it in Africa/Maputo currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "America/La_Paz"
+      },
+      "id": "v8-new-get_time-06",
+      "route": "get_time",
+      "user": "Show the current time in America/La_Paz."
+    },
+    {
+      "arguments": {
+        "timezone": "San Juan, Puerto Rico"
+      },
+      "id": "v8-new-get_time-07",
+      "route": "get_time",
+      "user": "What is the local time in “San Juan, Puerto Rico” now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Kuching"
+      },
+      "id": "v8-new-get_time-08",
+      "route": "get_time",
+      "user": "I am contacting someone in Kuching; what time is it there now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Fes"
+      },
+      "id": "v8-new-get_time-09",
+      "route": "get_time",
+      "user": "We are phoning a client in Fes; what time is it there currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "Pacific/Tahiti"
+      },
+      "id": "v8-new-get_time-10",
+      "route": "get_time",
+      "user": "Please tell me the time in Pacific/Tahiti at the moment."
+    },
+    {
+      "arguments": {
+        "timezone": "Atlantic/Madeira"
+      },
+      "id": "v8-new-get_time-11",
+      "route": "get_time",
+      "user": "Time in Atlantic/Madeira now?"
+    },
+    {
+      "arguments": {
+        "timezone": "Thimphu"
+      },
+      "id": "v8-new-get_time-12",
+      "route": "get_time",
+      "user": "What time is it in Thimphu today?"
+    },
+    {
+      "arguments": {
+        "timezone": "Fort-de-France, Martinique"
+      },
+      "id": "v8-new-get_time-13",
+      "route": "get_time",
+      "user": "What is the current time in \"Fort-de-France, Martinique\"?"
+    },
+    {
+      "arguments": {
+        "timezone": "Indian/Maldives"
+      },
+      "id": "v8-new-get_time-14",
+      "route": "get_time",
+      "user": "Check the time in Indian/Maldives now."
+    },
+    {
+      "arguments": {
+        "timezone": "Europe/Sarajevo"
+      },
+      "id": "v8-new-get_time-15",
+      "route": "get_time",
+      "user": "What time is it in Europe/Sarajevo at this moment?"
+    },
+    {
+      "arguments": {
+        "timezone": "Merida"
+      },
+      "id": "v8-new-get_time-16",
+      "route": "get_time",
+      "user": "Show me the current time in Merida."
+    },
+    {
+      "arguments": {
+        "timezone": "Asia/Makassar"
+      },
+      "id": "v8-new-get_time-17",
+      "route": "get_time",
+      "user": "What is the local time in Asia/Makassar currently?"
+    },
+    {
+      "arguments": {
+        "timezone": "Pacific/Guam"
+      },
+      "id": "v8-new-get_time-18",
+      "route": "get_time",
+      "user": "Please check the time in Pacific/Guam right now."
+    },
+    {
+      "arguments": {
+        "timezone": "Pointe-à-Pitre"
+      },
+      "id": "v8-new-get_time-19",
+      "route": "get_time",
+      "user": "Look up the local time in Pointe-à-Pitre now."
+    },
+    {
+      "arguments": {
+        "timezone": "Africa/Lusaka"
+      },
+      "id": "v8-new-get_time-20",
+      "route": "get_time",
+      "user": "What time is it in Africa/Lusaka at the moment?"
+    },
+    {
+      "id": "v8-new-calculator-01",
+      "result": 71,
+      "route": "calculator",
+      "user": "What is 23 plus 48?"
+    },
+    {
+      "id": "v8-new-calculator-02",
+      "result": 54,
+      "route": "calculator",
+      "user": "What is 91 minus 37?"
+    },
+    {
+      "id": "v8-new-calculator-03",
+      "result": 224,
+      "route": "calculator",
+      "user": "What is 14 times 16?"
+    },
+    {
+      "id": "v8-new-calculator-04",
+      "result": 25,
+      "route": "calculator",
+      "user": "What is 225 divided by 9?"
+    },
+    {
+      "id": "v8-new-calculator-05",
+      "result": 100,
+      "route": "calculator",
+      "user": "What is 6 squared plus 8 squared?"
+    },
+    {
+      "id": "v8-new-calculator-06",
+      "result": 41,
+      "route": "calculator",
+      "user": "What is 7 squared minus 2 cubed?"
+    },
+    {
+      "id": "v8-new-calculator-07",
+      "result": -89,
+      "route": "calculator",
+      "user": "What is -5 cubed plus 6 squared?"
+    },
+    {
+      "id": "v8-new-calculator-08",
+      "result": 43,
+      "route": "calculator",
+      "user": "What is 4 squared minus -3 cubed?"
+    },
+    {
+      "id": "v8-new-calculator-09",
+      "result": 54.4,
+      "route": "calculator",
+      "user": "Calculate 17 percent of 320."
+    },
+    {
+      "id": "v8-new-calculator-10",
+      "result": 5,
+      "route": "calculator",
+      "user": "Compute (18 + 22) / 8."
+    },
+    {
+      "id": "v8-new-calculator-11",
+      "result": 2.125,
+      "route": "calculator",
+      "user": "What is 1.25 squared plus .75 squared?"
+    },
+    {
+      "id": "v8-new-calculator-12",
+      "result": 704,
+      "route": "calculator",
+      "user": "Calculate 9 cubed minus 5 squared."
+    },
+    {
+      "id": "v8-new-calculator-13",
+      "result": 512,
+      "route": "calculator",
+      "user": "What is 2 to the power of 9?"
+    },
+    {
+      "id": "v8-new-calculator-14",
+      "result": 117649,
+      "route": "calculator",
+      "user": "Calculate (7 cubed) squared."
+    },
+    {
+      "id": "v8-new-calculator-15",
+      "result": 1.5,
+      "route": "calculator",
+      "user": "What is 0.75 plus 1.25 minus 0.5?"
+    },
+    {
+      "id": "v8-new-calculator-16",
+      "result": 45,
+      "route": "calculator",
+      "user": "Compute -6**2 plus 9 squared."
+    },
+    {
+      "id": "v8-new-calculator-17",
+      "result": 80,
+      "route": "calculator",
+      "user": "What is 1,280 divided by 16?"
+    },
+    {
+      "id": "v8-new-calculator-18",
+      "result": 500,
+      "route": "calculator",
+      "user": "Calculate 5 cubed times -2 squared."
+    },
+    {
+      "id": "v8-new-calculator-19",
+      "result": 9,
+      "route": "calculator",
+      "user": "What is 9 squared divided by 3 squared?"
+    },
+    {
+      "id": "v8-new-calculator-20",
+      "result": 162,
+      "route": "calculator",
+      "user": "Compute (16 - 7) * (13 + 5)."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for current visitor notices at the National Museum of Scotland."
+      },
+      "id": "v8-new-web_search-01",
+      "route": "web_search",
+      "user": "Search the web for current visitor notices at the National Museum of Scotland."
+    },
+    {
+      "arguments": {
+        "query": "Please search online for today’s ferry updates in Tallinn."
+      },
+      "id": "v8-new-web_search-02",
+      "route": "web_search",
+      "user": "Please search online for today’s ferry updates in Tallinn."
+    },
+    {
+      "arguments": {
+        "query": "Could you search the internet for the latest science festival dates in Leiden"
+      },
+      "id": "v8-new-web_search-03",
+      "route": "web_search",
+      "user": "Could you search the internet for the latest science festival dates in Leiden?"
+    },
+    {
+      "arguments": {
+        "query": "Look online for current planetarium opening hours in Hamburg."
+      },
+      "id": "v8-new-web_search-04",
+      "route": "web_search",
+      "user": "Look online for current planetarium opening hours in Hamburg."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for this week’s exhibitions at the Walker Art Gallery."
+      },
+      "id": "v8-new-web_search-05",
+      "route": "web_search",
+      "user": "Search the web for this week’s exhibitions at the Walker Art Gallery."
+    },
+    {
+      "arguments": {
+        "query": "Look on the web for recent updates from the European Space Agency."
+      },
+      "id": "v8-new-web_search-06",
+      "route": "web_search",
+      "user": "Look on the web for recent updates from the European Space Agency."
+    },
+    {
+      "arguments": {
+        "query": "Search online for the latest public transport timetable in Brno."
+      },
+      "id": "v8-new-web_search-07",
+      "route": "web_search",
+      "user": "Search online for the latest public transport timetable in Brno."
+    },
+    {
+      "arguments": {
+        "query": "Please search the web for current ticket prices at the Eden Project."
+      },
+      "id": "v8-new-web_search-08",
+      "route": "web_search",
+      "user": "Please search the web for current ticket prices at the Eden Project."
+    },
+    {
+      "arguments": {
+        "query": "Look on the internet for official notices about Auckland harbour ferries."
+      },
+      "id": "v8-new-web_search-09",
+      "route": "web_search",
+      "user": "Look on the internet for official notices about Auckland harbour ferries."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for “what is bioluminescence” research articles."
+      },
+      "id": "v8-new-web_search-10",
+      "route": "web_search",
+      "user": "Search the web for “what is bioluminescence” research articles."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for the latest archaeological discoveries in Orkney."
+      },
+      "id": "v8-new-web_search-11",
+      "route": "web_search",
+      "user": "Search the web for the latest archaeological discoveries in Orkney."
+    },
+    {
+      "arguments": {
+        "query": "Could you please search online for the next public lecture at Kew Gardens"
+      },
+      "id": "v8-new-web_search-12",
+      "route": "web_search",
+      "user": "Could you please search online for the next public lecture at Kew Gardens?"
+    },
+    {
+      "arguments": {
+        "query": "Search the internet for current school holiday dates in Queensland."
+      },
+      "id": "v8-new-web_search-13",
+      "route": "web_search",
+      "user": "Search the internet for current school holiday dates in Queensland."
+    },
+    {
+      "arguments": {
+        "query": "Look online for today’s theatre listings in Cardiff."
+      },
+      "id": "v8-new-web_search-14",
+      "route": "web_search",
+      "user": "Look online for today’s theatre listings in Cardiff."
+    },
+    {
+      "arguments": {
+        "query": "Search the web for current accessibility guidance at the Rijksmuseum."
+      },
+      "id": "v8-new-web_search-15",
+      "route": "web_search",
+      "user": "Search the web for current accessibility guidance at the Rijksmuseum."
+    },
+    {
+      "arguments": {
+        "query": "Please look on the web for current guided tour times at Durham Cathedral."
+      },
+      "id": "v8-new-web_search-16",
+      "route": "web_search",
+      "user": "Please look on the web for current guided tour times at Durham Cathedral."
+    },
+    {
+      "arguments": {
+        "query": "Search online for the latest official chess tournament results in Prague."
+      },
+      "id": "v8-new-web_search-17",
+      "route": "web_search",
+      "user": "Search online for the latest official chess tournament results in Prague."
+    },
+    {
+      "arguments": {
+        "query": "Could you search the web for recent volcanic activity bulletins in Iceland"
+      },
+      "id": "v8-new-web_search-18",
+      "route": "web_search",
+      "user": "Could you search the web for recent volcanic activity bulletins in Iceland?"
+    },
+    {
+      "arguments": {
+        "query": "Search the internet for this month’s public observatory nights in Tucson."
+      },
+      "id": "v8-new-web_search-19",
+      "route": "web_search",
+      "user": "Search the internet for this month’s public observatory nights in Tucson."
+    },
+    {
+      "arguments": {
+        "query": "Look on the web for the latest restoration news from Pompeii."
+      },
+      "id": "v8-new-web_search-20",
+      "route": "web_search",
+      "user": "Look on the web for the latest restoration news from Pompeii."
+    },
+    {
+      "id": "v8-new-direct-01",
+      "route": "direct",
+      "user": "What is bioluminescence?"
+    },
+    {
+      "id": "v8-new-direct-02",
+      "route": "direct",
+      "user": "What are ribosomes?"
+    },
+    {
+      "id": "v8-new-direct-03",
+      "route": "direct",
+      "user": "What's a Möbius strip?"
+    },
+    {
+      "id": "v8-new-direct-04",
+      "route": "direct",
+      "user": "What is osmosis?"
+    },
+    {
+      "id": "v8-new-direct-05",
+      "route": "direct",
+      "user": "What is an alluvial fan?"
+    },
+    {
+      "id": "v8-new-direct-06",
+      "route": "direct",
+      "user": "What is mitosis?"
+    },
+    {
+      "id": "v8-new-direct-07",
+      "route": "direct",
+      "user": "What is the nitrogen cycle?"
+    },
+    {
+      "id": "v8-new-direct-08",
+      "route": "direct",
+      "user": "What is 'capillary action'?"
+    },
+    {
+      "id": "v8-new-direct-09",
+      "route": "direct",
+      "user": "What is a feedback loop?"
+    },
+    {
+      "id": "v8-new-direct-10",
+      "route": "direct",
+      "user": "What are prime numbers?"
+    },
+    {
+      "id": "v8-new-direct-11",
+      "route": "direct",
+      "user": "What is logarithmic growth?"
+    },
+    {
+      "id": "v8-new-direct-12",
+      "route": "direct",
+      "user": "What is the Doppler effect?"
+    },
+    {
+      "id": "v8-new-direct-13",
+      "route": "direct",
+      "user": "What’s an isthmus?"
+    },
+    {
+      "id": "v8-new-direct-14",
+      "route": "direct",
+      "user": "What is antibody-mediated immunity?"
+    },
+    {
+      "id": "v8-new-direct-15",
+      "route": "direct",
+      "user": "What is the conservation of angular momentum?"
+    },
+    {
+      "id": "v8-new-direct-16",
+      "route": "direct",
+      "user": "What are supernovae?"
+    },
+    {
+      "id": "v8-new-direct-17",
+      "route": "direct",
+      "user": "What is “cognitive dissonance”?"
+    },
+    {
+      "id": "v8-new-direct-18",
+      "route": "direct",
+      "user": "What is a finite-state machine?"
+    },
+    {
+      "id": "v8-new-direct-19",
+      "route": "direct",
+      "user": "What is resonance, thanks?"
+    },
+    {
+      "id": "v8-new-direct-20",
+      "route": "direct",
+      "user": "What is the greenhouse effect?"
+    }
+  ],
+  "created_at": "2026-09-12T16:05:01.962102+00:00",
+  "routing_revision": "definition-routing-v8",
+  "schema_version": 1,
+  "scope": "assistant_authored_fresh_finite_contract_confirmation",
+  "source_freeze_commit": "494f856645b31551d7a923cce487686c8eb75837",
+  "source_lock_sha256": "cf1b9b3d354836bbf857666d7f79f562eb69dcd28c46d3f608f00cdbd3d44c4c"
+}

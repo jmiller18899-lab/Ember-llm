@@ -1,0 +1,37 @@
+name: Ember 4B aggressive consolidation 1
+on:
+  push:
+    branches: [codex/ember-4b-acceleration-sprint1]
+    paths: [.github/workflows/ember-4b-consolidation1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight-launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Install CPU preflight
+        run: |
+          python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install transformers==5.17.0 peft==0.20.0 trl==1.13.0 accelerate==1.15.0 huggingface-hub==1.31.0 datasets==5.0.1
+      - name: Validate combined corpus
+        run: python jobs/ember_4b_consolidation1.py --preflight
+      - name: Launch one capped L4 consolidation
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          repo="Jmiller18899/ember-qwen3.5-4b-consolidation1"; api.create_repo(repo,private=True,exist_ok=True)
+          if api.file_exists(repo,"launch.json"): raise RuntimeError("consolidation already launched")
+          api.upload_file(repo_id=repo,path_in_repo="launch.json",path_or_fileobj=b'{"status":"reserved"}',commit_message="Reserve consolidation run")
+          job=api.run_uv_job("jobs/ember_4b_consolidation1.py",python="3.11",flavor="l4x1",timeout=5400,name="ember-4b-consolidation1",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          api.upload_file(repo_id=repo,path_in_repo="launch.json",path_or_fileobj=(f'{{"status":"submitted","job_id":"{job.id}"}}').encode(),commit_message="Record consolidation job")
+          print("CONSOLIDATION_JOB",job.id,job.url)
+          PY
