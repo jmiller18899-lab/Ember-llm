@@ -16,13 +16,21 @@ SEED=90222
 def build_cases():
     rng=random.Random(SEED); cases=[]
     # 36 arithmetic: mixed operations, distinct values/templates from training.
+    used_mix=set()
     for i in range(18):
-        a=rng.randint(14,49); b=rng.randint(4,18); c=rng.randint(3,13)
+        while True:
+            vals=(rng.randint(14,49),rng.randint(4,18),rng.randint(3,13))
+            if vals not in used_mix: used_mix.add(vals); break
+        a,b,c=vals
         cases.append({"id":f"arith-mix-{i:02d}","family":"arithmetic","scoring":"exact",
           "prompt":f"A shelf starts with {a} novels. Add {b} new novels, then remove {c}. How many remain? Number only.",
           "answer":str(a+b-c)})
+    used_pack=set()
     for i in range(18):
-        packs=rng.randint(3,10); each=rng.randint(4,12); loose=rng.randint(1,9)
+        while True:
+            vals=(rng.randint(3,10),rng.randint(4,12),rng.randint(1,9))
+            if vals not in used_pack: used_pack.add(vals); break
+        packs,each,loose=vals
         cases.append({"id":f"arith-pack-{i:02d}","family":"arithmetic","scoring":"exact",
           "prompt":f"There are {packs} sealed bundles with {each} screws in each bundle and {loose} extra screws. Total screws? Number only.",
           "answer":str(packs*each+loose)})
@@ -78,7 +86,12 @@ def build_cases():
             r=f"Keep both the location '{pl}' and the time 'before {t}' while making the sentence shorter."
         cases.append({"id":f"draft-{i:02d}","family":"drafting","scoring":"rubric","prompt":p,"rubric":r})
     assert len(cases)==120
-    assert len({x["prompt"] for x in cases})==120
+    by_prompt={}
+    for row in cases: by_prompt.setdefault(row["prompt"],[]).append(row["id"])
+    duplicates={p:ids for p,ids in by_prompt.items() if len(ids)>1}
+    if duplicates:
+        raise AssertionError("duplicate benchmark prompts: "+json.dumps(duplicates,sort_keys=True))
+    assert len(by_prompt)==120
     return cases
 
 def generate(model,tok,prompt):
