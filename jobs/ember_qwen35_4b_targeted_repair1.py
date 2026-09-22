@@ -9,7 +9,7 @@ from pathlib import Path
 BASE="Qwen/Qwen3.5-4B"
 BASE_REV="851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
 SOURCE="Jmiller18899/ember-qwen3.5-4b-sft-v1"
-OUTPUT="Jmiller18899/ember-qwen3.5-4b-sft-v1-repair1"
+OUTPUT="Jmiller18899/ember-qwen3.5-4b-sft-v1-repair1b"
 SYSTEM="You are Ember. Answer the current request directly and concisely. Preserve supplied facts and follow the requested format."
 SEED=431
 GAIN_IDS={"v2-confirmation-classification-0011","v2-confirmation-classification-0035","v2-confirmation-classification-0059","fresh-natural-v2-16","v3-confirm-00"}
