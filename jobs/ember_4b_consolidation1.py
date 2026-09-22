@@ -56,8 +56,8 @@ def gen(model,tok,r):
     return tok.decode(o[0,ids.shape[-1]:],skip_special_tokens=True).strip()
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument("--lane",default="combined",choices=["combined","arithmetic","grounding","drafting"]); p.add_argument("--preflight",action="store_true"); a=p.parse_args()
-    lane=a.lane; train=rows("arithmetic")+rows("grounding") if lane=="combined" else rows(lane)
+    p=argparse.ArgumentParser(); p.add_argument("--preflight",action="store_true"); a=p.parse_args()
+    train=rows("arithmetic")+rows("grounding")
     import torch
     from datasets import Dataset
     from huggingface_hub import HfApi,hf_hub_download
@@ -67,7 +67,7 @@ def main():
     set_seed(431); tok=AutoTokenizer.from_pretrained(BASE,revision=BASE_REV); tok.pad_token=tok.eos_token
     ds=Dataset.from_list([encode(tok,r) for r in train]); coll=DataCollatorForLanguageModeling(pad_token_id=tok.pad_token_id)
     b=coll([ds[0],ds[1]]); assert (b["labels"]==-100).any() and (b["labels"]!=-100).any()
-    if a.preflight: print("CONSOLIDATION_PREFLIGHT_PASS",lane,len(train)); return
+    if a.preflight: print("CONSOLIDATION_PREFLIGHT_PASS",len(train)); return
     token=os.environ["HF_TOKEN"]; api=HfApi(token=token); source_rev=api.model_info(SOURCE).sha
     # Repair1b evidence is the immutable comparison source.
     ev=Path(hf_hub_download(SOURCE,"repair-evidence/after.json",revision=source_rev,token=token))
@@ -88,7 +88,7 @@ def main():
     regress=[i for i in B if B[i]["exact_match"] and not A[i]["exact_match"]]
     preserved=all(A[i]["exact_match"] for i in GAIN_IDS)
     score0=sum(r["exact_match"] for r in before); score1=sum(r["exact_match"] for r in after)
-    summary={"lane":lane,"before_exact":[score0,len(before)],"after_exact":[score1,len(after)],"regressions":regress,"protected_gains_preserved":preserved,"steps":tr.state.global_step,"accepted":not regress and preserved and score1>=score0,"production_ready":False}
+    summary={"lanes":["arithmetic","grounding"],"before_exact":[score0,len(before)],"after_exact":[score1,len(after)],"regressions":regress,"protected_gains_preserved":preserved,"steps":tr.state.global_step,"accepted":not regress and preserved and score1>=score0,"production_ready":False}
     Path("consolidation-summary.json").write_text(json.dumps(summary,indent=2))
     repo="Jmiller18899/ember-qwen3.5-4b-consolidation1"; api.create_repo(repo,private=True,exist_ok=True)
     api.upload_folder(repo_id=repo,folder_path=str(outdir),path_in_repo="candidate",commit_message="Preserve consolidation candidate before gate")
