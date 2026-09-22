@@ -42,10 +42,10 @@ jobs:
           from huggingface_hub import HfApi
           lane=os.environ["LANE"]; token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
           repo=f"Jmiller18899/ember-qwen3.5-4b-sprint1-{lane}"; api.create_repo(repo,private=True,exist_ok=True)
-          guard="launch.json"
+          guard="launch-retry1.json"
           if api.file_exists(repo,guard): raise RuntimeError("lane already launched")
           api.upload_file(repo_id=repo,path_in_repo=guard,path_or_fileobj=b'{"status":"reserved"}',commit_message="Reserve one sprint lane")
-          job=api.run_uv_job("jobs/ember_4b_parallel_sprint1.py",script_args=["--lane",lane],python="3.11",flavor="l4x1",timeout=5400,name=f"ember-sprint1-{lane}",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          job=api.run_uv_job("jobs/ember_4b_parallel_sprint1.py",script_args=["--lane",lane],python="3.11",flavor="l4x1",timeout=5400,name=f"ember-sprint1-retry1-{lane}",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
           api.upload_file(repo_id=repo,path_in_repo=guard,path_or_fileobj=(f'{{"status":"submitted","job_id":"{job.id}"}}').encode(),commit_message="Record sprint lane job")
           print(lane,job.id,job.url)
           PY
