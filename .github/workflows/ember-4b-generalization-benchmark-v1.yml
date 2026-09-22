@@ -1,0 +1,44 @@
+name: Ember 4B generalization benchmark v1
+on:
+  push:
+    branches: [codex/ember-4b-acceleration-sprint1]
+    paths: [.github/workflows/ember-4b-generalization-benchmark-v1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Validate benchmark construction
+        run: |
+          python - <<'PY'
+          import importlib.util
+          spec=importlib.util.spec_from_file_location("b","jobs/ember_4b_generalization_benchmark_v1.py")
+          m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          c=m.build_cases()
+          assert len(c)==120
+          assert sum(x["scoring"]=="exact" for x in c)==72
+          assert sum(x["scoring"]=="rubric" for x in c)==48
+          print("BENCHMARK_STRUCTURE_OK",len(c))
+          PY
+      - name: Launch capped L4 evaluation
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install huggingface-hub==1.31.0
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          repo="Jmiller18899/ember-generalization-benchmark-v1"; api.create_repo(repo,private=True,exist_ok=True)
+          if api.file_exists(repo,"launch.json"): raise RuntimeError("benchmark already launched")
+          api.upload_file(repo_id=repo,path_in_repo="launch.json",path_or_fileobj=b'{"status":"reserved"}',commit_message="Reserve fresh benchmark")
+          job=api.run_uv_job("jobs/ember_4b_generalization_benchmark_v1.py",python="3.11",flavor="l4x1",timeout=5400,name="ember-generalization-v1",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          api.upload_file(repo_id=repo,path_in_repo="launch.json",path_or_fileobj=(f'{{"status":"submitted","job_id":"{job.id}"}}').encode(),commit_message="Record benchmark job")
+          print("GENERALIZATION_JOB",job.id,job.url)
+          PY
