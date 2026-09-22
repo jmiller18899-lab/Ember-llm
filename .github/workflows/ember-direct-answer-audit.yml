@@ -1,0 +1,83 @@
+name: Ember direct-answer evidence audit
+on:
+  push:
+    branches: [codex/ember-direct-answer-audit-20260922]
+    paths: [.github/workflows/ember-direct-answer-audit.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ember-direct-answer-audit-20260922
+  cancel-in-progress: false
+jobs:
+  audit-and-evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install CPU audit dependencies only
+        run: python -m pip install huggingface-hub==1.31.0 pytest
+      - name: Focused evaluator tests
+        run: python -m pytest -q tests/test_ember_direct_answer_audit.py
+      - name: Repository-wide regression check
+        id: fullsuite
+        continue-on-error: true
+        timeout-minutes: 3
+        run: |
+          set +e
+          python -m pytest -q > repo-suite.log 2>&1
+          result=$?
+          tail -n 40 repo-suite.log
+          echo "REPOSITORY_SUITE_EXIT=$result"
+          exit "$result"
+      - name: Audit saved evidence before GPU allocation
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: python jobs/ember_direct_answer_audit.py --audit-only
+      - name: Reserve and launch one evaluation-only L4 job, capped at 15 minutes
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+          REPO_SUITE_OUTCOME: ${{ steps.fullsuite.outcome }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from huggingface_hub import HfApi, CommitOperationAdd
+          if os.environ.get('GITHUB_RUN_ATTEMPT', '1') != '1':
+              raise RuntimeError('No automatic relaunch on workflow retries')
+          audit = json.loads(Path('ember-audit-summary.json').read_text())
+          repo = audit['repo']
+          api = HfApi(token=os.environ['HF_TOKEN'])
+          guard = 'diagnostics/direct-answer-audit-20260922-v1/launch.json'
+          info = api.model_info(repo)
+          if api.file_exists(repo, guard):
+              raise RuntimeError('Evaluation already reserved; no duplicate GPU job')
+          source = Path('jobs/ember_direct_answer_audit.py')
+          receipt = {'status': 'reserved', 'adapter_revision': audit['revision'],
+              'source_commit': os.environ['GITHUB_SHA'], 'training_steps': 0,
+              'script_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
+              'hardware': 'l4x1', 'timeout_seconds': 900,
+              'repository_suite_outcome': os.environ['REPO_SUITE_OUTCOME']}
+          api.create_commit(repo, parent_commit=info.sha,
+              operations=[CommitOperationAdd(path_in_repo=guard, path_or_fileobj=json.dumps(receipt).encode())],
+              commit_message='Reserve one bounded evaluation-only direct-answer audit')
+          job = api.run_uv_job(str(source), python='3.11', flavor='l4x1', timeout=900,
+              name='ember-direct-answer-audit-20260922', secrets={'HF_TOKEN': os.environ['HF_TOKEN']},
+              env={'EMBER_AUDIT_REVISION': audit['revision'], 'TOKENIZERS_PARALLELISM': 'false'})
+          receipt.update(status='submitted', job_id=job.id, job_url=job.url)
+          Path('ember-evaluation-receipt.json').write_text(json.dumps(receipt, indent=2))
+          print('EVALUATION_RECEIPT ' + json.dumps(receipt), flush=True)
+          api.upload_file(repo_id=repo, path_in_repo=guard, path_or_fileobj=json.dumps(receipt).encode(),
+              commit_message='Record evaluation-only audit receipt')
+          PY
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: ember-direct-answer-audit-receipt
+          path: |
+            ember-evaluation-receipt.json
+            ember-audit-summary.json
+            repo-suite.log
