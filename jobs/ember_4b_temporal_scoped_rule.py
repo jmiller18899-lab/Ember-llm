@@ -46,14 +46,14 @@ def rubric_pass(case,output):
 
 # Reconstructed from the targeted run's description; replace with the original 8 prompts if they differ.
 TEMPORAL_CASES=[
- {"id":"rule-01","prompt":"My shipment was collected Wednesday. When was it delivered? Context: tonight.","expect":"abstain","reject_any":["delivered tonight","arrived tonight","tonight."]},
- {"id":"rule-02","prompt":"My shipment was collected Wednesday. Tracking says delivered tonight at 7:26 PM. When was it delivered?","expect":"answer","require_all":[["7:26"]],"reject_any":[]},
- {"id":"rule-03","prompt":"My bus left at 9:10 AM. I'm asking this afternoon. When did it arrive?","expect":"abstain","reject_any":["arrived this afternoon"]},
- {"id":"rule-04","prompt":"My bus left at 9:10 AM. The log says it arrived this afternoon at 1:05 PM. When did it arrive?","expect":"answer","require_all":[["1:05"]],"reject_any":[]},
- {"id":"rule-05","prompt":"My package was picked up Tuesday. When did it arrive? Context: this afternoon.","expect":"abstain","reject_any":["arrived this afternoon"]},
- {"id":"rule-06","prompt":"The delivery record says it arrived this afternoon at 3:17 PM. What time did it arrive?","expect":"answer","require_all":[["3:17"]],"reject_any":[]},
- {"id":"rule-07","prompt":"A ferry departed at 1:30 PM and traveled for 45 minutes. What time did it arrive?","expect":"answer","require_all":[["2:15"]],"reject_any":[]},
- {"id":"rule-08","prompt":"Tracking: delivered earlier at 10:18 AM. What time was delivery?","expect":"answer","require_all":[["10:18"]],"reject_any":[]},
+ {"id":"rule-01","trigger":True,"prompt":"My shipment was collected Wednesday. When was it delivered? Context: tonight.","expect":"abstain","reject_any":["delivered tonight","arrived tonight","tonight."]},
+ {"id":"rule-02","trigger":True,"prompt":"My shipment was collected Wednesday. Tracking says delivered tonight at 7:26 PM. When was it delivered?","expect":"answer","require_all":[["7:26"]],"reject_any":[]},
+ {"id":"rule-03","trigger":True,"prompt":"My bus left at 9:10 AM. I'm asking this afternoon. When did it arrive?","expect":"abstain","reject_any":["arrived this afternoon"]},
+ {"id":"rule-04","trigger":True,"prompt":"My bus left at 9:10 AM. The log says it arrived this afternoon at 1:05 PM. When did it arrive?","expect":"answer","require_all":[["1:05"]],"reject_any":[]},
+ {"id":"rule-05","trigger":True,"prompt":"My package was picked up Tuesday. When did it arrive? Context: this afternoon.","expect":"abstain","reject_any":["arrived this afternoon"]},
+ {"id":"rule-06","trigger":True,"prompt":"The delivery record says it arrived this afternoon at 3:17 PM. What time did it arrive?","expect":"answer","require_all":[["3:17"]],"reject_any":[]},
+ {"id":"rule-07","trigger":False,"prompt":"A ferry departed at 1:30 PM and traveled for 45 minutes. What time did it arrive?","expect":"answer","require_all":[["2:15"]],"reject_any":[]},
+ {"id":"rule-08","trigger":False,"prompt":"Tracking: delivered earlier at 10:18 AM. What time was delivery?","expect":"answer","require_all":[["10:18"]],"reject_any":[]},
 ]
 
 def load_exact(api,token):
@@ -67,7 +67,10 @@ def load_exact(api,token):
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument("--preflight",action="store_true"); a=p.parse_args()
-    assert len(TEMPORAL_CASES)==8 and all(temporal_gate(c["prompt"]) for c in TEMPORAL_CASES)
+    assert len(TEMPORAL_CASES)==8
+    trigger_mismatches=[case["id"] for case in TEMPORAL_CASES if temporal_gate(case["prompt"]) != case["trigger"]]
+    if trigger_mismatches:
+        raise AssertionError("temporal trigger mismatches: "+json.dumps(trigger_mismatches))
     if a.preflight: print("TEMPORAL_SCOPED_PREFLIGHT_PASS",len(TEMPORAL_CASES)); return
     import torch
     from huggingface_hub import HfApi
