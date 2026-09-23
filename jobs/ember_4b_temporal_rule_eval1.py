@@ -54,6 +54,14 @@ def main():
  summary={"method":"inference_only_temporal_rule","model":MODEL,"weight_changes":0,"exact_pass":sum(r["rule_exact"] for r in scored),"exact_total":len(scored),"by_family":fam,"targeted_pass":sum(r["passed"] for r in targets),"targeted_total":len(targets),"production_ready":False}
  out=Path("temporal-rule-eval"); out.mkdir(exist_ok=True)
  (out/"summary.json").write_text(json.dumps(summary,indent=2)); (out/"exact.json").write_text(json.dumps(scored,indent=2)); (out/"targeted.json").write_text(json.dumps(targets,indent=2))
- repo="Jmiller18899/ember-temporal-rule-eval1"; api.create_repo(repo,private=True,exist_ok=True); api.upload_folder(repo_id=repo,folder_path=str(out),path_in_repo="",commit_message="Save inference-only temporal rule evaluation")
- print("RULE_SUMMARY "+json.dumps(summary),flush=True); print("RULE_TARGETS "+json.dumps(targets),flush=True)
+ # Emit the complete decision evidence before any optional persistence.
+ print("RULE_SUMMARY "+json.dumps(summary),flush=True)
+ print("RULE_TARGETS "+json.dumps(targets),flush=True)
+ repo="Jmiller18899/ember-temporal-rule-eval1"
+ try:
+  api.create_repo(repo,private=True,exist_ok=True)
+  api.upload_folder(repo_id=repo,folder_path=str(out),path_in_repo="",commit_message="Save inference-only temporal rule evaluation")
+  print("RULE_RESULTS_UPLOAD_OK "+repo,flush=True)
+ except Exception as e:
+  print("RULE_RESULTS_UPLOAD_SKIPPED "+type(e).__name__+": "+str(e),flush=True)
 if __name__=="__main__": main()
