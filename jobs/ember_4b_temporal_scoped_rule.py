@@ -60,7 +60,10 @@ def load_exact(api,token):
     from huggingface_hub import hf_hub_download
     rev=api.model_info(EVIDENCE_SOURCE).sha
     rows=json.loads(Path(hf_hub_download(EVIDENCE_SOURCE,"candidate.json",revision=rev,token=token)).read_text())
-    exact=[r for r in rows if r.get("scoring")=="exact"]\n    if len(exact)!=72: raise RuntimeError(f"expected 72 fresh exact cases, got {len(exact)}")\n    return exact
+    exact=[r for r in rows if r.get("scoring")=="exact"]
+    if len(exact)!=72:
+        raise RuntimeError(f"expected 72 fresh exact cases, got {len(exact)}")
+    return exact
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument("--preflight",action="store_true"); a=p.parse_args()
