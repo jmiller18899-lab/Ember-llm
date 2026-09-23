@@ -106,6 +106,11 @@ def main():
     out=Path("temporal-scoped-results"); out.mkdir(exist_ok=True)
     for name,data in [("baseline_exact",base_exact),("scoped_exact",scoped_exact),("baseline_temporal",base_temp),("scoped_temporal",scoped_temp),("summary",summary)]:
         (out/f"{name}.json").write_text(json.dumps(data,indent=2))
-    api.upload_folder(repo_id=MODEL,folder_path=str(out),path_in_repo="temporal-scoped-rule",allow_patterns=["*.json"],commit_message="Save scoped temporal-rule evaluation (no weight change)")
     print("TEMPORAL_SCOPED_SUMMARY "+json.dumps(summary),flush=True)
+    print("TEMPORAL_SCOPED_RESULTS "+json.dumps({"baseline_temporal":base_temp,"scoped_temporal":scoped_temp}),flush=True)
+    try:
+        api.upload_folder(repo_id=MODEL,folder_path=str(out),path_in_repo="temporal-scoped-rule",allow_patterns=["*.json"],commit_message="Save scoped temporal-rule evaluation (no weight change)")
+        print("TEMPORAL_SCOPED_UPLOAD_OK",flush=True)
+    except Exception as e:
+        print("TEMPORAL_SCOPED_UPLOAD_SKIPPED "+type(e).__name__+": "+str(e),flush=True)
 if __name__=="__main__": main()
