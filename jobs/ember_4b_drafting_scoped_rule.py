@@ -9,7 +9,7 @@ BASE="Qwen/Qwen3.5-4B"; BASE_REV="851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
 MODEL="Jmiller18899/ember-qwen3.5-4b-consolidation1"
 BENCH="Jmiller18899/ember-generalization-benchmark-v1"
 SYSTEM="You are Ember. Answer the current request directly and concisely. Preserve supplied facts and follow the requested format."
-DRAFT_RULE=("Drafting transformation: when the user asks you to message or draft for a named recipient, output the actual sendable message, not a restatement of the instruction. Address the recipient naturally and convert third-person references about that recipient into second person while preserving every supplied fact. When asked to shorten text, actually make it shorter while preserving any explicitly protected facts such as place and time.")
+DRAFT_RULE=("Drafting transformation: when the user asks you to message or draft for a named recipient, output only the actual sendable message, not a restatement of the instruction. Address the named recipient directly. Any third-person reference to that recipient must become second person: their -> your, they -> you, them -> you. Example: Message Alex: I found their badge -> Hi Alex, I found your badge. Never copy the word their when it refers to the person you are addressing. Preserve every supplied fact. When asked to shorten text, actually make it shorter while preserving explicitly protected facts such as place and time.")
 
 MESSAGE_RE=re.compile(r"^\s*(message|draft (?:a )?(?:message|text|reply)|write (?:a )?(?:message|text|reply))\b",re.I)
 SHORTEN_RE=re.compile(r"\b(shorten|make (?:this|it) shorter|condense)\b",re.I)
