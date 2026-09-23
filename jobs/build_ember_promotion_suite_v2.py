@@ -50,7 +50,7 @@ def build():
  # 15 context consistency rubric, self-contained mini-history
  for i in range(15):
   item=objects[i%5]; owner=names[(i+3)%10]; day=days[(i+2)%5]
-  rows.append({"id":f"context-{i:02d}","family":"context_consistency","scoring":"rubric","prompt":f"Earlier facts: owner={owner}; item={item}; return_day={day}. Now answer: Who owns the item and when is it returned?","rubric":f"Answer that {owner} owns the {item} and it is returned {day}; do not change or invent facts."})
+  rows.append({"id":f"context-{i:02d}","family":"context_consistency","scoring":"rubric","prompt":f"Context record {i+1}: owner={owner}; item={item}; return_day={day}. Now answer: Who owns the item and when is it returned?","rubric":f"Answer that {owner} owns the {item} and it is returned {day}; do not change or invent facts."})
  assert len(rows)==200
  by_prompt={}
  for row in rows:
