@@ -15,7 +15,7 @@ import argparse,json,os,re
 from pathlib import Path
 BASE="Qwen/Qwen3.5-4B"; BASE_REV="851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
 MODEL="Jmiller18899/ember-qwen3.5-4b-consolidation1"
-EVIDENCE_SOURCE="Jmiller18899/ember-qwen3.5-4b-sft-v1-repair1b"
+EVIDENCE_SOURCE="Jmiller18899/ember-generalization-benchmark-v1"
 SYSTEM="You are Ember. Answer the current request directly and concisely. Preserve supplied facts and follow the requested format."
 TEMPORAL_RULE=("Time grounding: a time that only says when the user is asking (for example 'Context: tonight' or "
     "'I'm asking this afternoon') is not the time of the event. State an event time only if it is given explicitly "
@@ -46,14 +46,14 @@ def rubric_pass(case,output):
 
 # Reconstructed from the targeted run's description; replace with the original 8 prompts if they differ.
 TEMPORAL_CASES=[
- {"id":"temporal-ctx-tonight-delivery","prompt":"Context: tonight. My package shipped Monday. When was it delivered?","expect":"abstain","reject_any":["delivered tonight","arrived tonight","was delivered this evening"]},
- {"id":"temporal-asking-afternoon-bus","prompt":"I'm asking this afternoon. The bus left the depot at 9:40 AM. When did it arrive?","expect":"abstain","reject_any":["arrived this afternoon","arrived in the afternoon"]},
- {"id":"temporal-asking-evening-order","prompt":"I'm asking this evening. The order was placed Friday. When was it delivered?","expect":"abstain","reject_any":["delivered this evening","delivered tonight"]},
- {"id":"temporal-now-friend","prompt":"It's now 3 PM. My friend left home this morning. When will they arrive?","expect":"abstain","reject_any":["at 3 pm","3:00 pm"]},
- {"id":"temporal-tracking-explicit","prompt":"Context: tonight. Tracking says: delivered Tuesday at 2:14 PM. When was it delivered?","expect":"answer","require_all":[["tuesday"],["2:14"]],"reject_any":["tonight"]},
- {"id":"temporal-log-explicit","prompt":"Context: this afternoon. Log: 07:02 build started; 07:19 build finished. When did the build finish?","expect":"answer","require_all":[["07:19","7:19"]],"reject_any":["this afternoon"]},
- {"id":"temporal-duration-train","prompt":"Context: tonight. A train left at 6:05 PM and traveled for 45 minutes. When did it arrive?","expect":"answer","require_all":[["6:50"]]},
- {"id":"temporal-duration-ferry","prompt":"Right now it's 11:30 AM. The ferry left at 10:50 AM and the crossing takes 25 minutes. When did it arrive?","expect":"answer","require_all":[["11:15"]],"reject_any":["11:30"]},
+ {"id":"rule-01","prompt":"My shipment was collected Wednesday. When was it delivered? Context: tonight.","expect":"abstain","reject_any":["delivered tonight","arrived tonight","tonight."]},
+ {"id":"rule-02","prompt":"My shipment was collected Wednesday. Tracking says delivered tonight at 7:26 PM. When was it delivered?","expect":"answer","require_all":[["7:26"]],"reject_any":[]},
+ {"id":"rule-03","prompt":"My bus left at 9:10 AM. I'm asking this afternoon. When did it arrive?","expect":"abstain","reject_any":["arrived this afternoon"]},
+ {"id":"rule-04","prompt":"My bus left at 9:10 AM. The log says it arrived this afternoon at 1:05 PM. When did it arrive?","expect":"answer","require_all":[["1:05"]],"reject_any":[]},
+ {"id":"rule-05","prompt":"My package was picked up Tuesday. When did it arrive? Context: this afternoon.","expect":"abstain","reject_any":["arrived this afternoon"]},
+ {"id":"rule-06","prompt":"The delivery record says it arrived this afternoon at 3:17 PM. What time did it arrive?","expect":"answer","require_all":[["3:17"]],"reject_any":[]},
+ {"id":"rule-07","prompt":"A ferry departed at 1:30 PM and traveled for 45 minutes. What time did it arrive?","expect":"answer","require_all":[["2:15"]],"reject_any":[]},
+ {"id":"rule-08","prompt":"Tracking: delivered earlier at 10:18 AM. What time was delivery?","expect":"answer","require_all":[["10:18"]],"reject_any":[]},
 ]
 
 def load_exact(api,token):
