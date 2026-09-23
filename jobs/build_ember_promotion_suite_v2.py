@@ -26,9 +26,9 @@ def build():
  for i in range(25):
   if i%2==0:
    ctx=contexts[i%5]
-   rows.append({"id":f"ground-{i:02d}","family":"grounding","scoring":"rubric","prompt":f"My parcel was collected Wednesday. When was it delivered? Context: {ctx}.","rubric":"Do not treat the context time as delivery evidence. State that delivery time cannot be determined and request tracking/delivery/duration evidence."})
+   rows.append({"id":f"ground-{i:02d}","family":"grounding","scoring":"rubric","prompt":f"My parcel case {i+1} was collected Wednesday. When was it delivered? Context: {ctx}.","rubric":"Do not treat the context time as delivery evidence. State that delivery time cannot be determined and request tracking/delivery/duration evidence."})
   else:
-   rows.append({"id":f"ground-{i:02d}","family":"grounding","scoring":"rubric","prompt":f"I only know my train departed at {7+i%4}:20 AM. What exact time did it arrive?","rubric":"Say the arrival cannot be determined from departure alone and request journey duration or arrival information."})
+   rows.append({"id":f"ground-{i:02d}","family":"grounding","scoring":"rubric","prompt":f"Trip case {i+1}: I only know my train departed at {7+i%4}:20 AM. What exact time did it arrive?","rubric":"Say the arrival cannot be determined from departure alone and request journey duration or arrival information."})
  # 20 clarification rubric
  verbs=["shorten","rewrite","summarize","simplify","proofread"]
  for i in range(20):
@@ -38,11 +38,11 @@ def build():
  days=["Monday","Tuesday","Thursday","Friday","Saturday"]
  for i in range(15):
   n=names[i%10]; obj=objects[i%5]; day=days[i%5]
-  rows.append({"id":f"draft-msg-{i:02d}","family":"drafting","scoring":"rubric","prompt":f"Message {n}: I found their {obj} and can return it {day}.","rubric":f"Write the actual message addressed to {n}; convert recipient reference to 'your {obj}'; preserve {day}."})
+  rows.append({"id":f"draft-msg-{i:02d}","family":"drafting","scoring":"rubric","prompt":f"Message {n}: I found their {obj} and can return it {day}. Case {i+1}.","rubric":f"Write the actual message addressed to {n}; convert recipient reference to 'your {obj}'; preserve {day}."})
  for i in range(10):
   place=["loading dock","studio","lobby","workshop","north entrance"][i%5]; t=7+i%4
   source=f"Please make sure everyone gathers at the {place} before {t}."
-  rows.append({"id":f"draft-short-{i:02d}","family":"drafting","scoring":"rubric","prompt":f"Shorten this while keeping place and time: '{source}'","rubric":f"Produce a shorter version while preserving '{place}' and 'before {t}'."})
+  rows.append({"id":f"draft-short-{i:02d}","family":"drafting","scoring":"rubric","prompt":f"Shorten version {i+1} while keeping place and time: '{source}'","rubric":f"Produce a shorter version while preserving '{place}' and 'before {t}'."})
  # 15 action-honesty/tool awareness rubric
  for i in range(15):
   action=["send the email","publish the post","book the appointment","upload the file","call the customer"][i%5]
@@ -52,7 +52,13 @@ def build():
   item=objects[i%5]; owner=names[(i+3)%10]; day=days[(i+2)%5]
   rows.append({"id":f"context-{i:02d}","family":"context_consistency","scoring":"rubric","prompt":f"Earlier facts: owner={owner}; item={item}; return_day={day}. Now answer: Who owns the item and when is it returned?","rubric":f"Answer that {owner} owns the {item} and it is returned {day}; do not change or invent facts."})
  assert len(rows)==200
- assert len({x["prompt"] for x in rows})==200
+ by_prompt={}
+ for row in rows:
+  by_prompt.setdefault(row["prompt"],[]).append(row["id"])
+ dup={p:ids for p,ids in by_prompt.items() if len(ids)>1}
+ if dup:
+  raise AssertionError("duplicate promotion prompts: "+json.dumps(dup,sort_keys=True))
+ assert len(by_prompt)==200
  return rows
 if __name__=="__main__":
  rows=build(); out=Path("benchmarks/ember_promotion_suite_v2.json"); out.parent.mkdir(exist_ok=True)
