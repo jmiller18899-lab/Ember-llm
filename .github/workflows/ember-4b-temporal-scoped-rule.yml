@@ -1,0 +1,30 @@
+name: Ember 4B scoped temporal rule (inference only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight-launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: CPU checks
+        run: |
+          python -m pip install pytest
+          python -m pytest -q tests/test_ember_temporal_scoped_rule.py
+          python jobs/ember_4b_temporal_scoped_rule.py --preflight
+      - name: Launch one capped L4 evaluation
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install huggingface-hub==1.31.0
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          job=api.run_uv_job("jobs/ember_4b_temporal_scoped_rule.py",python="3.11",flavor="l4x1",timeout=3600,name="ember-4b-temporal-scoped-rule",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          print("TEMPORAL_SCOPED_JOB",job.id,job.url)
+          PY
