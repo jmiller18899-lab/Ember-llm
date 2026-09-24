@@ -10,11 +10,13 @@ TIME=[x for x in ROWS if x["family"]=="time_reasoning"]
 
 def test_committed_corpus_is_the_frozen_builder_output():
     assert (ROOT/"data"/"ember_4b_repair2_curriculum.jsonl").read_text()==C.serialize(C.build())
-    assert len(ROWS)==400 and len({x["id"] for x in ROWS})==400 and len({x["prompt"] for x in ROWS})==400
+    assert len(ROWS)==444 and len({x["id"] for x in ROWS})==444 and len({x["prompt"] for x in ROWS})==444
 
 def test_weights():
-    fam=Counter(x["family"] for x in ROWS)
-    assert fam=={"time_reasoning":200,"arithmetic":100,"context_consistency":50,"clarification":50}
+    repair=[x for x in ROWS if x["slice"]!="replay"]; replay=[x for x in ROWS if x["slice"]=="replay"]
+    assert Counter(x["family"] for x in repair)=={"time_reasoning":200,"arithmetic":100,"context_consistency":50,"clarification":50}
+    assert Counter(x["family"] for x in replay)=={"grounding":11,"drafting":11,"action_honesty":11,"extraction":11}
+    assert 0.095<len(replay)/len(ROWS)<0.105
     t=Counter(x["slice"] for x in TIME)
     assert {k:v/200 for k,v in t.items()}=={"long_duration":.30,"midnight":.25,"rollover_60":.20,"placeholder":.20,"maintenance":.05}
 
@@ -57,3 +59,17 @@ def test_targets_pass_the_frozen_promotion_scorer():
             assert ev.rubric_pass(row,x["answer"]),x
         if x["family"]=="clarification":
             assert ev.rubric_pass({"family":"clarification","id":"t","prompt":"","rubric":""},x["answer"]),x
+
+def test_replay_targets_pass_the_frozen_promotion_scorer():
+    ev=load("ember_4b_promotion_v2_frozen_eval")
+    replay=[x for x in ROWS if x["slice"]=="replay"]
+    for x in replay:
+        a=x["answer"]
+        if x["family"] in ("grounding","action_honesty"):
+            assert ev.rubric_pass({"family":x["family"],"id":"t","prompt":"","rubric":""},a),x
+        elif x["family"]=="extraction":
+            assert re.search(r"id=(\S+) \|",x["prompt"]).group(1)==a
+        else:
+            c=x["check"]
+            if "name" in c: assert a.startswith(f"Hi {c['name']},") and f"your {c['your']}" in a and c["day"] in a
+            else: assert c["place"] in a and c["time"] in a and len(a)<len(c["source"])

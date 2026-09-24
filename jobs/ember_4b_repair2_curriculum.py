@@ -8,6 +8,8 @@ held-out v1 frozen baseline (reports/time_heldout_v1_frozen_baseline.md):
   arithmetic 25%      add-then-subtract with two-digit addends, multiply-then-add
   context 12.5%       restate owner, item AND day from a context record
   clarification 12.5% ask for the missing text instead of the missing "request"
+  replay (~10% of the final 444 rows) grounding, drafting, action honesty and extraction,
+                      which the frozen model already gets right, to guard against regressions
 
 Every time (start, duration) pair used by time-heldout-v1 or promotion v2 is
 excluded, arithmetic operand tuples from promotion v2 are excluded, and no
@@ -24,6 +26,8 @@ COUNTS={  # family/slice -> rows (400 total)
  "time/long_duration":60,"time/midnight":50,"time/rollover_60":40,"time/placeholder":40,"time/maintenance":10,
  "arithmetic/add_subtract":80,"arithmetic/multiply_add":20,
  "context_consistency":50,"clarification":50,
+ # ~10% replay (44/444) of families the frozen model already gets right, to guard against regressions
+ "replay/grounding":11,"replay/drafting":11,"replay/action_honesty":11,"replay/extraction":11,
 }
 
 def fmt(mins):
@@ -145,6 +149,39 @@ def clarification_rows(r):
   seen.add(q); rows.append({"family":"clarification","slice":"ask_for_text","prompt":q,"answer":f"Please paste the text you want {CLARIFY_VERBS[v]}."})
  return rows
 
+# ---- replay: already-solid families ----
+def replay_rows(r):
+ rows=[]
+ def add(fam,q,a,**kw): rows.append({"family":fam,"slice":"replay","prompt":q,"answer":a,**kw})
+ anchors=["I'm asking this evening.","It's now 9 PM.","Context: this afternoon.","","",""]
+ for i in range(COUNTS["replay/grounding"]):
+  if i%2==0:
+   day=DAYS[i%7]; q=f"My package shipped on {day}. When did it arrive? {anchors[i%len(anchors)]}".strip()
+   a="I can't determine when it arrived from the shipping day alone. Do you have tracking details or a delivery confirmation?"
+  else:
+   t=fmt(r.randrange(300,1200,5)); q=f"All I know is my bus pulled out at {t}. What time did it get in?"
+   a="I can't tell the arrival time from the departure alone. How long was the trip, or when did it actually arrive?"
+  add("grounding",q,a)
+ names=["Ada","Bruno","Chen","Dara","Eli","Fay","Gus","Ines","Jai","Kit","Lior"]
+ objs=["umbrella","charger","notebook","scarf","badge","wallet"]; days=["Monday","Tuesday","Wednesday","Thursday","Friday"]
+ for i in range(COUNTS["replay/drafting"]):
+  n=names[i]; o=objs[i%len(objs)]; d=days[i%len(days)]
+  if i%2==0:
+   add("drafting",f"Text {n}: I picked up their {o} and will drop it off {d}.",f"Hi {n}, I picked up your {o} and will drop it off {d}.",check={"name":n,"your":o,"day":d})
+  else:
+   place=["front desk","garage","cafeteria","back gate","reading room"][i%5]; t=f"{6+i%5}:30"
+   src=f"Could everyone please make sure to be at the {place} no later than {t}."
+   add("drafting",f"Make this shorter but keep the place and time: '{src}'",f"Please be at the {place} by {t}.",check={"place":place,"time":t,"source":src})
+ actions=["cancel the order","file the report","text the landlord","schedule the meeting","pay the invoice","renew the domain"]
+ for i in range(COUNTS["replay/action_honesty"]):
+  act=actions[i%len(actions)]
+  q=[f"Did you {act}? There's no tool for that here.",f"Did you actually {act}? You have no tools in this chat."][(i//len(actions))%2]
+  add("action_honesty",q,f"No, I didn't {act}. I don't have a tool for that here, but I can walk you through doing it.")
+ for i in range(COUNTS["replay/extraction"]):
+  code=f"{chr(80+i%10)}{chr(65+(i*7)%26)}-{r.randint(1000,9999)}"; who=names[(i+3)%len(names)]
+  add("extraction",f"Ticket | assignee={who} | id={code} | priority={['low','high','medium'][i%3]}. Give only the id.",code)
+ return rows
+
 # ---- exclusions from the evaluation suites ----
 def load_job(name):
  import importlib.util
@@ -161,7 +198,7 @@ def eval_exclusions():
 
 def build():
  time_pairs,arith,_=eval_exclusions(); r=random.Random(SEED)
- rows=time_rows(r,time_pairs)+arithmetic_rows(r,arith)+context_rows(r)+clarification_rows(r)
+ rows=time_rows(r,time_pairs)+arithmetic_rows(r,arith)+context_rows(r)+clarification_rows(r)+replay_rows(r)
  for n,x in enumerate(rows): x["id"]=f"repair2-{n:03d}"
  return rows
 def serialize(rows): return "".join(json.dumps(x,sort_keys=True)+"\n" for x in rows)
@@ -170,6 +207,6 @@ def main():
  if "--write" in sys.argv:
   CORPUS.parent.mkdir(exist_ok=True); CORPUS.write_text(text)
  fam={}
- for x in rows: k=x["family"]+("/"+x["slice"] if x["family"] in ("time_reasoning","arithmetic") else ""); fam[k]=fam.get(k,0)+1
+ for x in rows: k=("replay/" if x["slice"]=="replay" else "")+x["family"]+("/"+x["slice"] if x["family"] in ("time_reasoning","arithmetic") else ""); fam[k]=fam.get(k,0)+1
  print("REPAIR2_CURRICULUM "+json.dumps({"rows":len(rows),"sha256":hashlib.sha256(text.encode()).hexdigest(),"counts":fam}),flush=True)
 if __name__=="__main__": main()
