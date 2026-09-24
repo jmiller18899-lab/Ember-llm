@@ -1,0 +1,12 @@
+{
+  "approved_scope": "One epoch on the audited v1.2 512-row SFT export",
+  "trainer_sha256": "2b256b4a5391471ea2f84a6880792ebe2ce3673f090cc7eae13299b294131b02",
+  "training_sha256": "3352bc50c505dc5cecafab88909b176be3385b45f3346d08e222189019995165",
+  "optimizer_steps": 128,
+  "learning_rate": 0.0000015,
+  "flavor": "l4x1",
+  "timeout_seconds": 3600,
+  "automatic_retries": false,
+  "final_holdouts_evaluated": false,
+  "automatic_promotion": false
+}
