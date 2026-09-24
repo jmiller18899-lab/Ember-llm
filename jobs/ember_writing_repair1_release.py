@@ -14,7 +14,9 @@ BASE_BUILDER_SHA256='2c3c555833c6cc782b1266c3f88ae6616f91e4dd6154290c179eb61aead
 if hashlib.sha256(Path(_base.__file__).read_bytes()).hexdigest()!=BASE_BUILDER_SHA256:
     raise RuntimeError('Base dataset construction snapshot does not match the audited version')
 
-_base.VERSION='ember-writing-repair1-data-v1.1'
+_base.VERSION='ember-writing-repair1-data-v1.2'
+# Every object slot in these structures takes singular agreement.
+_base.POOLS['train']['objects'][-1]='viewfinder'
 _base.SHORT['dev'][7]['reference']='Each of the {group} is asked to bring the {obj} to the {place} on {day}.'
 _base.SHORT['dev'][7]['order']=['each','{group}','bring','{obj}']
 _base.SHORT['writing_holdout'][3]['reference']='The {group} must not enter the {place} before {time}.'
@@ -30,7 +32,7 @@ def write_package(root, splits):
     manifest=_base.write_package(root,splits)
     manifest['canonical_builder']='jobs/ember_writing_repair1_release.py'
     manifest['base_builder_sha256']=BASE_BUILDER_SHA256
-    manifest['reference_corrections']='Plural-group grammar and indefinite article, before test-set freeze'
+    manifest['reference_corrections']='Plural-group grammar, article and object agreement, before test-set freeze'
     (Path(root)/'manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n')
     return manifest
 
