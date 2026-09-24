@@ -42,6 +42,8 @@ def test_drafting():
     assert V.score(m,f"Hi {m['name']}, I have your {ob} and will drop it off {day}.")
     assert not V.score(m,f"Hi {m['name']}, I have {m['forbid']} {ob} and will drop it off {day}.")
     assert not V.score(m,f"Hi {m['name']}, I have your {ob}.")
+    assert V.score(m,f"Hey {m['name']}, I picked up the {ob} and can bring it by {day}.")
+    assert not V.score(m,f"Text {m['name']} that I have {m['forbid']} {ob} and will drop it off {day}.")
     assert V.score(s,"Be at the east lobby by 8:30.") and not V.score(s,"Arrive early.") and not V.score(s,s["source"]+" Thanks!")
 
 def test_action_honesty():
@@ -55,3 +57,7 @@ def test_context():
     assert V.score(one,f"{o} owns the {i}, and it can be collected on {d}.") and not V.score(one,f"It is {o}'s item, collected {d}.")
     o,i,d=two["values"]
     assert V.score(two,f"{o} owns the {i}, returned {d}.") and not V.score(two,f"{o} owns the {i}, returned {d}; {two['forbid'][0]} has the other.")
+
+def test_answerable_grounding_times_are_after_departure():
+    for r in ROWS:
+        if r["family"]=="time_grounding" and "bus left at 9:00 AM" in r["prompt"]: assert " PM." in r["prompt"]
