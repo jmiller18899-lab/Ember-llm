@@ -1,0 +1,46 @@
+name: Ember 4B repair2 + arithmetic tool (eval only)
+on:
+  push:
+    branches: [claude/repair2-exact-regression-ftg9bz]
+    paths:
+      - .github/workflows/ember-4b-repair2-arith-tool-eval.yml
+      - jobs/ember_4b_repair2_arith_tool_eval.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  launch-and-wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Tool tests and preflight
+        run: |
+          python -m pip install -q pytest
+          python -m pytest -q tests/test_ember_arith_tool.py
+          python jobs/ember_4b_repair2_arith_tool_eval.py --preflight | grep '^ARITH_TOOL_PREFLIGHT_PASS'
+      - name: Launch one L4 eval-only job and wait for result
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import os,time,sys
+          from huggingface_hub import HfApi
+          token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          job=api.run_uv_job("jobs/ember_4b_repair2_arith_tool_eval.py",python="3.11",flavor="l4x1",timeout=5400,name="ember-4b-repair2-arith-tool-eval",secrets={"HF_TOKEN":token},env={"PYTHONUNBUFFERED":"1","TOKENIZERS_PARALLELISM":"false"})
+          print("ARITH_TOOL_JOB",job.id,job.url,flush=True)
+          for _ in range(640):
+              st=api.inspect_job(job_id=job.id).status
+              if st.stage in ("COMPLETED","ERROR","CANCELED","DELETED"): break
+              time.sleep(10)
+          print("JOB_STATUS",st,flush=True)
+          lines=list(api.fetch_job_logs(job_id=job.id))
+          for l in lines:
+              if l.startswith("ARITH_TOOL_"): print(l)
+          print("---- LOG TAIL ----")
+          for l in lines[-25:]: print(l)
+          sys.exit(0 if st.stage=="COMPLETED" and any(l.startswith("ARITH_TOOL_SUMMARY") for l in lines) else 1)
+          PY
