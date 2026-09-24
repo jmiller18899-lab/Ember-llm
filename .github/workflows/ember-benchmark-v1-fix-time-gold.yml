@@ -1,0 +1,29 @@
+name: Ember benchmark v1 time-14 gold correction
+on:
+  push:
+    branches: [claude/repair2-exact-regression-ftg9bz]
+    paths:
+      - .github/workflows/ember-benchmark-v1-fix-time-gold.yml
+      - jobs/ember_benchmark_v1_fix_time_gold.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  correct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - run: python -m pip install -q huggingface-hub==1.31.0
+      - name: Self-test
+        run: python jobs/ember_benchmark_v1_fix_time_gold.py --self-test
+      - name: Dry run against the live benchmark
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: python jobs/ember_benchmark_v1_fix_time_gold.py --dry-run
+      - name: Apply correction
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: python jobs/ember_benchmark_v1_fix_time_gold.py

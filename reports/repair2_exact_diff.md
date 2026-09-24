@@ -18,3 +18,6 @@ It reproduces the promotion scores exactly: **Consolidation1 71/72, Repair2 70/7
 ## time-14 benchmark gold
 10:50 AM + 75 min = **12:05 PM**. Both models give 12:05 PM. The gold "12:05 AM" appears to copy the `H:MM AM` format hint.
 This case should be corrected in the benchmark, not trained toward. Until it is corrected, 71/72 is the effective ceiling for any correct model.
+
+### Correction
+`jobs/ember_benchmark_v1_fix_time_gold.py` fixes time-14's gold to `12:05 PM` in the HF benchmark repo; the prompt is unchanged. It recomputes every time gold and refuses to run if anything other than time-14 differs. Results scored before the fix stay reproducible at revision `9b080364`.
