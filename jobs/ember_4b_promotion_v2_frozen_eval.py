@@ -98,7 +98,7 @@ def build():
   raise AssertionError("duplicate promotion prompts: "+json.dumps(dup,sort_keys=True))
  assert len(by_prompt)==200
  return rows
-\ndef main():
+\n\ndef main():
  import torch
  from peft import PeftModel
  from transformers import AutoTokenizer,Qwen3_5ForCausalLM
