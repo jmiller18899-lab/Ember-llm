@@ -1,0 +1,44 @@
+name: Ember time held-out v1 (frozen baseline, inference only)
+on:
+  push:
+    branches: [claude/new-session-tuz2t4]
+    paths: [.github/workflows/ember-time-heldout-v1.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight-launch-wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: CPU checks
+        run: |
+          python -m pip install -q pytest
+          python -m pytest -q tests/test_ember_time_heldout_v1.py
+          python jobs/ember_time_heldout_v1.py --preflight
+      - name: Launch one capped L4 evaluation and wait
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import os,sys,time
+          from huggingface_hub import HfApi
+          token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          job=api.run_uv_job("jobs/ember_time_heldout_v1.py",python="3.11",flavor="l4x1",timeout=3600,name="ember-time-heldout-v1-frozen",secrets={"HF_TOKEN":token},env={"TOKENIZERS_PARALLELISM":"false"})
+          print("TIME_HELDOUT_JOB",job.id,job.url,flush=True)
+          for _ in range(390):
+              st=api.inspect_job(job_id=job.id).status
+              if st.stage in ("COMPLETED","ERROR","CANCELED","DELETED"): break
+              time.sleep(10)
+          print("JOB_STATUS",st,flush=True)
+          lines=list(api.fetch_job_logs(job_id=job.id))
+          for l in lines:
+              if l.startswith(("TIME_HELDOUT_PREFLIGHT_OK","TIME_HELDOUT_SUMMARY","TIME_HELDOUT_FAILURES")): print(l)
+          print("---- LOG TAIL ----")
+          for l in lines[-20:]: print(l)
+          sys.exit(0 if st.stage=="COMPLETED" and any(l.startswith("TIME_HELDOUT_SUMMARY") for l in lines) else 1)
+          PY
