@@ -7,12 +7,11 @@
 Outputs come from HF job 6ab46f596b030d633f68cd4b (PROMO_V2_FROZEN_FAILURES).
 CPU only; rebuilds expected answers from the suite. Run: python jobs/analyze_promo_v2_time_arith_failures.py
 """
-import json,re
+import json,random,re
 from collections import Counter
-from pathlib import Path
 OUT={"arith-03":"15","arith-04":"64","arith-05":"62","arith-06":"17","arith-07":"10","arith-08":"63","arith-09":"66","arith-10":"95","arith-12":"81","arith-13":"16","arith-14":"33","arith-17":"37","mult-06":"55",
 "time-00":"H:8:30 AM","time-01":"H:7:45 PM","time-02":"H:00 AM","time-03":"H:2:30 PM","time-04":"H:10 AM","time-05":"H:MM PM","time-06":"H:4:30 AM","time-07":"H:4:40 PM","time-08":"H:00 AM","time-09":"H:MM PM","time-10":"H:1:45 AM","time-11":"H:11 PM","time-12":"H:10:45 AM","time-13":"H:11:50 PM","time-14":"H:10:55 AM","time-15":"H:10 PM","time-16":"H:00 AM","time-17":"H:5:55 PM","time-18":"H:45 AM","time-19":"H:9:35 PM","time-20":"H:02 AM","time-21":"H:30 PM","time-22":"H:MM AM","time-23":"H:MM PM","time-24":"H:00 AM","time-26":"H:8:25 AM","time-27":"H:5:40 PM","time-28":"H:00 AM","time-29":"H:3:40 PM"}
-SUITE_URL="https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/claude/new-session-tuz2t4/jobs/build_ember_promotion_suite_v2.py"
+SEED=20260923  # must match build_ember_promotion_suite_v2.py
 def build():
  r=random.Random(SEED); rows=[]
  # 40 arithmetic/reasoning exact
@@ -71,7 +70,9 @@ def build():
   raise AssertionError("duplicate promotion prompts: "+json.dumps(dup,sort_keys=True))
  assert len(by_prompt)==200
  return rows
-\n\ndef load_rows():\n return {r[\"id\"]:r for r in build()}\ndef time_cluster(o,exp):
+def load_rows():
+ return {r["id"]:r for r in build()}
+def time_cluster(o,exp):
  if not o.startswith("H:"): return "correct" if o==exp else "wrong_unprefixed"
  body=o[2:]
  if body==exp: return "prefix_echo_correct_time"
@@ -92,6 +93,12 @@ def main():
   hit=[n for n,v in ops.items() if v==o]; err=o-int(r["answer"])
   cl="operation_confusion" if hit else ("tens_digit_slip" if err%10==0 else "other")
   report["arithmetic"].append({"id":k,"a_b_c":[a,b,c],"expected":int(r["answer"]),"output":o,"error":err,"cluster":cl,"matches":hit})
+ for i in range(20):
+  k=f"mult-{i:02d}"; r=rows[k]; n,kk,x=map(int,re.findall(r"\d+",r["prompt"])[:3])
+  if k not in OUT: continue
+  o=int(OUT[k]); ops={"n*k":n*kk,"(n+1)*k":(n+1)*kk,"n*(k+1)":n*(kk+1),"n*k-x":n*kk-x}
+  hit=[nm for nm,v in ops.items() if v==o]; err=o-int(r["answer"])
+  report["arithmetic"].append({"id":k,"a_b_c":[n,kk,x],"expected":int(r["answer"]),"output":o,"error":err,"cluster":"multiply_slip","matches":hit})
  t=report["time"]; carry=[x for x in t if x["hour_carry"]]; same=[x for x in t if not x["hour_carry"]]
  ok=lambda x:x["cluster"] in ("correct","prefix_echo_correct_time")
  summary={"time_clusters":Counter(x["cluster"] for x in t),"time_content_correct_same_hour":[sum(map(ok,same)),len(same)],
