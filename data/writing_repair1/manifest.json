@@ -1,0 +1,52 @@
+{
+  "version": "writing-repair1-curriculum-v1.1",
+  "seed": 924431,
+  "files": {
+    "train.jsonl": {
+      "rows": 512,
+      "bytes": 121792,
+      "sha256": "7cfc823e5674cfb409c4c7bad952431eea90fff87cfbe0ebbab95dc95008881e"
+    },
+    "train_metadata.jsonl": {
+      "rows": 512,
+      "bytes": 376983,
+      "sha256": "690e6f0253e8a6bb1bc975141f6259c23f1f535cea8d3cc86b0a3b7df6b31381"
+    },
+    "dev.jsonl": {
+      "rows": 64,
+      "bytes": 60353,
+      "sha256": "99e83610ce8b4d8ddaefe3786d6556dce16644ec81394d1d85e8ff19ac7e6baf"
+    },
+    "test.jsonl": {
+      "rows": 96,
+      "bytes": 93623,
+      "sha256": "8cce1f5e7ee8797b805dfd25260be6b9027ac3d4b5af49e95e46b69c331e0f89"
+    }
+  },
+  "finalized_entrypoint": "jobs/ember_writing_repair1_release.py",
+  "catalog_entrypoint_is_not_final_export": "jobs/ember_writing_repair1_curriculum.py",
+  "base_model": "Qwen/Qwen3.5-4B",
+  "base_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "adapter": "Jmiller18899/ember-qwen3.5-4b-repair2",
+  "adapter_revision": "daf938bba5d4e6b650ec9d34a2d3ac56706cf549",
+  "baseline_commit": "e6c9d37120802349190d9d66eaf35e7301a64c2e",
+  "grader_commit": "25924014c0e5d5a580a296b2841a1e6f6cbe3bb4",
+  "training_input": "train.jsonl",
+  "auxiliary_metadata_not_additional_training_rows": "train_metadata.jsonl",
+  "evaluation_only": [
+    "dev.jsonl",
+    "test.jsonl"
+  ],
+  "final_test_policy": "Exclude test.jsonl from training, prompt tuning and checkpoint selection. Evaluate once after candidate selection.",
+  "retention_provenance": "256 new verified rehearsal rows, not literal replay from previous training",
+  "data_author_review": "Semantic transformation patterns reviewed by the author; per-row ledger/oracle checks; not independent adjudication",
+  "synthetic_template_based": true,
+  "independent_human_review": false,
+  "ember_model_inference_performed": false,
+  "pretraining_exposure_unknown": true,
+  "frozen_grader_unchanged": true,
+  "automatic_new_writing_evaluation_ready": false,
+  "new_test_scoring": "Use a separately declared blind semantic-review protocol; the frozen conservative grader alone is not suitable.",
+  "training_started": false,
+  "automatic_promotion": false
+}
