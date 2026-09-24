@@ -1,0 +1,41 @@
+name: Ember context-consistency diagnostic (eval only)
+on:
+  push:
+    branches: [claude/repair2-exact-regression-ftg9bz]
+    paths:
+      - .github/workflows/ember-context-diag.yml
+      - jobs/ember_context_diag.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  launch-and-wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Launch one L4 eval-only job and wait for result
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import os,time,sys
+          from huggingface_hub import HfApi
+          token=os.environ["HF_TOKEN"]; api=HfApi(token=token)
+          job=api.run_uv_job("jobs/ember_context_diag.py",python="3.11",flavor="l4x1",timeout=1800,name="ember-context-diag",secrets={"HF_TOKEN":token},env={"PYTHONUNBUFFERED":"1","TOKENIZERS_PARALLELISM":"false"})
+          print("CONTEXT_DIAG_JOB",job.id,job.url,flush=True)
+          for _ in range(400):
+              st=api.inspect_job(job_id=job.id).status
+              if st.stage in ("COMPLETED","ERROR","CANCELED","DELETED"): break
+              time.sleep(10)
+          print("JOB_STATUS",st,flush=True)
+          lines=list(api.fetch_job_logs(job_id=job.id))
+          for l in lines:
+              if l.startswith("CONTEXT_DIAG_"): print(l)
+          print("---- LOG TAIL ----")
+          for l in lines[-25:]: print(l)
+          sys.exit(0 if st.stage=="COMPLETED" and any(l.startswith("CONTEXT_DIAG_SUMMARY") for l in lines) else 1)
+          PY
