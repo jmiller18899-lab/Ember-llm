@@ -13,6 +13,8 @@ jobs:
   preflight:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    outputs:
+      launch: ${{ steps.marker.outputs.launch }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -25,10 +27,13 @@ jobs:
         run: python -m pytest -q tests/test_ember_4b_repair2_train.py tests/test_ember_4b_repair2_curriculum.py tests/test_ember_time_heldout_v1.py
       - name: Tokenize curriculum and validate
         run: python jobs/ember_4b_repair2_train.py --preflight
+      - name: Check launch marker
+        id: marker
+        run: if [ -f jobs/ember_4b_repair2.launch ]; then echo launch=true; else echo launch=false; fi >> "$GITHUB_OUTPUT"
   launch:
     # Runs only once jobs/ember_4b_repair2.launch is committed; one launch per output repo.
     needs: preflight
-    if: ${{ hashFiles('jobs/ember_4b_repair2.launch') != '' }}
+    if: needs.preflight.outputs.launch == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
