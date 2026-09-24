@@ -16,10 +16,10 @@ Usage:  python jobs/ember_promotion_suite_v3_eval.py --preflight   (CPU)
 import argparse,hashlib,json,types,urllib.request
 from pathlib import Path
 
-SRC_COMMIT="31629a507fffd2af84e36755f85ccf85ed8db93d"
+SRC_COMMIT="f381fee812d7528b7f33eb7ba06e1b52fe854cb0"
 RAW=f"https://raw.githubusercontent.com/jmiller18899-lab/Ember-llm/{SRC_COMMIT}/"
 PINNED={
- "jobs/ember_promotion_suite_v3.py":"d7def258797cb7fff9c2c4ff311d5f31416283abb47ee16e4b9f8c5310985483",
+ "jobs/ember_promotion_suite_v3.py":"a31e14acae58594cfca60e3de28c19cf567a00d5fdc57fa137f899695e6ca87f",
  "jobs/ember_arith_tool.py":"d4dd1d38f4e34d3f7f3262d2bb1d3bfff2aecfc6d5af23b02ae39fd46d31bac1",
  "jobs/ember_context_rule.py":"239a1d29e55be77d1f46867dc8cc6d94b82e39823b33f9ffd8ab1b56ffc8cb70",
  "jobs/ember_4b_repair2_original_promotion_eval.py":"48272629067857fc873dfab6c71c61e82c90eb4bf5cab7d85a7f5c9108b29ffc",
