@@ -4,6 +4,7 @@
 # ///
 """Frozen promoted Ember configuration on promotion suite v2 (200 cases)."""
 import json,os,re,random
+SEED=20260923
 BASE="Qwen/Qwen3.5-4B"; BASE_REV="851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
 MODEL="Jmiller18899/ember-qwen3.5-4b-consolidation1"; MODEL_REV="62e5b58b78f823a6cd720a4ff53d0adda1624210"
 SYSTEM="You are Ember. Answer the current request directly and concisely. Preserve supplied facts and follow the requested format."
@@ -98,7 +99,7 @@ def build():
   raise AssertionError("duplicate promotion prompts: "+json.dumps(dup,sort_keys=True))
  assert len(by_prompt)==200
  return rows
-\n\ndef main():
+def main():
  import torch
  from peft import PeftModel
  from transformers import AutoTokenizer,Qwen3_5ForCausalLM
