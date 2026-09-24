@@ -1,4 +1,4 @@
-name: Ember 4B policy v2: context rule (eval only)
+name: "Ember 4B policy v2 - context rule (eval only)"
 on:
   push:
     branches: [claude/repair2-exact-regression-ftg9bz]
