@@ -22,7 +22,9 @@ BASE="Qwen/Qwen3.5-4B"; BASE_REV="851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
 BENCH="Jmiller18899/ember-generalization-benchmark-v1"
 FROZEN=("c1","Jmiller18899/ember-qwen3.5-4b-consolidation1","62e5b58b78f823a6cd720a4ff53d0adda1624210")
 REPAIR2=("r2","Jmiller18899/ember-qwen3.5-4b-repair2",None)  # latest revision; printed below
-EXPECTED={"c1":71,"r2":70}
+# Expected scores per benchmark revision (835243e1 corrects the time-14 gold from 12:05 AM to 12:05 PM).
+EXPECTED_BY_BENCH={"9b080364c0b4d4d005cc376a4f45daa1a2edcd77":{"c1":71,"r2":70},
+                   "835243e16cf19e6ee34f27a19cba14242c14969f":{"c1":72,"r2":71}}
 # Reuse the exact runtime policy (system prompt + scoped rules) of the promotion evaluator.
 POLICY_SRC="jobs/ember_4b_repair2_original_promotion_eval.py"
 POLICY_COMMIT="3d559086a5a581bb0bb5b7c1adf8d7a0e65d8db0"
@@ -99,6 +101,6 @@ def main():
     summary={"c1":[72-len(fails["c1"]),72],"r2":[72-len(fails["r2"]),72],"c1_failures":fails["c1"],"r2_failures":fails["r2"],
              "r2_new_failures":sorted(set(fails["r2"])-set(fails["c1"])),"r2_fixed":sorted(set(fails["c1"])-set(fails["r2"])),
              "shared_failures":sorted(set(fails["c1"])&set(fails["r2"])),
-             "reproduces_promotion_scores":all(72-len(fails[n])==EXPECTED[n] for n in EXPECTED),"weights_changed":False}
+             "bench_revision":bench_rev,"reproduces_expected_scores":(all(72-len(fails[n])==exp[n] for n in exp) if (exp:=EXPECTED_BY_BENCH.get(bench_rev)) else None),"weights_changed":False}
     print("EXACT_DIFF_SUMMARY "+json.dumps(summary),flush=True)
 if __name__=="__main__": main()
