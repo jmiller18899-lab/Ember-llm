@@ -1,0 +1,101 @@
+{
+  "grader_version": "meaning-preservation-v2",
+  "records": [
+    {
+      "config": "shortening_only",
+      "suite": "suite_v3",
+      "row": {
+        "id": "drafting-13",
+        "family": "drafting",
+        "scoring": "rubric",
+        "kind": "shorten",
+        "source": "All volunteers are kindly asked to gather by the loading dock before noon on Saturday.",
+        "prompt": "Make this shorter but keep where and when: \"All volunteers are kindly asked to gather by the loading dock before noon on Saturday.\"",
+        "facts": [
+          "loading dock",
+          "noon",
+          "saturday"
+        ]
+      },
+      "output": "All volunteers must gather at the loading dock before noon Saturday.",
+      "legacy_ok": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "fail",
+        "reasons": [
+          "force_changed:request->requirement"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      },
+      "ok": false
+    },
+    {
+      "config": "shortening_only",
+      "suite": "fresh_writing",
+      "row": {
+        "id": "fresh-shorten-02",
+        "family": "shortening",
+        "prompt": "Shorten this while preserving every fact: All students are kindly asked to leave exactly three folders on the blue desk by 4 PM.",
+        "require": [
+          "students",
+          "three folders",
+          "blue desk",
+          "4 PM"
+        ],
+        "negative_any": [],
+        "source": "All students are kindly asked to leave exactly three folders on the blue desk by 4 PM.",
+        "kind": "shortening",
+        "scoring": "rubric"
+      },
+      "output": "All students must leave exactly three folders on the blue desk by 4 PM.",
+      "legacy_ok": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "fail",
+        "reasons": [
+          "force_changed:request->requirement"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      },
+      "ok": false
+    },
+    {
+      "config": "shortening_only",
+      "suite": "fresh_writing",
+      "row": {
+        "id": "fresh-shorten-04",
+        "family": "shortening",
+        "prompt": "Shorten this while preserving every fact: We would appreciate it if all drivers could wait at the west entrance after 7:45 PM on Thursday.",
+        "require": [
+          "drivers",
+          "west entrance",
+          "after 7:45",
+          "Thursday"
+        ],
+        "negative_any": [],
+        "source": "We would appreciate it if all drivers could wait at the west entrance after 7:45 PM on Thursday.",
+        "kind": "shortening",
+        "scoring": "rubric"
+      },
+      "output": "All drivers must wait at the west entrance after 7:45 PM on Thursday.",
+      "legacy_ok": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "fail",
+        "reasons": [
+          "force_changed:request->requirement"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      },
+      "ok": false
+    }
+  ],
+  "coverage": "supplied records only; not a full benchmark unless independently complete",
+  "model_inference_performed": false,
+  "automatic_promotion": false,
+  "source_job": "Jmiller18899/6ab577df6b030d633f68f2dd",
+  "scope": "Three previously inspected false-pass outputs, not a full job replay."
+}
