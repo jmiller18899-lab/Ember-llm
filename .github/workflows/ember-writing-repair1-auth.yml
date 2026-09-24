@@ -1,0 +1,36 @@
+name: Ember Writing Repair 1 checkpoint permission preflight
+on:
+  push:
+    branches: [experiment/ember-writing-repair1-train-20260924]
+    paths: [.github/workflows/ember-writing-repair1-auth.yml]
+permissions:
+  contents: read
+jobs:
+  checkpoint-access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Verify checkpoint persistence with existing training credential
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import json,os
+          from huggingface_hub import HfApi
+          token=os.environ.get('HF_TOKEN')
+          if not token: raise RuntimeError('Existing HF_2/HF_TOKEN training secret is missing')
+          api=HfApi(token=token)
+          who=api.whoami()
+          if who.get('name')!='Jmiller18899': raise RuntimeError('Unexpected training account')
+          repo='Jmiller18899/ember-qwen3.5-4b-writing-repair1-20260924'
+          api.create_repo(repo_id=repo,private=True,exist_ok=True)
+          files=api.list_repo_files(repo)
+          if any(f.endswith(('.safetensors','.bin')) for f in files):
+              raise RuntimeError('Output repository already contains model weights; refusing to overwrite')
+          receipt={'purpose':'Writing Repair 1 checkpoint permission verified','data_version':'ember-writing-repair1-data-v1.2','source_revision':'daf938bba5d4e6b650ec9d34a2d3ac56706cf549','training_started':False,'automatic_promotion':False}
+          result=api.upload_file(repo_id=repo,path_in_repo='evidence/preflight.json',path_or_fileobj=json.dumps(receipt,indent=2).encode(),commit_message='Verify persistence before approved Writing Repair 1 run')
+          print('WR1_CHECKPOINT_WRITE_OK',json.dumps({'repo':repo,'commit':result.oid,'training_started':False}),flush=True)
+          PY
