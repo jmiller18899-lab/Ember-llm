@@ -1,0 +1,98 @@
+name: Ember Writing Repair 1 single-epoch training
+on:
+  push:
+    branches: [experiment/ember-writing-repair1-train-20260924]
+    paths:
+      - .github/workflows/ember-writing-repair1-train.yml
+      - jobs/ember_writing_repair1_train.launch
+permissions:
+  contents: read
+concurrency:
+  group: ember-writing-repair1-20260924
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      launch: ${{ steps.marker.outputs.launch }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Install pinned CPU verification dependencies
+        run: |
+          python -m pip install -q torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -q transformers==5.17.0 peft==0.20.0 accelerate==1.15.0 huggingface-hub==1.31.0 jinja2==3.1.6 trl==1.13.0 datasets==5.0.1 pytest pyyaml
+      - name: Verify exact tested trainer bytes
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          b=Path('jobs/ember_writing_repair1_train.py').read_bytes()
+          assert hashlib.sha256(b).hexdigest()=='2b256b4a5391471ea2f84a6880792ebe2ce3673f090cc7eae13299b294131b02'
+          PY
+      - name: Data, grader and trainer tests
+        run: |
+          python -m pytest -q tests/test_ember_writing_repair1_data.py tests/test_ember_writing_repair1_reference_grammar.py tests/test_ember_writing_repair1_train.py tests/test_ember_drafting_repair.py tests/test_ember_meaning_grading.py | tee wr1-targeted-tests.txt
+      - name: Full repository test suite
+        run: |
+          python -m pytest -q --tb=short > wr1-full-suite.txt 2>&1
+          tail -60 wr1-full-suite.txt
+      - name: Tokenize exact audited data with frozen policy
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: python jobs/ember_writing_repair1_train.py --preflight | tee wr1-preflight.txt
+      - name: Check explicit launch marker
+        id: marker
+        run: |
+          if [ -f jobs/ember_writing_repair1_train.launch ]; then echo launch=true; else echo launch=false; fi >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: writing-repair1-preflight
+          path: wr1-*.txt
+  submit-one-job:
+    needs: preflight
+    if: needs.preflight.outputs.launch == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Reserve and submit exactly one L4 training job
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import hashlib,json,os,sys
+          from pathlib import Path
+          from huggingface_hub import HfApi,CommitOperationAdd
+          sys.path.insert(0,'jobs')
+          import ember_writing_repair1_train as T
+          token=os.environ['HF_TOKEN'];api=HfApi(token=token)
+          if api.whoami().get('name')!='Jmiller18899':raise RuntimeError('Unexpected training account')
+          repo=T.OUTPUT_REPO;T.validate_output_repo(repo)
+          if api.file_exists(repo,'launch.json'):raise RuntimeError('Run already reserved; automatic duplicate launch refused')
+          if any(f.endswith('.safetensors') for f in api.list_repo_files(repo)):raise RuntimeError('Output contains a checkpoint')
+          receipt={'status':'reserved','data_sha256':T.SFT_SHA,'trainer_commit':os.environ['GITHUB_SHA'],
+                   'trainer_sha256':hashlib.sha256(Path('jobs/ember_writing_repair1_train.py').read_bytes()).hexdigest(),
+                   'training':T.run_spec(),'automatic_retries':False,'timeout_seconds':3600,'flavor':'l4x1'}
+          api.create_commit(repo_id=repo,parent_commit=api.model_info(repo).sha,
+              operations=[CommitOperationAdd(path_in_repo='launch.json',path_or_fileobj=json.dumps(receipt,indent=2).encode())],
+              commit_message='Reserve approved one-epoch Writing Repair 1 experiment')
+          job=api.run_uv_job('jobs/ember_writing_repair1_train.py',python='3.11',flavor='l4x1',timeout=3600,
+              name='ember-writing-repair1-20260924',secrets={'HF_TOKEN':token},
+              env={'PYTHONUNBUFFERED':'1','TOKENIZERS_PARALLELISM':'false','WR1_CODE_COMMIT':os.environ['GITHUB_SHA']})
+          receipt.update(status='submitted',job_id=job.id,job_url=job.url)
+          Path('writing-repair1-launch.json').write_text(json.dumps(receipt,indent=2))
+          print('WR1_JOB_SUBMITTED',json.dumps(receipt),flush=True)
+          api.upload_file(repo_id=repo,path_in_repo='launch.json',path_or_fileobj=Path('writing-repair1-launch.json'),commit_message='Record Writing Repair 1 job identity')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: writing-repair1-launch
+          path: writing-repair1-launch.json
