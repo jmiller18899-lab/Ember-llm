@@ -1,6 +1,6 @@
 # Policy v3 candidates vs frozen policy v2
 
-Run: GitHub Actions 35956600052 (`jobs/ember_policy_v3_candidates_eval.py`, sources at `ec2e4d0`…`eb5b738`). All configurations use Repair2 weights `daf938bb`, and outputs are shared across configurations (484 generations). Eval only; nothing was frozen.
+Run: GitHub Actions 35956600052 (`jobs/ember_policy_v3_candidates_eval.py`, components at `76f2b4c`, evaluator at `eb5b738`). All configurations use Repair2 weights `daf938bb`, and outputs are shared across configurations (484 generations). Eval only; nothing was frozen.
 
 Components, each a new file (v2's pinned files are unchanged):
 - **tool3** (`jobs/ember_arith_tool_v3.py`): masks label numbers (years, room/gate/bus/locker ids); adds leave/quit/cancel as removals, "goes into … at" as a start, "needs/requires N" as a duration.
