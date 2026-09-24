@@ -9,7 +9,9 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PATH = ROOT / 'jobs/ember_writing_repair1_data.py'
+PATH = ROOT / 'jobs/ember_writing_repair1_release.py'
+if not PATH.exists(): PATH = ROOT / 'jobs/ember_writing_repair1_data.py'
+sys.path.insert(0,str(ROOT/'jobs'))
 
 class CurriculumTests(unittest.TestCase):
     @classmethod
@@ -150,5 +152,17 @@ class CurriculumTests(unittest.TestCase):
     def test_holdout_classifier_covers_both_classes(self):
         rows=self.data()['model_holdout']
         self.assertEqual({r['answer'] for r in rows if r['rubric']['task']=='classification'},{'HIGH','LOW'})
+
+    def test_plural_group_references_are_grammatical(self):
+        d=self.data()
+        for r in d['dev']+d['writing_holdout']:
+            if r['family']=='shortening':
+                self.assertNotRegex(r['answer'],r'\b(?:editors|inspectors|weavers|ceramists|librarians|cartographers|restorers|ushers|docents|cataloguers) member\b')
+
+    def test_holdout_ownership_prompt_does_not_use_wrong_article(self):
+        d=self.data()
+        for r in d['writing_holdout']:
+            self.assertNotIn('a ocarina',r['prompt'])
+            self.assertNotIn('a abacus',r['prompt'])
 
 if __name__=='__main__': unittest.main()
