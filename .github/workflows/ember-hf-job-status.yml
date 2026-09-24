@@ -14,17 +14,17 @@ jobs:
       - name: Report job status and result lines
         env:
           HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
-          JOB_ID: 6ab46f596b030d633f68cd4b
+          JOB_ID: 6ab476736b030d633f68ce2f
         run: |
           python -m pip install -q huggingface-hub==1.31.0
           python - <<'PY'
-          import os
+          import os,re
           from huggingface_hub import HfApi
           api=HfApi(token=os.environ["HF_TOKEN"]); jid=os.environ["JOB_ID"]
           info=api.inspect_job(job_id=jid)
-          print("JOB_STATUS",info.status)
+          print("JOB_STATUS",info.status); print("JOB_COMMAND",info.command); print("JOB_FLAVOR",info.flavor)
           lines=list(api.fetch_job_logs(job_id=jid))
-          keep=[l for l in lines if l.startswith(("PROMO_V2_FROZEN_SUMMARY","PROMO_V2_FROZEN_FAILURES"))]
+          keep=[l for l in lines if re.match(r"[A-Z0-9_]+_(SUMMARY|FAILURES|RESULT|RESULTS|METRICS)\b",l)]
           for l in keep: print(l)
           print("---- LOG TAIL ----")
           for l in lines[-40:]: print(l)
