@@ -1,0 +1,42 @@
+name: Ember promo v2 failure analysis (HF CPU job)
+on:
+  push:
+    branches: [claude/new-session-tuz2t4]
+    paths: [.github/workflows/ember-promo-v2-failure-analysis.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  launch-and-wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - name: Local reproduction check
+        run: python jobs/analyze_promo_v2_time_arith_failures.py | head -1 | grep -q '^FAILURE_ANALYSIS_REPRO_PASS '
+      - name: Launch HF job and wait for result
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import os,time,sys
+          from huggingface_hub import HfApi
+          api=HfApi(token=os.environ["HF_TOKEN"])
+          job=api.run_uv_job("jobs/analyze_promo_v2_time_arith_failures.py",python="3.11",flavor="cpu-basic",timeout=900,name="ember-promo-v2-failure-analysis",env={"PYTHONUNBUFFERED":"1"})
+          print("ANALYSIS_JOB",job.id,job.url,flush=True)
+          for _ in range(120):
+              st=api.inspect_job(job_id=job.id).status
+              if st.stage in ("COMPLETED","ERROR","CANCELED","DELETED"): break
+              time.sleep(10)
+          print("JOB_STATUS",st,flush=True)
+          lines=list(api.fetch_job_logs(job_id=job.id))
+          for l in lines:
+              if l.startswith("FAILURE_ANALYSIS_REPRO_PASS"): print(l)
+          print("---- LOG TAIL ----")
+          for l in lines[-15:]: print(l)
+          ok=st.stage=="COMPLETED" and any(l.startswith("FAILURE_ANALYSIS_REPRO_PASS") for l in lines)
+          sys.exit(0 if ok else 1)
+          PY
