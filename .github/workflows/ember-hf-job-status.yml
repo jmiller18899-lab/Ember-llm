@@ -1,0 +1,31 @@
+name: Ember HF job status (read-only)
+on:
+  push:
+    branches: [claude/new-session-tuz2t4]
+    paths: [.github/workflows/ember-hf-job-status.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Report job status and result lines
+        env:
+          HF_TOKEN: ${{ secrets.HF_2 || secrets.HF_TOKEN }}
+          JOB_ID: 6ab46f596b030d633f68cd4b
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          api=HfApi(token=os.environ["HF_TOKEN"]); jid=os.environ["JOB_ID"]
+          info=api.inspect_job(job_id=jid)
+          print("JOB_STATUS",info.status)
+          lines=list(api.fetch_job_logs(job_id=jid))
+          keep=[l for l in lines if l.startswith(("PROMO_V2_FROZEN_SUMMARY","PROMO_V2_FROZEN_FAILURES"))]
+          for l in keep: print(l)
+          print("---- LOG TAIL ----")
+          for l in lines[-40:]: print(l)
+          PY
