@@ -1,3 +1,4 @@
+# status check: 2026-09-24T02:34Z
 name: Ember HF job status (read-only)
 on:
   push:
