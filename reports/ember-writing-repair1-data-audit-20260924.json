@@ -1,0 +1,85 @@
+{
+  "audit_job_id": "6ab59def6b030d633f68f805",
+  "audit_script_sha256": "80ec803b748248ad6f3e71f1110cc60a8735d1ef9d2281300c38ecf8ca6f53b2",
+  "automatic_promotion": false,
+  "blinded_manual_meaning_review_required": true,
+  "branch": "experiment/ember-writing-repair1-data-20260924",
+  "cross_environment_file_hashes_match": true,
+  "cross_split_masked_structure_matches": 0,
+  "deployment_changed": false,
+  "duplicate_ids": 0,
+  "duplicate_normalized_prompts": 0,
+  "existing_grading_tests": 64,
+  "files": {
+    "data/ember_writing_repair1/eval/dev.jsonl": {
+      "bytes": 78867,
+      "rows": 64,
+      "sha256": "a8687aab3e256be3dee45ea25586f6aae64daef2cd1fef7e0c3de82c26af0e17"
+    },
+    "data/ember_writing_repair1/eval/model_holdout.jsonl": {
+      "bytes": 71943,
+      "rows": 96,
+      "sha256": "c5091e6f43a33de91ff57417bf6cc6db136077dbf6114e892568e9d8614e3d7d"
+    },
+    "data/ember_writing_repair1/eval/writing_holdout.jsonl": {
+      "bytes": 129932,
+      "rows": 96,
+      "sha256": "4c380bc7258248a1f01fedc9cd6d2cb9e171782b5cbd2b74670004110d15e338"
+    },
+    "data/ember_writing_repair1/train/sft_train_only.jsonl": {
+      "bytes": 121342,
+      "derived_copy": true,
+      "rows": 512,
+      "sha256": "3352bc50c505dc5cecafab88909b176be3385b45f3346d08e222189019995165"
+    },
+    "data/ember_writing_repair1/train/train.jsonl": {
+      "bytes": 498315,
+      "rows": 512,
+      "sha256": "c716d547b4f7aec2f05dfbd1344f3a24bc48dd6ace2f2fdd24d91ab05b4af887"
+    }
+  },
+  "fixed_grader_shortening_reference_compatibility": {
+    "dev": {"fail": 20, "pass": 0, "review": 12},
+    "train": {"fail": 0, "pass": 128, "review": 32},
+    "writing_holdout": {"fail": 28, "pass": 0, "review": 20}
+  },
+  "historical_comparison": {
+    "baseline_suite_entries": 744,
+    "exact_prompt_overlaps": 0,
+    "exact_shortening_source_overlaps": 0,
+    "original_benchmark_entries": 120,
+    "repair2_training_entries": 444,
+    "scope": "These pinned sources only; not universal semantic decontamination",
+    "unique_normalized_prompts": 1230
+  },
+  "job_finished_at": "2026-09-24T22:02:42.868Z",
+  "job_stage": "COMPLETED",
+  "model_inference_performed": false,
+  "model_weights_downloaded": false,
+  "new_data_tests": 25,
+  "new_writing_holdout_automatic_scoring_ready": false,
+  "old_baseline_grader_unchanged": true,
+  "old_baseline_main_suite": "181/192",
+  "python": "3.11.2",
+  "reference_caveat": "Bounded data-contract checks plus author-reviewed synthetic references; not independent human semantic certification. The conservative frozen grader rejects or reviews structural paraphrases. These compatibility counts are not Ember scores.",
+  "reference_compatibility_flag_count": 112,
+  "reference_contract_checks_passed": 768,
+  "repository_test_scope": "new data package plus 64 existing grader tests; not the complete repository suite",
+  "source_commit": "e77bbb848f1d0610863361adabaa9fe5ec0c47e1",
+  "split_counts": {"dev": 64, "model_holdout": 96, "train": 512, "writing_holdout": 96},
+  "status": "DATA_AUDIT_COMPLETED",
+  "tests_passed": 89,
+  "tokenization": {
+    "answer_only_masking_required": true,
+    "base": "Qwen/Qwen3.5-4B",
+    "maximum_answer_tokens_including_eos": {"dev": 26, "model_holdout": 20, "train": 30, "writing_holdout": 32},
+    "maximum_total_tokens": {"dev": 107, "model_holdout": 97, "train": 227, "writing_holdout": 124},
+    "recommended_training_max_length": 256,
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "training_rows_over_256": 0,
+    "truncation_performed": false
+  },
+  "training_mix": {"arithmetic": 64, "clarification": 48, "direct": 32, "extraction": 64, "grounding": 48, "recipient": 96, "shortening": 160},
+  "training_started": false,
+  "version": "ember-writing-repair1-data-v1.2"
+}
