@@ -5,9 +5,9 @@
   "seed": 20260909,
   "supersedes": "config/corpus_v0.0.7.json",
   "rationale": [
-    "Ember v0.0.31 copies 43/90 held-out literals but grounds 0/36 semantic-v1 cases; every fine-tune from v0.0.33 to v0.0.51 hit the same learning/preservation trade-off at LR 1e-7.",
-    "The base was pretrained on 15,005,553 tokens for a 27,662,848-parameter model (0.54 tokens per parameter, validation loss 4.33). A copy circuit robust enough to fill a JSON argument slot has to be learned during pretraining, not grafted on afterwards.",
-    "v0.1.0 therefore rebuilds the corpus at 300M tokens (10.8 tokens per parameter per epoch; two epochs reach the ~20 tokens-per-parameter band) and folds a synthetic envelope-copy slice into pretraining from step 0 so tool routing and value copying are learned together."
+    "Ember v0.0.31 copies 43/90 held-out literals but grounds 0/36 semantic-v1 cases. Tested fine-tuning trajectories showed a learning/preservation trade-off; the separate 0.05 punctuation-weight proposal has not completed a full trajectory.",
+    "The base was pretrained on 15,005,553 tokens for a 27,662,848-parameter model (0.54 tokens per parameter, validation loss 4.33). Learning copying and tool routing together on more data is a hypothesis to test, not proof that fine-tuning cannot work.",
+    "v0.1.0 proposes a 300M-token corpus (10.8 tokens per parameter per epoch; two epochs reach the ~20 tokens-per-parameter band), with synthetic envelope-copy examples present from step 0. Building the corpus does not establish improved model behavior."
   ],
   "model_reference": {
     "config": "ember-src/ember/config/ember_agent_t4.json",

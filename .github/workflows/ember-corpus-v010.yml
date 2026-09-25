@@ -1,0 +1,89 @@
+name: Ember v0.1.0 Corpus CPU
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Small real-source check or complete 300M-token corpus
+        type: choice
+        options: [smoke, full]
+        default: smoke
+        required: true
+      runner:
+        description: Linux runner label (full corpus requires at least 16 GB RAM)
+        type: string
+        default: ubuntu-latest
+  push:
+    branches: [codex/ember-v010-corpus-builder]
+    paths: [.github/ember-v010-corpus-smoke.trigger]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-v010-corpus-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  corpus:
+    runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
+    timeout-minutes: 350
+    env:
+      PYTHONUNBUFFERED: '1'
+      HF_HUB_DISABLE_TELEMETRY: '1'
+      HF_HUB_DISABLE_XET: '1'
+      HF_TOKEN: ${{ secrets.H_F2 }}
+      CORPUS_MODE: ${{ inputs.mode || 'smoke' }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Check full-build capacity
+        if: env.CORPUS_MODE == 'full'
+        run: |
+          python - <<'PY'
+          import os, shutil
+          from pathlib import Path
+          memory = next(int(line.split()[1]) * 1024 for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith('MemTotal:'))
+          free = shutil.disk_usage(os.environ['RUNNER_TEMP']).free
+          assert memory >= 15_000_000_000, f'Full corpus needs 16 GB RAM; runner reports {memory} bytes'
+          assert free >= 20_000_000_000, f'Full corpus needs 20 GB free scratch; runner has {free} bytes'
+          PY
+      - name: Install corpus-only dependencies
+        run: python -m pip install 'datasets==5.0.1' 'datasketch>=2.0' 'huggingface_hub>=1.4' 'sentencepiece>=0.2' 'pytest>=8'
+      - name: Test builder and final-slice audit
+        run: python -m pytest -q tests/test_ember_corpus_builder_v010.py tests/test_ember_corpus_v010.py
+      - name: Build and verify the selected mode
+        run: |
+          if [ "$CORPUS_MODE" = full ]; then
+            python jobs/ember_corpus_build_v010.py --output-dir "$RUNNER_TEMP/ember-v010-corpus"
+          else
+            python jobs/ember_corpus_build_v010.py --smoke --target-total-tokens 1000000 --output-dir "$RUNNER_TEMP/ember-v010-corpus"
+          fi
+      - name: Save measured evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-v010-corpus-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/ember-v010-corpus/corpus_stats.json
+            ${{ runner.temp }}/ember-v010-corpus/ember_tokenizer.model
+            ${{ runner.temp }}/ember-v010-corpus/provenance.json
+            ${{ runner.temp }}/ember-v010-corpus/train.txt
+            ${{ runner.temp }}/ember-v010-corpus/val.txt
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Summarize data readiness
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'ember-v010-corpus/corpus_stats.json'
+          stats = json.loads(path.read_text()) if path.exists() else {'status': 'NOT_RUN'}
+          keys = ('status', 'production_ready', 'actual_ember_tokens', 'vocab_size', 'error')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('```json\n' + json.dumps({k: stats[k] for k in keys if k in stats}, indent=2) + '\n```\n')
+              summary.write('CPU corpus/tokenizer work only. No model training or GPU submission.\n')
+          PY
