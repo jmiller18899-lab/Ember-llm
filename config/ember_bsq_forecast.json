@@ -1,0 +1,18 @@
+{
+  "schema_version": "ember-bsq-forecast-v1",
+  "target_name": "synthetic_event_within_one_hour",
+  "task": "binary",
+  "horizon_seconds": 3600,
+  "feature_names": ["signal", "context"],
+  "history_length": 4,
+  "bits": 16,
+  "hidden_size": 32,
+  "seed": 17,
+  "max_steps": 100,
+  "batch_size": 32,
+  "learning_rate": 0.003,
+  "eval_every": 10,
+  "reconstruction_weight": 0.05,
+  "commitment_weight": 0.1,
+  "entropy_weight": 0.01
+}

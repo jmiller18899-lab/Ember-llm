@@ -1,0 +1,430 @@
+{
+  "status": "completed",
+  "task": "ufc_fighter_a_wins_conditional_on_decisive_result",
+  "data_kind": "historical_ufc_retrospective",
+  "dataset_sha256": "8198c839f58e7b198e6442114e71dfcb00fa06a75278ed2aae23a41322917d1f",
+  "split": {
+    "train": 3270,
+    "validation": 645,
+    "test": 901,
+    "purged": 0,
+    "validation_start": 1640995200.0,
+    "test_start": 1704067200.0
+  },
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "max_steps_per_model": 300,
+  "symmetric_probabilities": true,
+  "selected_by_validation_log_loss": "continuous",
+  "scores": {
+    "continuous": {
+      "validation": {
+        "log_loss": 0.6577802896499634,
+        "brier": 0.23309668898582458,
+        "accuracy": 0.5922480821609497,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 154,
+            "mean_probability": 0.345176100730896,
+            "observed_frequency": 0.3636363744735718
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 348,
+            "mean_probability": 0.49659475684165955,
+            "observed_frequency": 0.49712643027305603
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 141,
+            "mean_probability": 0.6632444858551025,
+            "observed_frequency": 0.6666666865348816
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 2,
+            "mean_probability": 0.8194280862808228,
+            "observed_frequency": 1.0
+          }
+        ],
+        "fights": 645,
+        "correct": 382
+      },
+      "test": {
+        "log_loss": 0.6439903974533081,
+        "brier": 0.2263212651014328,
+        "accuracy": 0.627081036567688,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 2,
+            "mean_probability": 0.185907781124115,
+            "observed_frequency": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 219,
+            "mean_probability": 0.337719202041626,
+            "observed_frequency": 0.26940637826919556
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 454,
+            "mean_probability": 0.4978412985801697,
+            "observed_frequency": 0.515418529510498
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 224,
+            "mean_probability": 0.6593834161758423,
+            "observed_frequency": 0.6741071343421936
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 2,
+            "mean_probability": 0.8035355806350708,
+            "observed_frequency": 0.5
+          }
+        ],
+        "fights": 901,
+        "correct": 565
+      }
+    },
+    "bsq": {
+      "validation": {
+        "log_loss": 0.6644660830497742,
+        "brier": 0.23597411811351776,
+        "accuracy": 0.5984495878219604,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 175,
+            "mean_probability": 0.3502872884273529,
+            "observed_frequency": 0.33142855763435364
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 301,
+            "mean_probability": 0.49682891368865967,
+            "observed_frequency": 0.5215947031974792
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 169,
+            "mean_probability": 0.6520196795463562,
+            "observed_frequency": 0.6508875489234924
+          }
+        ],
+        "fights": 645,
+        "correct": 386
+      },
+      "test": {
+        "log_loss": 0.6467881202697754,
+        "brier": 0.2274262011051178,
+        "accuracy": 0.635960042476654,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 264,
+            "mean_probability": 0.34688854217529297,
+            "observed_frequency": 0.2954545319080353
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 379,
+            "mean_probability": 0.5006994605064392,
+            "observed_frequency": 0.5092348456382751
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 258,
+            "mean_probability": 0.6529538035392761,
+            "observed_frequency": 0.6744186282157898
+          }
+        ],
+        "fights": 901,
+        "correct": 573
+      }
+    },
+    "hybrid": {
+      "validation": {
+        "log_loss": 0.6585320234298706,
+        "brier": 0.2333296686410904,
+        "accuracy": 0.5875968933105469,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 153,
+            "mean_probability": 0.34975412487983704,
+            "observed_frequency": 0.3660130798816681
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 347,
+            "mean_probability": 0.49746188521385193,
+            "observed_frequency": 0.4927953779697418
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 145,
+            "mean_probability": 0.6571922898292542,
+            "observed_frequency": 0.6758620738983154
+          }
+        ],
+        "fights": 645,
+        "correct": 379
+      },
+      "test": {
+        "log_loss": 0.6446493864059448,
+        "brier": 0.22653897106647491,
+        "accuracy": 0.6304106712341309,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 220,
+            "mean_probability": 0.34283915162086487,
+            "observed_frequency": 0.2772727310657501
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 453,
+            "mean_probability": 0.4957854449748993,
+            "observed_frequency": 0.50772625207901
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 228,
+            "mean_probability": 0.6528342962265015,
+            "observed_frequency": 0.6754385828971863
+          }
+        ],
+        "fights": 901,
+        "correct": 568
+      }
+    },
+    "logistic": {
+      "validation": {
+        "log_loss": 0.6598585247993469,
+        "brier": 0.23410920798778534,
+        "accuracy": 0.6077519655227661,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 1,
+            "mean_probability": 0.17937076091766357,
+            "observed_frequency": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 130,
+            "mean_probability": 0.3452911674976349,
+            "observed_frequency": 0.3153846263885498
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 392,
+            "mean_probability": 0.49608972668647766,
+            "observed_frequency": 0.5127550959587097
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 117,
+            "mean_probability": 0.659529983997345,
+            "observed_frequency": 0.6666666865348816
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 5,
+            "mean_probability": 0.8438049554824829,
+            "observed_frequency": 1.0
+          }
+        ],
+        "fights": 645,
+        "correct": 392
+      },
+      "test": {
+        "log_loss": 0.6482587456703186,
+        "brier": 0.2283853441476822,
+        "accuracy": 0.6104328632354736,
+        "reliability_bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 3,
+            "mean_probability": 0.1732766181230545,
+            "observed_frequency": 0.0
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 184,
+            "mean_probability": 0.33655059337615967,
+            "observed_frequency": 0.2771739065647125
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 519,
+            "mean_probability": 0.498552143573761,
+            "observed_frequency": 0.4971098303794861
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 192,
+            "mean_probability": 0.6598238348960876,
+            "observed_frequency": 0.703125
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 3,
+            "mean_probability": 0.8366342186927795,
+            "observed_frequency": 0.3333333432674408
+          }
+        ],
+        "fights": 901,
+        "correct": 550
+      }
+    },
+    "elo": {
+      "validation": {
+        "log_loss": 0.6866461038589478,
+        "brier": 0.2467508316040039,
+        "accuracy": 0.5581395626068115,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 18,
+            "mean_probability": 0.3770577907562256,
+            "observed_frequency": 0.5555555820465088
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 602,
+            "mean_probability": 0.5002485513687134,
+            "observed_frequency": 0.4966777265071869
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 25,
+            "mean_probability": 0.6364483833312988,
+            "observed_frequency": 0.6399999856948853
+          }
+        ],
+        "fights": 645,
+        "correct": 360
+      },
+      "test": {
+        "log_loss": 0.682431697845459,
+        "brier": 0.24471870064735413,
+        "accuracy": 0.5482797026634216,
+        "reliability_bins": [
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 38,
+            "mean_probability": 0.3751171827316284,
+            "observed_frequency": 0.31578946113586426
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 830,
+            "mean_probability": 0.4980772137641907,
+            "observed_frequency": 0.49518072605133057
+          },
+          {
+            "lower": 0.6,
+            "upper": 0.8,
+            "count": 33,
+            "mean_probability": 0.6257181763648987,
+            "observed_frequency": 0.6666666865348816
+          }
+        ],
+        "fights": 901,
+        "correct": 494
+      }
+    },
+    "constant": {
+      "validation": {
+        "log_loss": 0.6931371092796326,
+        "brier": 0.24999496340751648,
+        "accuracy": 0.5038759708404541,
+        "reliability_bins": [
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 645,
+            "mean_probability": 0.50703364610672,
+            "observed_frequency": 0.5038759708404541
+          }
+        ],
+        "fights": 645,
+        "correct": 325
+      },
+      "test": {
+        "log_loss": 0.6934179067611694,
+        "brier": 0.2501353621482849,
+        "accuracy": 0.49389567971229553,
+        "reliability_bins": [
+          {
+            "lower": 0.4,
+            "upper": 0.6,
+            "count": 901,
+            "mean_probability": 0.5070337653160095,
+            "observed_frequency": 0.49389567971229553
+          }
+        ],
+        "fights": 901,
+        "correct": 445
+      }
+    }
+  },
+  "bsq_minus_continuous": {
+    "mean_log_loss_difference": 0.00279782345305537,
+    "event_bootstrap_95_percent_interval": [
+      -0.002240744489522445,
+      0.007615279257351111
+    ],
+    "events": 114,
+    "resamples": 1000,
+    "negative_favors": "bsq"
+  },
+  "production_integrated": false,
+  "ember_gpt_weights_updated": false,
+  "interpretation": "retrospective held-out evidence; not a live betting or promotion gate"
+}

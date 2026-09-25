@@ -1,0 +1,74 @@
+{
+  "schema": "ember-ufc-forward-registry-v1",
+  "registered_at": "2026-09-14T13:19:38.506769+00:00",
+  "primary_model": "continuous",
+  "models": [
+    "continuous",
+    "bsq",
+    "hybrid",
+    "logistic",
+    "elo"
+  ],
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "feature_names": [
+    "elo_diff",
+    "log_prior_bouts_diff",
+    "win_rate_diff",
+    "recent_win_rate_diff",
+    "finish_win_rate_diff",
+    "ko_loss_rate_diff",
+    "submission_loss_rate_diff",
+    "sig_landed_per_min_diff",
+    "sig_absorbed_per_min_diff",
+    "sig_accuracy_diff",
+    "sig_defense_diff",
+    "takedowns_per_15min_diff",
+    "takedown_accuracy_diff",
+    "takedown_defense_diff",
+    "control_share_diff",
+    "control_missing_share_diff",
+    "submission_attempts_per_15min_diff",
+    "duration_minutes_diff",
+    "layoff_log_days_diff",
+    "prior_opponent_elo_diff"
+  ],
+  "training_dataset_sha256": "8198c839f58e7b198e6442114e71dfcb00fa06a75278ed2aae23a41322917d1f",
+  "assets": {
+    "benchmark.json": "ad5adab2b9c5268cb24a5acd152dcc330e87d9d9664f5ba7c8fdda3ef780ee60",
+    "seed-17/continuous.pt": "c0c56c2cdb944b3a080677722df3cb49b39180b6a650b5e09824eeeaa967082f",
+    "seed-17/bsq.pt": "63140a34f0411a778ab991c2dd9166db09d5f1cbf00d07308c78a0030e070230",
+    "seed-17/hybrid.pt": "5cf066c4fd23ed703d7377f27486a7de3cfbf96095fd1a02d9873e815274df62",
+    "seed-29/continuous.pt": "28182985d95e96794c980469b55f7cce663bcfc8a6e1ba6c93ab65ab1f7abc17",
+    "seed-29/bsq.pt": "749554fa19d399166c160b47e5ae670306afa34927c0b359dd2948ab7b2b1831",
+    "seed-29/hybrid.pt": "1a8ed6e6867a48b826d8dda7a77aaffce8a5bd87ece37a5dcddd023847b79f52",
+    "seed-43/continuous.pt": "5d2d0ebb7497fa21f9e430d1de54f8d5878c5fa1a49b84e1da3affc735b87d12",
+    "seed-43/bsq.pt": "41178286ed78fddfdbfcf60b8fec8e4fb33fcd66c923690d453435c3c11d0266",
+    "seed-43/hybrid.pt": "14d389c49a5118efb3190c074f6a3544b64c0e7202dfdec2443b3598d1959168",
+    "logistic.pt": "3626b85f035c68037f17d3a3ef22569a9bf1df5e5d7a1241a2d9fce4512a5493"
+  },
+  "implementation": {
+    "jobs/ember_ufc_forward.py": "f519cf5def55500f514357aacb1948153702f8d3b41c53fd16c8300937bbd699",
+    "jobs/ember_ufc_data.py": "06ebd80a60fcd4b8c5b88906d58f146ed039cac7435e4ee4be00088c6cccd434",
+    "jobs/ember_bsq.py": "7d58401348756be1cd807d5f4246eed1f3800c8c86c8ceb3cefe8382fc17349f",
+    "jobs/ember_bsq_train.py": "fd25718160f9e9ce4c8bd9029740586c8a1b8b1febf8d74067cb393147e8f4ae"
+  },
+  "protocol": {
+    "min_prior_bouts": 2,
+    "min_lead_days": 1,
+    "max_lead_days": 7,
+    "primary_metric": "log_loss",
+    "secondary_metrics": [
+      "brier",
+      "accuracy"
+    ],
+    "target": "fighter_a_wins_conditional_on_decisive_result",
+    "history_availability_delay_days": 2,
+    "refitting": false
+  },
+  "external_pre_event_timestamp_required": true,
+  "sha256": "59c97adae47a3263c3a4e4b18e0788279ed114f8132a3ce159681626563e771e"
+}
