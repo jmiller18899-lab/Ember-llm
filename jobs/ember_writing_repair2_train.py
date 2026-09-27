@@ -42,7 +42,7 @@ CORRECTED={'exact72':72,'temporal8':8,'drafting8':4,'promo_v2':200,'heldout':180
 EPOCHS=1
 LR=7.5e-7
 ACCUM=4
-MAX_LEN=256
+MAX_LEN=320
 SEED=431
 
 
