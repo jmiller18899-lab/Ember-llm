@@ -1,0 +1,33 @@
+name: Ember WR2 submit
+
+"on":
+  push:
+    branches:
+      - experiment/ember-writing-repair2-train-20260927
+    paths:
+      - jobs/launch_wr2_20260927.trigger
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-wr2-submit
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR2_CODE_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check secret is configured
+        shell: bash
+        run: test -n "$HF_TOKEN"
+      - uses: astral-sh/setup-uv@v6
+      - name: Validate and submit the GPU job
+        run: uv run --python 3.11 jobs/ember_writing_repair2_launch.py
