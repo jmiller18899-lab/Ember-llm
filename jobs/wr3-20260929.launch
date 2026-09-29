@@ -1,0 +1,7 @@
+User-approved Writing Repair 3 launch, September 29, 2026.
+CPU preflight passed in GitHub Actions run 36520788132 at commit 88352ad64b5e9dc47d89f467f08cc249c7c73493.
+Exactly one l4x1 job, 90 minutes maximum, no automatic GPU retries.
+Start from Repair2 revision daf938bba5d4e6b650ec9d34a2d3ac56706cf549.
+512 training examples, 96 separate development cases, frozen 744-case before/after benchmark.
+Keep both final holdouts unused. No promotion, deployment, or replacement of the reference model.
+Full-repository comparison: 1347 passing tests; exactly the same two existing temporal failures as the immutable baseline; no new failures or skips.
