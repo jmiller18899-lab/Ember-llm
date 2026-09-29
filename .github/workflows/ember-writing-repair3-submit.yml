@@ -1,0 +1,61 @@
+name: Ember WR3 preflight and submit
+
+"on":
+  push:
+    branches:
+      - experiment/ember-writing-repair3-train-20260929
+    paths:
+      - jobs/wr3-20260929.prepare
+      - jobs/wr3-20260929.launch
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-wr3-submit-20260929
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR3_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@v6
+      - name: Run WR3 contracts
+        run: uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_ember_writing_repair3.py -v
+      - name: Run full repository test suite
+        shell: bash
+        run: |
+          set -o pipefail
+          uv run --no-project --python 3.11 --with pytest --with pyyaml --with numpy --with requests --with sentencepiece --with torch==2.11.0 python -m pytest -q 2>&1 | tee /tmp/wr3-full-tests.log
+      - name: Verify real tokenizer, pinned benchmark and training isolation
+        shell: bash
+        run: |
+          test -n "$HF_TOKEN"
+          set -o pipefail
+          uv run --python 3.11 jobs/ember_writing_repair3_train.py --preflight 2>&1 | tee /tmp/wr3-preflight.log
+      - name: Submit only the explicitly triggered GPU job
+        shell: bash
+        run: |
+          if git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep -qx 'jobs/wr3-20260929.launch'; then
+            uv run --python 3.11 jobs/ember_writing_repair3_train.py --launch
+          else
+            echo 'WR3_PREFLIGHT_ONLY: no GPU submitted and no Hub writes performed'
+          fi
+      - name: Preserve validation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-wr3-validation-${{ github.run_id }}
+          path: |
+            /tmp/wr3-full-tests.log
+            /tmp/wr3-preflight.log
+          if-no-files-found: ignore
