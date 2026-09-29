@@ -1,3 +1,4 @@
 Writing Repair 3: CPU tests and real tokenizer/data/benchmark preflight only.
 No GPU submission, Hub writes, promotion, or final-holdout evaluation.
 Approved next phase: one l4x1 job, 90 minutes maximum, no automatic retry.
+Preparation revision 2: install missing test dependencies and verify identical existing failures against the pinned starting commit.
