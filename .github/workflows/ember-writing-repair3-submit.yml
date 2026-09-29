@@ -31,11 +31,42 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - name: Run WR3 contracts
         run: uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_ember_writing_repair3.py -v
-      - name: Run full repository test suite
+      - name: Compare full repository tests against the pinned starting commit
         shell: bash
         run: |
           set -o pipefail
-          uv run --no-project --python 3.11 --with pytest --with pyyaml --with numpy --with requests --with sentencepiece --with torch==2.11.0 python -m pytest -q 2>&1 | tee /tmp/wr3-full-tests.log
+          git fetch --depth=1 origin 43220b453807782091a9209384091e82fed086f8
+          git worktree add --detach "$RUNNER_TEMP/wr3-baseline" 43220b453807782091a9209384091e82fed086f8
+          uv run --no-project --python 3.11 --with pytest --with pyyaml --with numpy --with requests --with sentencepiece --with jsonschema --with huggingface-hub==1.31.0 --with torch==2.11.0 python - <<'PY' 2>&1 | tee /tmp/wr3-full-tests.log
+          import json, os, pathlib, subprocess, sys, xml.etree.ElementTree as ET
+          expected_old = {'test_gate_fires_on_every_temporal_case', 'test_explicit_answers'}
+          results = {}
+          for label, root in [('baseline', pathlib.Path(os.environ['RUNNER_TEMP'])/'wr3-baseline'), ('wr3', pathlib.Path.cwd())]:
+              xml = pathlib.Path('/tmp')/('wr3-'+label+'-tests.xml')
+              print('WR3_FULL_TEST_START', label, flush=True)
+              result = subprocess.run([sys.executable, '-m', 'pytest', '-q', '--tb=short', '--junitxml='+str(xml)], cwd=root)
+              if result.returncode not in (0, 1) or not xml.is_file():
+                  raise RuntimeError('Test collection or execution failed: '+label)
+              cases = list(ET.parse(xml).iter('testcase'))
+              failures = {(c.get('classname'), c.get('name')) for c in cases if c.find('failure') is not None}
+              errors = [(c.get('classname'), c.get('name')) for c in cases if c.find('error') is not None]
+              skipped = {(c.get('classname'), c.get('name')) for c in cases if c.find('skipped') is not None}
+              if errors:
+                  raise RuntimeError('Unexpected test errors: '+repr(errors))
+              results[label] = {'cases':len(cases), 'failures':failures, 'skipped':skipped}
+          old = results['baseline']['failures']; new = results['wr3']['failures']
+          if {name for module,name in old} != expected_old or any('test_ember_temporal_scoped_rule' not in module for module,name in old):
+              raise RuntimeError('Unexpected baseline failures; review required: '+repr(old))
+          if new != old or results['wr3']['skipped'] != results['baseline']['skipped']:
+              raise RuntimeError('WR3 changed failures or skips: '+repr(results))
+          if results['wr3']['cases'] != results['baseline']['cases'] + 18:
+              raise RuntimeError('Unexpected test coverage change: '+repr(results))
+          report = {'new_failures':0, 'unchanged_existing_failures':sorted(old), 'new_tests':18,
+                    'baseline_cases':results['baseline']['cases'], 'wr3_cases':results['wr3']['cases'],
+                    'skips_each':len(results['wr3']['skipped']), 'entire_repository_green':False}
+          pathlib.Path('/tmp/wr3-test-comparison.json').write_text(json.dumps(report,indent=2))
+          print('WR3_NO_NEW_TEST_FAILURES', json.dumps(report), flush=True)
+          PY
       - name: Verify real tokenizer, pinned benchmark and training isolation
         shell: bash
         run: |
@@ -58,4 +89,6 @@ jobs:
           path: |
             /tmp/wr3-full-tests.log
             /tmp/wr3-preflight.log
+            /tmp/wr3-*-tests.xml
+            /tmp/wr3-test-comparison.json
           if-no-files-found: ignore
