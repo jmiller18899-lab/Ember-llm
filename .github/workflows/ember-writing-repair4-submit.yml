@@ -1,0 +1,56 @@
+name: Ember WR4 preflight and submit
+
+"on":
+  push:
+    branches:
+      - experiment/ember-writing-repair4-train-20260930
+    paths:
+      - jobs/wr4-20260930.prepare
+      - jobs/wr4-20260930.launch
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-wr4-submit-20260930
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR4_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@v6
+      - name: Run writing data and launch contracts
+        run: uv run --no-project --python 3.11 python -m unittest discover -s tests -p 'test_ember_writing_repair[34].py' -v
+      - name: Verify real tokenizer, frozen benchmark and training isolation
+        shell: bash
+        run: |
+          test -n "$HF_TOKEN"
+          set -o pipefail
+          uv run --python 3.11 jobs/ember_writing_repair4_train.py --preflight 2>&1 | tee /tmp/wr4-preflight.log
+      - name: Submit the explicitly requested training job
+        shell: bash
+        run: |
+          if git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep -qx 'jobs/wr4-20260930.launch'; then
+            uv run --python 3.11 jobs/ember_writing_repair4_train.py --launch 2>&1 | tee /tmp/wr4-launch.log
+          else
+            echo 'WR4_PREFLIGHT_ONLY: GPU not submitted'
+          fi
+      - name: Preserve validation and submission evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-wr4-validation-${{ github.run_id }}
+          path: |
+            /tmp/wr4-preflight.log
+            /tmp/wr4-launch.log
+          if-no-files-found: ignore
