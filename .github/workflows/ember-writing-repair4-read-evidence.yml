@@ -1,0 +1,33 @@
+name: Ember WR4 saved evidence review
+
+"on":
+  push:
+    branches:
+      - experiment/ember-writing-repair4-review-20260930
+    paths:
+      - jobs/wr4-20260930.review
+
+permissions:
+  contents: read
+
+jobs:
+  retrieve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Read pinned job status and saved evaluation files
+        run: uv run --python 3.11 jobs/ember_writing_repair4_read_evidence.py
+      - name: Preserve saved evidence for local review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-wr4-saved-evidence
+          path: wr4-saved-evidence/
+          if-no-files-found: error
+          retention-days: 7
