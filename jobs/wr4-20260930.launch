@@ -1,0 +1,2 @@
+Launch the user-requested Writing Repair 4 experiment after successful preflight.
+One L4 job; 512 training rows; 128 steps; fixed Repair2 parent and frozen grader.
