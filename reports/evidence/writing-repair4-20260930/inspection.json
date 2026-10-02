@@ -1,0 +1,81 @@
+{
+  "job_id": "6abd34a9404719ba37613b46",
+  "job_url": "https://huggingface.co/jobs/Jmiller18899/6abd34a9404719ba37613b46",
+  "repo_id": "Jmiller18899/ember-qwen3.5-4b-writing-repair4-20260930",
+  "revision": "cbff6fcc7a92c7441ebbb2306b2cfa685f724200",
+  "private": true,
+  "method": "Pinned saved-file retrieval; no weights or new inference",
+  "candidate_weights_present": true,
+  "files": [
+    {
+      "path": "launch.json",
+      "bytes": 2211,
+      "sha256": "5e1fea8ba23e9d3a0b001245cd3e79b97a39fc9638d8dd582dfd9964853a74b2"
+    },
+    {
+      "path": "evidence/launch-submission.json",
+      "bytes": 247,
+      "sha256": "607e8cba64c0796807e80eeca37a912d0a34fbed7acddee06893cee73bb8ca6d"
+    },
+    {
+      "path": "evidence/run-spec.json",
+      "bytes": 2123,
+      "sha256": "ede6ae956e87e1976452c7e60593b0865207d37d6397527f32a2dfe94c4b05a7"
+    },
+    {
+      "path": "evidence/progress.json",
+      "bytes": 71,
+      "sha256": "cb2037c86457b4bd87aafe6441893528181e9a7b5e7b7b43700f657c6e93829a"
+    },
+    {
+      "path": "evidence/training-complete.json",
+      "bytes": 2531,
+      "sha256": "fb32376b0b933f734ae87bc96cfcf4dcc8531909fb365571ccf3d94ad8cfc9d2"
+    },
+    {
+      "path": "evidence/final-report.json",
+      "bytes": 10043,
+      "sha256": "6d9c38247bbc9014aa57a674d0d55774e9e7b0f59e404e56a378d3b594eb25ec"
+    },
+    {
+      "path": "evidence/baseline-744.json",
+      "bytes": 489828,
+      "sha256": "2871faa409ffcba08ff103bb6af1214098c440469678f0733606384e06220b10"
+    },
+    {
+      "path": "evidence/candidate-744.json",
+      "bytes": 490467,
+      "sha256": "6b5fffcec0bffae43c068c5fe25e58923642a32e6761dd2091369762bdb6d267"
+    },
+    {
+      "path": "evidence/dev-before.json",
+      "bytes": 67946,
+      "sha256": "ac40a541381dff937805e94376dde1e6400018594667892552bb133863283ccd"
+    },
+    {
+      "path": "evidence/dev-after.json",
+      "bytes": 68075,
+      "sha256": "fa86d01d180af31b6ef68db09cdd6581bf303dd4aee1afe13345254b33629335"
+    },
+    {
+      "path": "evidence/training-metrics.json",
+      "bytes": 2617,
+      "sha256": "4a91879a1281ac56bb9adc4116c1adba5a3fdb6c72c62b9e58539de6c89ddd94"
+    },
+    {
+      "path": "development/fresh-dev.json",
+      "bytes": 57560,
+      "sha256": "262505e5204e88ff82375f1d7c6371855e15292ecd565a47b9297bfdce6090e9"
+    }
+  ],
+  "missing_files": [],
+  "job_status": {
+    "stage": "COMPLETED",
+    "message": null,
+    "expose_urls": null,
+    "ssh_url": null
+  },
+  "created_at": "2026-09-30 16:11:21.102000+00:00",
+  "started_at": "2026-09-30 16:11:25.880000+00:00",
+  "finished_at": "2026-09-30 16:30:03.895000+00:00"
+}
