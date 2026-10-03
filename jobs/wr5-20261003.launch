@@ -3,3 +3,5 @@ Private storage preflight: GitHub run 37134427726 PASS.
 Data/tokenizer/frozen benchmark preflight: GitHub run 37135179947 PASS.
 Fixed Repair2 parent; one epoch, 512 rows, 128 optimizer steps, l4x1, 90m timeout.
 Single isolated WR5 candidate; checkpoints persisted; no automatic retry or promotion.
+Launch workflow corrected: run 37135526616 submitted no GPU job because its marker check required unavailable rg.
+Submit once using the corrected launcher and the already validated reserved private output.
