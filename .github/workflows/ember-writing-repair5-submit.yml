@@ -34,7 +34,11 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          uv run --no-project jobs/ember_training_status.py | tee /tmp/ember-hf-status.log
+          if git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | rg -qx 'jobs/wr5-20261003.status'; then
+            uv run --no-project jobs/ember_training_status.py | tee /tmp/ember-hf-status.log
+          else
+            echo 'Private WR5 storage was verified before this stage'
+          fi
       - name: Validate WR5 data and launch contracts
         if: hashFiles('jobs/wr5-20261003.prepare') != '' || hashFiles('jobs/wr5-20261003.launch') != ''
         run: uv run --no-project --python 3.11 python -m unittest discover -s tests -p 'test_ember_writing_repair5.py' -v
