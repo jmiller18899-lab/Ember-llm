@@ -1,0 +1,5 @@
+User requested Ember next training on 2026-10-03.
+Private storage preflight: GitHub run 37134427726 PASS.
+Data/tokenizer/frozen benchmark preflight: GitHub run 37135179947 PASS.
+Fixed Repair2 parent; one epoch, 512 rows, 128 optimizer steps, l4x1, 90m timeout.
+Single isolated WR5 candidate; checkpoints persisted; no automatic retry or promotion.
