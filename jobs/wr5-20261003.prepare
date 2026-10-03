@@ -1,0 +1,1 @@
+CPU validation only. GPU submission waits for the explicit launch marker.
