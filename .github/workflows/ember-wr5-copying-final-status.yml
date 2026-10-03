@@ -1,0 +1,28 @@
+name: Ember WR5 copying diagnostic final status
+"on":
+  push:
+    branches: [experiment/ember-wr5-copying-investigation-20261003]
+    paths: [jobs/wr5-copying-20261003.final-status]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Inspect existing completed replay and retrieve saved evidence
+        run: uv run --python 3.11 jobs/ember_wr5_copy_collect.py --snapshot-only --job-id 6ac15a32fbc85ba682383ab3
+      - name: Save verified diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-wr5-copying-final-evidence
+          path: copying-saved-evidence/
+          if-no-files-found: error
+          retention-days: 7
