@@ -1,0 +1,1 @@
+User requested investigation of source copying before another training run on 2026-10-03. One inference-only L4 replay, 45m cap. Checkpoints 0/32/64/96/128; existing benchmark/development only; no optimizer, promotion, final holdout evaluation or automatic retry.
