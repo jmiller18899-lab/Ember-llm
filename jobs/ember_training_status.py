@@ -1,17 +1,17 @@
 # /// script
 # dependencies = ["huggingface-hub==1.31.0"]
 # ///
-"""Read-only job failure inspection for the user's requested next Ember training."""
+"""Read-only job failure inspection for the requested next Ember training."""
 from huggingface_hub import HfApi
 from itertools import islice
 from collections import deque
 import os, json, re
 
 def main():
-    token = [REDACTED]"HF_TOKEN")
+    token = os.environ.get("HF_TOKEN")
     if not token:
-        [REDACTED] RuntimeError("Existing EMBER_HF_TOKEN is unavailable")
-    api = HfApi(token=[REDACTED]
+        raise RuntimeError("Existing EMBER_HF_TOKEN is unavailable")
+    api = HfApi(token=token)
     if api.whoami().get("name") != "Jmiller18899":
         raise RuntimeError("Unexpected HF account")
     jobs = list(islice(api.list_jobs(), 50))
@@ -35,4 +35,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
