@@ -33,8 +33,9 @@ jobs:
         if: hashFiles('jobs/wr5-20261003.status') != ''
         shell: bash
         run: |
-          set -o pipefail
-          if git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | rg -qx 'jobs/wr5-20261003.status'; then
+          set -euo pipefail
+          changed_paths="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
+          if echo "$changed_paths" | grep -qx 'jobs/wr5-20261003.status'; then
             uv run --no-project jobs/ember_training_status.py | tee /tmp/ember-hf-status.log
           else
             echo 'Private WR5 storage was verified before this stage'
@@ -46,14 +47,15 @@ jobs:
         if: hashFiles('jobs/wr5-20261003.prepare') != '' || hashFiles('jobs/wr5-20261003.launch') != ''
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           uv run --python 3.11 jobs/ember_writing_repair5_train.py --preflight 2>&1 | tee /tmp/wr5-preflight.log
       - name: Submit the explicitly requested training once
         if: hashFiles('jobs/wr5-20261003.launch') != ''
         shell: bash
         run: |
-          set -o pipefail
-          if git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | rg -qx 'jobs/wr5-20261003.launch'; then
+          set -euo pipefail
+          changed_paths="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
+          if echo "$changed_paths" | grep -qx 'jobs/wr5-20261003.launch'; then
             uv run --python 3.11 jobs/ember_writing_repair5_train.py --launch 2>&1 | tee /tmp/wr5-launch.log
           else
             echo 'WR5_PREFLIGHT_ONLY: no GPU submission'
