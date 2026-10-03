@@ -1,0 +1,66 @@
+name: Ember WR5 status, preflight and submit
+
+"on":
+  push:
+    branches: [experiment/ember-writing-repair5-train-20261003]
+    paths:
+      - jobs/wr5-20261003.status
+      - jobs/wr5-20261003.prepare
+      - jobs/wr5-20261003.launch
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-wr5-20261003
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR5_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@v6
+      - name: Inspect latest Hugging Face jobs without launching compute
+        if: hashFiles('jobs/wr5-20261003.status') != ''
+        shell: bash
+        run: |
+          set -o pipefail
+          uv run --no-project jobs/ember_training_status.py | tee /tmp/ember-hf-status.log
+      - name: Validate WR5 data and launch contracts
+        if: hashFiles('jobs/wr5-20261003.prepare') != '' || hashFiles('jobs/wr5-20261003.launch') != ''
+        run: uv run --no-project --python 3.11 python -m unittest discover -s tests -p 'test_ember_writing_repair5.py' -v
+      - name: Validate real tokenizer, frozen benchmark and training isolation
+        if: hashFiles('jobs/wr5-20261003.prepare') != '' || hashFiles('jobs/wr5-20261003.launch') != ''
+        shell: bash
+        run: |
+          set -o pipefail
+          uv run --python 3.11 jobs/ember_writing_repair5_train.py --preflight 2>&1 | tee /tmp/wr5-preflight.log
+      - name: Submit the explicitly requested training once
+        if: hashFiles('jobs/wr5-20261003.launch') != ''
+        shell: bash
+        run: |
+          set -o pipefail
+          if git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | rg -qx 'jobs/wr5-20261003.launch'; then
+            uv run --python 3.11 jobs/ember_writing_repair5_train.py --launch 2>&1 | tee /tmp/wr5-launch.log
+          else
+            echo 'WR5_PREFLIGHT_ONLY: no GPU submission'
+          fi
+      - name: Preserve status, validation and submission evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-wr5-evidence-${{ github.run_id }}
+          path: |
+            /tmp/ember-hf-status.log
+            /tmp/wr5-preflight.log
+            /tmp/wr5-launch.log
+          if-no-files-found: ignore
