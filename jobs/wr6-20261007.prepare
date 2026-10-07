@@ -1,0 +1,3 @@
+Validate WR6 against real tokenizer and frozen benchmark before GPU submission.
+Private storage preflight: GitHub run 37628553795 PASS.
+Fixed Repair2 parent; hedge-removal + addressee conversion; no launch in this step.
