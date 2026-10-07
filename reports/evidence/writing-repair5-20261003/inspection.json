@@ -1,0 +1,162 @@
+{
+  "job_id": "6ac12906404719ba3762ebef",
+  "job_url": "https://huggingface.co/jobs/Jmiller18899/6ac12906404719ba3762ebef",
+  "repo_id": "Jmiller18899/ember-qwen3.5-4b-writing-repair5-20261003",
+  "revision": "4a72d7d5a2811d427329cf650f44ec469d39ca9f",
+  "private": true,
+  "method": "Pinned saved-file retrieval; no weights or new inference",
+  "repo_files": [
+    ".gitattributes",
+    "README.md",
+    "candidate/README.md",
+    "candidate/adapter_config.json",
+    "candidate/adapter_model.safetensors",
+    "candidate/chat_template.jinja",
+    "candidate/tokenizer.json",
+    "candidate/tokenizer_config.json",
+    "checkpoint-0/README.md",
+    "checkpoint-0/adapter_config.json",
+    "checkpoint-0/adapter_model.safetensors",
+    "checkpoint-0/chat_template.jinja",
+    "checkpoint-0/tokenizer.json",
+    "checkpoint-0/tokenizer_config.json",
+    "checkpoints/step-128/README.md",
+    "checkpoints/step-128/adapter_config.json",
+    "checkpoints/step-128/adapter_model.safetensors",
+    "checkpoints/step-128/optimizer.pt",
+    "checkpoints/step-128/rng_state.pth",
+    "checkpoints/step-128/scheduler.pt",
+    "checkpoints/step-128/trainer_state.json",
+    "checkpoints/step-128/training_args.bin",
+    "checkpoints/step-32/README.md",
+    "checkpoints/step-32/adapter_config.json",
+    "checkpoints/step-32/adapter_model.safetensors",
+    "checkpoints/step-32/optimizer.pt",
+    "checkpoints/step-32/rng_state.pth",
+    "checkpoints/step-32/scheduler.pt",
+    "checkpoints/step-32/trainer_state.json",
+    "checkpoints/step-32/training_args.bin",
+    "checkpoints/step-64/README.md",
+    "checkpoints/step-64/adapter_config.json",
+    "checkpoints/step-64/adapter_model.safetensors",
+    "checkpoints/step-64/optimizer.pt",
+    "checkpoints/step-64/rng_state.pth",
+    "checkpoints/step-64/scheduler.pt",
+    "checkpoints/step-64/trainer_state.json",
+    "checkpoints/step-64/training_args.bin",
+    "checkpoints/step-96/README.md",
+    "checkpoints/step-96/adapter_config.json",
+    "checkpoints/step-96/adapter_model.safetensors",
+    "checkpoints/step-96/optimizer.pt",
+    "checkpoints/step-96/rng_state.pth",
+    "checkpoints/step-96/scheduler.pt",
+    "checkpoints/step-96/trainer_state.json",
+    "checkpoints/step-96/training_args.bin",
+    "development/fresh-dev.json",
+    "evidence/baseline-744.json",
+    "evidence/candidate-744.json",
+    "evidence/dev-after.json",
+    "evidence/dev-before.json",
+    "evidence/final-report.json",
+    "evidence/launch-submission.json",
+    "evidence/progress.json",
+    "evidence/run-spec.json",
+    "evidence/shortening-after.json",
+    "evidence/shortening-before.json",
+    "evidence/training-complete.json",
+    "evidence/training-metrics.json",
+    "launch.json",
+    "source/ember_writing_repair5_data.py",
+    "source/ember_writing_repair5_train.py",
+    "storage-preflight.json",
+    "train/sft_train_only.jsonl"
+  ],
+  "candidate_weights_present": true,
+  "files": [
+    {
+      "path": "launch.json",
+      "bytes": 2593,
+      "sha256": "1fbdac5612a5fd97ebcb52a897eb5280cb8a1658552c86f5b2ae1ecae9e79bb3"
+    },
+    {
+      "path": "evidence/launch-submission.json",
+      "bytes": 247,
+      "sha256": "4e3ccb143eb33085a5a9f11e3ecfdf3c6897f28f4d3433f9d7d1f3751525abd8"
+    },
+    {
+      "path": "evidence/run-spec.json",
+      "bytes": 2505,
+      "sha256": "012d3e100dfc7a575cf861a567d01ae14e31fbc83ef16c37ce39f93ddfca26eb"
+    },
+    {
+      "path": "evidence/progress.json",
+      "bytes": 71,
+      "sha256": "cb2037c86457b4bd87aafe6441893528181e9a7b5e7b7b43700f657c6e93829a"
+    },
+    {
+      "path": "evidence/training-complete.json",
+      "bytes": 2913,
+      "sha256": "ccf21f6131cbdcaf7d6362b5a0b08c3c38b04b28637aade1a8db7a33c11a68ed"
+    },
+    {
+      "path": "evidence/final-report.json",
+      "bytes": 11005,
+      "sha256": "e8c4e326df16728e92e0ecb3c69d51ad322bc4d5277c7de0f8775fa59dbb701b"
+    },
+    {
+      "path": "evidence/baseline-744.json",
+      "bytes": 489828,
+      "sha256": "2871faa409ffcba08ff103bb6af1214098c440469678f0733606384e06220b10"
+    },
+    {
+      "path": "evidence/candidate-744.json",
+      "bytes": 490446,
+      "sha256": "29252fb2233ab57481c2ee53ca4a26ae57feb831bed68805aba5b12fcd328a50"
+    },
+    {
+      "path": "evidence/dev-before.json",
+      "bytes": 70763,
+      "sha256": "a4865ec9e375f72e2f5391e0471539e6dc8cd60c23682c5524e90ead17c912c8"
+    },
+    {
+      "path": "evidence/dev-after.json",
+      "bytes": 70834,
+      "sha256": "8369bc43e07b268b7ebac6c6a4c2118293e2df47eff8143fc829dbeef7c6398f"
+    },
+    {
+      "path": "evidence/training-metrics.json",
+      "bytes": 2626,
+      "sha256": "fbb51dbe20a59c0fae6394957fdadcfe288e7539a6d1ee9977362ba62dcf425f"
+    },
+    {
+      "path": "development/fresh-dev.json",
+      "bytes": 60401,
+      "sha256": "552bfb7fcdc5f50ab4dfe4d935ba28dfc45afcebfabfbea0e493c6b23888e5aa"
+    },
+    {
+      "path": "evidence/shortening-before.json",
+      "bytes": 239,
+      "sha256": "7d1a96ae465dc6bd8b18b9b8cdf940441a720d3001eca708ccd37a1b67d8380f"
+    },
+    {
+      "path": "evidence/shortening-after.json",
+      "bytes": 240,
+      "sha256": "6e68869822e6775f3e41489797876c014e7eee03a14710cdd67f81b6510d01ad"
+    },
+    {
+      "path": "candidate/adapter_config.json",
+      "bytes": 1147,
+      "sha256": "4cb29849f9df5f3e796aa378855719f475604d2b387783dd323e4d850bee5bf3"
+    }
+  ],
+  "missing_files": [],
+  "job_status": {
+    "stage": "COMPLETED",
+    "message": null,
+    "expose_urls": null,
+    "ssh_url": null
+  },
+  "created_at": "2026-10-03 16:10:46.405000+00:00",
+  "started_at": "2026-10-03 16:10:55.854000+00:00",
+  "finished_at": "2026-10-03 16:29:27.803000+00:00"
+}

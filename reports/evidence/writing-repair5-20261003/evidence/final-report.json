@@ -1,0 +1,570 @@
+{
+  "experiment": "Writing Repair 5",
+  "data_version": "ember-writing-repair5-data-v1",
+  "code_commit": "4e406a094c0494e684eea9850c70242c441bc3ef",
+  "data_code_sha256": "a41ad5e8194e1280d310247450d2ec5d8d167927727103ffa8181dbc25c516fa",
+  "frozen_engine_commit": "43220b453807782091a9209384091e82fed086f8",
+  "frozen_engine_sha256": "e20ccd3ac99de436c4fbd5e586e8bd303201e39965500b137bfcd2fa739d0eeb",
+  "source_model": "Jmiller18899/ember-qwen3.5-4b-repair2",
+  "source_revision": "daf938bba5d4e6b650ec9d34a2d3ac56706cf549",
+  "base": "Qwen/Qwen3.5-4B",
+  "base_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "policy_sha256": "e479dfc5b65e9b677c006dd58bf51e2113563bb6a16c9e3601bbbde5ce5d21fe",
+  "grader_commit": "25924014c0e5d5a580a296b2841a1e6f6cbe3bb4",
+  "benchmark_sha256": "dcd42ca2c869f83f3bf46569baeca9199b6d0b0c38eab98ec8beefac0ac6fe32",
+  "training_rows": 512,
+  "fresh_development_rows": 64,
+  "diagnostic_baseline_before_optimizer": true,
+  "families": {
+    "arithmetic": 64,
+    "extraction": 64,
+    "grounding": 48,
+    "direct": 32,
+    "shortening": 128,
+    "recipient": 128,
+    "clarification": 48
+  },
+  "training_sha256": "887c0df22cb668afb33e52c65b217e42597e437658790566a3d44ccb177255bf",
+  "epochs": 1,
+  "learning_rate": 7.5e-07,
+  "optimizer_steps": 128,
+  "microbatch": 1,
+  "gradient_accumulation": 4,
+  "warmup_steps": 8,
+  "max_length": 384,
+  "max_training_tokens": 228,
+  "seed": 431,
+  "save_every_steps": 32,
+  "hardware": "l4x1",
+  "timeout": "90m",
+  "output_repo": "Jmiller18899/ember-qwen3.5-4b-writing-repair5-20261003",
+  "automatic_retry": false,
+  "automatic_promotion": false,
+  "production_ready": false,
+  "answer_only_loss": true,
+  "final_holdouts_evaluated": false,
+  "semantic_review_required": true,
+  "candidate_selection": "Fixed final checkpoint; no holdout-based selection",
+  "data_audit": {
+    "train": 512,
+    "fresh_dev": 64,
+    "historical_rows_checked": 2248,
+    "benchmark_shortening_sources_checked": 30,
+    "exact_prompt_source_overlaps": 0,
+    "cross_split_structure_overlap": 0,
+    "benchmark_four_token_overlaps": 0,
+    "mean_reference_length_ratio": 0.57747,
+    "scope": "Observed history only; reserved final holdouts remain unloaded"
+  },
+  "acceptance": {
+    "minimum_benchmark_pass": 715,
+    "maximum_benchmark_verbatim_copies": 5,
+    "protected_family_regressions_allowed": 0,
+    "shortening_regressions_allowed": 0,
+    "minimum_manual_diagnostic_net_gain": 3,
+    "new_diagnostic_copies_allowed": 0
+  },
+  "training_completed": true,
+  "steps_completed": 128,
+  "training_loss": 0.2771110450848937,
+  "candidate_commit": "e48b15c53f73a7968e1223dab8a13013c48ae8cc",
+  "adapter_subfolder": "candidate",
+  "starting_digest": "f3e11133143ec3f20ea36669a2ed7de0c4db168b6bde8cf351705cc4fea11a5f",
+  "candidate_digest": "58fa702d0ab71e93372a7751342add41bb10c3011a6f19f8a0c48dd79b41f922",
+  "evaluation_complete": true,
+  "before": {
+    "exact72": {
+      "pass": 72,
+      "fail": 0,
+      "review": 0,
+      "total": 72,
+      "legacy_pass": 72,
+      "families": {
+        "arithmetic": [
+          36,
+          36
+        ],
+        "extraction": [
+          18,
+          18
+        ],
+        "time_reasoning": [
+          18,
+          18
+        ]
+      }
+    },
+    "temporal8": {
+      "pass": 8,
+      "fail": 0,
+      "review": 0,
+      "total": 8,
+      "legacy_pass": 8,
+      "families": {
+        "temporal": [
+          8,
+          8
+        ]
+      }
+    },
+    "drafting8": {
+      "pass": 4,
+      "fail": 2,
+      "review": 2,
+      "total": 8,
+      "legacy_pass": 7,
+      "families": {
+        "drafting": [
+          4,
+          8
+        ]
+      }
+    },
+    "promo_v2": {
+      "pass": 200,
+      "fail": 0,
+      "review": 0,
+      "total": 200,
+      "legacy_pass": 200,
+      "families": {
+        "arithmetic": [
+          40,
+          40
+        ],
+        "extraction": [
+          30,
+          30
+        ],
+        "time_reasoning": [
+          30,
+          30
+        ],
+        "grounding": [
+          25,
+          25
+        ],
+        "clarification": [
+          20,
+          20
+        ],
+        "drafting": [
+          25,
+          25
+        ],
+        "action_honesty": [
+          15,
+          15
+        ],
+        "context_consistency": [
+          15,
+          15
+        ]
+      }
+    },
+    "heldout": {
+      "pass": 180,
+      "fail": 0,
+      "review": 0,
+      "total": 180,
+      "legacy_pass": 180,
+      "families": {
+        "time": [
+          180,
+          180
+        ]
+      }
+    },
+    "ctx_holdout": {
+      "pass": 24,
+      "fail": 0,
+      "review": 0,
+      "total": 24,
+      "legacy_pass": 24,
+      "families": {
+        "context": [
+          24,
+          24
+        ]
+      }
+    },
+    "suite_v3": {
+      "pass": 181,
+      "fail": 9,
+      "review": 2,
+      "total": 192,
+      "legacy_pass": 185,
+      "families": {
+        "arith_tool_shapes": [
+          24,
+          24
+        ],
+        "arith_beyond_tool": [
+          24,
+          24
+        ],
+        "arith_distractor": [
+          16,
+          16
+        ],
+        "time_calc": [
+          24,
+          24
+        ],
+        "time_grounding": [
+          16,
+          16
+        ],
+        "clarification": [
+          16,
+          16
+        ],
+        "drafting": [
+          9,
+          20
+        ],
+        "action_honesty": [
+          12,
+          12
+        ],
+        "context": [
+          24,
+          24
+        ],
+        "extraction": [
+          16,
+          16
+        ]
+      }
+    },
+    "probes": {
+      "pass": 28,
+      "fail": 8,
+      "review": 0,
+      "total": 36,
+      "legacy_pass": 28,
+      "families": {
+        "arith_distractor": [
+          6,
+          8
+        ],
+        "arith_tool_shapes": [
+          3,
+          3
+        ],
+        "time_calc": [
+          3,
+          3
+        ],
+        "drafting": [
+          6,
+          8
+        ],
+        "context": [
+          3,
+          6
+        ],
+        "clarification": [
+          7,
+          8
+        ]
+      }
+    },
+    "fresh_writing": {
+      "pass": 17,
+      "fail": 7,
+      "review": 0,
+      "total": 24,
+      "legacy_pass": 17,
+      "families": {
+        "recipient": [
+          8,
+          12
+        ],
+        "thirdparty": [
+          6,
+          6
+        ],
+        "shortening": [
+          3,
+          6
+        ]
+      }
+    }
+  },
+  "after": {
+    "exact72": {
+      "pass": 72,
+      "fail": 0,
+      "review": 0,
+      "total": 72,
+      "legacy_pass": 72,
+      "families": {
+        "arithmetic": [
+          36,
+          36
+        ],
+        "extraction": [
+          18,
+          18
+        ],
+        "time_reasoning": [
+          18,
+          18
+        ]
+      }
+    },
+    "temporal8": {
+      "pass": 8,
+      "fail": 0,
+      "review": 0,
+      "total": 8,
+      "legacy_pass": 8,
+      "families": {
+        "temporal": [
+          8,
+          8
+        ]
+      }
+    },
+    "drafting8": {
+      "pass": 4,
+      "fail": 2,
+      "review": 2,
+      "total": 8,
+      "legacy_pass": 7,
+      "families": {
+        "drafting": [
+          4,
+          8
+        ]
+      }
+    },
+    "promo_v2": {
+      "pass": 198,
+      "fail": 2,
+      "review": 0,
+      "total": 200,
+      "legacy_pass": 198,
+      "families": {
+        "arithmetic": [
+          40,
+          40
+        ],
+        "extraction": [
+          30,
+          30
+        ],
+        "time_reasoning": [
+          30,
+          30
+        ],
+        "grounding": [
+          25,
+          25
+        ],
+        "clarification": [
+          20,
+          20
+        ],
+        "drafting": [
+          23,
+          25
+        ],
+        "action_honesty": [
+          15,
+          15
+        ],
+        "context_consistency": [
+          15,
+          15
+        ]
+      }
+    },
+    "heldout": {
+      "pass": 180,
+      "fail": 0,
+      "review": 0,
+      "total": 180,
+      "legacy_pass": 180,
+      "families": {
+        "time": [
+          180,
+          180
+        ]
+      }
+    },
+    "ctx_holdout": {
+      "pass": 24,
+      "fail": 0,
+      "review": 0,
+      "total": 24,
+      "legacy_pass": 24,
+      "families": {
+        "context": [
+          24,
+          24
+        ]
+      }
+    },
+    "suite_v3": {
+      "pass": 180,
+      "fail": 10,
+      "review": 2,
+      "total": 192,
+      "legacy_pass": 184,
+      "families": {
+        "arith_tool_shapes": [
+          24,
+          24
+        ],
+        "arith_beyond_tool": [
+          24,
+          24
+        ],
+        "arith_distractor": [
+          16,
+          16
+        ],
+        "time_calc": [
+          24,
+          24
+        ],
+        "time_grounding": [
+          16,
+          16
+        ],
+        "clarification": [
+          16,
+          16
+        ],
+        "drafting": [
+          8,
+          20
+        ],
+        "action_honesty": [
+          12,
+          12
+        ],
+        "context": [
+          24,
+          24
+        ],
+        "extraction": [
+          16,
+          16
+        ]
+      }
+    },
+    "probes": {
+      "pass": 29,
+      "fail": 7,
+      "review": 0,
+      "total": 36,
+      "legacy_pass": 29,
+      "families": {
+        "arith_distractor": [
+          6,
+          8
+        ],
+        "arith_tool_shapes": [
+          3,
+          3
+        ],
+        "time_calc": [
+          3,
+          3
+        ],
+        "drafting": [
+          6,
+          8
+        ],
+        "context": [
+          4,
+          6
+        ],
+        "clarification": [
+          7,
+          8
+        ]
+      }
+    },
+    "fresh_writing": {
+      "pass": 16,
+      "fail": 8,
+      "review": 0,
+      "total": 24,
+      "legacy_pass": 16,
+      "families": {
+        "recipient": [
+          8,
+          12
+        ],
+        "thirdparty": [
+          6,
+          6
+        ],
+        "shortening": [
+          2,
+          6
+        ]
+      }
+    }
+  },
+  "comparison": {
+    "regressions": [
+      [
+        "promo_v2",
+        "draft-short-00"
+      ],
+      [
+        "promo_v2",
+        "draft-short-05"
+      ],
+      [
+        "suite_v3",
+        "drafting-07"
+      ],
+      [
+        "fresh_writing",
+        "fresh-shorten-03"
+      ]
+    ],
+    "improvements": [
+      [
+        "probes",
+        "probe-context-00"
+      ]
+    ],
+    "automatic_promotion": false,
+    "semantic_review_required": true
+  },
+  "shortening_before": {
+    "benchmark": {
+      "rows": 30,
+      "verbatim_copy": 5,
+      "not_shorter": 7,
+      "mean_length_ratio": 0.796741
+    },
+    "diagnostic": {
+      "rows": 32,
+      "verbatim_copy": 1,
+      "not_shorter": 1,
+      "mean_length_ratio": 0.698258
+    }
+  },
+  "shortening_after": {
+    "benchmark": {
+      "rows": 30,
+      "verbatim_copy": 8,
+      "not_shorter": 10,
+      "mean_length_ratio": 0.816153
+    },
+    "diagnostic": {
+      "rows": 32,
+      "verbatim_copy": 1,
+      "not_shorter": 1,
+      "mean_length_ratio": 0.721965
+    }
+  },
+  "manual_review_completed": false
+}

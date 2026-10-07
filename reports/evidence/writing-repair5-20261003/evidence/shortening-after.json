@@ -1,0 +1,14 @@
+{
+  "benchmark": {
+    "rows": 30,
+    "verbatim_copy": 8,
+    "not_shorter": 10,
+    "mean_length_ratio": 0.816153
+  },
+  "diagnostic": {
+    "rows": 32,
+    "verbatim_copy": 1,
+    "not_shorter": 1,
+    "mean_length_ratio": 0.721965
+  }
+}

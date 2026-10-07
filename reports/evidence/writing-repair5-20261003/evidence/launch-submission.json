@@ -1,0 +1,7 @@
+{
+  "job_id": "6ac12906404719ba3762ebef",
+  "url": "https://huggingface.co/jobs/Jmiller18899/6ac12906404719ba3762ebef",
+  "output_repo": "Jmiller18899/ember-qwen3.5-4b-writing-repair5-20261003",
+  "gpu_timeout": "90m",
+  "automatic_retry": false
+}

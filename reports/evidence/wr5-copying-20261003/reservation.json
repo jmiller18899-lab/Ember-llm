@@ -1,0 +1,59 @@
+{
+  "training_rows": 512,
+  "family_examples": {
+    "arithmetic": 64,
+    "extraction": 64,
+    "grounding": 48,
+    "direct": 32,
+    "shortening": 128,
+    "recipient": 128,
+    "clarification": 48
+  },
+  "supervised_tokens_by_family": {
+    "arithmetic": 242,
+    "extraction": 275,
+    "grounding": 762,
+    "direct": 287,
+    "shortening": 2184,
+    "recipient": 3036,
+    "clarification": 684
+  },
+  "answer_only_label_rows_verified": 512,
+  "shortening_rows": 128,
+  "identical_shortening_targets": 0,
+  "shortening_reference_mean_ratio": 0.5774699735215955,
+  "shortening_groups": {
+    "frame": 96,
+    "condition": 16,
+    "little": 16
+  },
+  "short_training_templates": 28,
+  "little_to_cut_templates": 8,
+  "little_to_cut_common_suffix": true,
+  "recipient_pronoun_modal_coverage": {
+    "her/should": 1,
+    "his/should": 1,
+    "her/can": 1,
+    "her/might": 1,
+    "his/might": 1,
+    "her/none": 4,
+    "their/will": 4,
+    "his/will": 1,
+    "his/can": 1,
+    "her/will": 1
+  },
+  "original_input_revision": "4a72d7d5a2811d427329cf650f44ec469d39ca9f",
+  "original_training_commit": "4e406a094c0494e684eea9850c70242c441bc3ef",
+  "case_count": 65,
+  "checkpoints": [
+    0,
+    32,
+    64,
+    96,
+    128
+  ],
+  "new_training": false,
+  "final_holdouts_loaded": false,
+  "diagnostic_code_commit": "837044fd7874c4715606b6a00ba1305e176d6be2",
+  "diagnostic_script_sha256": "8a4d6493a7e189da117c51a83cf8995a25bca5dc0a973f1d506ebb379e24963f"
+}
