@@ -1,0 +1,72 @@
+name: Ember WR6 status, preflight and submit
+
+"on":
+  push:
+    branches: [cursor/ember-wr6-train-7066]
+    paths:
+      - jobs/wr6-20261007.status
+      - jobs/wr6-20261007.prepare
+      - jobs/wr6-20261007.launch
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ember-wr6-20261007
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR6_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: astral-sh/setup-uv@v6
+      - name: Inspect latest Hugging Face jobs without launching compute
+        if: hashFiles('jobs/wr6-20261007.status') != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed_paths="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
+          if echo "$changed_paths" | grep -qx 'jobs/wr6-20261007.status'; then
+            uv run --no-project jobs/ember_writing_repair6_status.py | tee /tmp/ember-hf-status.log
+          else
+            echo 'Private WR6 storage was verified before this stage'
+          fi
+      - name: Validate WR6 data and launch contracts
+        if: hashFiles('jobs/wr6-20261007.prepare') != '' || hashFiles('jobs/wr6-20261007.launch') != ''
+        run: uv run --no-project --python 3.11 python -m unittest -v tests.test_ember_writing_repair6 tests.test_ember_writing_repair5_review
+      - name: Validate real tokenizer, frozen benchmark and training isolation
+        if: hashFiles('jobs/wr6-20261007.prepare') != '' || hashFiles('jobs/wr6-20261007.launch') != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          uv run --python 3.11 jobs/ember_writing_repair6_train.py --preflight 2>&1 | tee /tmp/wr6-preflight.log
+      - name: Submit the explicitly requested training once
+        if: hashFiles('jobs/wr6-20261007.launch') != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed_paths="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
+          if echo "$changed_paths" | grep -qx 'jobs/wr6-20261007.launch'; then
+            uv run --python 3.11 jobs/ember_writing_repair6_train.py --launch 2>&1 | tee /tmp/wr6-launch.log
+          else
+            echo 'WR6_PREFLIGHT_ONLY: no GPU submission'
+          fi
+      - name: Preserve status, validation and submission evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ember-wr6-evidence-${{ github.run_id }}
+          path: |
+            /tmp/ember-hf-status.log
+            /tmp/wr6-preflight.log
+            /tmp/wr6-launch.log
+          if-no-files-found: ignore
