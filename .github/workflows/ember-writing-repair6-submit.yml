@@ -7,6 +7,11 @@ name: Ember WR6 status, preflight and submit
       - jobs/wr6-20261007.status
       - jobs/wr6-20261007.prepare
       - jobs/wr6-20261007.launch
+      - jobs/ember_writing_repair6_data.py
+      - jobs/ember_writing_repair6_train.py
+      - jobs/ember_writing_repair6_status.py
+      - tests/test_ember_writing_repair6.py
+      - .github/workflows/ember-writing-repair6-submit.yml
 
 permissions:
   contents: read

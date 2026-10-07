@@ -149,7 +149,7 @@ def values(split, i):
         objects = ["copper whistle", "navy canteen", "ivory comb", "cedar metronome",
                    "striped scarf", "olive knapsack", "tin harmonica", "crimson vial"]
         groups = ["printers", "glaziers", "scribes", "coopers", "dyers", "fletchers", "masons", "joiners"]
-        places = ["oak vestibule", "clay studio", "pine loft", "amber quay", "west cloister", "iron mezzanine", "south apse", "glass atrium"]
+        places = ["oak vestibule", "clay studio", "pine loft", "amber quay", "inner cloister", "iron mezzanine", "south apse", "glass atrium"]
     else:
         people = [("Hana", "her"), ("Nils", "his"), ("Sage", "their"), ("Ottilie", "her")]
         owners = {"her": ["Ines", "Paloma"], "his": ["Joaquin", "Leif"], "their": ["Haven", "Soren"]}
@@ -162,7 +162,7 @@ def values(split, i):
     return dict(n=n, pronoun=pronoun, owner=owners[owner_pronoun][(i // 3) % len(owners[owner_pronoun])],
                 owner_pronoun=owner_pronoun, obj=pick(objects), group=pick(groups), place=pick(places),
                 day=pick(["Thursday", "Saturday", "Monday", "Wednesday", "Friday", "Sunday", "Tuesday"]),
-                time=f"{1 + i % 8}:{(i * 13 + 23) % 60:02d} PM", q=str(3 + i % 11),
+                time=f"{1 + i % 8}:{(i * 19 + 7) % 50 + 3:02d} PM", q=str(3 + i % 11),
                 items=pick(["tickets", "pins", "labels", "reels"]), role=pick(["curator", "foreman", "captain", "custodian"]))
 
 

@@ -96,6 +96,12 @@ class WritingRepair6Tests(unittest.TestCase):
                          sorted((r["prompt"], r["answer"]) for r in original))
 
     @unittest.skipIf(W is None, "Implementation not created yet")
+    def test_training_sources_do_not_share_benchmark_fourgrams(self):
+        records = json.loads((ROOT / "reports/evidence/writing-repair5-20261003/evidence/baseline-744.json").read_text())["records"]
+        sources = [W.shortening_source(r["row"]) for r in records if W.shortening_source(r["row"])]
+        self.assertEqual(len(sources), 30)
+        W.audit(W.writing("train"), W.writing("dev"), [], sources)
+
     def test_saved_benchmark_shortening_metric_remains_compatible(self):
         records = json.loads((ROOT / "reports/evidence/writing-repair5-20261003/evidence/baseline-744.json").read_text())["records"]
         pairs = [(W.shortening_source(r["row"]), r["output"]) for r in records if W.shortening_source(r["row"])]
