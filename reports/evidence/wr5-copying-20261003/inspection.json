@@ -1,0 +1,68 @@
+{
+  "job_id": "6ac15a32fbc85ba682383ab3",
+  "url": "https://huggingface.co/jobs/Jmiller18899/6ac15a32fbc85ba682383ab3",
+  "job_status": {
+    "stage": "COMPLETED",
+    "message": null,
+    "expose_urls": null,
+    "ssh_url": null
+  },
+  "revision": "e5bc4fd9bed987b5e4d67c35582108452ecc2ecd",
+  "private": true,
+  "files": [
+    {
+      "path": "reservation.json",
+      "bytes": 1456,
+      "sha256": "ffe417995b4c2c9724d2df8bae26609ec3412764ab43ea2b0399e3417e8c01cd"
+    },
+    {
+      "path": "launch-submission.json",
+      "bytes": 245,
+      "sha256": "025d8f2081efb5d83e7507a2550b46d32d619be49971fcb5a5dc78d4ecdafaea"
+    },
+    {
+      "path": "data-audit.json",
+      "bytes": 1286,
+      "sha256": "b16ca7815067090e597397c539f812f93b13757032a0f2c3c8921b2adacbf406"
+    },
+    {
+      "path": "progress.json",
+      "bytes": 104,
+      "sha256": "216c8674851d0ed900d0fa64b1bdca509d0036fb3434ef3d8539d18e819bc1fc"
+    },
+    {
+      "path": "final-report.json",
+      "bytes": 25466,
+      "sha256": "396f13ac80964d096747cf11333568f2283de2e2a67450bcb1da6ae21a71ee3f"
+    },
+    {
+      "path": "checkpoint-0.json",
+      "bytes": 39900,
+      "sha256": "0ba918d23c492252fcc7554c60417b2f97a3e5f8629082502ac30536f6516b28"
+    },
+    {
+      "path": "checkpoint-32.json",
+      "bytes": 40061,
+      "sha256": "ac6c7371bd536312e393e102673f1e034ef5461771cb5b9773d82132eeb88f85"
+    },
+    {
+      "path": "checkpoint-64.json",
+      "bytes": 40025,
+      "sha256": "f5d174ef768f8a2a4d635ae113709edcc828062cceebe840493d4e5af7ca1bc1"
+    },
+    {
+      "path": "checkpoint-96.json",
+      "bytes": 40073,
+      "sha256": "49465e0f198c2174427dbea5529d8ef5fec974604728ed0bc8e9a3f3f22997d2"
+    },
+    {
+      "path": "checkpoint-128.json",
+      "bytes": 40224,
+      "sha256": "f51bc71f7b38844eb60fda2678feaf94757391bea8b4755358dc1504ad8ce5bd"
+    }
+  ],
+  "missing": [],
+  "created_at": "2026-10-03 19:40:34.167000+00:00",
+  "started_at": "2026-10-03 19:40:38.955000+00:00",
+  "finished_at": "2026-10-03 19:48:47.486000+00:00"
+}

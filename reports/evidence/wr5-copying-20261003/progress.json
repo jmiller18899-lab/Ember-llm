@@ -1,0 +1,10 @@
+{
+  "completed_checkpoint": 128,
+  "planned_checkpoints": [
+    0,
+    32,
+    64,
+    96,
+    128
+  ]
+}

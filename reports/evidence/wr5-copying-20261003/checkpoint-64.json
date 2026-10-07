@@ -1,0 +1,879 @@
+{
+  "summary": {
+    "step": 64,
+    "adapter_digest": "f96417d52e04ab649002e3069bf57485e8c1c9e6d1ed35a7321335656d49ff3c",
+    "groups": {
+      "benchmark_shortening": {
+        "rows": 30,
+        "verbatim_copies": 6,
+        "not_shorter": 8,
+        "passed": 14
+      },
+      "development_shortening": {
+        "rows": 32,
+        "verbatim_copies": 1,
+        "not_shorter": 1,
+        "passed": 0
+      },
+      "recipient_regression": {
+        "rows": 1,
+        "verbatim_copies": 0,
+        "not_shorter": 0,
+        "passed": 1
+      },
+      "recipient_control": {
+        "rows": 2,
+        "verbatim_copies": 0,
+        "not_shorter": 0,
+        "passed": 0
+      }
+    }
+  },
+  "records": [
+    {
+      "case_id": "drafting8/draft-short-01",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this without dropping place or time: 'Please ensure all visitors meet at the front desk before 9.'",
+      "source": "Please ensure all visitors meet at the front desk before 9.",
+      "output": "Please meet at the front desk before 9.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "fail",
+        "reasons": [
+          "qualifiers_changed"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "drafting8/draft-short-02",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this without dropping place or time: 'Please ensure all guests meet at the conference room before 10.'",
+      "source": "Please ensure all guests meet at the conference room before 10.",
+      "output": "Please meet all guests in the conference room before 10.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "review",
+        "reasons": [
+          "unverified_paraphrase_or_scope"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "drafting8/draft-short-03",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this without dropping place or time: 'Please make sure everyone arrives at the lab before 8.'",
+      "source": "Please make sure everyone arrives at the lab before 8.",
+      "output": "Please arrive at the lab before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "review",
+        "reasons": [
+          "unverified_paraphrase_or_scope"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "drafting8/draft-short-04",
+      "group": "benchmark_shortening",
+      "prompt": "Condense this but keep location and time: 'All team members should gather at the garage before 7.'",
+      "source": "All team members should gather at the garage before 7.",
+      "output": "All team members should gather at the garage before 7.",
+      "verbatim_copy": true,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-00",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 1 while keeping place and time: 'Please make sure everyone gathers at the loading dock before 7.'",
+      "source": "Please make sure everyone gathers at the loading dock before 7.",
+      "output": "Please gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-01",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 2 while keeping place and time: 'Please make sure everyone gathers at the studio before 8.'",
+      "source": "Please make sure everyone gathers at the studio before 8.",
+      "output": "Please gather at the studio before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-02",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 3 while keeping place and time: 'Please make sure everyone gathers at the lobby before 9.'",
+      "source": "Please make sure everyone gathers at the lobby before 9.",
+      "output": "Please gather at the lobby before 9.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-03",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 4 while keeping place and time: 'Please make sure everyone gathers at the workshop before 10.'",
+      "source": "Please make sure everyone gathers at the workshop before 10.",
+      "output": "Please gather at the workshop before 10.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-04",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 5 while keeping place and time: 'Please make sure everyone gathers at the north entrance before 7.'",
+      "source": "Please make sure everyone gathers at the north entrance before 7.",
+      "output": "Please gather at the north entrance before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-05",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 6 while keeping place and time: 'Please make sure everyone gathers at the loading dock before 8.'",
+      "source": "Please make sure everyone gathers at the loading dock before 8.",
+      "output": "Please gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-06",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 7 while keeping place and time: 'Please make sure everyone gathers at the studio before 9.'",
+      "source": "Please make sure everyone gathers at the studio before 9.",
+      "output": "Please gather at the studio before 9.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-07",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 8 while keeping place and time: 'Please make sure everyone gathers at the lobby before 10.'",
+      "source": "Please make sure everyone gathers at the lobby before 10.",
+      "output": "Please gather at the lobby before 10.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-08",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 9 while keeping place and time: 'Please make sure everyone gathers at the workshop before 7.'",
+      "source": "Please make sure everyone gathers at the workshop before 7.",
+      "output": "Please gather at the workshop before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "promo_v2/draft-short-09",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten version 10 while keeping place and time: 'Please make sure everyone gathers at the north entrance before 8.'",
+      "source": "Please make sure everyone gathers at the north entrance before 8.",
+      "output": "Please gather at the north entrance before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-07",
+      "group": "recipient_regression",
+      "prompt": "Write a quick note to Priya: I picked up her notebook and can bring it by Wednesday.",
+      "source": null,
+      "output": "Hi Priya, I picked up your notebook and can bring it by Wednesday.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-12",
+      "group": "benchmark_shortening",
+      "prompt": "Make this shorter but keep where and when: \"Everyone attending the workshop should please arrive at the east lobby no later than 8:30.\"",
+      "source": "Everyone attending the workshop should please arrive at the east lobby no later than 8:30.",
+      "output": "Please arrive at the east lobby no later than 8:30.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "fail",
+        "reasons": [
+          "force_changed:recommendation->request"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-13",
+      "group": "benchmark_shortening",
+      "prompt": "Make this shorter but keep where and when: \"All volunteers are kindly asked to gather by the loading dock before noon on Saturday.\"",
+      "source": "All volunteers are kindly asked to gather by the loading dock before noon on Saturday.",
+      "output": "All volunteers are kindly asked to gather at the loading dock before noon on Saturday.",
+      "verbatim_copy": false,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-14",
+      "group": "benchmark_shortening",
+      "prompt": "Make this shorter but keep where and when: \"Participants in the tour must be at the museum entrance by 10 sharp.\"",
+      "source": "Participants in the tour must be at the museum entrance by 10 sharp.",
+      "output": "Participants must be at the museum entrance by 10 sharp.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "review",
+        "reasons": [
+          "unverified_paraphrase_or_scope"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-15",
+      "group": "benchmark_shortening",
+      "prompt": "Make this shorter but keep where and when: \"Please make sure every guest reaches the rooftop terrace ahead of 7 for the toast.\"",
+      "source": "Please make sure every guest reaches the rooftop terrace ahead of 7 for the toast.",
+      "output": "Please ensure every guest reaches the rooftop terrace ahead of 7 for the toast.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-16",
+      "group": "benchmark_shortening",
+      "prompt": "Tighten this sentence without losing the place or the time: \"Everyone attending the workshop should please arrive at the east lobby no later than 8:30.\"",
+      "source": "Everyone attending the workshop should please arrive at the east lobby no later than 8:30.",
+      "output": "All attendees must arrive at the east lobby by 8:30.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "fail",
+        "reasons": [
+          "force_changed:recommendation->requirement",
+          "qualifiers_changed",
+          "timing_changed"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-17",
+      "group": "benchmark_shortening",
+      "prompt": "Tighten this sentence without losing the place or the time: \"All volunteers are kindly asked to gather by the loading dock before noon on Saturday.\"",
+      "source": "All volunteers are kindly asked to gather by the loading dock before noon on Saturday.",
+      "output": "All volunteers are kindly asked to gather at the loading dock before noon on Saturday.",
+      "verbatim_copy": false,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-18",
+      "group": "benchmark_shortening",
+      "prompt": "Tighten this sentence without losing the place or the time: \"Participants in the tour must be at the museum entrance by 10 sharp.\"",
+      "source": "Participants in the tour must be at the museum entrance by 10 sharp.",
+      "output": "Participants must be at the museum entrance by 10 sharp.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": true,
+        "status": "review",
+        "reasons": [
+          "unverified_paraphrase_or_scope"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "suite_v3/drafting-19",
+      "group": "benchmark_shortening",
+      "prompt": "Tighten this sentence without losing the place or the time: \"Please make sure every guest reaches the rooftop terrace ahead of 7 for the toast.\"",
+      "source": "Please make sure every guest reaches the rooftop terrace ahead of 7 for the toast.",
+      "output": "Please ensure every guest reaches the rooftop terrace ahead of 7 for the toast.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "probes/probe-drafting-06",
+      "group": "benchmark_shortening",
+      "prompt": "Trim this down, keeping the place and the time: \"Could everyone on the planning committee please come to the north stairwell no later than 9:15?\"",
+      "source": "Could everyone on the planning committee please come to the north stairwell no later than 9:15?",
+      "output": "Could everyone on the planning committee please come to the north stairwell no later than 9:15?",
+      "verbatim_copy": true,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "probes/probe-drafting-07",
+      "group": "benchmark_shortening",
+      "prompt": "Trim this down, keeping the place and the time: \"Staff members are requested to assemble in the back parking lot by 6 this evening for the photo.\"",
+      "source": "Staff members are requested to assemble in the back parking lot by 6 this evening for the photo.",
+      "output": "Staff members are requested to assemble in the back parking lot by 6 this evening for the photo.",
+      "verbatim_copy": true,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "fresh_writing/fresh-shorten-00",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this while preserving every fact: Please make sure that all technicians meet at the east loading bay before 10:20 AM on Wednesday.",
+      "source": "Please make sure that all technicians meet at the east loading bay before 10:20 AM on Wednesday.",
+      "output": "Please ensure all technicians meet at the east loading bay before 10:20 AM on Wednesday.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "fresh_writing/fresh-shorten-01",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this while preserving every fact: Visitors must not enter the north gallery before noon on Friday.",
+      "source": "Visitors must not enter the north gallery before noon on Friday.",
+      "output": "Visitors must not enter the north gallery before noon on Friday.",
+      "verbatim_copy": true,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "fresh_writing/fresh-shorten-02",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this while preserving every fact: All students are kindly asked to leave exactly three folders on the blue desk by 4 PM.",
+      "source": "All students are kindly asked to leave exactly three folders on the blue desk by 4 PM.",
+      "output": "All students are kindly asked to leave exactly three folders on the blue desk by 4 PM.",
+      "verbatim_copy": true,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "fresh_writing/fresh-shorten-03",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this while preserving every fact: Please remember that the spare key must remain in locker 27 until Monday.",
+      "source": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "output": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "verbatim_copy": true,
+      "not_shorter": true,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "not_shorter"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "fresh_writing/fresh-shorten-04",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this while preserving every fact: We would appreciate it if all drivers could wait at the west entrance after 7:45 PM on Thursday.",
+      "source": "We would appreciate it if all drivers could wait at the west entrance after 7:45 PM on Thursday.",
+      "output": "Please wait at the west entrance after 7:45 PM on Thursday.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": false,
+        "legacy_passed": false,
+        "status": "fail",
+        "reasons": [
+          "legacy_requirements_failed",
+          "qualifiers_changed"
+        ],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "fresh_writing/fresh-shorten-05",
+      "group": "benchmark_shortening",
+      "prompt": "Shorten this while preserving every fact: It is important that nobody move the red crates from storage room 12 before Saturday.",
+      "source": "It is important that nobody move the red crates from storage room 12 before Saturday.",
+      "output": "No one move the red crates from storage room 12 before Saturday.",
+      "verbatim_copy": false,
+      "not_shorter": false,
+      "grading": {
+        "passed": true,
+        "legacy_passed": true,
+        "status": "pass",
+        "reasons": [],
+        "grader_version": "meaning-preservation-v2"
+      }
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-00-00",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"My request is that you verify exactly 11 pins at the ceramic alcove before 6:16 PM.\"",
+      "source": "My request is that you verify exactly 11 pins at the ceramic alcove before 6:16 PM.",
+      "output": "Please verify exactly 11 pins at the ceramic alcove before 6:16 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-00-01",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nMy request is that you verify exactly 12 labels at the garden cabin before 7:29 PM.",
+      "source": "My request is that you verify exactly 12 labels at the garden cabin before 7:29 PM.",
+      "output": "Verify 12 labels at the garden cabin before 7:29 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-00-02",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: My request is that you verify exactly 13 reels at the river kiosk before 8:42 PM.",
+      "source": "My request is that you verify exactly 13 reels at the river kiosk before 8:42 PM.",
+      "output": "Verify exactly 13 reels at the river kiosk before 8:42 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-00-03",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"My request is that you verify exactly 3 tickets at the birch pavilion before 1:55 PM.\"",
+      "source": "My request is that you verify exactly 3 tickets at the birch pavilion before 1:55 PM.",
+      "output": "Verify exactly 3 tickets at the Birch Pavilion before 1:55 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-01-00",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nThe instruction I want to give is this: keep Marisol's steel binoculars in the ceramic alcove until Sunday.",
+      "source": "The instruction I want to give is this: keep Marisol's steel binoculars in the ceramic alcove until Sunday.",
+      "output": "Keep Marisol's steel binoculars in the ceramic alcove until Sunday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-01-01",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: The instruction I want to give is this: keep Renato's woven cushion in the garden cabin until Tuesday.",
+      "source": "The instruction I want to give is this: keep Renato's woven cushion in the garden cabin until Tuesday.",
+      "output": "Keep Renato's woven cushion in the garden cabin until Tuesday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-01-02",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"The instruction I want to give is this: keep Marlow's pearl brooch in the river kiosk until Thursday.\"",
+      "source": "The instruction I want to give is this: keep Marlow's pearl brooch in the river kiosk until Thursday.",
+      "output": "Keep Marlow's pearl brooch in the river kiosk until Thursday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-01-03",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"The instruction I want to give is this: keep Elodie's violet lunchbox in the birch pavilion until Saturday.\"",
+      "source": "The instruction I want to give is this: keep Elodie's violet lunchbox in the birch pavilion until Saturday.",
+      "output": "Keep Elodie's violet lunchbox in the birch pavilion until Saturday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-02-00",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: You can examine the steel binoculars at the ceramic alcove, with permission required from the foreman.",
+      "source": "You can examine the steel binoculars at the ceramic alcove, with permission required from the foreman.",
+      "output": "Examine the steel binoculars at the ceramic alcove with foreman permission.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-02-01",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"You can examine the woven cushion at the garden cabin, with permission required from the captain.\"",
+      "source": "You can examine the woven cushion at the garden cabin, with permission required from the captain.",
+      "output": "Examine the woven cushion at the garden cabin with the captain's permission.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-02-02",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"You can examine the pearl brooch at the river kiosk, with permission required from the custodian.\"",
+      "source": "You can examine the pearl brooch at the river kiosk, with permission required from the custodian.",
+      "output": "You can examine the pearl brooch at the river kiosk with custodian permission.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-02-03",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nYou can examine the violet lunchbox at the birch pavilion, with permission required from the curator.",
+      "source": "You can examine the violet lunchbox at the birch pavilion, with permission required from the curator.",
+      "output": "Examine the violet lunchbox at the birch pavilion with curator permission.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-03-00",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"My plan is not a commitment: I should bring the steel binoculars to the ceramic alcove on Tuesday.\"",
+      "source": "My plan is not a commitment: I should bring the steel binoculars to the ceramic alcove on Tuesday.",
+      "output": "Bring the steel binoculars to the ceramic alcove on Tuesday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-03-01",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"My plan is not a commitment: I should bring the woven cushion to the garden cabin on Thursday.\"",
+      "source": "My plan is not a commitment: I should bring the woven cushion to the garden cabin on Thursday.",
+      "output": "My plan is not a commitment: I should bring the woven cushion to the garden cabin on Thursday.",
+      "verbatim_copy": true,
+      "not_shorter": true
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-03-02",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nMy plan is not a commitment: I should bring the pearl brooch to the river kiosk on Saturday.",
+      "source": "My plan is not a commitment: I should bring the pearl brooch to the river kiosk on Saturday.",
+      "output": "I'll bring the pearl brooch to the river kiosk on Saturday, but it's not a commitment.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-03-03",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: My plan is not a commitment: I should bring the violet lunchbox to the birch pavilion on Monday.",
+      "source": "My plan is not a commitment: I should bring the violet lunchbox to the birch pavilion on Monday.",
+      "output": "My plan: bring the violet lunchbox to the birch pavilion on Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-04-00",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"I am asking you to check this fact: nobody has moved Marisol's steel binoculars from the ceramic alcove.\"",
+      "source": "I am asking you to check this fact: nobody has moved Marisol's steel binoculars from the ceramic alcove.",
+      "output": "Please check this fact: nobody has moved Marisol's steel binoculars from the ceramic alcove.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-04-01",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nI am asking you to check this fact: nobody has moved Renato's woven cushion from the garden cabin.",
+      "source": "I am asking you to check this fact: nobody has moved Renato's woven cushion from the garden cabin.",
+      "output": "Check if anyone moved Renato's woven cushion from the garden cabin.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-04-02",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: I am asking you to check this fact: nobody has moved Marlow's pearl brooch from the river kiosk.",
+      "source": "I am asking you to check this fact: nobody has moved Marlow's pearl brooch from the river kiosk.",
+      "output": "I ask you to check: nobody moved Marlow's pearl brooch from the river kiosk.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-04-03",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"I am asking you to check this fact: nobody has moved Elodie's violet lunchbox from the birch pavilion.\"",
+      "source": "I am asking you to check this fact: nobody has moved Elodie's violet lunchbox from the birch pavilion.",
+      "output": "Check this fact: nobody has moved Elodie's violet lunchbox from the birch pavilion.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-05-00",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nThis is my instruction: only if the foreman agrees may the surveyors take exactly 9 pins.",
+      "source": "This is my instruction: only if the foreman agrees may the surveyors take exactly 9 pins.",
+      "output": "Surveyors take 9 pins only if the foreman agrees.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-05-01",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: This is my instruction: only if the captain agrees may the florists take exactly 10 labels.",
+      "source": "This is my instruction: only if the captain agrees may the florists take exactly 10 labels.",
+      "output": "Only if the captain agrees may florists take exactly 10 labels.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-05-02",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"This is my instruction: only if the custodian agrees may the referees take exactly 11 reels.\"",
+      "source": "This is my instruction: only if the custodian agrees may the referees take exactly 11 reels.",
+      "output": "Referees may take exactly 11 reels only if the custodian agrees.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-05-03",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"This is my instruction: only if the curator agrees may the carvers take exactly 12 tickets.\"",
+      "source": "This is my instruction: only if the curator agrees may the carvers take exactly 12 tickets.",
+      "output": "Curator's approval is required for carvers to take exactly 12 tickets.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-06-00",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: My request concerns all the surveyors: please ask them to wait at the ceramic alcove until 6:28 PM.",
+      "source": "My request concerns all the surveyors: please ask them to wait at the ceramic alcove until 6:28 PM.",
+      "output": "Please ask all surveyors to wait at the ceramic alcove until 6:28 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-06-01",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"My request concerns all the florists: please ask them to wait at the garden cabin until 7:41 PM.\"",
+      "source": "My request concerns all the florists: please ask them to wait at the garden cabin until 7:41 PM.",
+      "output": "Please ask all florists to wait at the garden cabin until 7:41 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-06-02",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"My request concerns all the referees: please ask them to wait at the river kiosk until 8:54 PM.\"",
+      "source": "My request concerns all the referees: please ask them to wait at the river kiosk until 8:54 PM.",
+      "output": "Please ask all referees to wait at the river kiosk until 8:54 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-06-03",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nMy request concerns all the carvers: please ask them to wait at the birch pavilion until 1:07 PM.",
+      "source": "My request concerns all the carvers: please ask them to wait at the birch pavilion until 1:07 PM.",
+      "output": "Please ask all carvers to wait at the birch pavilion until 1:07 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-07-00",
+      "group": "development_shortening",
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"The rule I want you to remember is that the steel binoculars must not leave the ceramic alcove before Saturday.\"",
+      "source": "The rule I want you to remember is that the steel binoculars must not leave the ceramic alcove before Saturday.",
+      "output": "The steel binoculars must not leave the ceramic alcove before Saturday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-07-01",
+      "group": "development_shortening",
+      "prompt": "Shorten this without changing its meaning: \"The rule I want you to remember is that the woven cushion must not leave the garden cabin before Monday.\"",
+      "source": "The rule I want you to remember is that the woven cushion must not leave the garden cabin before Monday.",
+      "output": "Remember: the woven cushion must not leave the garden cabin before Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-07-02",
+      "group": "development_shortening",
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nThe rule I want you to remember is that the pearl brooch must not leave the river kiosk before Wednesday.",
+      "source": "The rule I want you to remember is that the pearl brooch must not leave the river kiosk before Wednesday.",
+      "output": "The pearl brooch must not leave the river kiosk before Wednesday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-short-diagnostic-07-03",
+      "group": "development_shortening",
+      "prompt": "Make this sentence shorter without changing its force: The rule I want you to remember is that the violet lunchbox must not leave the birch pavilion before Friday.",
+      "source": "The rule I want you to remember is that the violet lunchbox must not leave the birch pavilion before Friday.",
+      "output": "Remember: the violet lunchbox must not leave the birch pavilion before Friday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-recipient-01",
+      "group": "recipient_control",
+      "prompt": "Compose my note addressed to Auden: I examined their woven cushion and should deliver it to the garden cabin before 3:13 PM.",
+      "source": null,
+      "output": "Auden, I examined their woven cushion and should deliver it to the garden cabin before 3:13 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "case_id": "wr5-dev-recipient-05",
+      "group": "recipient_control",
+      "prompt": "Compose my note addressed to Auden: I examined their woven cushion and should deliver it to the garden cabin before 7:05 PM.",
+      "source": null,
+      "output": "Auden, I examined their woven cushion and should deliver it to the garden cabin before 7:05 PM.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    }
+  ]
+}

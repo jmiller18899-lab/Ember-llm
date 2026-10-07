@@ -1,0 +1,777 @@
+{
+  "data_audit": {
+    "training_rows": 512,
+    "family_examples": {
+      "arithmetic": 64,
+      "extraction": 64,
+      "grounding": 48,
+      "direct": 32,
+      "shortening": 128,
+      "recipient": 128,
+      "clarification": 48
+    },
+    "supervised_tokens_by_family": {
+      "arithmetic": 242,
+      "extraction": 275,
+      "grounding": 762,
+      "direct": 287,
+      "shortening": 2184,
+      "recipient": 3036,
+      "clarification": 684
+    },
+    "answer_only_label_rows_verified": 512,
+    "shortening_rows": 128,
+    "identical_shortening_targets": 0,
+    "shortening_reference_mean_ratio": 0.5774699735215955,
+    "shortening_groups": {
+      "frame": 96,
+      "condition": 16,
+      "little": 16
+    },
+    "short_training_templates": 28,
+    "little_to_cut_templates": 8,
+    "little_to_cut_common_suffix": true,
+    "recipient_pronoun_modal_coverage": {
+      "her/should": 1,
+      "his/should": 1,
+      "her/can": 1,
+      "her/might": 1,
+      "his/might": 1,
+      "her/none": 4,
+      "their/will": 4,
+      "his/will": 1,
+      "his/can": 1,
+      "her/will": 1
+    },
+    "original_input_revision": "4a72d7d5a2811d427329cf650f44ec469d39ca9f",
+    "original_training_commit": "4e406a094c0494e684eea9850c70242c441bc3ef",
+    "case_count": 65,
+    "checkpoints": [
+      0,
+      32,
+      64,
+      96,
+      128
+    ],
+    "new_training": false,
+    "final_holdouts_loaded": false
+  },
+  "checkpoint_summaries": [
+    {
+      "step": 0,
+      "adapter_digest": "f3e11133143ec3f20ea36669a2ed7de0c4db168b6bde8cf351705cc4fea11a5f",
+      "groups": {
+        "benchmark_shortening": {
+          "rows": 30,
+          "verbatim_copies": 5,
+          "not_shorter": 7,
+          "passed": 15
+        },
+        "development_shortening": {
+          "rows": 32,
+          "verbatim_copies": 1,
+          "not_shorter": 1,
+          "passed": 0
+        },
+        "recipient_regression": {
+          "rows": 1,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 1
+        },
+        "recipient_control": {
+          "rows": 2,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        }
+      }
+    },
+    {
+      "step": 32,
+      "adapter_digest": "ac9808f40db6f14c60cd27d7ba2ceb3ca7686a9843c87c04571cf14de24c73cc",
+      "groups": {
+        "benchmark_shortening": {
+          "rows": 30,
+          "verbatim_copies": 6,
+          "not_shorter": 8,
+          "passed": 14
+        },
+        "development_shortening": {
+          "rows": 32,
+          "verbatim_copies": 1,
+          "not_shorter": 1,
+          "passed": 0
+        },
+        "recipient_regression": {
+          "rows": 1,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        },
+        "recipient_control": {
+          "rows": 2,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        }
+      }
+    },
+    {
+      "step": 64,
+      "adapter_digest": "f96417d52e04ab649002e3069bf57485e8c1c9e6d1ed35a7321335656d49ff3c",
+      "groups": {
+        "benchmark_shortening": {
+          "rows": 30,
+          "verbatim_copies": 6,
+          "not_shorter": 8,
+          "passed": 14
+        },
+        "development_shortening": {
+          "rows": 32,
+          "verbatim_copies": 1,
+          "not_shorter": 1,
+          "passed": 0
+        },
+        "recipient_regression": {
+          "rows": 1,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 1
+        },
+        "recipient_control": {
+          "rows": 2,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        }
+      }
+    },
+    {
+      "step": 96,
+      "adapter_digest": "4d60f1c380839bae8733e596486c5222cb318202c27cb766fdc234e953b7cdce",
+      "groups": {
+        "benchmark_shortening": {
+          "rows": 30,
+          "verbatim_copies": 6,
+          "not_shorter": 8,
+          "passed": 14
+        },
+        "development_shortening": {
+          "rows": 32,
+          "verbatim_copies": 1,
+          "not_shorter": 1,
+          "passed": 0
+        },
+        "recipient_regression": {
+          "rows": 1,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 1
+        },
+        "recipient_control": {
+          "rows": 2,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        }
+      }
+    },
+    {
+      "step": 128,
+      "adapter_digest": "58fa702d0ab71e93372a7751342add41bb10c3011a6f19f8a0c48dd79b41f922",
+      "groups": {
+        "benchmark_shortening": {
+          "rows": 30,
+          "verbatim_copies": 8,
+          "not_shorter": 10,
+          "passed": 12
+        },
+        "development_shortening": {
+          "rows": 32,
+          "verbatim_copies": 1,
+          "not_shorter": 1,
+          "passed": 0
+        },
+        "recipient_regression": {
+          "rows": 1,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        },
+        "recipient_control": {
+          "rows": 2,
+          "verbatim_copies": 0,
+          "not_shorter": 0,
+          "passed": 0
+        }
+      }
+    }
+  ],
+  "prompt_variants": [
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 0,
+      "prompt": "Shorten this without changing its meaning: \"Please make sure everyone gathers at the loading dock before 7.\"",
+      "output": "Please gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 1,
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nPlease make sure everyone gathers at the loading dock before 7.",
+      "output": "Gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 2,
+      "prompt": "Make this sentence shorter without changing its force: Please make sure everyone gathers at the loading dock before 7.",
+      "output": "Gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 3,
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"Please make sure everyone gathers at the loading dock before 7.\"",
+      "output": "Gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 0,
+      "prompt": "Shorten this without changing its meaning: \"Please make sure everyone gathers at the loading dock before 8.\"",
+      "output": "Please gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 1,
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nPlease make sure everyone gathers at the loading dock before 8.",
+      "output": "Gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 2,
+      "prompt": "Make this sentence shorter without changing its force: Please make sure everyone gathers at the loading dock before 8.",
+      "output": "Gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 3,
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"Please make sure everyone gathers at the loading dock before 8.\"",
+      "output": "Gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 0,
+      "prompt": "Shorten this without changing its meaning: \"Please remember that the spare key must remain in locker 27 until Monday.\"",
+      "output": "Please keep the spare key in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 1,
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nPlease remember that the spare key must remain in locker 27 until Monday.",
+      "output": "Spare key stays in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 2,
+      "prompt": "Make this sentence shorter without changing its force: Please remember that the spare key must remain in locker 27 until Monday.",
+      "output": "Please keep the spare key in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 0,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 3,
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"Please remember that the spare key must remain in locker 27 until Monday.\"",
+      "output": "Spare key must remain in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 0,
+      "prompt": "Shorten this without changing its meaning: \"Please make sure everyone gathers at the loading dock before 7.\"",
+      "output": "Please gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 1,
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nPlease make sure everyone gathers at the loading dock before 7.",
+      "output": "Gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 2,
+      "prompt": "Make this sentence shorter without changing its force: Please make sure everyone gathers at the loading dock before 7.",
+      "output": "Gather at the loading dock before 7.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-00",
+      "wrapper": 3,
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"Please make sure everyone gathers at the loading dock before 7.\"",
+      "output": "Please make sure everyone gathers at the loading dock before 7.",
+      "verbatim_copy": true,
+      "not_shorter": true
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 0,
+      "prompt": "Shorten this without changing its meaning: \"Please make sure everyone gathers at the loading dock before 8.\"",
+      "output": "Please gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 1,
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nPlease make sure everyone gathers at the loading dock before 8.",
+      "output": "Gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 2,
+      "prompt": "Make this sentence shorter without changing its force: Please make sure everyone gathers at the loading dock before 8.",
+      "output": "Gather at the loading dock before 8.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-05",
+      "wrapper": 3,
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"Please make sure everyone gathers at the loading dock before 8.\"",
+      "output": "Please make sure everyone gathers at the loading dock before 8.",
+      "verbatim_copy": true,
+      "not_shorter": true
+    },
+    {
+      "step": 128,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 0,
+      "prompt": "Shorten this without changing its meaning: \"Please remember that the spare key must remain in locker 27 until Monday.\"",
+      "output": "Please remember the spare key must stay in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 1,
+      "prompt": "Give a briefer version, keeping the roles and conditions:\nPlease remember that the spare key must remain in locker 27 until Monday.",
+      "output": "Spare key stays in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 2,
+      "prompt": "Make this sentence shorter without changing its force: Please remember that the spare key must remain in locker 27 until Monday.",
+      "output": "Please keep the spare key in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    },
+    {
+      "step": 128,
+      "id": "fresh_writing/fresh-shorten-03",
+      "wrapper": 3,
+      "prompt": "Trim this, keeping the facts, ownership and timing: \"Please remember that the spare key must remain in locker 27 until Monday.\"",
+      "output": "Spare key must remain in locker 27 until Monday.",
+      "verbatim_copy": false,
+      "not_shorter": false
+    }
+  ],
+  "teacher_forced_likelihoods": [
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-00",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 7.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 7.",
+      "valid": {
+        "mean_nll": 0.3592522442340851,
+        "total_nll": 4.670279175043106,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.10605252534151077,
+        "total_nll": 1.4847353547811508,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.1855438202619553
+    },
+    {
+      "step": 0,
+      "id": "promo_v2/draft-short-05",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 8.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 8.",
+      "valid": {
+        "mean_nll": 0.37801268696784973,
+        "total_nll": 4.9141649305820465,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.12066728621721268,
+        "total_nll": 1.6893420070409775,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.224822923541069
+    },
+    {
+      "step": 0,
+      "id": "suite_v3/drafting-07",
+      "valid_answer": "Hi Priya, I picked up your notebook and can bring it by Wednesday.",
+      "bad_answer": "Hi Priya, I picked up her notebook and can bring it by Wednesday.",
+      "valid": {
+        "mean_nll": 0.05124959349632263,
+        "total_nll": 0.8712430894374847,
+        "target_tokens": 17
+      },
+      "bad": {
+        "mean_nll": 0.04585820809006691,
+        "total_nll": 0.7795895375311375,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.09165355190634727
+    },
+    {
+      "step": 0,
+      "id": "fresh_writing/fresh-shorten-03",
+      "valid_answer": "Please remember the spare key must remain in locker 27 until Monday.",
+      "bad_answer": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "valid": {
+        "mean_nll": 0.12179484963417053,
+        "total_nll": 1.9487175941467285,
+        "target_tokens": 16
+      },
+      "bad": {
+        "mean_nll": 0.10509185492992401,
+        "total_nll": 1.7865615338087082,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.16215606033802032
+    },
+    {
+      "step": 32,
+      "id": "promo_v2/draft-short-00",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 7.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 7.",
+      "valid": {
+        "mean_nll": 0.3403768837451935,
+        "total_nll": 4.424899488687515,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.09354042261838913,
+        "total_nll": 1.3095659166574478,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.1153335720300674
+    },
+    {
+      "step": 32,
+      "id": "promo_v2/draft-short-05",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 8.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 8.",
+      "valid": {
+        "mean_nll": 0.37222224473953247,
+        "total_nll": 4.838889181613922,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.11101435869932175,
+        "total_nll": 1.5542010217905045,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.2846881598234177
+    },
+    {
+      "step": 32,
+      "id": "suite_v3/drafting-07",
+      "valid_answer": "Hi Priya, I picked up your notebook and can bring it by Wednesday.",
+      "bad_answer": "Hi Priya, I picked up her notebook and can bring it by Wednesday.",
+      "valid": {
+        "mean_nll": 0.050599660724401474,
+        "total_nll": 0.8601942323148251,
+        "target_tokens": 17
+      },
+      "bad": {
+        "mean_nll": 0.0450701005756855,
+        "total_nll": 0.7661917097866535,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.09400252252817154
+    },
+    {
+      "step": 32,
+      "id": "fresh_writing/fresh-shorten-03",
+      "valid_answer": "Please remember the spare key must remain in locker 27 until Monday.",
+      "bad_answer": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "valid": {
+        "mean_nll": 0.1211031973361969,
+        "total_nll": 1.9376511573791504,
+        "target_tokens": 16
+      },
+      "bad": {
+        "mean_nll": 0.08987367898225784,
+        "total_nll": 1.5278525426983833,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.40979861468076706
+    },
+    {
+      "step": 64,
+      "id": "promo_v2/draft-short-00",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 7.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 7.",
+      "valid": {
+        "mean_nll": 0.3421030640602112,
+        "total_nll": 4.447339832782745,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.0950217992067337,
+        "total_nll": 1.3303051888942719,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.1170346438884735
+    },
+    {
+      "step": 64,
+      "id": "promo_v2/draft-short-05",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 8.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 8.",
+      "valid": {
+        "mean_nll": 0.3725532293319702,
+        "total_nll": 4.843191981315613,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.10740213096141815,
+        "total_nll": 1.5036298334598541,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.3395621478557587
+    },
+    {
+      "step": 64,
+      "id": "suite_v3/drafting-07",
+      "valid_answer": "Hi Priya, I picked up your notebook and can bring it by Wednesday.",
+      "bad_answer": "Hi Priya, I picked up her notebook and can bring it by Wednesday.",
+      "valid": {
+        "mean_nll": 0.046693768352270126,
+        "total_nll": 0.7937940619885921,
+        "target_tokens": 17
+      },
+      "bad": {
+        "mean_nll": 0.048658035695552826,
+        "total_nll": 0.827186606824398,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": 0.03339254483580589
+    },
+    {
+      "step": 64,
+      "id": "fresh_writing/fresh-shorten-03",
+      "valid_answer": "Please remember the spare key must remain in locker 27 until Monday.",
+      "bad_answer": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "valid": {
+        "mean_nll": 0.11881930381059647,
+        "total_nll": 1.9011088609695435,
+        "target_tokens": 16
+      },
+      "bad": {
+        "mean_nll": 0.08139260858297348,
+        "total_nll": 1.3836743459105492,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.5174345150589943
+    },
+    {
+      "step": 96,
+      "id": "promo_v2/draft-short-00",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 7.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 7.",
+      "valid": {
+        "mean_nll": 0.3413945734500885,
+        "total_nll": 4.4381294548511505,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.08993284404277802,
+        "total_nll": 1.2590598165988922,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.1790696382522583
+    },
+    {
+      "step": 96,
+      "id": "promo_v2/draft-short-05",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 8.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 8.",
+      "valid": {
+        "mean_nll": 0.3577269911766052,
+        "total_nll": 4.650450885295868,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.0988650992512703,
+        "total_nll": 1.3841113895177841,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.266339495778084
+    },
+    {
+      "step": 96,
+      "id": "suite_v3/drafting-07",
+      "valid_answer": "Hi Priya, I picked up your notebook and can bring it by Wednesday.",
+      "bad_answer": "Hi Priya, I picked up her notebook and can bring it by Wednesday.",
+      "valid": {
+        "mean_nll": 0.050441060215234756,
+        "total_nll": 0.8574980236589909,
+        "target_tokens": 17
+      },
+      "bad": {
+        "mean_nll": 0.044805873185396194,
+        "total_nll": 0.7616998441517353,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.09579817950725555
+    },
+    {
+      "step": 96,
+      "id": "fresh_writing/fresh-shorten-03",
+      "valid_answer": "Please remember the spare key must remain in locker 27 until Monday.",
+      "bad_answer": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "valid": {
+        "mean_nll": 0.11671091616153717,
+        "total_nll": 1.8673746585845947,
+        "target_tokens": 16
+      },
+      "bad": {
+        "mean_nll": 0.08023703843355179,
+        "total_nll": 1.3640296533703804,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.5033450052142143
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-00",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 7.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 7.",
+      "valid": {
+        "mean_nll": 0.3368441164493561,
+        "total_nll": 4.378973513841629,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.0899641364812851,
+        "total_nll": 1.2594979107379913,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.1194756031036377
+    },
+    {
+      "step": 128,
+      "id": "promo_v2/draft-short-05",
+      "valid_answer": "Please ensure everyone gathers at the loading dock before 8.",
+      "bad_answer": "Please make sure everyone gathers at the loading dock before 8.",
+      "valid": {
+        "mean_nll": 0.35293811559677124,
+        "total_nll": 4.588195502758026,
+        "target_tokens": 13
+      },
+      "bad": {
+        "mean_nll": 0.09450084716081619,
+        "total_nll": 1.3230118602514267,
+        "target_tokens": 14
+      },
+      "valid_minus_bad_logprob": -3.2651836425065994
+    },
+    {
+      "step": 128,
+      "id": "suite_v3/drafting-07",
+      "valid_answer": "Hi Priya, I picked up your notebook and can bring it by Wednesday.",
+      "bad_answer": "Hi Priya, I picked up her notebook and can bring it by Wednesday.",
+      "valid": {
+        "mean_nll": 0.050360675901174545,
+        "total_nll": 0.8561314903199673,
+        "target_tokens": 17
+      },
+      "bad": {
+        "mean_nll": 0.04484716057777405,
+        "total_nll": 0.7624017298221588,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.09372976049780846
+    },
+    {
+      "step": 128,
+      "id": "fresh_writing/fresh-shorten-03",
+      "valid_answer": "Please remember the spare key must remain in locker 27 until Monday.",
+      "bad_answer": "Please remember that the spare key must remain in locker 27 until Monday.",
+      "valid": {
+        "mean_nll": 0.11559758335351944,
+        "total_nll": 1.849561333656311,
+        "target_tokens": 16
+      },
+      "bad": {
+        "mean_nll": 0.07191958278417587,
+        "total_nll": 1.2226329073309898,
+        "target_tokens": 17
+      },
+      "valid_minus_bad_logprob": -0.6269284263253212
+    }
+  ],
+  "endpoint_mismatches": [],
+  "endpoints_reproduced": true,
+  "inference_only": true,
+  "final_holdouts_loaded": false,
+  "automatic_promotion": false,
+  "likelihood_note": "Diagnostic comparison strings only; total log probabilities are length-sensitive and are not a semantic score."
+}
