@@ -1,0 +1,32 @@
+name: Ember WR8 preflight and launch
+"on":
+  push:
+    branches: [cursor/ember-meaning-wr8-4cca]
+    paths:
+      - .github/workflows/ember-writing-repair8.yml
+      - jobs/ember_writing_repair8_data.py
+      - jobs/ember_writing_repair8_train.py
+      - jobs/ember_meaning_preservation_v3.py
+permissions:
+  contents: read
+concurrency:
+  group: ember-wr8-20261009
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR8_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Verify meaning-v3 isolation, contrastive rows and real tokenizer
+        run: uv run --python 3.11 jobs/ember_writing_repair8_train.py --preflight
+      - name: Submit the authorized WR8 run once
+        if: github.event.head_commit.message == 'Launch authorized WR8 meaning-aware training'
+        run: uv run --python 3.11 jobs/ember_writing_repair8_train.py --launch
