@@ -156,6 +156,35 @@ def training_never_started(files):
     return names.isdisjoint(started)
 
 
+def failed_before_optimizer(files):
+    """True when the run saved the pre-optimizer snapshot and then died before a step."""
+    names = set(files)
+    if "launch.json" not in names:
+        return False
+    if any(name.startswith(("checkpoints/", "candidate/")) for name in names):
+        return False
+    finished = {
+        "evidence/training-complete.json",
+        "evidence/progress.json",
+        "evidence/selection.json",
+        "evidence/candidate-744.json",
+        "evidence/dev-after.json",
+    }
+    return names.isdisjoint(finished)
+
+
+def rows_without_kind(examples):
+    """Drop the contrastive tag before padding. One row per example."""
+    if not examples:
+        raise ValueError("Empty batch")
+    rows = []
+    for example in examples:
+        if example.get("kind") not in (0, 1):
+            raise ValueError("kind must be 0 (SFT) or 1 (unlikelihood)")
+        rows.append({key: value for key, value in example.items() if key != "kind"})
+    return rows
+
+
 def prepare():
     revision = os.environ.get("WR8_CODE_COMMIT", "")
     if not re.fullmatch("[0-9a-f]{40}", revision):
@@ -233,7 +262,7 @@ def prepare():
 
 def launch(prepared):
     work, T, W, V3, G, E, M, suites, rows, encoded_rows, encoded, dev, tok, route, spec = prepared
-    from huggingface_hub import HfApi, CommitOperationAdd, hf_hub_download
+    from huggingface_hub import HfApi, CommitOperationAdd, CommitOperationDelete, hf_hub_download
     validate_launch(os.environ, False)
     api = HfApi(token=os.environ["HF_TOKEN"])
     if api.whoami().get("name") != "Jmiller18899":
@@ -242,11 +271,15 @@ def launch(prepared):
         if not api.model_info(OUT).private:
             raise ValueError("Candidate output must stay private")
         files = api.list_repo_files(OUT)
-        if training_never_started(files):
+        if training_never_started(files) or failed_before_optimizer(files):
             prior = json.loads(Path(hf_hub_download(OUT, "evidence/launch-submission.json")).read_text())
             prior_job = api.inspect_job(job_id=prior["job_id"])
             if getattr(prior_job.status, "stage", None) not in ("ERROR", "CANCELED", "CANCELLED"):
                 raise ValueError("Previous WR8 job is still active or already finished training")
+            stale = [name for name in files if name.startswith("checkpoint-0/")]
+            if stale:
+                api.create_commit(repo_id=OUT, operations=[CommitOperationDelete(path_in_repo=name) for name in stale],
+                                  commit_message="Remove pre-optimizer snapshot from failed WR8 run")
         else:
             receipt = json.loads(Path(hf_hub_download(OUT, "storage-preflight.json")).read_text())
             validate_storage(files, receipt)
@@ -390,8 +423,9 @@ def train(prepared):
             model.train()
 
     def collate(examples):
-        kinds = torch.tensor([x["kind"] for x in examples], dtype=torch.long)
-        padded = T.pad_batch([{k: v for k, v in x.items() if k != "kind"}], tok.pad_token_id)
+        rows = rows_without_kind(examples)
+        kinds = torch.tensor([example["kind"] for example in examples], dtype=torch.long)
+        padded = T.pad_batch(rows, tok.pad_token_id)
         batch = {k: torch.tensor(v, dtype=torch.long) for k, v in padded.items()}
         batch["kind"] = kinds
         return batch

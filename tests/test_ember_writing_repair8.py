@@ -116,6 +116,35 @@ class WritingRepair8Tests(unittest.TestCase):
                 sys.modules.pop(name, None)
             sys.modules.update(saved_modules)
 
+    def test_collate_rows_keep_every_example(self):
+        import importlib.util
+        examples = [
+            {"input_ids": [1, 2], "labels": [-100, 3], "kind": 0},
+            {"input_ids": [4], "labels": [5], "kind": 1},
+        ]
+        rows = T.rows_without_kind(examples)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0], {"input_ids": [1, 2], "labels": [-100, 3]})
+        self.assertEqual(rows[1], {"input_ids": [4], "labels": [5]})
+        self.assertNotIn("kind", rows[0])
+        spec = importlib.util.spec_from_file_location("wr2pad", ROOT / "jobs/ember_writing_repair2_train.py")
+        engine = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(engine)
+        batch = engine.pad_batch(rows, 0)
+        self.assertEqual(len(batch["input_ids"]), 2)
+        self.assertEqual(batch["input_ids"][1], [4, 0])
+
+    def test_pre_optimizer_crash_can_be_replaced(self):
+        crashed = [
+            "launch.json", "checkpoint-0/adapter_model.safetensors",
+            "checkpoint-0/adapter_config.json", "evidence/baseline-744.json",
+            "evidence/training-metrics.json", "evidence/launch-submission.json",
+        ]
+        self.assertTrue(T.failed_before_optimizer(crashed))
+        self.assertFalse(T.training_never_started(crashed))
+        self.assertFalse(T.failed_before_optimizer(crashed + ["checkpoints/step-32/adapter_model.safetensors"]))
+        self.assertFalse(T.failed_before_optimizer(crashed + ["evidence/training-complete.json"]))
+
     def test_failed_reservation_can_be_replaced_before_training(self):
         reserved = [
             ".gitattributes", "launch.json", "train/sft_train_only.jsonl",
