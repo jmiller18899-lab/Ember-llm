@@ -1,0 +1,54 @@
+name: Ember WR8 job log
+# Read-only status for the current WR8 GPU job. Poll after the L4 queue.
+"on":
+  workflow_dispatch:
+  push:
+    branches: [cursor/ember-meaning-wr8-4cca]
+    paths:
+      - .github/workflows/ember-wr8-job-log.yml
+permissions:
+  contents: read
+jobs:
+  logs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Read WR8 job status and log tail
+        env:
+          HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+          JOB_ID: 6ac96474fee2c9007017e696
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python - <<'PY'
+          import os, re, time
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          jid = os.environ["JOB_ID"]
+          keys = ("Traceback", "Error", "Exception", "WR8_", "NameError", "CUDA", "OutOfMemory")
+          for attempt in range(8):
+              info = api.inspect_job(job_id=jid)
+              stage = getattr(info.status, "stage", None)
+              print("JOB_POLL", attempt, stage, info.status, "started", getattr(info, "started_at", None), "finished", getattr(info, "finished_at", None), flush=True)
+              if stage not in (None, "SCHEDULING", "PENDING", "STARTING"):
+                  break
+              time.sleep(60)
+          for follow in range(10):
+              info = api.inspect_job(job_id=jid)
+              stage = getattr(info.status, "stage", None)
+              lines = [re.sub(r"hf_[A-Za-z0-9]+", "[REDACTED]", str(line)) for line in api.fetch_job_logs(job_id=jid)]
+              interesting = [line for line in lines if any(key in line for key in keys)]
+              print("JOB_FOLLOW", follow, stage, "lines", len(lines), "hits", len(interesting), flush=True)
+              for line in interesting:
+                  if len(line) > 500 and line.startswith("WR8_PREFLIGHT"):
+                      print("WR8_PREFLIGHT_PASS", flush=True)
+                  elif len(line) > 800 and line.startswith("WR8_DIAGNOSTIC"):
+                      print(line[:240], flush=True)
+                  else:
+                      print(line[:500], flush=True)
+              if stage in ("ERROR", "CANCELED", "CANCELLED", "COMPLETED", "SUCCESS") or any("WR8_FINAL_REPORT" in line or "Traceback" in line for line in interesting):
+                  print("---- LOG TAIL ----", flush=True)
+                  for line in lines[-30:]:
+                      print(line[:400], flush=True)
+                  break
+              time.sleep(75)
+          PY

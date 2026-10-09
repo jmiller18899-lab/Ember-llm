@@ -46,7 +46,9 @@ The compact cases illustrate the tradeoff: an unchanged copy fails the shortenin
 
 Keep Repair2 active and do not deploy this checker as an automatic blocker. Existing frozen scores remain unchanged: Repair2 714/744 and WR7 713/744. This probe does not establish general reliability.
 
-Before considering another similar training run, review a separately adjudicated set of valid/invalid contrast pairs. A bounded follow-on could normalize specific equivalent timing and consent constructions, while retaining explicit checks for obligation, ownership, negation, quantities, and reminder actions. Compare false acceptance and false rejection rates, and preserve an abstain/review outcome for uncertain cases. That follow-on has not been implemented.
+Before considering another similar training run, review a separately adjudicated set of valid/invalid contrast pairs. A bounded follow-on could normalize specific equivalent timing and consent constructions, while retaining explicit checks for obligation, ownership, negation, quantities, and reminder actions. Compare false acceptance and false rejection rates, and preserve an abstain/review outcome for uncertain cases.
+
+That follow-on is now implemented as experimental `meaning-preservation-v3` in `jobs/ember_meaning_preservation_v3.py`. It is still not a runtime gate. WR8 uses it for training-data checks, unlikelihood contrasts, and checkpoint selection; see `reports/writing-repair8-design-20261009.md`.
 
 ## Reproducibility
 
