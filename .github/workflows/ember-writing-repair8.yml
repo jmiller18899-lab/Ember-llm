@@ -29,5 +29,5 @@ jobs:
       - name: Verify meaning-v3 isolation, contrastive rows and real tokenizer
         run: uv run --python 3.11 jobs/ember_writing_repair8_train.py --preflight
       - name: Submit the authorized WR8 run once
-        if: github.event.head_commit.message == 'Launch authorized WR8 meaning-aware training'
+        if: contains(github.event.head_commit.message, 'Launch authorized WR8 meaning-aware training')
         run: uv run --python 3.11 jobs/ember_writing_repair8_train.py --launch
