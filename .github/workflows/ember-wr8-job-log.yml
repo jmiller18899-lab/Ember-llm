@@ -45,7 +45,7 @@ jobs:
                       print(line[:240], flush=True)
                   else:
                       print(line[:500], flush=True)
-              if stage in ("ERROR", "CANCELED", "CANCELLED", "COMPLETED", "SUCCESS") or any("WR8_TRAINING_METRICS" in line or "WR8_CHECKPOINT_SAVED" in line or "Traceback" in line for line in interesting):
+              if stage in ("ERROR", "CANCELED", "CANCELLED", "COMPLETED", "SUCCESS") or any("WR8_FINAL_REPORT" in line or "WR8_TRAINING_COMPLETE" in line or "Traceback" in line for line in interesting):
                   print("---- LOG TAIL ----", flush=True)
                   for line in lines[-30:]:
                       print(line[:400], flush=True)
