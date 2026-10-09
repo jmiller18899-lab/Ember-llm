@@ -12,7 +12,16 @@ consolidation.loader.exec_module(cmod)
 
 
 def test_gate_fires_on_every_temporal_case():
-    assert all(mod.temporal_gate(c["prompt"]) for c in mod.TEMPORAL_CASES)
+    # Duration-only and tracking-without-ask-anchor rows are negative controls:
+    # the scoped gate must stay silent so exact benchmark prompts stay byte-identical.
+    mismatches = [
+        c["id"]
+        for c in mod.TEMPORAL_CASES
+        if bool(mod.temporal_gate(c["prompt"])) != bool(c["trigger"])
+    ]
+    assert mismatches == []
+    triggered = [c for c in mod.TEMPORAL_CASES if c["trigger"]]
+    assert triggered and all(mod.temporal_gate(c["prompt"]) for c in triggered)
 
 
 @pytest.mark.parametrize("lane", ["arithmetic", "grounding", "drafting"])
@@ -38,14 +47,17 @@ def test_abstentions_pass_without_literal_not_enough(text):
 
 
 def test_context_time_leak_fails():
-    assert not mod.rubric_pass(mod.TEMPORAL_CASES[0], "It was delivered tonight.")
-    assert not mod.rubric_pass(mod.TEMPORAL_CASES[1], "The bus arrived this afternoon.")
+    by = {c["id"]: c for c in mod.TEMPORAL_CASES}
+    assert not mod.rubric_pass(by["rule-01"], "It was delivered tonight.")
+    assert not mod.rubric_pass(by["rule-03"], "The bus arrived this afternoon.")
 
 
 def test_explicit_answers():
     by = {c["id"]: c for c in mod.TEMPORAL_CASES}
-    assert mod.rubric_pass(by["temporal-tracking-explicit"], "It was delivered Tuesday at 2:14 PM.")
-    assert not mod.rubric_pass(by["temporal-tracking-explicit"], "It was delivered tonight.")
-    assert mod.rubric_pass(by["temporal-log-explicit"], "07:19")
-    assert mod.rubric_pass(by["temporal-duration-train"], "6:50 PM")
-    assert not mod.rubric_pass(by["temporal-duration-ferry"], "11:30 AM")
+    assert mod.rubric_pass(by["rule-02"], "It was delivered tonight at 7:26 PM.")
+    assert not mod.rubric_pass(by["rule-02"], "It was delivered tonight.")
+    assert mod.rubric_pass(by["rule-04"], "1:05 PM")
+    assert mod.rubric_pass(by["rule-06"], "3:17 PM")
+    assert mod.rubric_pass(by["rule-07"], "2:15 PM")
+    assert not mod.rubric_pass(by["rule-07"], "11:30 AM")
+    assert mod.rubric_pass(by["rule-08"], "10:18 AM")
