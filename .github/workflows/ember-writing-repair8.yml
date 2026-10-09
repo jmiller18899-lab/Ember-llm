@@ -7,6 +7,7 @@ name: Ember WR8 preflight and launch
       - jobs/ember_writing_repair8_data.py
       - jobs/ember_writing_repair8_train.py
       - jobs/ember_meaning_preservation_v3.py
+      - jobs/wr8-20261009.launch
 permissions:
   contents: read
 concurrency:
