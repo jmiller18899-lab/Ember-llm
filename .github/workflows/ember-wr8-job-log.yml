@@ -1,5 +1,5 @@
 name: Ember WR8 job log
-# Read-only status for the current WR8 GPU job.
+# Read-only status for the current WR8 GPU job. Poll after the L4 queue.
 "on":
   workflow_dispatch:
   push:
