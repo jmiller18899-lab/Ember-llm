@@ -114,8 +114,50 @@ def load_module(name, raw, folder):
     path.write_bytes(raw)
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(name, None)
+        raise
     return module
+
+
+def load_experiment_modules(work, engine, data_raw, v3_raw):
+    """Stage the v3 checker before the data module imports it.
+
+    The GPU job uploads only this trainer. Sibling files are fetched into a temp
+    directory, so `import ember_meaning_preservation_v3` cannot see jobs/.
+    """
+    frozen = load_module("wr8_frozen_engine", engine, work)
+    checker = load_module("ember_meaning_preservation_v3", v3_raw, work)
+    inserted = str(work) not in sys.path
+    if inserted:
+        sys.path.insert(0, str(work))
+    try:
+        data = load_module("wr8_data", data_raw, work)
+    finally:
+        if inserted and sys.path and sys.path[0] == str(work):
+            sys.path.pop(0)
+    return frozen, data, checker
+
+
+def training_never_started(files):
+    """True when a reservation exists but no optimizer evidence was written."""
+    names = set(files)
+    if "launch.json" not in names:
+        return False
+    if any(name.endswith(".safetensors") for name in names):
+        return False
+    if any(name.startswith(("checkpoint", "checkpoints/", "candidate/")) for name in names):
+        return False
+    started = {
+        "evidence/run-spec.json",
+        "evidence/training-complete.json",
+        "evidence/baseline-744.json",
+        "evidence/training-metrics.json",
+    }
+    return names.isdisjoint(started)
 
 
 def prepare():
@@ -126,10 +168,8 @@ def prepare():
     engine = read_source("jobs/ember_writing_repair2_train.py", ENGINE_COMMIT, ENGINE_SHA)
     data_raw = read_source("jobs/ember_writing_repair8_data.py", revision, DATA_SHA)
     v3_raw = read_source("jobs/ember_meaning_preservation_v3.py", revision, V3_SHA)
-    T = load_module("wr8_frozen_engine", engine, work)
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    W = load_module("wr8_data", data_raw, work)
-    V3 = load_module("ember_meaning_preservation_v3", v3_raw, work)
+    T, W, V3 = load_experiment_modules(work, engine, data_raw, v3_raw)
     os.environ["WR2_CODE_COMMIT"] = ENGINE_COMMIT
     old_rows, old_dev, G, E, M, suites = T.load_inputs(work / "history")
     if (T.SOURCE_MODEL, T.SOURCE_REV) != (SOURCE, SOURCE_REV):
@@ -204,8 +244,15 @@ def launch(prepared):
     if api.repo_exists(OUT):
         if not api.model_info(OUT).private:
             raise ValueError("Candidate output must stay private")
-        receipt = json.loads(Path(hf_hub_download(OUT, "storage-preflight.json")).read_text())
-        validate_storage(api.list_repo_files(OUT), receipt)
+        files = api.list_repo_files(OUT)
+        if training_never_started(files):
+            prior = json.loads(Path(hf_hub_download(OUT, "evidence/launch-submission.json")).read_text())
+            prior_job = api.inspect_job(job_id=prior["job_id"])
+            if getattr(prior_job.status, "stage", None) not in ("ERROR", "CANCELED", "CANCELLED"):
+                raise ValueError("Previous WR8 job is still active or already finished training")
+        else:
+            receipt = json.loads(Path(hf_hub_download(OUT, "storage-preflight.json")).read_text())
+            validate_storage(files, receipt)
     else:
         api.create_repo(OUT, repo_type="model", private=True, exist_ok=False)
     raw_trainer = Path(__file__).read_bytes()

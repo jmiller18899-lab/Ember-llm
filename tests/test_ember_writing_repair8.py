@@ -1,6 +1,7 @@
 """CPU contracts for WR8 meaning-aware contrastive training."""
 import os
 import sys
+import tempfile
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -76,6 +77,50 @@ class WritingRepair8Tests(unittest.TestCase):
         baseline = {"step": 0, "copies": 2, "force_fails": 0, "v3_pass": 4}
         snapshots = [baseline, {"step": 128, "copies": 5, "force_fails": 2, "v3_pass": 10}]
         self.assertEqual(T.choose_selected(baseline, snapshots), 0)
+
+    def test_data_imports_when_jobs_directory_is_absent(self):
+        work = Path(tempfile.mkdtemp(prefix="wr8-import-"))
+        saved_path = sys.path[:]
+        saved_modules = {
+            name: sys.modules.pop(name)
+            for name in (
+                "ember_meaning_preservation_v3",
+                "wr8_data",
+                "wr8_frozen_engine",
+            )
+            if name in sys.modules
+        }
+        sys.path[:] = [
+            entry for entry in sys.path
+            if not (Path(entry) / "ember_meaning_preservation_v3.py").is_file()
+        ]
+        try:
+            frozen, data, checker = T.load_experiment_modules(
+                work,
+                (ROOT / "jobs/ember_writing_repair2_train.py").read_bytes(),
+                (ROOT / "jobs/ember_writing_repair8_data.py").read_bytes(),
+                (ROOT / "jobs/ember_meaning_preservation_v3.py").read_bytes(),
+            )
+            self.assertEqual(data.VERSION, "ember-writing-repair8-meaning-contrast-v1")
+            self.assertEqual(checker.GRADER_VERSION, "meaning-preservation-v3")
+            self.assertTrue(hasattr(frozen, "load_inputs"))
+            self.assertIs(sys.modules["ember_meaning_preservation_v3"], checker)
+        finally:
+            sys.path[:] = saved_path
+            for name in ("wr8_data", "wr8_frozen_engine", "ember_meaning_preservation_v3"):
+                sys.modules.pop(name, None)
+            sys.modules.update(saved_modules)
+
+    def test_failed_reservation_can_be_replaced_before_training(self):
+        reserved = [
+            ".gitattributes", "launch.json", "train/sft_train_only.jsonl",
+            "development/fresh-dev.json", "evidence/launch-submission.json",
+            "source/ember_writing_repair8_train.py",
+        ]
+        self.assertTrue(T.training_never_started(reserved))
+        self.assertFalse(T.training_never_started(reserved + ["evidence/run-spec.json"]))
+        self.assertFalse(T.training_never_started(reserved + ["adapter_model.safetensors"]))
+        self.assertFalse(T.training_never_started([".gitattributes", "storage-preflight.json"]))
 
     def test_launch_guards(self):
         env = {"GITHUB_REF": "refs/heads/" + T.BRANCH, "GITHUB_RUN_ATTEMPT": "1",
