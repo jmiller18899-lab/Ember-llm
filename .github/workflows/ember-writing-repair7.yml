@@ -1,0 +1,28 @@
+name: Ember WR7 controlled preflight
+"on":
+  push:
+    branches: [codex/ember-next-training-20261009]
+    paths:
+      - .github/workflows/ember-writing-repair7.yml
+      - jobs/ember_writing_repair7_data.py
+      - jobs/ember_writing_repair7_train.py
+permissions:
+  contents: read
+concurrency:
+  group: ember-wr7-20261009
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR7_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Verify data isolation, unchanged rows and real tokenizer
+        run: uv run --python 3.11 jobs/ember_writing_repair7_train.py --preflight
