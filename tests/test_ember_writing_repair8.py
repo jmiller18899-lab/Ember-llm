@@ -103,6 +103,19 @@ class WritingRepair8Tests(unittest.TestCase):
         self.assertFalse(T.AUTO_PROMOTION)
         self.assertEqual(T.SOURCE, "Jmiller18899/ember-qwen3.5-4b-repair2")
 
+    def test_training_sources_avoid_saved_benchmark_fourgrams(self):
+        import json
+        payload = json.loads((ROOT / "reports/evidence/writing-repair5-20261003/evidence/baseline-744.json").read_text())
+        sources = {W.shortening_source(record.get("row") or record) for record in payload["records"]}
+        sources.discard(None)
+        self.assertEqual(len(sources), 30)
+        grams = set().union(*(W.fourgrams(source) for source in sources))
+        for row in W.writing("train"):
+            if row["family"] != "shortening":
+                continue
+            overlap = W.fourgrams(row["source"]) & grams
+            self.assertFalse(overlap, row["id"] + " " + str(overlap))
+
     def test_dev_compact_rows_exist_and_are_held_out(self):
         dev = W.writing("dev")
         compact = [r for r in dev if r.get("shortening_group") == "compact_diagnostic"]
