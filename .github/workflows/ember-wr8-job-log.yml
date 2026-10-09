@@ -26,11 +26,20 @@ jobs:
           jid = os.environ["JOB_ID"]
           info = api.inspect_job(job_id=jid)
           print("JOB_STATUS", info.status)
+          print("JOB_CREATED", getattr(info, "created_at", None))
+          print("JOB_STARTED", getattr(info, "started_at", None) or getattr(info, "running_at", None))
+          print("JOB_FINISHED", getattr(info, "finished_at", None) or getattr(info, "ended_at", None))
           print("JOB_FLAVOR", getattr(info, "flavor", None))
-          lines = [str(line) for line in api.fetch_job_logs(job_id=jid)]
-          lines = [re.sub(r"hf_[A-Za-z0-9]+", "[REDACTED]", line) for line in lines]
+          interesting = ("id", "status", "created_at", "started_at", "finished_at", "ended_at", "flavor", "timeout")
+          print("JOB_FIELDS", {name: str(getattr(info, name)) for name in dir(info) if name in interesting or name.endswith("_at")})
+          lines = [re.sub(r"hf_[A-Za-z0-9]+", "[REDACTED]", str(line)) for line in api.fetch_job_logs(job_id=jid)]
           print("LOG_LINES", len(lines))
+          keys = ("Traceback", "Error", "Exception", "WR8_", "Timeout", "Killed", "CUDA", "OutOfMemory", "ModuleNotFound")
+          print("---- MATCHING LINES ----")
+          for line in lines:
+              if any(key in line for key in keys):
+                  print(line)
           print("---- LOG TAIL ----")
-          for line in lines[-120:]:
+          for line in lines[-80:]:
               print(line)
           PY
