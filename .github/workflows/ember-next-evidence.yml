@@ -1,0 +1,46 @@
+name: Ember next-run evidence check
+"on":
+  push:
+    branches: [codex/ember-next-training-20261009]
+    paths: [.github/workflows/ember-next-evidence.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install huggingface-hub==1.31.0
+      - name: Read WR6 status and aggregate results without launching compute
+        env:
+          HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+        run: |
+          python - <<'PY'
+          import os, json
+          from pathlib import Path
+          from itertools import islice
+          from huggingface_hub import HfApi, hf_hub_download
+          api=HfApi(token=os.environ["HF_TOKEN"])
+          assert api.whoami()["name"] == "Jmiller18899"
+          job=api.inspect_job(job_id="6ac64a21e7a0dae8a277b372")
+          print("WR6_JOB",json.dumps({"id":job.id,"stage":job.status.stage}))
+          active=[{"id":j.id,"stage":j.status.stage} for j in islice(api.list_jobs(),50) if j.status.stage in ("RUNNING","PENDING","STARTING")]
+          print("ACTIVE_JOBS",json.dumps(active))
+          repo="Jmiller18899/ember-qwen3.5-4b-writing-repair6-20261007"
+          info=api.model_info(repo)
+          files=api.list_repo_files(repo,revision=info.sha)
+          print("WR6_REVISION",info.sha)
+          print("WR6_EVIDENCE_FILES",json.dumps([f for f in files if f.startswith("evidence/")]))
+          target="evidence/final-report.json"
+          if target in files:
+              report=json.loads(Path(hf_hub_download(repo,target,revision=info.sha)).read_text())
+              keys=["training_completed","evaluation_complete","steps_completed","training_loss","before","after","shortening_before","shortening_after","acceptance","manual_review_completed"]
+              print("WR6_SUMMARY",json.dumps({k:report.get(k) for k in keys}))
+              comp=report.get("comparison",{})
+              print("COMPARISON_KEYS",json.dumps(list(comp) if isinstance(comp,dict) else type(comp).__name__))
+          else:
+              print("WR6_FINAL_REPORT_MISSING")
+          PY
