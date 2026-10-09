@@ -85,6 +85,7 @@ class WritingRepair8Tests(unittest.TestCase):
             name: sys.modules.pop(name)
             for name in (
                 "ember_meaning_preservation_v3",
+                "ember_drafting_repair_candidates_eval",
                 "wr8_data",
                 "wr8_frozen_engine",
             )
@@ -100,6 +101,7 @@ class WritingRepair8Tests(unittest.TestCase):
                 (ROOT / "jobs/ember_writing_repair2_train.py").read_bytes(),
                 (ROOT / "jobs/ember_writing_repair8_data.py").read_bytes(),
                 (ROOT / "jobs/ember_meaning_preservation_v3.py").read_bytes(),
+                (ROOT / "jobs/ember_drafting_repair_candidates_eval.py").read_bytes(),
             )
             self.assertEqual(data.VERSION, "ember-writing-repair8-meaning-contrast-v1")
             self.assertEqual(checker.GRADER_VERSION, "meaning-preservation-v3")
@@ -107,7 +109,10 @@ class WritingRepair8Tests(unittest.TestCase):
             self.assertIs(sys.modules["ember_meaning_preservation_v3"], checker)
         finally:
             sys.path[:] = saved_path
-            for name in ("wr8_data", "wr8_frozen_engine", "ember_meaning_preservation_v3"):
+            for name in (
+                "wr8_data", "wr8_frozen_engine", "ember_meaning_preservation_v3",
+                "ember_drafting_repair_candidates_eval",
+            ):
                 sys.modules.pop(name, None)
             sys.modules.update(saved_modules)
 

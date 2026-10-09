@@ -26,6 +26,8 @@ SOURCE = "Jmiller18899/ember-qwen3.5-4b-repair2"
 SOURCE_REV = "daf938bba5d4e6b650ec9d34a2d3ac56706cf549"
 ENGINE_COMMIT = "43220b453807782091a9209384091e82fed086f8"
 ENGINE_SHA = "e20ccd3ac99de436c4fbd5e586e8bd303201e39965500b137bfcd2fa739d0eeb"
+GRADER_COMMIT = "25924014c0e5d5a580a296b2841a1e6f6cbe3bb4"
+GRADER_SHA = "e134bf3919ea2871e7a10d3e90de877996f9c631414203762ab09c012bc42a9b"
 DATA_SHA = "bf9e56c50957bcb359e7c8d20d49c61bc3eb4689eeb078f475a5220a984fd316"
 V3_SHA = "77f1608c1dbaf4cb7ee27a9a57386babf8e00bed1d689f22c42a3379536e6195"
 FLAVOR, TIMEOUT = "l4x1", "90m"
@@ -123,22 +125,16 @@ def load_module(name, raw, folder):
     return module
 
 
-def load_experiment_modules(work, engine, data_raw, v3_raw):
-    """Stage the v3 checker before the data module imports it.
+def load_experiment_modules(work, engine, data_raw, v3_raw, grader_raw):
+    """Stage pinned local imports before executing WR8 modules.
 
-    The GPU job uploads only this trainer. Sibling files are fetched into a temp
-    directory, so `import ember_meaning_preservation_v3` cannot see jobs/.
+    The GPU job uploads only this trainer. v3 imports the frozen v2 grader, and
+    the data module imports v3, so both files have to be loaded first.
     """
     frozen = load_module("wr8_frozen_engine", engine, work)
+    load_module("ember_drafting_repair_candidates_eval", grader_raw, work)
     checker = load_module("ember_meaning_preservation_v3", v3_raw, work)
-    inserted = str(work) not in sys.path
-    if inserted:
-        sys.path.insert(0, str(work))
-    try:
-        data = load_module("wr8_data", data_raw, work)
-    finally:
-        if inserted and sys.path and sys.path[0] == str(work):
-            sys.path.pop(0)
+    data = load_module("wr8_data", data_raw, work)
     return frozen, data, checker
 
 
@@ -168,8 +164,9 @@ def prepare():
     engine = read_source("jobs/ember_writing_repair2_train.py", ENGINE_COMMIT, ENGINE_SHA)
     data_raw = read_source("jobs/ember_writing_repair8_data.py", revision, DATA_SHA)
     v3_raw = read_source("jobs/ember_meaning_preservation_v3.py", revision, V3_SHA)
+    grader_raw = read_source("jobs/ember_drafting_repair_candidates_eval.py", GRADER_COMMIT, GRADER_SHA)
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    T, W, V3 = load_experiment_modules(work, engine, data_raw, v3_raw)
+    T, W, V3 = load_experiment_modules(work, engine, data_raw, v3_raw, grader_raw)
     os.environ["WR2_CODE_COMMIT"] = ENGINE_COMMIT
     old_rows, old_dev, G, E, M, suites = T.load_inputs(work / "history")
     if (T.SOURCE_MODEL, T.SOURCE_REV) != (SOURCE, SOURCE_REV):
