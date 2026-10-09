@@ -106,8 +106,8 @@ class WritingRepair8Tests(unittest.TestCase):
     def test_training_sources_avoid_saved_benchmark_fourgrams(self):
         import json
         payload = json.loads((ROOT / "reports/evidence/writing-repair5-20261003/evidence/baseline-744.json").read_text())
-        sources = {W.shortening_source(record.get("row") or record) for record in payload["records"]}
-        sources.discard(None)
+        sources = [W.shortening_source(record.get("row") or record) for record in payload["records"]]
+        sources = [source for source in sources if source]
         self.assertEqual(len(sources), 30)
         grams = set().union(*(W.fourgrams(source) for source in sources))
         for row in W.writing("train"):
