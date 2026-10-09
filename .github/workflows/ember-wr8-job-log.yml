@@ -15,7 +15,7 @@ jobs:
       - name: Read WR8 job status and log tail
         env:
           HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
-          JOB_ID: 6ac93e06fee2c9007017c3c3
+          JOB_ID: 6ac93f7cfee2c9007017c571
         run: |
           python -m pip install -q huggingface-hub==1.31.0
           python - <<'PY'
