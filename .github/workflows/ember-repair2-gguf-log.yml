@@ -1,6 +1,6 @@
 name: Ember Repair2 GGUF job log
 # Read-only status for the Repair2 GGUF packaging job. Editing this file does not submit a job.
-# Snapshot 2.
+# Snapshot 3.
 "on":
   workflow_dispatch:
   push:
@@ -17,7 +17,7 @@ jobs:
       - name: Read packaging job status and log tail
         env:
           HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
-          JOB_ID: 6acaa892fee2c9007018dac1
+          JOB_ID: 6acaaecbfee2c9007018e030
         run: |
           if [ "$JOB_ID" = "pending" ]; then
             echo "GGUF_LOG_WAITING_FOR_JOB_ID"
