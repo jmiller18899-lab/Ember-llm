@@ -102,6 +102,38 @@ def choose_selected(baseline, snapshots):
     return max(eligible, key=lambda s: (s["v3_pass"] - s["copies"], -s["step"]))["step"]
 
 
+def evaluation_artifact(work, selected_step, final_step, revision):
+    """Identify the exact saved adapter evaluated, independently of candidate/."""
+    if not re.fullmatch("[0-9a-f]{40}", revision):
+        raise ValueError("Evaluation requires an immutable Hub revision")
+    if selected_step not in (0, 32, 64, 96, 128) or selected_step > final_step:
+        raise ValueError("Selected checkpoint was not saved")
+    if selected_step == 0:
+        folder, subfolder = work / "checkpoint-0", "checkpoint-0"
+    elif selected_step == final_step:
+        folder, subfolder = work / "candidate", "candidate"
+    else:
+        folder = work / "training" / f"checkpoint-{selected_step}"
+        subfolder = f"checkpoints/step-{selected_step}"
+    raw = (folder / "adapter_model.safetensors").read_bytes()
+    return {"repo_id": OUT, "revision": revision, "subfolder": subfolder,
+            "step": selected_step, "adapter_sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def evaluate_selected(artifact, dev_outputs, meaning_snapshot, evaluate, upload):
+    """Keep all selected-model evidence attached to the same checkpoint identity."""
+    upload("evidence/evaluation-artifact.json", artifact)
+    candidate_dev = dev_outputs()
+    upload("evidence/dev-after.json", candidate_dev)
+    after, after_records = evaluate()
+    upload("evidence/candidate-744.json", {"scores": after, "records": after_records,
+                                          "evaluated_checkpoint": artifact})
+    after_meaning = dict(meaning_snapshot(artifact["step"], candidate_dev),
+                         evaluated_checkpoint=artifact)
+    upload("evidence/meaning-after.json", after_meaning)
+    return candidate_dev, after, after_records, after_meaning
+
+
 def read_source(path, commit, sha):
     import urllib.request
     local = Path(__file__).resolve().parent / Path(path).name
@@ -473,11 +505,15 @@ def train(prepared):
     T.verify_training(trainer.state.global_step, float(result.training_loss), before_digest, after_digest)
     saved = checkpoint(work / "candidate", "candidate")
     selected_step = choose_selected(baseline_meaning, snapshots)
+    artifact = evaluation_artifact(work, selected_step, trainer.state.global_step, saved.oid)
     upload("evidence/selection.json", {"baseline": baseline_meaning, "snapshots": snapshots,
-                                       "selected_step": selected_step, "runtime_gate": False})
+                                       "selected_step": selected_step, "runtime_gate": False,
+                                       "evaluated_checkpoint": artifact})
     completion = dict(spec, training_completed=True, steps_completed=trainer.state.global_step,
                       training_loss=float(result.training_loss), candidate_commit=saved.oid,
                       adapter_subfolder="candidate", selected_step=selected_step,
+                      candidate_step=trainer.state.global_step, candidate_role="final_training_checkpoint",
+                      evaluated_checkpoint=artifact,
                       starting_digest=before_digest, candidate_digest=after_digest, evaluation_complete=False)
     upload("evidence/training-complete.json", completion)
     print("WR8_TRAINING_COMPLETE", json.dumps({"selected_step": selected_step, "final_step": trainer.state.global_step}), flush=True)
@@ -490,16 +526,14 @@ def train(prepared):
         model = PeftModel.from_pretrained(reload_base, str(reload_from)).eval()
     model.gradient_checkpointing_disable()
     model.config.use_cache = True
-    candidate_dev = dev_outputs()
-    upload("evidence/dev-after.json", candidate_dev)
-    after, after_records = T.evaluate(suites, route, generate, G)
-    upload("evidence/candidate-744.json", {"scores": after, "records": after_records})
-    after_meaning = meaning_snapshot(trainer.state.global_step, candidate_dev)
-    upload("evidence/meaning-after.json", after_meaning)
+    candidate_dev, after, after_records, after_meaning = evaluate_selected(
+        artifact, dev_outputs, meaning_snapshot,
+        lambda: T.evaluate(suites, route, generate, G), upload)
     after_lengths = {"benchmark": W.length_stats([(W.shortening_source(r["row"]), r["output"])
                       for r in after_records if W.shortening_source(r["row"])]),
                      "diagnostic": W.length_stats([(r["source"], r["output"])
-                      for r in candidate_dev if r["family"] == "shortening"])}
+                      for r in candidate_dev if r["family"] == "shortening"]),
+                     "evaluated_checkpoint": artifact}
     upload("evidence/shortening-after.json", after_lengths)
     report = dict(completion, evaluation_complete=True, before=before, after=after,
                   comparison=T.compare_records(before_records, after_records),
@@ -508,6 +542,10 @@ def train(prepared):
                   selected_step=selected_step, manual_review_completed=False, runtime_gate=False)
     upload("evidence/final-report.json", report)
     card = "---\nbase_model: Qwen/Qwen3.5-4B\nlibrary_name: peft\n---\n# Ember Writing Repair 8\n\nExperimental candidate only. Not promoted or deployed.\nMeaning-preservation-v3 is a training/selection checker, not a runtime gate.\nSee evidence/final-report.json. Final holdouts remain unused.\n"
+    card += (f"\nEvaluated checkpoint: step {artifact['step']}, `{artifact['subfolder']}` "
+             f"at revision `{artifact['revision']}`.\nAdapter SHA-256: `{artifact['adapter_sha256']}`.\n"
+             f"`candidate/` remains the final training checkpoint (step {trainer.state.global_step}); "
+             "its scores must not be inferred from selected-checkpoint evidence.\n")
     api.upload_file(repo_id=OUT, path_in_repo="README.md", path_or_fileobj=card.encode(), commit_message="Document WR8 experiment")
     print("WR8_FINAL_REPORT", json.dumps(report), flush=True)
 
