@@ -1,0 +1,41 @@
+name: Ember Repair2 GGUF packaging
+"on":
+  push:
+    branches: [cursor/ember-repair2-gguf-4cca]
+    paths:
+      - .github/workflows/ember-repair2-gguf.yml
+      - jobs/ember_repair2_gguf_pack.py
+      - jobs/repair2-gguf.launch
+permissions:
+  contents: read
+concurrency:
+  group: ember-repair2-gguf-packaging
+  cancel-in-progress: false
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check this is packaging and not training
+        run: python jobs/ember_repair2_gguf_pack.py --check
+      - name: Refresh the model card from the finished smoke test
+        if: contains(github.event.head_commit.message, 'Refresh Repair2 GGUF card')
+        env:
+          HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python jobs/ember_repair2_gguf_pack.py --refresh-card
+      - name: Submit one CPU packaging job
+        # CPU merge and GGUF conversion only. This step does not start a training run.
+        if: contains(github.event.head_commit.message, 'Package Repair2 GGUF for iPad')
+        env:
+          HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+        run: |
+          python -m pip install -q huggingface-hub==1.31.0
+          python jobs/ember_repair2_gguf_pack.py --launch
