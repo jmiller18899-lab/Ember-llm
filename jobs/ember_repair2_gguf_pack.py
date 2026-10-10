@@ -364,7 +364,7 @@ def readme(private, sizes, q4_smoke, q8_smoke, published):
         "",
         "## Smoke test",
         "",
-        "llama-completion, context 2048, 80 new tokens, temperature 0, thinking prefilled closed. These prompts are not evaluation-set items.",
+        "llama-completion, context 2048, up to 48 new tokens, temperature 0, 8 threads, thinking prefilled closed. These prompts are not evaluation-set items.",
         "",
     ]
     for result in q4_smoke + q8_smoke:
@@ -450,16 +450,31 @@ def package():
     upload(private, sizes, q4, q8, include_q8)
 
 
+def refresh_card():
+    from huggingface_hub import HfApi, hf_hub_download
+    api = HfApi(token=os.environ["HF_TOKEN"])
+    report = json.loads(Path(hf_hub_download(OUT, "packaging-complete.json", token=os.environ["HF_TOKEN"])).read_text())
+    if report.get("training") or report.get("release_qualified"):
+        raise SystemExit("Refusing to refresh a card that is not a test build")
+    card = readme(report["private"], report["sizes"], report["q4_smoke"], report["q8_smoke"], report["published"])
+    api.upload_file(repo_id=OUT, path_in_repo="README.md", path_or_fileobj=card.encode(),
+                    commit_message="Correct the Repair2 GGUF test-build card")
+    print("GGUF_CARD_REFRESHED", flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--check", action="store_true")
     group.add_argument("--launch", action="store_true")
+    group.add_argument("--refresh-card", action="store_true")
     args = parser.parse_args()
     if args.check:
         check()
     elif args.launch:
         launch()
+    elif args.refresh_card:
+        refresh_card()
     else:
         package()
 
