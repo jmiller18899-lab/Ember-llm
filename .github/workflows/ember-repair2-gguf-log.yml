@@ -16,7 +16,7 @@ jobs:
       - name: Read packaging job status and log tail
         env:
           HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
-          JOB_ID: pending
+          JOB_ID: 6acaa708fee2c9007018d98d
         run: |
           if [ "$JOB_ID" = "pending" ]; then
             echo "GGUF_LOG_WAITING_FOR_JOB_ID"
