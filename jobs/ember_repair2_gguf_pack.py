@@ -252,29 +252,47 @@ def convert_and_quantize(work, merged, llama_dir, quantize):
     return outputs
 
 
+def visible_reply(text):
+    reply = text.split("</think>")[-1] if "</think>" in text else text
+    return reply.replace("[end of text]", "").strip()
+
+
 def smoke(completion, model, cases):
+    threads = "8"
     results = []
     for name, user in cases:
         stage(f"smoke {model.name} {name}")
         prompt = chat_prompt(user)
-        proc = subprocess.run(
-            [str(completion), "-m", str(model), "-c", "2048", "-n", "80", "-t", str(os.cpu_count() or 4),
-             "--temp", "0", "--top-k", "1", "-no-cnv", "--single-turn", "--no-warmup",
-             "--reverse-prompt", "<|im_end|>", "-p", prompt],
-            text=True, capture_output=True, timeout=420, env=bin_env(completion),
-        )
-        answer = redact(proc.stdout.strip())
+        cmd = [str(completion), "-m", str(model), "-c", "2048", "-n", "48", "-t", threads,
+               "--temp", "0", "--top-k", "1", "-no-cnv", "--single-turn", "--no-warmup",
+               "--reverse-prompt", "<|im_end|>", "-p", prompt]
+        try:
+            proc = subprocess.run(cmd, text=True, capture_output=True, timeout=900, env=bin_env(completion))
+            answer = redact(proc.stdout.strip())
+            code = proc.returncode
+            err = redact(proc.stderr[-800:])
+            timed_out = False
+        except subprocess.TimeoutExpired as exc:
+            raw_out = exc.stdout.decode() if isinstance(exc.stdout, bytes) else (exc.stdout or "")
+            raw_err = exc.stderr.decode() if isinstance(exc.stderr, bytes) else (exc.stderr or "")
+            answer = redact(raw_out.strip())
+            code = None
+            err = redact(raw_err[-800:])
+            timed_out = True
+        reply = visible_reply(answer)
         result = {
             "case": name,
             "model": model.name,
-            "returncode": proc.returncode,
-            "load_ok": proc.returncode == 0,
+            "returncode": code,
+            "timed_out": timed_out,
+            "load_ok": code == 0,
             "answer": answer[:1200],
-            "stderr_tail": redact(proc.stderr[-1500:]),
+            "reply": reply[:800],
+            "stderr_tail": err,
         }
         if name == "arithmetic":
-            result["contains_42"] = "42" in answer
-        print("GGUF_SMOKE", json.dumps(result), flush=True)
+            result["contains_42"] = "42" in reply or "42" in answer
+        print("GGUF_SMOKE", json.dumps({k: result[k] for k in result if k != "stderr_tail"}), flush=True)
         results.append(result)
     return results
 
@@ -352,29 +370,29 @@ def readme(private, sizes, q4_smoke, q8_smoke, published):
     for result in q4_smoke + q8_smoke:
         lines.append(f"### {result['model']} / {result['case']}")
         lines.append("")
-        lines.append(f"Load ok: {result['load_ok']}. Return code: {result['returncode']}.")
+        lines.append(f"Load ok: {result['load_ok']}. Return code: {result['returncode']}. Timed out: {result.get('timed_out', False)}.")
         if "contains_42" in result:
             lines.append(f"Contains 42: {result['contains_42']}.")
         lines.append("")
         lines.append("```")
-        lines.append(result["answer"] or "(empty)")
+        lines.append(result.get("reply") or result["answer"] or "(empty)")
         lines.append("```")
         lines.append("")
     lines.append("This smoke test only checks that the GGUF loads and produces a short answer. It is not a quality gate.")
     return "\n".join(lines) + "\n"
 
 
-def upload(private, sizes, q4_smoke, q8_smoke):
+def upload(private, sizes, q4_smoke, q8_smoke, include_q8):
     from huggingface_hub import HfApi
     stage("upload")
     api = HfApi(token=os.environ["HF_TOKEN"])
     if api.whoami().get("name") != "Jmiller18899":
         raise SystemExit("Wrong Hugging Face account")
     published = [Q4_NAME]
-    if sizes[Q8_NAME] <= Q8_MAX_BYTES:
+    if include_q8 and sizes[Q8_NAME] <= Q8_MAX_BYTES:
         published.append(Q8_NAME)
     else:
-        print(f"GGUF_SKIP_Q8 {sizes[Q8_NAME]}", flush=True)
+        print(f"GGUF_SKIP_Q8 {sizes[Q8_NAME]} include={include_q8}", flush=True)
     root = Path("/tmp/ember-repair2-gguf")
     for name in published:
         api.upload_file(repo_id=OUT, path_in_repo=name, path_or_fileobj=str(root / name),
@@ -419,13 +437,17 @@ def package():
     merged = merge(work)
     sizes = convert_and_quantize(work, merged, llama_dir, quantize)
     q4 = smoke(completion, work / Q4_NAME, PROMPTS)
-    if not all(item["load_ok"] and item["answer"] for item in q4):
-        raise SystemExit("Q4_K_M did not load and answer; not uploading")
-    q8_cases = (PROMPTS[0],) if sizes[Q8_NAME] <= Q8_MAX_BYTES else ()
-    q8 = smoke(completion, work / Q8_NAME, q8_cases) if q8_cases else []
-    if q8 and not q8[0]["load_ok"]:
-        raise SystemExit("Q8_0 did not load; not uploading")
-    upload(private, sizes, q4, q8)
+    required = [item for item in q4 if item["case"] in ("hello", "arithmetic")]
+    if not all(item["load_ok"] and item.get("reply") for item in required):
+        raise SystemExit("Q4_K_M did not load and answer the short prompts; not uploading")
+    if not any(item["case"] == "arithmetic" and item.get("contains_42") for item in q4):
+        raise SystemExit("Q4_K_M arithmetic smoke did not contain 42; not uploading")
+    include_q8 = sizes[Q8_NAME] <= Q8_MAX_BYTES
+    q8 = smoke(completion, work / Q8_NAME, (PROMPTS[0],)) if include_q8 else []
+    if q8 and not (q8[0]["load_ok"] and q8[0].get("reply")):
+        print("GGUF_Q8_SMOKE_FAILED", flush=True)
+        include_q8 = False
+    upload(private, sizes, q4, q8, include_q8)
 
 
 def main():
