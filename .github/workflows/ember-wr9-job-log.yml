@@ -32,7 +32,7 @@ jobs:
               if stage not in (None, "SCHEDULING", "PENDING", "STARTING"):
                   break
               time.sleep(45)
-          for follow in range(16):
+          for follow in range(18):
               info = api.inspect_job(job_id=jid)
               stage = getattr(info.status, "stage", None)
               lines = [re.sub(r"hf_[A-Za-z0-9]+", "[REDACTED]", str(line)) for line in api.fetch_job_logs(job_id=jid)]
