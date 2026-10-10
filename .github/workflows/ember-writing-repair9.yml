@@ -1,0 +1,34 @@
+name: Ember WR9 preflight and launch
+"on":
+  push:
+    branches: [cursor/ember-writing-repair9-4cca]
+    paths:
+      - .github/workflows/ember-writing-repair9.yml
+      - jobs/ember_writing_repair9_data.py
+      - jobs/ember_writing_repair9_train.py
+      - jobs/ember_meaning_preservation_v3.py
+      - jobs/wr9-20261010.launch
+permissions:
+  contents: read
+concurrency:
+  group: ember-wr9-20261010
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR9_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Verify copy-margin rows, v3 isolation and the real tokenizer
+        run: uv run --python 3.11 jobs/ember_writing_repair9_train.py --preflight
+      - name: Submit the authorized WR9 run once
+        # Preflight already passed on d147542. This step submits one GPU job.
+        if: contains(github.event.head_commit.message, 'Launch authorized WR9 copy-margin training')
+        run: uv run --python 3.11 jobs/ember_writing_repair9_train.py --launch
