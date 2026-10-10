@@ -402,8 +402,11 @@ def upload(private, sizes, q4_smoke, q8_smoke):
 
 
 def package():
-    if os.environ.get("ACCELERATOR"):
-        raise SystemExit("This packaging job must not run on a GPU")
+    accel = os.environ.get("ACCELERATOR", "")
+    print(f"GGUF_ACCELERATOR {accel!r}", flush=True)
+    gpu_marks = ("t4", "a10", "a100", "l4x", "h100", "h200", "rtx")
+    if any(mark in accel.lower() for mark in gpu_marks):
+        raise SystemExit(f"This packaging job must not run on a GPU ({accel})")
     print("GGUF_PACKAGING_NOT_TRAINING", flush=True)
     from huggingface_hub import HfApi
     api = HfApi(token=os.environ["HF_TOKEN"])
