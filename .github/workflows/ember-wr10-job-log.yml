@@ -16,7 +16,7 @@ jobs:
       - name: Read WR10 job status and log tail
         env:
           HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
-          JOB_ID: ${{ vars.WR10_JOB_ID || 'PENDING' }}
+          JOB_ID: 6aca8cc1fee2c9007018bf2e
         run: |
           python -m pip install -q huggingface-hub==1.31.0
           python - <<'PY'
