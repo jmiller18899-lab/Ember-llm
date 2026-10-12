@@ -1,0 +1,253 @@
+{
+  "version": "wr11-reminder-preflight-20261012-v1",
+  "probe_sha256": "667a031d014b40bd68e2496af26974c7abd27cba47dff2d38b3fe0c83d3e3ffd",
+  "records": [
+    {
+      "id": "wr11-probe-remember-01-neutral",
+      "source_id": "remember-01",
+      "family": "remember",
+      "source": "Please remember that Mira should inspect the brass compass before 4:20 PM.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please remember that Mira should inspect the brass compass before 4:20 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-01-explicit",
+      "source_id": "remember-01",
+      "family": "remember",
+      "source": "Please remember that Mira should inspect the brass compass before 4:20 PM.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please remember that Mira should inspect the brass compass before 4:20 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-02-neutral",
+      "source_id": "remember-02",
+      "family": "remember",
+      "source": "Please remember that all tailors must collect exactly 14 pins after sunrise.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please remember that all tailors must collect exactly 14 pins after sunrise.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-02-explicit",
+      "source_id": "remember-02",
+      "family": "remember",
+      "source": "Please remember that all tailors must collect exactly 14 pins after sunrise.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please remember that all tailors must collect exactly 14 pins after sunrise.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-03-neutral",
+      "source_id": "remember-03",
+      "family": "remember",
+      "source": "Please remember that Dalia's green lantern might flicker until midnight.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please remember that Dalia's green lantern might flicker until midnight.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-03-explicit",
+      "source_id": "remember-03",
+      "family": "remember",
+      "source": "Please remember that Dalia's green lantern might flicker until midnight.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please remember that Dalia's green lantern might flicker until midnight.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-04-neutral",
+      "source_id": "remember-04",
+      "family": "remember",
+      "source": "Please remember that you may lift the cedar lid only after 9:15 AM.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please remember that you may lift the cedar lid only after 9:15 AM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-remember-04-explicit",
+      "source_id": "remember-04",
+      "family": "remember",
+      "source": "Please remember that you may lift the cedar lid only after 9:15 AM.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please remember that you may lift the cedar lid only after 9:15 AM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-01-neutral",
+      "source_id": "forget-01",
+      "family": "forget",
+      "source": "Do not forget that Felix should examine the silver hinge before 2:40 PM.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Do not forget that Felix should examine the silver hinge before 2:40 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-01-explicit",
+      "source_id": "forget-01",
+      "family": "forget",
+      "source": "Do not forget that Felix should examine the silver hinge before 2:40 PM.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Do not forget that Felix should examine the silver hinge before 2:40 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-02-neutral",
+      "source_id": "forget-02",
+      "family": "forget",
+      "source": "Do not forget that every baker must label exactly 19 jars before Tuesday.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Do not forget that every baker must label exactly 19 jars before Tuesday.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-02-explicit",
+      "source_id": "forget-02",
+      "family": "forget",
+      "source": "Do not forget that every baker must label exactly 19 jars before Tuesday.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Do not forget that every baker must label exactly 19 jars before Tuesday.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-03-neutral",
+      "source_id": "forget-03",
+      "family": "forget",
+      "source": "Do not forget that Nolan's blue parcel might reach the pier after dawn.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Do not forget that Nolan's blue parcel might reach the pier after dawn.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-03-explicit",
+      "source_id": "forget-03",
+      "family": "forget",
+      "source": "Do not forget that Nolan's blue parcel might reach the pier after dawn.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Do not forget that Nolan's blue parcel might reach the pier after dawn.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-04-neutral",
+      "source_id": "forget-04",
+      "family": "forget",
+      "source": "Do not forget that you may move the wicker crate only if the curator has given consent.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Do not forget that you may move the wicker crate only if the curator has given consent.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-forget-04-explicit",
+      "source_id": "forget-04",
+      "family": "forget",
+      "source": "Do not forget that you may move the wicker crate only if the curator has given consent.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Do not forget that you may move the wicker crate only if the curator has given consent.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-01-neutral",
+      "source_id": "control-01",
+      "family": "control",
+      "source": "Please note that the potters should polish the granite vase before 3:10 PM.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please note that the potters should polish the granite vase before 3:10 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-01-explicit",
+      "source_id": "control-01",
+      "family": "control",
+      "source": "Please note that the potters should polish the granite vase before 3:10 PM.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please note that the potters should polish the granite vase before 3:10 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-02-neutral",
+      "source_id": "control-02",
+      "family": "control",
+      "source": "Please note that all weavers must count exactly 17 bobbins after lunch.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please note that all weavers must count exactly 17 bobbins after lunch.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-02-explicit",
+      "source_id": "control-02",
+      "family": "control",
+      "source": "Please note that all weavers must count exactly 17 bobbins after lunch.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please note that all weavers must count exactly 17 bobbins after lunch.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-03-neutral",
+      "source_id": "control-03",
+      "family": "control",
+      "source": "Please note that Selma's red parcel might reach the studio on Sunday.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please note that Selma's red parcel might reach the studio on Sunday.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-03-explicit",
+      "source_id": "control-03",
+      "family": "control",
+      "source": "Please note that Selma's red parcel might reach the studio on Sunday.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please note that Selma's red parcel might reach the studio on Sunday.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-04-neutral",
+      "source_id": "control-04",
+      "family": "control",
+      "source": "Please note that you may open the maple shutter only after 5:45 PM.",
+      "wrapper": "neutral",
+      "prompt": "Shorten this note: Please note that you may open the maple shutter only after 5:45 PM.",
+      "split": "development",
+      "training_allowed": false
+    },
+    {
+      "id": "wr11-probe-control-04-explicit",
+      "source_id": "control-04",
+      "family": "control",
+      "source": "Please note that you may open the maple shutter only after 5:45 PM.",
+      "wrapper": "explicit",
+      "prompt": "Shorten this note. Preserve reminders, force and every fact: Please note that you may open the maple shutter only after 5:45 PM.",
+      "split": "development",
+      "training_allowed": false
+    }
+  ],
+  "audit": {
+    "exact_prompt_source_overlaps": 0,
+    "benchmark_records_checked": 744,
+    "historical_rows_checked": 2288,
+    "final_holdouts_loaded": false,
+    "scope": "Exact source/prompt matches against WR3-WR10 and observed 744 benchmark only; not a semantic overlap audit."
+  }
+}
