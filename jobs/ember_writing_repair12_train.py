@@ -11,6 +11,7 @@ that fixes a reminder/force failure and retains all passing shortening cases.
 """
 from __future__ import annotations
 import argparse
+import copy
 import hashlib
 import importlib.util
 import json
@@ -189,6 +190,32 @@ def choose_selected(baseline, snapshots):
                 and all(after[key]["status"] == "pass" for key in protected)):
             eligible.append(snap)
     return max(eligible, key=lambda snap: (snap["v3_pass"], -snap["copies"], -snap["step"]))["step"]
+
+
+def checkpoint_response_evidence(step, outputs, snapshot, checkpoint_path, checkpoint_revision):
+    """Retain exact response text with its frozen grade and checkpoint identity."""
+    if snapshot.get("step") != step or not outputs:
+        raise ValueError("Checkpoint step or response coverage differs")
+    expected_path = "checkpoint-0" if step == 0 else f"checkpoints/step-{step}"
+    if checkpoint_path != expected_path or not re.fullmatch(r"[0-9a-f]{40}", checkpoint_revision):
+        raise ValueError("Pinned checkpoint identity is required")
+    grades = snapshot.get("meaning", {}).get("rows", [])
+    indexed = {r["id"]: r for r in grades}
+    response_ids = [r["id"] for r in outputs]
+    short_ids = {r["id"] for r in outputs if r["family"] == "shortening"}
+    if len(indexed) != len(grades) or len(set(response_ids)) != len(response_ids) or set(indexed) != short_ids:
+        raise ValueError("Checkpoint response and grade identities differ")
+    if sum(r["status"] == "pass" for r in grades) != snapshot["v3_pass"]:
+        raise ValueError("Checkpoint pass count differs from its case grades")
+    responses = copy.deepcopy(outputs)
+    for row in responses:
+        if not isinstance(row.get("output"), str):
+            raise ValueError("Raw checkpoint response text is required")
+        row["semantic_grade"] = copy.deepcopy(indexed.get(row["id"]))
+        row["manual_review_pending"] = True
+    return dict(schema_version=1, step=step, checkpoint_repo=OUT,
+                checkpoint_path=checkpoint_path, checkpoint_revision=checkpoint_revision,
+                responses=responses, snapshot=copy.deepcopy(snapshot), automatic_promotion=False)
 
 
 def read_source(path, commit, sha):
@@ -560,7 +587,9 @@ def train(prepared):
                        for r in baseline_dev if r["family"] == "shortening"])}
     upload("evidence/shortening-before.json", before_lengths)
     print("WR12_DIAGNOSTIC_BASELINE_SAVED", json.dumps({"cases": len(baseline_dev), "meaning": baseline_meaning}), flush=True)
-    checkpoint(work / "checkpoint-0", "checkpoint-0")
+    baseline_saved = checkpoint(work / "checkpoint-0", "checkpoint-0")
+    upload("evidence/checkpoint-responses/step-0.json", checkpoint_response_evidence(
+        0, baseline_dev, baseline_meaning, "checkpoint-0", baseline_saved.oid))
     snapshots = [baseline_meaning]
     import trackio
     trackio.init(project="ember-writing", name="writing-repair12-20261012", space_id=None, embed=False,
@@ -578,10 +607,13 @@ def train(prepared):
 
         def on_save(self, args, state, control, **kwargs):
             folder = Path(args.output_dir) / f"checkpoint-{state.global_step}"
-            api.upload_folder(repo_id=OUT, folder_path=str(folder), path_in_repo=f"checkpoints/step-{state.global_step}",
+            saved = api.upload_folder(repo_id=OUT, folder_path=str(folder), path_in_repo=f"checkpoints/step-{state.global_step}",
                               commit_message=f"Persist WR12 step {state.global_step}")
             model.eval()
-            snap = meaning_snapshot(state.global_step, dev_outputs())
+            outputs = dev_outputs()
+            snap = meaning_snapshot(state.global_step, outputs)
+            upload(f"evidence/checkpoint-responses/step-{state.global_step}.json", checkpoint_response_evidence(
+                state.global_step, outputs, snap, f"checkpoints/step-{state.global_step}", saved.oid))
             snapshots.append(snap)
             upload("evidence/progress.json", {"step": state.global_step, "total_steps": STEPS,
                                               "automatic_promotion": False, "meaning": snap})
