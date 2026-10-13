@@ -1,0 +1,14 @@
+{
+  "experiment": "WR11 prompt-mix ablation",
+  "authorized_at": "2026-10-13T01:53:47Z",
+  "source_model": "Jmiller18899/ember-qwen3.5-4b-repair2",
+  "source_revision": "daf938bba5d4e6b650ec9d34a2d3ac56706cf549",
+  "training_rows": 416,
+  "optimizer_steps": 52,
+  "flavor": "l4x1",
+  "timeout": "90m",
+  "maximum_gpu_charge_usd": 1.2,
+  "automatic_retry": false,
+  "automatic_promotion": false,
+  "validation_job_id": "6acd8d349496b09289e62583"
+}

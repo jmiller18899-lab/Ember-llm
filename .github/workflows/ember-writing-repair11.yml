@@ -1,0 +1,38 @@
+name: Ember WR11 preflight and launch
+"on":
+  push:
+    branches: [codex/ember-writing-repair11-20261012]
+    paths:
+      - .github/workflows/ember-writing-repair11.yml
+      - jobs/ember_writing_repair11_data.py
+      - jobs/ember_writing_repair11_train.py
+      - jobs/ember_meaning_preservation_v3.py
+      - tests/test_ember_writing_repair11.py
+      - reports/writing-repair11-design-20261012.md
+      - jobs/wr11-20261012.launch
+permissions:
+  contents: read
+concurrency:
+  group: ember-wr11-20261012
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR11_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Verify CPU contracts
+        run: python3 -m unittest discover -s tests -p test_ember_writing_repair11.py
+      - name: Verify prompt-only ablation, v3 isolation and the real tokenizer
+        run: uv run --python 3.11 jobs/ember_writing_repair11_train.py --preflight
+      - name: Submit the authorized WR11 run once
+        # Preflight must pass on this commit. This step submits one GPU job.
+        if: contains(github.event.head_commit.message, 'Launch authorized WR11 prompt-mix training')
+        run: uv run --python 3.11 jobs/ember_writing_repair11_train.py --launch
