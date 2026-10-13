@@ -1,0 +1,20 @@
+{
+  "job_id": "6acd90259496b09289e6285a",
+  "url": "https://huggingface.co/jobs/Jmiller18899/6acd90259496b09289e6285a",
+  "output_repo": "Jmiller18899/ember-qwen3.5-4b-writing-repair11-20261012",
+  "gpu_timeout": "90m",
+  "automatic_retry": false,
+  "source_commit": "c0b1d434bce5e3162a946f716647a87c675d0b15",
+  "github_workflow_run_id": 38334560224,
+  "github_workflow_url": "https://github.com/jmiller18899-lab/Ember-llm/actions/runs/38334560224",
+  "github_workflow_conclusion": "success",
+  "verified_job_stage": "RUNNING",
+  "flavor": "l4x1",
+  "timeout_seconds": 5400,
+  "maximum_gpu_charge_usd": 1.2,
+  "private_output_verified": true,
+  "full_suite_passed": 1452,
+  "real_tokenizer_preflight": "PASS",
+  "maximum_training_tokens": 220,
+  "automatic_promotion": false
+}
