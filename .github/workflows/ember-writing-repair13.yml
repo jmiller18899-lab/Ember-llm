@@ -1,0 +1,40 @@
+name: Ember WR13 preflight and launch
+"on":
+  push:
+    branches: [codex/ember-writing-repair13-20261013]
+    paths:
+      - .github/workflows/ember-writing-repair13.yml
+      - jobs/ember_writing_repair13_data.py
+      - jobs/ember_writing_repair13_train.py
+      - tests/test_ember_writing_repair13.py
+      - jobs/wr13-20261013.launch
+permissions:
+  contents: read
+concurrency:
+  group: ember-wr13-20261013
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      HF_TOKEN: ${{ secrets.EMBER_HF_TOKEN }}
+      WR13_CODE_COMMIT: ${{ github.sha }}
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Verify CPU contracts
+        run: python3 -m unittest discover -s tests -p test_ember_writing_repair13.py
+      - name: Verify approved data and real tokenizer alignment
+        run: |
+          wr13_preflight_dir="$(mktemp -d)"
+          cp jobs/ember_writing_repair13_train.py "$wr13_preflight_dir/ember_writing_repair13_train.py"
+          uv run --python 3.11 "$wr13_preflight_dir/ember_writing_repair13_train.py" --preflight
+      - name: Verify private checkpoint storage
+        run: uv run --python 3.11 jobs/ember_writing_repair13_train.py --storage-preflight
+      - name: Submit the authorized WR13 run once
+        if: contains(github.event.head_commit.message, 'Launch authorized WR13 clear-shortening training')
+        run: uv run --python 3.11 jobs/ember_writing_repair13_train.py --launch

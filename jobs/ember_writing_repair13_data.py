@@ -9,6 +9,8 @@ from collections import Counter
 import re
 
 import ember_writing_repair12_data as W
+from ember_writing_repair12_data import (copy_margin, encode_examples, sft_bytes, norm,
+    shortening_source, length_stats, meaning_stats)
 
 VERSION = "ember-writing-repair13-clear-shortening-v1"
 WRAPPERS = W.WRAPPERS
