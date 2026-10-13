@@ -1,0 +1,31 @@
+{
+  "status": "CPU_CONTRACTS_PASS",
+  "training_rows": 416,
+  "shortening_prompts_changed": 48,
+  "training_sources_targets_contrasts_unchanged": true,
+  "row_order_unchanged": true,
+  "fresh_development_rows": 56,
+  "audit": {
+    "train": 416,
+    "encoded_sequences": 416,
+    "fresh_dev": 56,
+    "historical_rows_checked": 2128,
+    "benchmark_shortening_sources_checked": 30,
+    "exact_prompt_source_overlaps": 0,
+    "cross_split_structure_overlap": 0,
+    "benchmark_four_token_overlaps": 0,
+    "copy_margin_pairs": 96,
+    "keep_pass_pairs": 96,
+    "mean_reference_length_ratio": 0.852103,
+    "grader_version": "meaning-preservation-v3",
+    "scope": "WR10 train split intentionally reused; checks exclude that parent training split and include observed WR10 dev.",
+    "intentional_wr10_training_reuse": true
+  },
+  "data_code_sha256": "7ced8bfc4b8a3c4ef6d6516e2c01e53b4fe20a9eaab34e6fe2755338803e2c54",
+  "training_sha256": "7424e8825cd19082ce0654798f321843a26641f9314be6cdb498c15992915dde",
+  "real_tokenizer_preflight": "PASS; max training length 220 <= 384",
+  "cpu_tests_passed": 9,
+  "full_local_suite": "294 tests attempted; 47 import errors due to missing pytest/torch; dependency-complete validation pending",
+  "first_remote_suite": "1381 passed; 71 failures due to missing jsonschema in the validation environment; retry with jsonschema pending",
+  "full_dependency_complete_suite": "1452 passed; remote validation job 6acd8d349496b09289e62583"
+}
