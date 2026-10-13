@@ -4,6 +4,7 @@ import importlib
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -72,6 +73,39 @@ class WR13Contracts(unittest.TestCase):
         fixed = snapshot(26, ['pass', 'pass', 'pass'])
         self.assertEqual(T.choose_selected(base, [base, loses_wr11], wr11), 0)
         self.assertEqual(T.choose_selected(base, [base, loses_wr11, fixed], wr11), 26)
+
+    def test_uploaded_trainer_validates_payload_without_repository_imports(self):
+        # Jobs uploads only the trainer. An isolated process must stage and
+        # validate real data without finding sibling modules in the repository.
+        with tempfile.TemporaryDirectory() as folder:
+            uploaded = Path(folder) / 'trainer.py'
+            uploaded.write_bytes((ROOT/'jobs/ember_writing_repair13_train.py').read_bytes())
+            script = '''
+import importlib.util, pathlib, sys
+root, uploaded = map(pathlib.Path, sys.argv[1:])
+spec = importlib.util.spec_from_file_location('uploaded_trainer', uploaded)
+trainer = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(trainer)
+# Replace only remote source transport with the corresponding real fixtures.
+trainer.read_source = lambda rel, *args: (root/rel).read_bytes()
+work = uploaded.parent/'staged'
+work.mkdir()
+engine, data, checker = trainer.load_experiment_modules(work,
+    (root/'jobs/ember_writing_repair2_train.py').read_bytes(),
+    (root/'jobs/ember_writing_repair13_data.py').read_bytes(),
+    (root/'jobs/ember_meaning_preservation_v3.py').read_bytes(),
+    (root/'jobs/ember_drafting_repair_candidates_eval.py').read_bytes())
+retention = trainer.load_module('original_retention',
+    (root/'jobs/ember_writing_repair1_data.py').read_bytes(), work)
+rows = data.build_train_rows(retention.retention('train'))
+payload = trainer.validate_training_payload(rows)
+assert len(payload.splitlines()) == 416
+print('ISOLATED_WR13_PAYLOAD_PASS')
+'''
+            result = subprocess.run([sys.executable, '-I', '-c', script, str(ROOT), str(uploaded)],
+                                    cwd=folder, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('ISOLATED_WR13_PAYLOAD_PASS', result.stdout)
 
     def test_wr11_controls_are_checked_case_by_case_for_new_critical_errors(self):
         T = self.trainer()

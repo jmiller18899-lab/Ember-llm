@@ -24,7 +24,7 @@ import tempfile
 from collections import Counter
 
 BRANCH = "codex/ember-writing-repair13-20261013"
-OUT = "Jmiller18899/ember-qwen3.5-4b-writing-repair13-20261013"
+OUT = "Jmiller18899/ember-qwen3.5-4b-writing-repair13-20261013-startupfix1"
 SOURCE = "Jmiller18899/ember-qwen3.5-4b-repair2"
 SOURCE_REV = "daf938bba5d4e6b650ec9d34a2d3ac56706cf549"
 ENGINE_COMMIT = "43220b453807782091a9209384091e82fed086f8"
@@ -307,7 +307,7 @@ def load_experiment_modules(work, engine, data_raw, v3_raw, grader_raw):
     checker = load_module("ember_meaning_preservation_v3", v3_raw, work)
     load_module("ember_writing_repair12_data", read_source("jobs/ember_writing_repair12_data.py",
                 os.environ.get("WR13_CODE_COMMIT", PARENT_COMMIT), SHARED_DATA_SHA), work)
-    data = load_module("wr13_data", data_raw, work)
+    data = load_module("ember_writing_repair13_data", data_raw, work)
     return frozen, data, checker
 
 

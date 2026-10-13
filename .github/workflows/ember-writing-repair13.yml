@@ -29,7 +29,10 @@ jobs:
       - name: Verify CPU contracts
         run: python3 -m unittest discover -s tests -p test_ember_writing_repair13.py
       - name: Verify approved data and real tokenizer alignment
-        run: uv run --python 3.11 jobs/ember_writing_repair13_train.py --preflight
+        run: |
+          wr13_preflight_dir="$(mktemp -d)"
+          cp jobs/ember_writing_repair13_train.py "$wr13_preflight_dir/ember_writing_repair13_train.py"
+          uv run --python 3.11 "$wr13_preflight_dir/ember_writing_repair13_train.py" --preflight
       - name: Verify private checkpoint storage
         run: uv run --python 3.11 jobs/ember_writing_repair13_train.py --storage-preflight
       - name: Submit the authorized WR13 run once
